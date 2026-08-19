@@ -65,6 +65,8 @@ Copy `.env.example` to `.env`. **Never commit `.env`.**
 |----------|---------|---------|
 | `ENABLE_SHOPIFY_SYNC` | `false` | **Must stay false** until migration approved |
 | `ENABLE_AI_SHOPPING_ASSISTANT` | `false` | AI chat (not implemented) |
+| `ADMIN_PASSWORD` | unset | Set to require admin login |
+| `AUTH_SECRET` | unset | Session signing secret (required in production) |
 
 ### Shopify (migration only — do not set until approved)
 
@@ -126,6 +128,16 @@ pnpm --filter @sjh/worker extract:products
 ```
 
 The runner is resumable via `migration_runs` / `migration_checkpoints`. Re-run to continue from the last cursor.
+
+### Background worker (Redis)
+
+With Redis running (`pnpm infra:up`):
+
+```bash
+pnpm --filter @sjh/worker dev
+```
+
+Processes `shopify:extract` jobs from the BullMQ queue. Requires `REDIS_URL` and `DATABASE_URL`.
 
 ---
 

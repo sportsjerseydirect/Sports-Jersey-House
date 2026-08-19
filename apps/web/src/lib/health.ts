@@ -1,4 +1,4 @@
-import { createSearchProvider } from "./search";
+import { getSearchProvider } from "./search";
 import { featureFlags } from "./env";
 
 export type HealthPayload = {
@@ -21,7 +21,7 @@ export async function buildHealthPayload(): Promise<HealthPayload> {
 
   if (databaseUrl) {
     try {
-      const provider = createSearchProvider({ databaseUrl });
+      const provider = getSearchProvider();
       await provider.listPublishedProductSlugs(1);
       database.reachable = true;
     } catch {

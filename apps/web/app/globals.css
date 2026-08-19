@@ -534,6 +534,101 @@ h2 {
   font-size: 0.92rem;
 }
 
+.home-collections,
+.home-featured {
+  padding: clamp(48px, 7vw, 96px) clamp(20px, 4vw, 56px);
+  border-top: 1px solid var(--line);
+}
+
+.section-heading {
+  max-width: 720px;
+  margin-bottom: 28px;
+}
+
+.section-heading h2,
+.collection-card h3 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+.trust-strip {
+  padding: 28px clamp(20px, 4vw, 56px);
+  border-top: 1px solid var(--line);
+  background: var(--soft);
+}
+
+.trust-strip ul {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trust-strip li {
+  position: relative;
+  padding-left: 18px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.trust-strip li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--field);
+}
+
+.admin-notice {
+  margin-top: 20px;
+  padding: 16px 18px;
+  border: 1px solid color-mix(in srgb, var(--gold) 40%, var(--line));
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--gold) 8%, var(--white));
+  color: var(--muted);
+}
+
+.admin-login-form {
+  display: grid;
+  gap: 14px;
+  max-width: 420px;
+  margin-top: 32px;
+  padding: clamp(24px, 4vw, 32px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+}
+
+.admin-login-form label {
+  font-weight: 700;
+}
+
+.admin-login-form input {
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font: inherit;
+}
+
+.admin-login-form .button {
+  margin-top: 8px;
+  justify-self: start;
+}
+
+.form-error {
+  margin: 0;
+  color: var(--ember);
+  font-weight: 700;
+}
+
+.admin-logout {
+  margin-top: 20px;
+}
+
 .admin-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);

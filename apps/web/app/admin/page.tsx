@@ -1,5 +1,8 @@
+import { AdminLogoutButton } from "@/components/admin-logout-button";
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { queueNames } from "@sjh/worker";
+import { ADMIN_SESSION_COOKIE, isAdminAuthRequired, verifyAdminSessionToken } from "@/lib/auth";
 import { getCatalogueStats } from "@/lib/catalogue";
 import { featureFlags } from "@/lib/env";
 import { createMetadata } from "@/lib/seo";
@@ -14,14 +17,24 @@ export const metadata: Metadata = createMetadata({
 
 export default async function AdminPage() {
   const stats = await getCatalogueStats();
+  const authRequired = isAdminAuthRequired();
+  const session = await verifyAdminSessionToken((await cookies()).get(ADMIN_SESSION_COOKIE)?.value);
 
   return (
     <main className="page-shell">
       <div className="page-heading">
         <p className="eyebrow">Admin</p>
         <h1>Operating system foundation</h1>
-        <p>Production admin routes will require authentication and role-based access before real catalogue operations are enabled.</p>
+        <p>Catalogue operations, AI approvals, and migration controls will live here.</p>
       </div>
+
+      {!authRequired ? (
+        <p className="admin-notice">
+          Admin auth is open in local development. Set <code>ADMIN_PASSWORD</code> and <code>AUTH_SECRET</code> before production.
+        </p>
+      ) : null}
+
+      {session ? <AdminLogoutButton /> : null}
 
       <section className="admin-grid" aria-label="System status">
         <article className="status-panel">

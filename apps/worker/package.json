@@ -6,7 +6,8 @@
   "main": "./src/index.ts",
   "scripts": {
     "build": "tsc --noEmit",
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx watch src/start.ts",
+    "start": "tsx src/start.ts",
     "extract:products": "tsx src/cli/extract-products.ts",
     "extract:products:all": "tsx src/cli/extract-all-products.ts",
     "lint": "eslint .",

@@ -1,5 +1,10 @@
 import Link from "next/link";
 import { createInitialBrandBrief } from "@sjh/ai";
+import { ProductGrid } from "@/components/product-grid";
+import { collectionDetailPath } from "@/lib/products";
+import { getSearchProvider } from "@/lib/search";
+
+export const dynamic = "force-dynamic";
 
 const pillars = [
   {
@@ -16,8 +21,19 @@ const pillars = [
   }
 ];
 
-export default function HomePage() {
+const trustPoints = [
+  "Server-rendered pages built for search and speed",
+  "Structured product data — never invented by AI",
+  "Migration-safe Shopify extraction behind explicit approval gates"
+];
+
+export default async function HomePage() {
   const brandBrief = createInitialBrandBrief();
+  const search = getSearchProvider();
+  const [collections, featured] = await Promise.all([
+    search.listPublishedCollections(),
+    search.search({ query: "", limit: 4 })
+  ]);
 
   return (
     <main>
@@ -26,14 +42,14 @@ export default function HomePage() {
           <p className="eyebrow">Sports Jersey House</p>
           <h1>Premium jersey shopping, rebuilt around real catalogue intelligence.</h1>
           <p className="lede">
-            A new AI-native commerce platform for product discovery, SEO, search, merchandising, support, and compliant creative workflows.
+            A new commerce platform for product discovery, SEO, search, merchandising, and compliant creative workflows.
           </p>
           <div className="actions">
             <Link className="button primary" href="/products">
               Explore products
             </Link>
-            <Link className="button secondary" href="/admin">
-              View admin foundation
+            <Link className="button secondary" href="/collections">
+              Shop by league
             </Link>
           </div>
         </div>
@@ -49,6 +65,42 @@ export default function HomePage() {
             <span>88</span>
           </div>
         </div>
+      </section>
+
+      {collections.length > 0 ? (
+        <section className="home-collections" aria-label="Featured collections">
+          <div className="section-heading">
+            <p className="eyebrow">Collections</p>
+            <h2>Shop by league</h2>
+          </div>
+          <div className="collection-grid">
+            {collections.slice(0, 4).map((collection) => (
+              <Link className="collection-card" href={collectionDetailPath(collection.slug)} key={collection.id}>
+                <p className="eyebrow">Collection</p>
+                <h3>{collection.title}</h3>
+                {collection.description ? <p>{collection.description}</p> : null}
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {featured.results.length > 0 ? (
+        <section className="home-featured" aria-label="Featured products">
+          <div className="section-heading">
+            <p className="eyebrow">Featured</p>
+            <h2>Popular in the catalogue</h2>
+          </div>
+          <ProductGrid ariaLabel="Featured products" products={featured.results.map((result) => result.product)} />
+        </section>
+      ) : null}
+
+      <section className="trust-strip" aria-label="Platform principles">
+        <ul>
+          {trustPoints.map((point) => (
+            <li key={point}>{point}</li>
+          ))}
+        </ul>
       </section>
 
       <section className="section-grid" aria-label="Platform pillars">
