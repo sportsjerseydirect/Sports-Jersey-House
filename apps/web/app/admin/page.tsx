@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { queueNames } from "@sjh/worker";
+import { getCatalogueStats } from "@/lib/catalogue";
 import { featureFlags } from "@/lib/env";
 import { createMetadata } from "@/lib/seo";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = createMetadata({
   title: "Admin Foundation | Sports Jersey House",
@@ -9,7 +12,9 @@ export const metadata: Metadata = createMetadata({
   path: "/admin"
 });
 
-export default function AdminPage() {
+export default async function AdminPage() {
+  const stats = await getCatalogueStats();
+
   return (
     <main className="page-shell">
       <div className="page-heading">
@@ -29,6 +34,24 @@ export default function AdminPage() {
             <div>
               <dt>AI shopping assistant</dt>
               <dd>{featureFlags.enableAiShoppingAssistant ? "Enabled" : "Disabled"}</dd>
+            </div>
+          </dl>
+        </article>
+
+        <article className="status-panel">
+          <h2>Local catalogue</h2>
+          <dl>
+            <div>
+              <dt>Published products</dt>
+              <dd>{stats.productCount}</dd>
+            </div>
+            <div>
+              <dt>Published collections</dt>
+              <dd>{stats.collectionCount}</dd>
+            </div>
+            <div>
+              <dt>Leagues indexed</dt>
+              <dd>{stats.leagues.length > 0 ? stats.leagues.join(", ") : "None"}</dd>
             </div>
           </dl>
         </article>
