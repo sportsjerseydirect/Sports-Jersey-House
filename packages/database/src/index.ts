@@ -18,6 +18,8 @@ import postgres from "postgres";
 import { embeddingVector } from "./pg-types";
 
 export { fromExtractionCheckpoint, parseMigrationCheckpointPayload, toExtractionCheckpoint } from "./checkpoints";
+export { verifyMigration } from "./verify-migration";
+export type { MigrationVerificationResult } from "./verify-migration";
 
 export const productStatus = pgEnum("product_status", ["draft", "review", "published", "archived"]);
 export const approvalStatus = pgEnum("approval_status", [

@@ -12,7 +12,9 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
+    "@sjh/database": "workspace:*",
     "@sjh/shared": "workspace:*",
+    "drizzle-orm": "^0.44.5",
     "zod": "^3.25.76"
   },
   "devDependencies": {

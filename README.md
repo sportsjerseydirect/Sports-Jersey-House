@@ -30,15 +30,15 @@ infrastructure/ IaC (future)
 
 ## Getting Started
 
-> Application setup instructions will be added after architecture approval.
+1. Copy `.env.example` to `.env` and adjust values for local services.
+2. Install dependencies: `pnpm install`
+3. Start local infrastructure: `pnpm infra:up`
+4. Apply migrations: `pnpm db:migrate`
+5. Seed fake dev catalogue data: `pnpm db:seed`
+6. Verify pgvector migration: `pnpm db:verify`
+7. Start development: `pnpm dev`
 
-1. Copy `.env.example` to `.env` and fill in values when a service is approved.
-2. Install dependencies: `corepack pnpm install`
-3. Start development: `corepack pnpm --dir apps/web dev`
-4. Build production: `corepack pnpm --dir apps/web build`
-5. Start the production build: `corepack pnpm --dir apps/web start`
-
-The web app uses polling mode for local development to avoid file-watcher limits in managed environments.
+The `/products` page reads from PostgreSQL through `packages/search`. Shopify sync remains disabled (`ENABLE_SHOPIFY_SYNC=false`).
 
 ## Important Constraints
 

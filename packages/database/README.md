@@ -29,8 +29,18 @@ PostgreSQL schema, migrations, and typed client via Drizzle ORM.
 ```bash
 pnpm db:generate   # Generate migrations from schema changes
 pnpm db:migrate    # Apply migrations
+pnpm db:seed       # Insert fake local dev catalogue (idempotent)
+pnpm db:verify     # Verify pgvector migration and core tables
 pnpm db:studio     # Planned: Drizzle Studio for local inspection
-pnpm db:seed       # Planned: seed development data (no real Shopify data)
+```
+
+Local workflow:
+
+```bash
+pnpm infra:up
+pnpm db:migrate
+pnpm db:seed
+pnpm db:verify
 ```
 
 ## Dependencies (Planned)

@@ -266,6 +266,86 @@ h2 {
   padding: clamp(24px, 4vw, 40px);
 }
 
+.catalogue-summary {
+  margin: 28px 0 0;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.product-card {
+  display: grid;
+  gap: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+  overflow: hidden;
+}
+
+.product-card-media {
+  aspect-ratio: 0.75;
+  background: var(--charcoal);
+}
+
+.product-card-media img,
+.product-card-fallback {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-card-fallback {
+  display: grid;
+  place-items: center;
+  color: var(--white);
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.product-card-body {
+  display: grid;
+  gap: 8px;
+  padding: 0 18px 18px;
+}
+
+.product-card-meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.product-card-body h2 {
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.product-card-price {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.empty-state ol {
+  margin: 16px 0 0;
+  padding-left: 20px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.empty-state code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.92rem;
+}
+
 .admin-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);

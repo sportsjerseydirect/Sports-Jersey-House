@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" role="img" aria-label="Jersey placeholder">
+  <rect width="600" height="800" fill="#232427"/>
+  <rect x="180" y="120" width="240" height="80" rx="8" fill="#3c3d3f"/>
+  <text x="300" y="470" fill="#ffffff" font-family="system-ui, sans-serif" font-size="48" font-weight="700" text-anchor="middle">SJH</text>
+  <text x="300" y="540" fill="#c99a43" font-family="system-ui, sans-serif" font-size="22" font-weight="600" text-anchor="middle">Dev catalogue</text>
+</svg>

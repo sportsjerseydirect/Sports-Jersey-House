@@ -51,6 +51,10 @@ export class EmptySearchProvider implements SearchProvider {
   }
 }
 
+export { createSearchProvider } from "./create-provider";
+export { PostgresSearchProvider, createPostgresSearchProvider } from "./postgres-provider";
+export { mapProductToSummary, mapProductsToSummaries } from "./map-product";
+
 export function normalizeSearchQuery(query: string): string {
   return query.trim().replace(/\s+/g, " ");
 }
