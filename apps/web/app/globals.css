@@ -415,6 +415,39 @@ h2 {
   text-transform: uppercase;
 }
 
+.search-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  max-width: 720px;
+  margin-top: 28px;
+}
+
+.search-form input {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+  font: inherit;
+}
+
+.search-submit {
+  margin-top: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .empty-state ol {
   margin: 16px 0 0;
   padding-left: 20px;
