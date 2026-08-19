@@ -1,5 +1,6 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
+import { CartLineControls } from "@/components/cart-line-controls";
 import { formatProductPrice, productDetailPath } from "@/lib/products";
 import { loadCart } from "@/lib/cart";
 import { createMetadata } from "@/lib/seo";
@@ -44,8 +45,9 @@ export default async function CartPage() {
                   </Link>
                   <p>{item.variantTitle}</p>
                   <p>
-                    {formatProductPrice(item.priceAmount, item.currencyCode)} × {item.quantity}
+                    {formatProductPrice(item.priceAmount, item.currencyCode)} each
                   </p>
+                  <CartLineControls itemId={item.id} quantity={item.quantity} />
                 </div>
                 <p className="cart-item-total">
                   {formatProductPrice(item.lineTotalAmount, item.currencyCode)}

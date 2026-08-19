@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import type { Route } from "next";
 import Link from "next/link";
 import { BrandMark } from "@/components/brand-mark";
+import { CartNavLink } from "@/components/cart-nav-link";
 import { SiteFooter } from "@/components/site-footer";
 import { createMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import "./globals.css";
@@ -36,7 +36,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <Link href="/products">Products</Link>
             <Link href="/collections">Collections</Link>
             <Link href="/search">Search</Link>
-            <Link href={"/cart" as Route}>Cart</Link>
+            <CartNavLink />
             <Link href="/admin">Admin</Link>
           </nav>
         </header>
