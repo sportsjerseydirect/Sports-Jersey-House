@@ -3,7 +3,7 @@ import { env } from "@/lib/env";
 import { getSearchProvider } from "@/lib/search";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticRoutes = ["/", "/products", "/collections", "/search"];
+  const staticRoutes = ["/", "/products", "/collections", "/search", "/cart", "/pages/shipping", "/pages/returns", "/pages/privacy"];
   const search = getSearchProvider();
   const [productSlugs, collectionSlugs] = await Promise.all([
     search.listPublishedProductSlugs(),

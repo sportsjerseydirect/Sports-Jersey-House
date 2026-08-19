@@ -1,13 +1,21 @@
 import type { Metadata } from "next";
+import type { Route } from "next";
 import Link from "next/link";
 import { BrandMark } from "@/components/brand-mark";
+import { SiteFooter } from "@/components/site-footer";
 import { createMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import "./globals.css";
 
-export const metadata: Metadata = createMetadata({
-  title: "Sports Jersey House | Premium Sports Jerseys",
-  description: "A premium destination for sports jerseys, built for fast discovery, trustworthy product data, and AI-assisted shopping."
-});
+export const metadata: Metadata = {
+  ...createMetadata({
+    title: "Sports Jersey House | Premium Sports Jerseys",
+    description:
+      "A premium destination for sports jerseys, built for fast discovery, trustworthy product data, and AI-assisted shopping."
+  }),
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }]
+  }
+};
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -28,10 +36,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <Link href="/products">Products</Link>
             <Link href="/collections">Collections</Link>
             <Link href="/search">Search</Link>
+            <Link href={"/cart" as Route}>Cart</Link>
             <Link href="/admin">Admin</Link>
           </nav>
         </header>
         {children}
+        <SiteFooter />
       </body>
     </html>
   );

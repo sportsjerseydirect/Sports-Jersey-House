@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createInitialBrandBrief } from "@sjh/ai";
+import { LogoConceptGallery } from "@/components/logo-concepts";
 import { ProductGrid } from "@/components/product-grid";
 import { collectionDetailPath } from "@/lib/products";
 import { getSearchProvider } from "@/lib/search";
@@ -111,6 +112,8 @@ export default async function HomePage() {
           </article>
         ))}
       </section>
+
+      <LogoConceptGallery />
 
       <section className="operating-system">
         <div>

@@ -1,0 +1,47 @@
+/* Sports Jersey House design tokens — original brand system */
+
+:root {
+  /* Colour */
+  --color-ink: #101114;
+  --color-muted: #61636b;
+  --color-soft: #f5f5f3;
+  --color-line: #deded8;
+  --color-white: #ffffff;
+  --color-ember: #b9452f;
+  --color-field: #1f6b5d;
+  --color-gold: #c99a43;
+  --color-charcoal: #232427;
+
+  /* Aliases used across existing styles */
+  --ink: var(--color-ink);
+  --muted: var(--color-muted);
+  --soft: var(--color-soft);
+  --line: var(--color-line);
+  --white: var(--color-white);
+  --ember: var(--color-ember);
+  --field: var(--color-field);
+  --gold: var(--color-gold);
+  --charcoal: var(--color-charcoal);
+
+  /* Typography */
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display-size: clamp(3.4rem, 8vw, 7.6rem);
+  --font-heading-size: clamp(1.4rem, 3vw, 2.3rem);
+  --font-body-size: clamp(1rem, 1.6vw, 1.125rem);
+
+  /* Spacing */
+  --space-page-x: clamp(20px, 4vw, 56px);
+  --space-page-y: clamp(48px, 7vw, 96px);
+  --space-section: clamp(32px, 5vw, 64px);
+
+  /* Layout */
+  --header-height: 72px;
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 12px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 280ms;
+}

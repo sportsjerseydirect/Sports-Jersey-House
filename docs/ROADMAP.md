@@ -23,8 +23,8 @@
 - [x] Shopify client-credentials auth (gated)
 - [x] Shopify product extract + upsert pipeline (one page at a time)
 - [x] Worker CLI for extraction
-- [ ] CI Postgres service + integration tests
-- [ ] Authenticate `/admin`
+- [x] CI Postgres service + integration tests
+- [x] Admin auth scaffold (optional — open in dev when `ADMIN_PASSWORD` unset)
 - [ ] ISR for stable catalogue pages
 
 ## Phase 2 — Shopify Migration (Extract & Load)
@@ -35,7 +35,7 @@
 
 - [x] Resumable checkpoint model (`migration_runs`, `migration_checkpoints`)
 - [x] Product page extraction (100 products/page, individual upserts)
-- [ ] Full bulk extract runner (all pages, rate-limit aware)
+- [x] Full bulk extract runner (all pages, rate-limit aware)
 - [ ] Collections extract + membership
 - [ ] Redirects extract
 - [ ] Media download to object storage (not hotlink Shopify CDN)
@@ -46,7 +46,7 @@
 
 **Goal:** AI-assisted catalogue quality with human approval gates.
 
-- [ ] OpenAI provider in `packages/ai`
+- [x] OpenAI provider in `packages/ai`
 - [ ] Product SEO agent (draft titles, meta, alt text)
 - [ ] Collection SEO agent
 - [ ] Product tagging / taxonomy agent
@@ -58,7 +58,7 @@
 
 **Goal:** Premium shopping experience with AI assistance.
 
-- [ ] Design system expansion (logo concepts, tokens, components)
+- [x] Design system foundation (tokens, logo concepts, footer, favicon)
 - [ ] Cart + checkout architecture (Stripe)
 - [ ] Customer accounts (Supabase Auth)
 - [ ] AI shopping assistant (grounded in catalogue data)
