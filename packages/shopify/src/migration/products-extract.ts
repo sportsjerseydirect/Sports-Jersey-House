@@ -1,10 +1,4 @@
-import {
-  createDatabaseClient,
-  fromExtractionCheckpoint,
-  migrationCheckpoints,
-  migrationRuns,
-  toExtractionCheckpoint
-} from "@sjh/database";
+import { createDatabaseClient, migrationRuns } from "@sjh/database";
 import { eq } from "drizzle-orm";
 import type { ExtractionCheckpoint } from "@sjh/shared";
 import {
@@ -15,6 +9,13 @@ import {
 } from "../index";
 import { upsertShopifyProducts } from "../load/upsert-products";
 import { mapShopifyProductToInternal } from "../mappers/shopify-to-internal";
+import {
+  createMigrationRun,
+  getOrCreateCheckpoint,
+  markRunProgress,
+  saveCheckpoint,
+  toExtractionCheckpoint
+} from "./run-state";
 
 export type ExtractProductsPageOptions = {
   databaseUrl: string;
@@ -42,7 +43,7 @@ export async function extractProductsPage(
   const db = createDatabaseClient(options.databaseUrl);
   const runId = options.runId ?? (await createMigrationRun(db));
 
-  const checkpointRow = await getOrCreateCheckpoint(db, runId);
+  const checkpointRow = await getOrCreateCheckpoint(db, runId, PRODUCTS_RESOURCE);
   const checkpoint = toExtractionCheckpoint(checkpointRow);
 
   if (checkpoint.completed) {
@@ -75,17 +76,7 @@ export async function extractProductsPage(
   };
 
   await saveCheckpoint(db, runId, nextCheckpoint);
-
-  await db
-    .update(migrationRuns)
-    .set({
-      status: nextCheckpoint.completed ? "completed" : "running",
-      finishedAt: nextCheckpoint.completed ? new Date() : null,
-      lastCheckpoint: nextCheckpoint,
-      counters: { products: nextCheckpoint.importedCount },
-      updatedAt: new Date()
-    })
-    .where(eq(migrationRuns.id, runId));
+  await markRunProgress(db, runId, nextCheckpoint, { products: nextCheckpoint.importedCount });
 
   return {
     runId,
@@ -95,79 +86,4 @@ export async function extractProductsPage(
     errors: upsertResult.errors.length,
     hasNextPage: response.products.pageInfo.hasNextPage
   };
-}
-
-type DatabaseClient = ReturnType<typeof createDatabaseClient>;
-
-async function createMigrationRun(db: DatabaseClient): Promise<string> {
-  const [run] = await db
-    .insert(migrationRuns)
-    .values({
-      source: "shopify",
-      status: "pending"
-    })
-    .returning({ id: migrationRuns.id });
-
-  if (!run) {
-    throw new Error("Failed to create migration run.");
-  }
-
-  return run.id;
-}
-
-async function getOrCreateCheckpoint(db: DatabaseClient, runId: string) {
-  const existing = await db
-    .select()
-    .from(migrationCheckpoints)
-    .where(eq(migrationCheckpoints.runId, runId));
-
-  const productsCheckpoint = existing.find((row) => row.resource === PRODUCTS_RESOURCE);
-
-  if (productsCheckpoint) {
-    return productsCheckpoint;
-  }
-
-  const [created] = await db
-    .insert(migrationCheckpoints)
-    .values({
-      runId,
-      resource: PRODUCTS_RESOURCE,
-      cursor: null,
-      completed: false,
-      payload: { importedCount: 0 }
-    })
-    .returning();
-
-  if (!created) {
-    throw new Error("Failed to create migration checkpoint.");
-  }
-
-  return created;
-}
-
-async function saveCheckpoint(
-  db: DatabaseClient,
-  runId: string,
-  checkpoint: ExtractionCheckpoint
-): Promise<void> {
-  const payload = fromExtractionCheckpoint(checkpoint);
-
-  await db
-    .insert(migrationCheckpoints)
-    .values({
-      runId,
-      resource: payload.resource,
-      cursor: payload.cursor,
-      completed: payload.completed,
-      payload: payload.payload
-    })
-    .onConflictDoUpdate({
-      target: [migrationCheckpoints.runId, migrationCheckpoints.resource],
-      set: {
-        cursor: payload.cursor,
-        completed: payload.completed,
-        payload: payload.payload,
-        updatedAt: new Date()
-      }
-    });
 }

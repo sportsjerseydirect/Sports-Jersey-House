@@ -11,21 +11,13 @@ type RouteContext = {
   params: Promise<{ itemId: string }>;
 };
 
-function requireCartSessionId(request: Request): string | Response {
-  const cookieHeader = request.headers.get("cookie") ?? "";
-
-  if (!cookieHeader.includes("sjh_cart_session=")) {
-    return Response.json({ error: "Cart not found." }, { status: 404 });
-  }
-
-  return "";
+function hasCartSession(request: Request): boolean {
+  return (request.headers.get("cookie") ?? "").includes("sjh_cart_session=");
 }
 
 export async function PATCH(request: Request, context: RouteContext) {
-  const sessionCheck = requireCartSessionId(request);
-
-  if (sessionCheck instanceof Response) {
-    return sessionCheck;
+  if (!hasCartSession(request)) {
+    return Response.json({ error: "Cart not found." }, { status: 404 });
   }
 
   const { itemId } = await context.params;
@@ -48,10 +40,8 @@ export async function PATCH(request: Request, context: RouteContext) {
 }
 
 export async function DELETE(request: Request, context: RouteContext) {
-  const sessionCheck = requireCartSessionId(request);
-
-  if (sessionCheck instanceof Response) {
-    return sessionCheck;
+  if (!hasCartSession(request)) {
+    return Response.json({ error: "Cart not found." }, { status: 404 });
   }
 
   const { itemId } = await context.params;
