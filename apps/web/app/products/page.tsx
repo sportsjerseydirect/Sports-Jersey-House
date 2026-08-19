@@ -1,3 +1,8 @@
+import {
+  catalogueSummaryCount,
+  formatProductPrice,
+  hasCatalogueResults
+} from "@/lib/products";
 import { getSearchProvider } from "@/lib/search";
 import { createMetadata } from "@/lib/seo";
 
@@ -10,17 +15,10 @@ export const metadata = createMetadata({
   path: "/products"
 });
 
-function formatPrice(amount: string, currencyCode: string): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: currencyCode
-  }).format(Number(amount));
-}
-
 export default async function ProductsPage() {
   const search = getSearchProvider();
   const response = await search.search({ query: "", limit: 24 });
-  const hasDatabaseResults = response.results.length > 0;
+  const hasDatabaseResults = hasCatalogueResults(response);
 
   return (
     <main className="page-shell">
@@ -35,7 +33,7 @@ export default async function ProductsPage() {
 
       {hasDatabaseResults ? (
         <>
-          <p className="catalogue-summary">{response.results.length} products available</p>
+          <p className="catalogue-summary">{catalogueSummaryCount(response)} products available</p>
           <section className="product-grid" aria-label="Product catalogue">
             {response.results.map(({ product }) => (
               <article className="product-card" key={product.id}>
@@ -55,7 +53,9 @@ export default async function ProductsPage() {
                   </p>
                   <h2>{product.title}</h2>
                   {product.price ? (
-                    <p className="product-card-price">{formatPrice(product.price.amount, product.price.currencyCode)}</p>
+                    <p className="product-card-price">
+                      {formatProductPrice(product.price.amount, product.price.currencyCode)}
+                    </p>
                   ) : null}
                 </div>
               </article>
