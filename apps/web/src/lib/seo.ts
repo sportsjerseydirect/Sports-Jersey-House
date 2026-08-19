@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ProductDetail } from "@sjh/shared";
 import { env } from "./env";
 
 type SeoInput = {
@@ -51,5 +52,49 @@ export function websiteJsonLd() {
       target: `${env.APP_URL}/search?q={search_term_string}`,
       "query-input": "required name=search_term_string"
     }
+  };
+}
+
+export function breadcrumbJsonLd(items: Array<{ name: string; path: string }>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: new URL(item.path, env.APP_URL).toString()
+    }))
+  };
+}
+
+export function productJsonLd(product: ProductDetail) {
+  const productUrl = new URL(`/products/${product.slug}`, env.APP_URL).toString();
+  const primaryVariant = product.variants.find((variant) => variant.isAvailable) ?? product.variants[0];
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.title,
+    description: product.description,
+    url: productUrl,
+    image: product.images.map((image) => image.url),
+    brand: product.vendor
+      ? {
+          "@type": "Brand",
+          name: product.vendor
+        }
+      : undefined,
+    offers: primaryVariant
+      ? {
+          "@type": "Offer",
+          price: primaryVariant.price.amount,
+          priceCurrency: primaryVariant.price.currencyCode,
+          availability: primaryVariant.isAvailable
+            ? "https://schema.org/InStock"
+            : "https://schema.org/OutOfStock",
+          url: productUrl
+        }
+      : undefined
   };
 }

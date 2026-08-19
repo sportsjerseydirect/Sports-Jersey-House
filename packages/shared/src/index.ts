@@ -41,6 +41,27 @@ export const productSummarySchema = z.object({
 });
 export type ProductSummary = z.infer<typeof productSummarySchema>;
 
+export const productVariantSummarySchema = z.object({
+  id: z.string().uuid(),
+  title: z.string().min(1),
+  sku: z.string().optional(),
+  price: moneySchema,
+  isAvailable: z.boolean()
+});
+export type ProductVariantSummary = z.infer<typeof productVariantSummarySchema>;
+
+export const productImageSchema = z.object({
+  url: z.string().url(),
+  altText: z.string().optional()
+});
+export type ProductImage = z.infer<typeof productImageSchema>;
+
+export const productDetailSchema = productSummarySchema.extend({
+  variants: z.array(productVariantSummarySchema).default([]),
+  images: z.array(productImageSchema).default([])
+});
+export type ProductDetail = z.infer<typeof productDetailSchema>;
+
 export const seoDraftSchema = z.object({
   id: z.string().uuid(),
   targetType: z.enum(["product", "collection", "page"]),

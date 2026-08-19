@@ -2,8 +2,17 @@ import { describe, expect, it } from "vitest";
 import {
   catalogueSummaryCount,
   formatProductPrice,
-  hasCatalogueResults
+  hasCatalogueResults,
+  productDetailPath
 } from "./products";
+
+describe("productDetailPath", () => {
+  it("builds typed product detail routes", () => {
+    expect(productDetailPath("chicago-bears-classic-home-jersey")).toBe(
+      "/products/chicago-bears-classic-home-jersey"
+    );
+  });
+});
 
 describe("formatProductPrice", () => {
   it("formats USD amounts for product cards", () => {

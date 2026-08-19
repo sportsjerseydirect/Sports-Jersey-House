@@ -6,8 +6,10 @@ import {
   productVariants,
   type Product
 } from "@sjh/database";
+import type { ProductDetail } from "@sjh/shared";
 import { buildPostgresFullTextQuery, normalizeSearchQuery } from "./index";
 import type { SearchProvider, SearchRequest, SearchResponse } from "./index";
+import { getProductBySlug, listPublishedProductSlugs, resolveCatalogueImageUrl } from "./get-product";
 import { mapProductToSummary } from "./map-product";
 
 type DatabaseClient = ReturnType<typeof createDatabaseClient>;
@@ -77,7 +79,7 @@ export class PostgresSearchProvider implements SearchProvider {
     const results = productRows.map((product) => {
       const productVariantsForRow = variantsByProduct.get(product.id) ?? [];
       const primaryImage = imagesByProduct.get(product.id)?.[0];
-      const primaryImageUrl = primaryImage ? resolveImageUrl(primaryImage.url) : undefined;
+      const primaryImageUrl = primaryImage ? resolveCatalogueImageUrl(primaryImage.url) : undefined;
 
       return {
         product: mapProductToSummary({
@@ -123,6 +125,14 @@ export class PostgresSearchProvider implements SearchProvider {
       facets: buildFacetCounts(productRows)
     };
   }
+
+  async getProductBySlug(slug: string): Promise<ProductDetail | null> {
+    return getProductBySlug(this.db, slug);
+  }
+
+  async listPublishedProductSlugs(limit?: number): Promise<string[]> {
+    return listPublishedProductSlugs(this.db, limit);
+  }
 }
 
 function groupByProductId<TRow extends { productId: string }>(rows: TRow[]): Map<string, TRow[]> {
@@ -135,15 +145,6 @@ function groupByProductId<TRow extends { productId: string }>(rows: TRow[]): Map
   }
 
   return grouped;
-}
-
-function resolveImageUrl(url: string): string | undefined {
-  if (url.startsWith("http://") || url.startsWith("https://")) {
-    return url;
-  }
-
-  const appUrl = process.env.APP_URL ?? "http://localhost:3000";
-  return `${appUrl.replace(/\/$/, "")}${url.startsWith("/") ? url : `/${url}`}`;
 }
 
 function buildFacetCounts(productRows: Product[]) {

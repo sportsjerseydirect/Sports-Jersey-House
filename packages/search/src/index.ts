@@ -1,4 +1,4 @@
-import type { ProductSummary } from "@sjh/shared";
+import type { ProductDetail, ProductSummary } from "@sjh/shared";
 
 export type SearchFilters = {
   market?: "US" | "CA";
@@ -38,6 +38,8 @@ export type SearchResponse = {
 
 export type SearchProvider = {
   search(request: SearchRequest): Promise<SearchResponse>;
+  getProductBySlug(slug: string): Promise<ProductDetail | null>;
+  listPublishedProductSlugs(limit?: number): Promise<string[]>;
 };
 
 export class EmptySearchProvider implements SearchProvider {
@@ -49,9 +51,20 @@ export class EmptySearchProvider implements SearchProvider {
       facets: []
     };
   }
+
+  async getProductBySlug(_slug: string): Promise<ProductDetail | null> {
+    void _slug;
+    return null;
+  }
+
+  async listPublishedProductSlugs(_limit?: number): Promise<string[]> {
+    void _limit;
+    return [];
+  }
 }
 
 export { createSearchProvider } from "./create-provider";
+export { createProductCatalogue, getProductBySlug, listPublishedProductSlugs, resolveCatalogueImageUrl } from "./get-product";
 export { PostgresSearchProvider, createPostgresSearchProvider } from "./postgres-provider";
 export { mapProductToSummary, mapProductsToSummaries } from "./map-product";
 

@@ -1,7 +1,9 @@
+import Link from "next/link";
 import {
   catalogueSummaryCount,
   formatProductPrice,
-  hasCatalogueResults
+  hasCatalogueResults,
+  productDetailPath
 } from "@/lib/products";
 import { getSearchProvider } from "@/lib/search";
 import { createMetadata } from "@/lib/seo";
@@ -36,7 +38,7 @@ export default async function ProductsPage() {
           <p className="catalogue-summary">{catalogueSummaryCount(response)} products available</p>
           <section className="product-grid" aria-label="Product catalogue">
             {response.results.map(({ product }) => (
-              <article className="product-card" key={product.id}>
+              <Link className="product-card" href={productDetailPath(product.slug)} key={product.id}>
                 <div className="product-card-media">
                   {product.primaryImageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -58,7 +60,7 @@ export default async function ProductsPage() {
                     </p>
                   ) : null}
                 </div>
-              </article>
+              </Link>
             ))}
           </section>
         </>

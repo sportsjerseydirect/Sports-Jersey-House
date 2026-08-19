@@ -20,4 +20,12 @@ describeIfDatabase("PostgresSearchProvider integration", () => {
 
     expect(response.results.some((result) => result.product.league === "NFL")).toBe(true);
   });
+
+  it("loads a seeded product by slug", async () => {
+    const provider = createPostgresSearchProvider(databaseUrl!);
+    const product = await provider.getProductBySlug("chicago-bears-classic-home-jersey");
+
+    expect(product?.title).toBe("Chicago Bears Classic Home Jersey");
+    expect(product?.variants.length).toBeGreaterThan(0);
+  });
 });
