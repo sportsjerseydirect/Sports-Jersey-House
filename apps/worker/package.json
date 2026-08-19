@@ -7,18 +7,22 @@
   "scripts": {
     "build": "tsc --noEmit",
     "dev": "tsx watch src/index.ts",
+    "extract:products": "tsx src/cli/extract-products.ts",
+    "extract:products:all": "tsx src/cli/extract-all-products.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
     "@sjh/ai": "workspace:*",
+    "@sjh/database": "workspace:*",
     "@sjh/search": "workspace:*",
     "@sjh/shopify": "workspace:*",
     "bullmq": "^5.58.5",
     "ioredis": "^5.7.0"
   },
   "devDependencies": {
+    "@types/node": "^24.3.0",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"

@@ -15,6 +15,24 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: sjh
+          POSTGRES_PASSWORD: sjh
+          POSTGRES_DB: sports_jersey_house
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U sjh -d sports_jersey_house"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://sjh:sjh@localhost:5432/sports_jersey_house
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,8 +51,17 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Migrate database
+        run: pnpm db:migrate
+
+      - name: Seed database
+        run: pnpm db:seed
+
       - name: Lint
         run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
 
       - name: Test
         run: pnpm test

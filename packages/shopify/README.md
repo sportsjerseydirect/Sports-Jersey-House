@@ -1,58 +1,35 @@
 # Shopify Package
 
-**Status:** Dormant — no API connectivity until migration Phase 1 is approved. The server-side client and product extraction skeleton exist, but all calls are blocked unless `ENABLE_SHOPIFY_SYNC=true`.
+Read-only Shopify extraction client for Sports Jersey House.
 
-Read-only Shopify extraction for catalog migration via the **"Sports Jersey House Extract"** app.
+## Status
 
-## Important
+**Partial** — client-credentials auth, paginated product extract, mapper, per-product upsert loader, resumable checkpoints. Gated behind `ENABLE_SHOPIFY_SYNC=false`.
 
-- **Do not call Shopify APIs** until explicitly approved
-- Gated behind `ENABLE_SHOPIFY_SYNC=true` environment variable
-- **Read-only scopes only** — no write operations
-- Never invent or hardcode credentials
+## Auth
 
-## Planned Structure
-
-```
-src/
-├── auth/
-│   └── client-credentials.ts # Temporary server-side token exchange
-├── client.ts              # Admin API client
-├── extractors/
-│   ├── products.ts
-│   ├── collections.ts
-│   ├── redirects.ts
-│   └── metafields.ts
-├── mappers/
-│   └── shopify-to-internal.ts
-└── sync/
-    ├── full-import.ts     # One-time bulk extract
-    └── delta-sync.ts      # Incremental updates (future)
-```
-
-## Environment Variables
-
-See root `.env.example`:
-
+Uses only:
 - `SHOPIFY_STORE_DOMAIN`
 - `SHOPIFY_CLIENT_ID`
 - `SHOPIFY_CLIENT_SECRET`
-- `ENABLE_SHOPIFY_SYNC` (default: `false`)
 
-The package must use Shopify's supported client-credentials authentication flow to obtain temporary server-side tokens. Do not require a manually supplied permanent Shopify token, and never expose Shopify credentials or temporary tokens to browser code.
-The Shopify Admin API version should be managed as package configuration, not as part of the secret environment contract.
+Never uses a permanent access token env var.
 
-No `SHOPIFY_ACCESS_TOKEN` variable is used or required.
+## Extraction
 
-## Migration Flow
+```typescript
+import { extractProductsPage } from "@sjh/shopify";
 
-See [docs/migration-plan.md](../../docs/migration-plan.md).
-
-```
-Shopify API → extract → transform → validate → PostgreSQL (draft)
+const result = await extractProductsPage({ databaseUrl, pageSize: 100 });
 ```
 
-## Dependencies (Planned)
+Or via worker CLI: `pnpm --filter @sjh/worker extract:products`
 
-- `@sjh/shared` — types and mappers
-- `@sjh/database` — load target
+Each call fetches one API page (~100 products), upserts individually, and saves checkpoint state to `migration_runs` / `migration_checkpoints`.
+
+## Not Yet Implemented
+
+- Collections extract
+- Redirects extract
+- Media download to object storage
+- Delta sync / webhooks

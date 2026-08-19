@@ -1,35 +1,21 @@
-# Worker Application
+# Worker
 
-**Status:** Not scaffolded — awaiting architecture approval.
+Background job processor for Sports Jersey House.
 
-Background job processor powered by BullMQ and Redis.
+## Status
 
-## Planned Job Queues
+**Scaffold + CLI** — queue names defined; Shopify product extraction CLI implemented. BullMQ workers require Redis (not wired yet).
 
-| Queue | Purpose |
-|-------|---------|
-| `ai:product-seo` | Generate product SEO metadata |
-| `ai:collection-seo` | Generate collection SEO content |
-| `ai:tagging` | Product taxonomy and tagging |
-| `ai:collection-assign` | Auto-assign products to collections |
-| `ai:compliance` | Trademark/IP risk detection |
-| `ai:technical-seo` | Site audit and schema validation |
-| `search:index` | Refresh PostgreSQL search vectors and ranking data |
-| `search:embed` | Product embedding generation for pgvector |
-| `shopify:extract` | Shopify catalog extraction (gated) |
-| `media:process` | Image optimization and variants |
+## Queues
 
-## Design
+Defined in `src/index.ts`: `shopify:extract`, `shopify:transform`, AI/SEO/search queues.
 
-- Stateless workers; scale horizontally on queue depth
-- Dead-letter queues for failed jobs
-- Idempotent job handlers (safe retries)
-- Structured logging with job ID correlation
+## CLI
 
-## Dependencies (Planned)
+Extract one page of Shopify products (requires `ENABLE_SHOPIFY_SYNC=true` and credentials):
 
-- `@sjh/database`
-- `@sjh/search`
-- `@sjh/ai`
-- `@sjh/shopify` (when migration enabled)
-- `@sjh/shared`
+```bash
+pnpm --filter @sjh/worker extract:products
+```
+
+Resumable via `migration_runs` / `migration_checkpoints` in PostgreSQL.

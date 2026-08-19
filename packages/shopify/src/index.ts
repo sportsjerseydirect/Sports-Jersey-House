@@ -149,6 +149,27 @@ export type ShopifyConnection<TNode> = {
   pageInfo: ShopifyPageInfo;
 };
 
+export type ShopifyVariantNode = {
+  id: string;
+  title: string;
+  sku: string | null;
+  price: {
+    amount: string;
+    currencyCode: string;
+  };
+  inventoryQuantity: number | null;
+  availableForSale: boolean;
+  selectedOptions: Array<{ name: string; value: string }>;
+};
+
+export type ShopifyImageNode = {
+  id: string;
+  url: string;
+  altText: string | null;
+  width: number | null;
+  height: number | null;
+};
+
 export type ShopifyProductNode = {
   id: string;
   handle: string;
@@ -159,6 +180,8 @@ export type ShopifyProductNode = {
   status: string;
   tags: string[];
   updatedAt: string;
+  variants: ShopifyConnection<ShopifyVariantNode>;
+  images: ShopifyConnection<ShopifyImageNode>;
 };
 
 export type ShopifyProductsResponse = {
@@ -180,6 +203,36 @@ export const SHOPIFY_PRODUCTS_QUERY = `#graphql
           status
           tags
           updatedAt
+          variants(first: 100) {
+            edges {
+              node {
+                id
+                title
+                sku
+                price {
+                  amount
+                  currencyCode
+                }
+                inventoryQuantity
+                availableForSale
+                selectedOptions {
+                  name
+                  value
+                }
+              }
+            }
+          }
+          images(first: 20) {
+            edges {
+              node {
+                id
+                url
+                altText
+                width
+                height
+              }
+            }
+          }
         }
       }
       pageInfo {
@@ -215,6 +268,15 @@ export function parseShopifyConfig(env: NodeJS.ProcessEnv): ShopifyConfig {
 
 export type { ExtractionCheckpoint };
 export { extractionCheckpointSchema };
+
+export { mapShopifyProductToInternal } from "./mappers/shopify-to-internal";
+export type { InternalProductDraft } from "./mappers/shopify-to-internal";
+export { upsertShopifyProducts } from "./load/upsert-products";
+export type { UpsertProductsResult } from "./load/upsert-products";
+export { extractProductsPage } from "./migration/products-extract";
+export type { ExtractProductsPageOptions, ExtractProductsPageResult } from "./migration/products-extract";
+export { extractAllProducts } from "./migration/extract-all-products";
+export type { ExtractAllProductsOptions, ExtractAllProductsResult } from "./migration/extract-all-products";
 
 export function normalizeShopifyStoreDomain(value: string): string {
   const trimmed = value.trim().replace(/^https?:\/\//, "").replace(/\/$/, "");

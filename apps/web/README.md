@@ -1,40 +1,26 @@
 # Web Application
 
-**Status:** Not scaffolded — awaiting architecture approval.
+Next.js 15 storefront and admin shell for Sports Jersey House.
 
-Next.js 15 storefront and admin panel.
+## Status
 
-## Planned Responsibilities
+**Implemented** — catalogue browsing, search, collections, SEO, admin dashboard, health API.
 
-- Public storefront: home, product pages, collections, search, cart
-- Admin panel: catalogue management, AI review queue, SEO dashboard
-- API routes: search, AI shopping assistant (streaming), health checks
-- SEO: metadata, JSON-LD, sitemaps, ISR/SSG rendering
+## Routes
 
-## Route Structure (Planned)
+| Route | Purpose |
+|-------|---------|
+| `/` | Marketing homepage |
+| `/products` | Product listing with facets |
+| `/products/[slug]` | Product detail + JSON-LD |
+| `/collections` | Collection index |
+| `/collections/[slug]` | Collection products |
+| `/search` | Full-text search |
+| `/admin` | Status dashboard (auth pending) |
+| `/api/health` | Health check |
 
-```
-app/
-├── (storefront)/
-│   ├── page.tsx                 # Home
-│   ├── products/[slug]/         # PDP
-│   ├── collections/[slug]/      # PLP
-│   ├── search/                  # Search results
-│   └── ...
-├── (admin)/
-│   ├── products/
-│   ├── collections/
-│   ├── ai-review/
-│   └── seo/
-└── api/
-    ├── search/
-    ├── ai/chat/
-    └── health/
-```
+## Development
 
-## Dependencies (Planned)
+From repo root: `pnpm dev` (after `pnpm infra:up`, `pnpm db:migrate`, `pnpm db:seed`).
 
-- `@sjh/database` — data access
-- `@sjh/search` — PostgreSQL full-text/vector search queries
-- `@sjh/ai` — AI agent invocations
-- `@sjh/shared` — types and utilities
+See [SETUP.md](../../docs/SETUP.md) for full instructions.

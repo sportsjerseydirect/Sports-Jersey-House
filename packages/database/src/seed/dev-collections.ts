@@ -26,5 +26,17 @@ export const devCollections: DevCollection[] = [
     title: "NHL Jerseys",
     description: "Development collection for National Hockey League jerseys.",
     league: "NHL"
+  },
+  {
+    slug: "premier-league-kits",
+    title: "Premier League Kits",
+    description: "Development collection for Premier League football kits.",
+    league: "Premier League"
+  },
+  {
+    slug: "mlb-jerseys",
+    title: "MLB Jerseys",
+    description: "Development collection for Major League Baseball jerseys.",
+    league: "MLB"
   }
 ];

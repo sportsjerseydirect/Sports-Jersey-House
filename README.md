@@ -8,7 +8,10 @@ A modern, AI-powered e-commerce platform replacing the existing Shopify storefro
 
 ## Documentation
 
-- [Architecture](./docs/architecture.md) — system design, tech stack, and data flow
+- [Architecture](./docs/ARCHITECTURE.md) — current system design (implemented state)
+- [Roadmap](./docs/ROADMAP.md) — phased delivery plan
+- [Setup](./docs/SETUP.md) — local development guide
+- [Decisions](./docs/DECISIONS.md) — architecture decision log
 - [Migration Plan](./docs/migration-plan.md) — Shopify extraction and cutover strategy
 - [Agent Guidelines](./AGENTS.md) — rules for AI agents working in this repo
 
@@ -46,7 +49,7 @@ The `/products` page reads from PostgreSQL through `packages/search`. Shopify sy
 |-------|---------|
 | `/products` | Full catalogue with sport/league facet filters |
 | `/products/[slug]` | Product detail with JSON-LD |
-| `/collections` | League collections index (NFL, NBA, NHL) |
+| `/collections` | League collections index (NFL, NBA, NHL, Premier League, MLB) |
 | `/collections/[slug]` | Collection product grid |
 | `/search?q=` | Full-text search with facet filters |
 

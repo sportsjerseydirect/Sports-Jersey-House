@@ -1,41 +1,11 @@
 # AI Package
 
-**Status:** Not scaffolded — awaiting architecture approval.
+Provider-agnostic AI agent framework for Sports Jersey House.
 
-Modular AI agent framework for all AI-powered features.
+## Status
 
-## Agent Modules (Planned)
+**Contracts only** — `AiProvider` interface, disabled stub, brand brief helper, compliance result builder. No OpenAI/Anthropic providers yet.
 
-```
-src/
-├── core/
-│   ├── agent.ts           # Base agent interface
-│   ├── provider.ts        # LLM provider abstraction
-│   └── context.ts         # Agent execution context
-├── agents/
-│   ├── shopping-assistant/
-│   ├── product-seo/
-│   ├── collection-seo/
-│   ├── technical-seo/
-│   ├── catalogue-management/
-│   ├── product-tagging/
-│   ├── collection-assignment/
-│   ├── compliance/
-│   ├── customer-service/      # Future
-│   ├── merchandising/         # Future
-│   └── analytics/             # Future
-└── prompts/                   # Version-controlled prompt templates
-```
+## Planned Agents
 
-## Rules
-
-- Prompts live in `prompts/`, not scattered inline
-- All outputs are typed (Zod schemas for structured output)
-- Token usage and latency logged per invocation
-- AI never auto-publishes; outputs require admin approval
-- Graceful degradation when providers are unavailable
-
-## Dependencies (Planned)
-
-- `@sjh/shared` — shared types
-- `@sjh/database` — persist job results and drafts
+See `AGENTS.md` for the full agent module list (shopping assistant, product SEO, compliance, etc.).

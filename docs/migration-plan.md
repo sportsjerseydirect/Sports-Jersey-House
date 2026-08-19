@@ -30,8 +30,8 @@ flowchart LR
 
 | Phase | Name | Status | Description |
 |-------|------|--------|-------------|
-| 0 | Architecture | **Current** | Scaffolding, docs, no connectivity |
-| 1 | Extract & Schema | Planned | Connect read-only app; map Shopify → PostgreSQL schema |
+| 0 | Architecture | **Complete** | Monorepo, docs, local infra, CI |
+| 1 | Extract & Schema | **In progress** | Storefront catalogue live; Shopify extract pipeline ready (gated) |
 | 2 | Transform & Load | Planned | ETL pipeline; load products, collections, media |
 | 3 | AI Enrichment | Planned | SEO, tagging, collection assignment, compliance review |
 | 4 | Parallel Run | Planned | New site on staging; compare with Shopify |

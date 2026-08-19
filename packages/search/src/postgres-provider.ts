@@ -101,9 +101,10 @@ export class PostgresSearchProvider implements SearchProvider {
     let filteredResults = results;
 
     if (filters?.availableOnly) {
-      filteredResults = filteredResults.filter((result) =>
-        result.product.price ? true : false
-      );
+      filteredResults = filteredResults.filter((result) => {
+        const productVariantsForRow = variantsByProduct.get(result.product.id) ?? [];
+        return productVariantsForRow.some((variant) => variant.isAvailable);
+      });
     }
 
     if (filters?.priceMin !== undefined || filters?.priceMax !== undefined) {
