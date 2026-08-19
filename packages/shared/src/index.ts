@@ -1,0 +1,86 @@
+import { z } from "zod";
+
+export const productStatusSchema = z.enum(["draft", "review", "published", "archived"]);
+export type ProductStatus = z.infer<typeof productStatusSchema>;
+
+export const approvalStatusSchema = z.enum([
+  "draft",
+  "ai_generated",
+  "under_review",
+  "approved",
+  "rejected",
+  "published",
+  "archived"
+]);
+export type ApprovalStatus = z.infer<typeof approvalStatusSchema>;
+
+export const riskLevelSchema = z.enum(["low", "medium", "high", "critical"]);
+export type RiskLevel = z.infer<typeof riskLevelSchema>;
+
+export const marketSchema = z.enum(["US", "CA"]);
+export type Market = z.infer<typeof marketSchema>;
+
+export const moneySchema = z.object({
+  amount: z.string().regex(/^\d+(\.\d{2})?$/),
+  currencyCode: z.enum(["USD", "CAD"])
+});
+export type Money = z.infer<typeof moneySchema>;
+
+export const productSummarySchema = z.object({
+  id: z.string().uuid(),
+  slug: z.string().min(1),
+  title: z.string().min(1),
+  description: z.string().optional(),
+  status: productStatusSchema,
+  vendor: z.string().optional(),
+  sport: z.string().optional(),
+  league: z.string().optional(),
+  team: z.string().optional(),
+  primaryImageUrl: z.string().url().optional(),
+  price: moneySchema.optional()
+});
+export type ProductSummary = z.infer<typeof productSummarySchema>;
+
+export const seoDraftSchema = z.object({
+  id: z.string().uuid(),
+  targetType: z.enum(["product", "collection", "page"]),
+  targetId: z.string().uuid(),
+  title: z.string().max(70),
+  description: z.string().max(180),
+  canonicalPath: z.string().startsWith("/"),
+  approvalStatus: approvalStatusSchema,
+  riskLevel: riskLevelSchema.default("low")
+});
+export type SeoDraft = z.infer<typeof seoDraftSchema>;
+
+export const creativeAssetSchema = z.object({
+  id: z.string().uuid(),
+  assetType: z.enum(["logo", "favicon", "hero", "banner", "collection", "product", "social", "email", "ad"]),
+  campaign: z.string().optional(),
+  page: z.string().optional(),
+  productId: z.string().uuid().optional(),
+  collectionId: z.string().uuid().optional(),
+  brief: z.string().min(1),
+  provider: z.string().min(1),
+  model: z.string().min(1),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+  format: z.enum(["svg", "png", "jpg", "webp"]),
+  status: approvalStatusSchema,
+  complianceStatus: approvalStatusSchema,
+  version: z.number().int().positive(),
+  provenance: z.string().min(1),
+  altText: z.string().min(1),
+  url: z.string().url().optional()
+});
+export type CreativeAsset = z.infer<typeof creativeAssetSchema>;
+
+export const featureFlagsSchema = z.object({
+  enableAiShoppingAssistant: z.boolean().default(false),
+  enableShopifySync: z.boolean().default(false)
+});
+export type FeatureFlags = z.infer<typeof featureFlagsSchema>;
+
+export function toBooleanFlag(value: string | undefined): boolean {
+  return value === "true";
+}

@@ -1,0 +1,26 @@
+---
+description: Core project rules for Sports Jersey House
+alwaysApply: true
+---
+
+# Sports Jersey House — Project Rules
+
+Read `AGENTS.md` at the repo root for full guidelines.
+
+## Critical Constraints
+
+- **No Shopify API calls** until migration Phase 1 is approved and `ENABLE_SHOPIFY_SYNC=true`.
+- **Never commit secrets** — `.env`, keys, tokens, credentials.
+- **Never invent Shopify credentials.**
+- Shopify integration uses only `SHOPIFY_STORE_DOMAIN`, `SHOPIFY_CLIENT_ID`, and `SHOPIFY_CLIENT_SECRET` through server-side client-credentials authentication.
+
+## Architecture
+
+Monorepo: `apps/web`, `apps/worker`, `packages/{ai,database,search,shopify,shared}`.
+
+## Before Making Changes
+
+1. Check `docs/architecture.md` for system design.
+2. Check `docs/migration-plan.md` for Shopify/migration rules.
+3. AI-generated content requires human approval before publish.
+4. SEO is first-class on all public pages.

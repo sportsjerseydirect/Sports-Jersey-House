@@ -1,0 +1,79 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+.turbo/
+*.tsbuildinfo
+
+# Environment & secrets — NEVER commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.json
+service-account*.json
+
+# Shopify credentials (provided via env at runtime)
+shopify*.toml.local
+
+# IDE & editor
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json.example
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Testing & coverage
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+
+# Logs & runtime
+*.log
+logs/
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+prisma/*.db
+
+# Docker local overrides
+docker-compose.override.yml
+.docker/
+
+# Terraform / IaC state (when added)
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# AI / ML artifacts
+*.onnx
+*.bin
+embeddings/
+vector-store/
+
+# OS & misc
+.cache/
+tmp/
+temp/
+*.local
