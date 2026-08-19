@@ -3,7 +3,7 @@ import { collectionDetailPath } from "@/lib/products";
 import { getSearchProvider } from "@/lib/search";
 import { createMetadata } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export const metadata = createMetadata({
   title: "Collections | Sports Jersey House",

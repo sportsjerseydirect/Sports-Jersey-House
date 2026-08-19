@@ -1,12 +1,15 @@
 import { queueNames } from "./index";
 import { resolveRedisUrl } from "./redis";
+import { createShopifyExtractCollectionsWorker } from "./workers/shopify-extract-collections";
 import { createShopifyExtractWorker } from "./workers/shopify-extract";
 
 async function main(): Promise<void> {
   const redisUrl = resolveRedisUrl();
-  const workers = [createShopifyExtractWorker(redisUrl)];
+  const workers = [createShopifyExtractWorker(redisUrl), createShopifyExtractCollectionsWorker(redisUrl)];
 
-  console.log(`Worker started — listening on ${queueNames.filter((name) => name === "shopify:extract").join(", ")}`);
+  console.log(
+    `Worker started — listening on ${queueNames.filter((name) => name.startsWith("shopify:extract")).join(", ")}`
+  );
 
   for (const worker of workers) {
     worker.on("completed", (job, result) => {

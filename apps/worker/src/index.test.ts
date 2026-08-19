@@ -4,6 +4,7 @@ import { createJobEnvelope, queueNames } from "./index-core";
 describe("worker queues", () => {
   it("defines stable queue names", () => {
     expect(queueNames).toContain("shopify:extract");
+    expect(queueNames).toContain("shopify:extract-collections");
     expect(queueNames).toContain("search:embed");
   });
 

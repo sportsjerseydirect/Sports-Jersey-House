@@ -1,5 +1,6 @@
 export const queueNames = [
   "shopify:extract",
+  "shopify:extract-collections",
   "shopify:transform",
   "ai:product-seo",
   "ai:collection-seo",

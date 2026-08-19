@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AddToCartButton } from "@/components/add-to-cart-button";
+import { staticPrerenderLimit } from "@/lib/isr";
 import { formatProductPrice } from "@/lib/products";
 import { getSearchProvider } from "@/lib/search";
 import { breadcrumbJsonLd, createMetadata, productJsonLd } from "@/lib/seo";
@@ -9,7 +10,16 @@ type ProductPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  const search = getSearchProvider();
+  const limit = staticPrerenderLimit();
+  const slugs = await search.listPublishedProductSlugs(limit);
+
+  return slugs.map((slug) => ({ slug }));
+}
 
 export async function generateMetadata({ params }: ProductPageProps) {
   const { slug } = await params;
