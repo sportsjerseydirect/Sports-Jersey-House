@@ -32,16 +32,22 @@ infrastructure/
 └── docker-compose.yml   # Local development stack
 ```
 
-## Local Development Stack (Planned)
+## Local Development Stack
 
-`docker-compose.yml` will provide:
+`infrastructure/local/docker-compose.yml` provides:
 
 - PostgreSQL
 - Redis
 - PostgreSQL extensions for full-text search and pgvector
 - MinIO (S3-compatible, local)
 
-**Not created yet** — will be added during application scaffolding.
+Start it when Docker is available:
+
+```bash
+docker compose -f infrastructure/local/docker-compose.yml up -d
+```
+
+These are local-only services and credentials. Production infrastructure still requires explicit approval and platform-managed secrets.
 
 ## Constraints
 

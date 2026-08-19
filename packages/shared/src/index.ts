@@ -84,3 +84,25 @@ export type FeatureFlags = z.infer<typeof featureFlagsSchema>;
 export function toBooleanFlag(value: string | undefined): boolean {
   return value === "true";
 }
+
+export const migrationResourceSchema = z.enum([
+  "products",
+  "collections",
+  "metafields",
+  "metaobjects",
+  "redirects"
+]);
+export type MigrationResource = z.infer<typeof migrationResourceSchema>;
+
+export const migrationCheckpointPayloadSchema = z.object({
+  importedCount: z.number().int().nonnegative().default(0)
+});
+export type MigrationCheckpointPayload = z.infer<typeof migrationCheckpointPayloadSchema>;
+
+export const extractionCheckpointSchema = z.object({
+  resource: migrationResourceSchema,
+  cursor: z.string().nullable(),
+  completed: z.boolean(),
+  importedCount: z.number().int().nonnegative()
+});
+export type ExtractionCheckpoint = z.infer<typeof extractionCheckpointSchema>;

@@ -7,6 +7,8 @@
   "types": "./src/index.ts",
   "scripts": {
     "build": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests"
@@ -17,6 +19,7 @@
     "postgres": "^3.4.7"
   },
   "devDependencies": {
+    "drizzle-kit": "^0.31.7",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   }

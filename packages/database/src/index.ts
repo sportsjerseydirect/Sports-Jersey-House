@@ -1,4 +1,5 @@
 import { relations, sql } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/postgres-js";
 import {
   boolean,
   index,
@@ -7,11 +8,16 @@ import {
   numeric,
   pgEnum,
   pgTable,
+  primaryKey,
   text,
   timestamp,
   uniqueIndex,
   uuid
 } from "drizzle-orm/pg-core";
+import postgres from "postgres";
+import { embeddingVector } from "./pg-types";
+
+export { fromExtractionCheckpoint, parseMigrationCheckpointPayload, toExtractionCheckpoint } from "./checkpoints";
 
 export const productStatus = pgEnum("product_status", ["draft", "review", "published", "archived"]);
 export const approvalStatus = pgEnum("approval_status", [
@@ -49,13 +55,14 @@ export const products = pgTable(
     team: text("team"),
     status: productStatus("status").notNull().default("draft"),
     sourcePayload: jsonb("source_payload"),
-    searchVector: text("search_vector"),
-    embedding: text("embedding"),
+    embedding: embeddingVector("embedding"),
     ...auditColumns
   },
   (table) => ({
     slugIdx: uniqueIndex("products_slug_idx").on(table.slug),
-    shopifyIdx: uniqueIndex("products_shopify_id_idx").on(table.shopifyId),
+    shopifyIdx: uniqueIndex("products_shopify_id_idx")
+      .on(table.shopifyId)
+      .where(sql`${table.shopifyId} is not null`),
     statusIdx: index("products_status_idx").on(table.status)
   })
 );
@@ -77,7 +84,10 @@ export const productVariants = pgTable(
   },
   (table) => ({
     productIdx: index("product_variants_product_id_idx").on(table.productId),
-    skuIdx: index("product_variants_sku_idx").on(table.sku)
+    skuIdx: index("product_variants_sku_idx").on(table.sku),
+    shopifyIdx: uniqueIndex("product_variants_shopify_id_idx")
+      .on(table.shopifyId)
+      .where(sql`${table.shopifyId} is not null`)
   })
 );
 
@@ -111,7 +121,10 @@ export const collections = pgTable(
     ...auditColumns
   },
   (table) => ({
-    slugIdx: uniqueIndex("collections_slug_idx").on(table.slug)
+    slugIdx: uniqueIndex("collections_slug_idx").on(table.slug),
+    shopifyIdx: uniqueIndex("collections_shopify_id_idx")
+      .on(table.shopifyId)
+      .where(sql`${table.shopifyId} is not null`)
   })
 );
 
@@ -123,6 +136,7 @@ export const collectionProducts = pgTable(
     sortOrder: integer("sort_order").notNull().default(0)
   },
   (table) => ({
+    pk: primaryKey({ columns: [table.collectionId, table.productId] }),
     collectionIdx: index("collection_products_collection_id_idx").on(table.collectionId),
     productIdx: index("collection_products_product_id_idx").on(table.productId)
   })
@@ -193,12 +207,70 @@ export const creativeAssets = pgTable(
   })
 );
 
+export const migrationRuns = pgTable("migration_runs", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  source: text("source").notNull().default("shopify"),
+  status: text("status").notNull().default("pending"),
+  startedAt: timestamp("started_at", { withTimezone: true }),
+  finishedAt: timestamp("finished_at", { withTimezone: true }),
+  lastCheckpoint: jsonb("last_checkpoint"),
+  counters: jsonb("counters").notNull().default(sql`'{}'::jsonb`),
+  errorMessage: text("error_message"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
+});
+
+export const migrationCheckpoints = pgTable(
+  "migration_checkpoints",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    runId: uuid("run_id").notNull().references(() => migrationRuns.id),
+    resource: text("resource").notNull(),
+    cursor: text("cursor"),
+    completed: boolean("completed").notNull().default(false),
+    payload: jsonb("payload").notNull().default(sql`'{}'::jsonb`),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
+  },
+  (table) => ({
+    runResourceIdx: uniqueIndex("migration_checkpoints_run_resource_idx").on(table.runId, table.resource)
+  })
+);
+
 export const productsRelations = relations(products, ({ many }) => ({
   variants: many(productVariants),
   images: many(productImages)
 }));
 
+export const migrationRunsRelations = relations(migrationRuns, ({ many }) => ({
+  checkpoints: many(migrationCheckpoints)
+}));
+
+export function createDatabaseClient(databaseUrl: string) {
+  const queryClient = postgres(databaseUrl, {
+    max: 10,
+    prepare: false
+  });
+
+  return drizzle(queryClient, {
+    schema: {
+      products,
+      productVariants,
+      productImages,
+      collections,
+      collectionProducts,
+      seoRecords,
+      complianceFlags,
+      creativeAssets,
+      migrationRuns,
+      migrationCheckpoints
+    }
+  });
+}
+
 export type Product = typeof products.$inferSelect;
 export type NewProduct = typeof products.$inferInsert;
 export type ProductVariant = typeof productVariants.$inferSelect;
 export type NewProductVariant = typeof productVariants.$inferInsert;
+export type MigrationRun = typeof migrationRuns.$inferSelect;
+export type MigrationCheckpoint = typeof migrationCheckpoints.$inferSelect;

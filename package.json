@@ -7,7 +7,9 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
-    "test": "turbo test"
+    "test": "turbo test",
+    "db:generate": "pnpm --filter @sjh/database db:generate",
+    "db:migrate": "pnpm --filter @sjh/database db:migrate"
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",

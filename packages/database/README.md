@@ -1,6 +1,6 @@
 # Database Package
 
-**Status:** Not scaffolded — awaiting architecture approval.
+**Status:** Initial schema and migration scaffold created.
 
 PostgreSQL schema, migrations, and typed client via Drizzle ORM.
 
@@ -11,6 +11,8 @@ PostgreSQL schema, migrations, and typed client via Drizzle ORM.
 - `product_tags`, `product_seo`, `collection_seo`
 - `ai_jobs`, `ai_job_results`
 - `compliance_flags`
+- `creative_assets`
+- `migration_runs`, `migration_checkpoints`
 - `redirects`
 - `users`, `sessions` (admin auth)
 
@@ -22,15 +24,19 @@ PostgreSQL schema, migrations, and typed client via Drizzle ORM.
 - AI fields separated from human-edited fields
 - Audit columns on all mutable tables
 
-## Scripts (Planned)
+## Scripts
 
 ```bash
 pnpm db:generate   # Generate migrations from schema changes
 pnpm db:migrate    # Apply migrations
-pnpm db:studio     # Drizzle Studio for local inspection
-pnpm db:seed       # Seed development data (no real Shopify data)
+pnpm db:studio     # Planned: Drizzle Studio for local inspection
+pnpm db:seed       # Planned: seed development data (no real Shopify data)
 ```
 
 ## Dependencies (Planned)
 
 - `@sjh/shared` — shared Zod schemas and types
+
+## Initial Migration
+
+The first SQL migration is `drizzle/0000_foundation.sql`. It enables `pgvector`, creates full-text search indexes, and adds commerce, SEO, compliance, creative asset, and migration checkpoint tables.
