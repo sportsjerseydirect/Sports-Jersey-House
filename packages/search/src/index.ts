@@ -1,4 +1,4 @@
-import type { ProductDetail, ProductSummary } from "@sjh/shared";
+import type { CollectionDetail, ProductDetail, ProductSummary, CollectionSummary } from "@sjh/shared";
 
 export type SearchFilters = {
   market?: "US" | "CA";
@@ -40,6 +40,10 @@ export type SearchProvider = {
   search(request: SearchRequest): Promise<SearchResponse>;
   getProductBySlug(slug: string): Promise<ProductDetail | null>;
   listPublishedProductSlugs(limit?: number): Promise<string[]>;
+  getCollectionBySlug(slug: string): Promise<CollectionDetail | null>;
+  listPublishedCollectionSlugs(limit?: number): Promise<string[]>;
+  listPublishedCollections(limit?: number): Promise<CollectionSummary[]>;
+  getCatalogueFacets(): Promise<SearchFacet[]>;
 };
 
 export class EmptySearchProvider implements SearchProvider {
@@ -61,10 +65,36 @@ export class EmptySearchProvider implements SearchProvider {
     void _limit;
     return [];
   }
+
+  async getCollectionBySlug(_slug: string): Promise<CollectionDetail | null> {
+    void _slug;
+    return null;
+  }
+
+  async listPublishedCollectionSlugs(_limit?: number): Promise<string[]> {
+    void _limit;
+    return [];
+  }
+
+  async listPublishedCollections(_limit?: number): Promise<CollectionSummary[]> {
+    void _limit;
+    return [];
+  }
+
+  async getCatalogueFacets(): Promise<SearchFacet[]> {
+    return [];
+  }
 }
 
 export { createSearchProvider } from "./create-provider";
-export { createProductCatalogue, getProductBySlug, listPublishedProductSlugs, resolveCatalogueImageUrl } from "./get-product";
+export {
+  createCollectionCatalogue,
+  getCatalogueFacets,
+  getCollectionBySlug,
+  listPublishedCollectionSlugs,
+  listPublishedCollections
+} from "./get-collection";
+export { createProductCatalogue, getProductBySlug, listPublishedProductSlugs, loadProductSummaries, resolveCatalogueImageUrl } from "./get-product";
 export { PostgresSearchProvider, createPostgresSearchProvider } from "./postgres-provider";
 export { mapProductToSummary, mapProductsToSummaries } from "./map-product";
 

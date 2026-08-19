@@ -1,11 +1,12 @@
-import { and, asc, eq, isNull } from "drizzle-orm";
+import { and, asc, eq, inArray, isNull } from "drizzle-orm";
 import {
   createDatabaseClient,
   productImages,
   products,
-  productVariants
+  productVariants,
+  type Product
 } from "@sjh/database";
-import type { ProductDetail } from "@sjh/shared";
+import type { ProductDetail, ProductSummary } from "@sjh/shared";
 import { productDetailSchema } from "@sjh/shared";
 import { mapProductToSummary } from "./map-product";
 
@@ -76,6 +77,55 @@ export async function getProductBySlug(
       })
       .filter((image): image is NonNullable<typeof image> => image !== null)
   });
+}
+
+export async function loadProductSummaries(
+  db: DatabaseClient,
+  productRows: Product[]
+): Promise<ProductSummary[]> {
+  if (productRows.length === 0) {
+    return [];
+  }
+
+  const productIds = productRows.map((row) => row.id);
+  const [variants, images] = await Promise.all([
+    db
+      .select()
+      .from(productVariants)
+      .where(and(inArray(productVariants.productId, productIds), isNull(productVariants.deletedAt))),
+    db
+      .select()
+      .from(productImages)
+      .where(and(inArray(productImages.productId, productIds), isNull(productImages.deletedAt)))
+      .orderBy(asc(productImages.sortOrder))
+  ]);
+
+  const variantsByProduct = groupRowsByProductId(variants);
+  const imagesByProduct = groupRowsByProductId(images);
+
+  return productRows.map((product) => {
+    const productVariantsForRow = variantsByProduct.get(product.id) ?? [];
+    const primaryImage = imagesByProduct.get(product.id)?.[0];
+    const primaryImageUrl = primaryImage ? resolveCatalogueImageUrl(primaryImage.url) : undefined;
+
+    return mapProductToSummary({
+      ...product,
+      variants: productVariantsForRow,
+      ...(primaryImageUrl ? { primaryImageUrl } : {})
+    });
+  });
+}
+
+function groupRowsByProductId<TRow extends { productId: string }>(rows: TRow[]): Map<string, TRow[]> {
+  const grouped = new Map<string, TRow[]>();
+
+  for (const row of rows) {
+    const existing = grouped.get(row.productId) ?? [];
+    existing.push(row);
+    grouped.set(row.productId, existing);
+  }
+
+  return grouped;
 }
 
 export async function listPublishedProductSlugs(

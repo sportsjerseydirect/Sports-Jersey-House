@@ -4,6 +4,10 @@ export function productDetailPath(slug: string): `/products/${string}` {
   return `/products/${slug}`;
 }
 
+export function collectionDetailPath(slug: string): `/collections/${string}` {
+  return `/collections/${slug}`;
+}
+
 export function formatProductPrice(amount: string, currencyCode: string): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",

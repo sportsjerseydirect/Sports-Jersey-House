@@ -3,9 +3,12 @@ import { env } from "@/lib/env";
 import { getSearchProvider } from "@/lib/search";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticRoutes = ["/", "/products", "/search"];
+  const staticRoutes = ["/", "/products", "/collections", "/search"];
   const search = getSearchProvider();
-  const productSlugs = await search.listPublishedProductSlugs();
+  const [productSlugs, collectionSlugs] = await Promise.all([
+    search.listPublishedProductSlugs(),
+    search.listPublishedCollectionSlugs()
+  ]);
 
   const staticEntries = staticRoutes.map((route) => ({
     url: new URL(route, env.APP_URL).toString(),
@@ -21,5 +24,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7
   }));
 
-  return [...staticEntries, ...productEntries];
+  const collectionEntries = collectionSlugs.map((slug) => ({
+    url: new URL(`/collections/${slug}`, env.APP_URL).toString(),
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.75
+  }));
+
+  return [...staticEntries, ...productEntries, ...collectionEntries];
 }

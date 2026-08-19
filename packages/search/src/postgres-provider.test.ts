@@ -28,4 +28,19 @@ describeIfDatabase("PostgresSearchProvider integration", () => {
     expect(product?.title).toBe("Chicago Bears Classic Home Jersey");
     expect(product?.variants.length).toBeGreaterThan(0);
   });
+
+  it("loads a seeded NFL collection with linked products", async () => {
+    const provider = createPostgresSearchProvider(databaseUrl!);
+    const collection = await provider.getCollectionBySlug("nfl-jerseys");
+
+    expect(collection?.title).toBe("NFL Jerseys");
+    expect(collection?.products.length).toBeGreaterThan(0);
+  });
+
+  it("returns catalogue facets for sport and league filters", async () => {
+    const provider = createPostgresSearchProvider(databaseUrl!);
+    const facets = await provider.getCatalogueFacets();
+
+    expect(facets.some((facet) => facet.field === "league" && facet.value === "NFL")).toBe(true);
+  });
 });

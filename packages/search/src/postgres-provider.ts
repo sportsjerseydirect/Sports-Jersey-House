@@ -6,10 +6,16 @@ import {
   productVariants,
   type Product
 } from "@sjh/database";
-import type { ProductDetail } from "@sjh/shared";
+import type { CollectionDetail, CollectionSummary, ProductDetail } from "@sjh/shared";
 import { buildPostgresFullTextQuery, normalizeSearchQuery } from "./index";
-import type { SearchProvider, SearchRequest, SearchResponse } from "./index";
+import type { SearchFacet, SearchProvider, SearchRequest, SearchResponse } from "./index";
 import { getProductBySlug, listPublishedProductSlugs, resolveCatalogueImageUrl } from "./get-product";
+import {
+  getCatalogueFacets,
+  getCollectionBySlug,
+  listPublishedCollectionSlugs,
+  listPublishedCollections
+} from "./get-collection";
 import { mapProductToSummary } from "./map-product";
 
 type DatabaseClient = ReturnType<typeof createDatabaseClient>;
@@ -132,6 +138,22 @@ export class PostgresSearchProvider implements SearchProvider {
 
   async listPublishedProductSlugs(limit?: number): Promise<string[]> {
     return listPublishedProductSlugs(this.db, limit);
+  }
+
+  async getCollectionBySlug(slug: string): Promise<CollectionDetail | null> {
+    return getCollectionBySlug(this.db, slug);
+  }
+
+  async listPublishedCollectionSlugs(limit?: number): Promise<string[]> {
+    return listPublishedCollectionSlugs(this.db, limit);
+  }
+
+  async listPublishedCollections(limit?: number): Promise<CollectionSummary[]> {
+    return listPublishedCollections(this.db, limit);
+  }
+
+  async getCatalogueFacets(): Promise<SearchFacet[]> {
+    return getCatalogueFacets(this.db);
   }
 }
 

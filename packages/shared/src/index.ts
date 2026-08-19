@@ -62,6 +62,20 @@ export const productDetailSchema = productSummarySchema.extend({
 });
 export type ProductDetail = z.infer<typeof productDetailSchema>;
 
+export const collectionSummarySchema = z.object({
+  id: z.string().uuid(),
+  slug: z.string().min(1),
+  title: z.string().min(1),
+  description: z.string().optional(),
+  status: productStatusSchema
+});
+export type CollectionSummary = z.infer<typeof collectionSummarySchema>;
+
+export const collectionDetailSchema = collectionSummarySchema.extend({
+  products: z.array(productSummarySchema).default([])
+});
+export type CollectionDetail = z.infer<typeof collectionDetailSchema>;
+
 export const seoDraftSchema = z.object({
   id: z.string().uuid(),
   targetType: z.enum(["product", "collection", "page"]),

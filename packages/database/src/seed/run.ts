@@ -1,4 +1,4 @@
-import { seedDevCatalog } from "./index";
+import { seedDevCatalog, seedDevCollections } from "./index";
 
 function resolveDatabaseUrl(): string {
   const databaseUrl = process.env.DATABASE_URL;
@@ -11,14 +11,23 @@ function resolveDatabaseUrl(): string {
 }
 
 async function main(): Promise<void> {
-  const result = await seedDevCatalog(resolveDatabaseUrl());
+  const databaseUrl = resolveDatabaseUrl();
+  const catalogResult = await seedDevCatalog(databaseUrl);
 
-  if (result.skipped) {
+  if (catalogResult.skipped) {
     console.log("Dev catalogue seed skipped — records already present.");
+  } else {
+    console.log(`Dev catalogue seed complete — inserted ${catalogResult.inserted} products.`);
+  }
+
+  const collectionsResult = await seedDevCollections(databaseUrl);
+
+  if (collectionsResult.skipped) {
+    console.log("Dev collections seed skipped — records already present.");
     return;
   }
 
-  console.log(`Dev catalogue seed complete — inserted ${result.inserted} products.`);
+  console.log(`Dev collections seed complete — inserted ${collectionsResult.inserted} collections.`);
 }
 
 main().catch((error: unknown) => {

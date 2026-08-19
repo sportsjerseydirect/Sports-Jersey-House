@@ -1,12 +1,13 @@
-import Link from "next/link";
-import {
-  catalogueSummaryCount,
-  formatProductPrice,
-  hasCatalogueResults,
-  productDetailPath
-} from "@/lib/products";
+import { FacetNav } from "@/components/facet-nav";
+import { ProductGrid } from "@/components/product-grid";
+import { parseCatalogueFilters } from "@/lib/filters";
+import { catalogueSummaryCount, hasCatalogueResults } from "@/lib/products";
 import { getSearchProvider } from "@/lib/search";
 import { createMetadata } from "@/lib/seo";
+
+type ProductsPageProps = {
+  searchParams: Promise<{ league?: string; sport?: string }>;
+};
 
 export const dynamic = "force-dynamic";
 
@@ -17,9 +18,14 @@ export const metadata = createMetadata({
   path: "/products"
 });
 
-export default async function ProductsPage() {
+export default async function ProductsPage({ searchParams }: ProductsPageProps) {
+  const params = await searchParams;
+  const filterParams = { league: params.league, sport: params.sport };
   const search = getSearchProvider();
-  const response = await search.search({ query: "", limit: 24 });
+  const [response, facets] = await Promise.all([
+    search.search({ query: "", filters: parseCatalogueFilters(filterParams), limit: 24 }),
+    search.getCatalogueFacets()
+  ]);
   const hasDatabaseResults = hasCatalogueResults(response);
 
   return (
@@ -33,55 +39,37 @@ export default async function ProductsPage() {
         </p>
       </div>
 
+      <FacetNav facets={facets} params={filterParams} path="/products" />
+
       {hasDatabaseResults ? (
         <>
           <p className="catalogue-summary">{catalogueSummaryCount(response)} products available</p>
-          <section className="product-grid" aria-label="Product catalogue">
-            {response.results.map(({ product }) => (
-              <Link className="product-card" href={productDetailPath(product.slug)} key={product.id}>
-                <div className="product-card-media">
-                  {product.primaryImageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img alt={product.title} height={800} src={product.primaryImageUrl} width={600} />
-                  ) : (
-                    <div className="product-card-fallback" aria-hidden="true">
-                      SJH
-                    </div>
-                  )}
-                </div>
-                <div className="product-card-body">
-                  <p className="product-card-meta">
-                    {[product.league, product.team].filter(Boolean).join(" · ")}
-                  </p>
-                  <h2>{product.title}</h2>
-                  {product.price ? (
-                    <p className="product-card-price">
-                      {formatProductPrice(product.price.amount, product.price.currencyCode)}
-                    </p>
-                  ) : null}
-                </div>
-              </Link>
-            ))}
-          </section>
+          <ProductGrid
+            ariaLabel="Product catalogue"
+            products={response.results.map((result) => result.product)}
+          />
         </>
       ) : (
         <section className="empty-state">
-          <h2>No products indexed yet</h2>
+          <h2>{params.league || params.sport ? "No products match these filters" : "No products indexed yet"}</h2>
           <p>
-            Start local infrastructure, run migrations, then seed development catalogue data. Shopify sync stays off until
-            explicitly approved.
+            {params.league || params.sport
+              ? "Try clearing filters or choose another league or sport."
+              : "Start local infrastructure, run migrations, then seed development catalogue data. Shopify sync stays off until explicitly approved."}
           </p>
-          <ol>
-            <li>
-              <code>pnpm infra:up</code>
-            </li>
-            <li>
-              <code>pnpm db:migrate</code>
-            </li>
-            <li>
-              <code>pnpm db:seed</code>
-            </li>
-          </ol>
+          {!params.league && !params.sport ? (
+            <ol>
+              <li>
+                <code>pnpm infra:up</code>
+              </li>
+              <li>
+                <code>pnpm db:migrate</code>
+              </li>
+              <li>
+                <code>pnpm db:seed</code>
+              </li>
+            </ol>
+          ) : null}
         </section>
       )}
     </main>
