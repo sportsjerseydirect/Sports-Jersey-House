@@ -40,6 +40,18 @@ infrastructure/ IaC (future)
 
 The `/products` page reads from PostgreSQL through `packages/search`. Shopify sync remains disabled (`ENABLE_SHOPIFY_SYNC=false`).
 
+### Local routes (after seed)
+
+| Route | Purpose |
+|-------|---------|
+| `/products` | Full catalogue with sport/league facet filters |
+| `/products/[slug]` | Product detail with JSON-LD |
+| `/collections` | League collections index (NFL, NBA, NHL) |
+| `/collections/[slug]` | Collection product grid |
+| `/search?q=` | Full-text search with facet filters |
+
+Re-run `pnpm db:seed` after pulling collection seed changes if products were seeded before collections support was added.
+
 ## Important Constraints
 
 - **Do not** commit `.env` or any secrets.
