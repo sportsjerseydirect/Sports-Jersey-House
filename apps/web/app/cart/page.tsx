@@ -1,6 +1,10 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import type { Metadata } from "next";
+import { formatProductPrice, productDetailPath } from "@/lib/products";
+import { loadCart } from "@/lib/cart";
 import { createMetadata } from "@/lib/seo";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = createMetadata({
   title: "Cart | Sports Jersey House",
@@ -8,23 +12,73 @@ export const metadata: Metadata = createMetadata({
   path: "/cart"
 });
 
-export default function CartPage() {
+export default async function CartPage() {
+  const cart = await loadCart();
+
   return (
     <main className="page-shell">
       <div className="page-heading">
         <p className="eyebrow">Cart</p>
         <h1>Your cart</h1>
-        <p>Checkout architecture is being built. Cart persistence will connect to PostgreSQL and Stripe.</p>
+        <p>{cart.itemCount > 0 ? `${cart.itemCount} items ready for checkout.` : "Your cart is empty."}</p>
       </div>
-      <section className="empty-state">
-        <h2>Cart is empty</h2>
-        <p>Browse the catalogue while we prepare secure checkout.</p>
-        <div className="actions">
-          <Link className="button primary" href="/products">
-            Shop products
-          </Link>
-        </div>
-      </section>
+
+      {cart.items.length > 0 ? (
+        <section className="cart-layout" aria-label="Cart items">
+          <ul className="cart-items">
+            {cart.items.map((item) => (
+              <li className="cart-item" key={item.id}>
+                <div className="cart-item-media">
+                  {item.imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img alt={item.productTitle} height={120} src={item.imageUrl} width={90} />
+                  ) : (
+                    <div className="product-card-fallback" aria-hidden="true">
+                      SJH
+                    </div>
+                  )}
+                </div>
+                <div className="cart-item-body">
+                  <Link href={productDetailPath(item.productSlug)}>
+                    <h2>{item.productTitle}</h2>
+                  </Link>
+                  <p>{item.variantTitle}</p>
+                  <p>
+                    {formatProductPrice(item.priceAmount, item.currencyCode)} × {item.quantity}
+                  </p>
+                </div>
+                <p className="cart-item-total">
+                  {formatProductPrice(item.lineTotalAmount, item.currencyCode)}
+                </p>
+              </li>
+            ))}
+          </ul>
+
+          <aside className="cart-summary">
+            <h2>Order summary</h2>
+            <dl>
+              <div>
+                <dt>Subtotal</dt>
+                <dd>{formatProductPrice(cart.subtotalAmount, cart.currencyCode)}</dd>
+              </div>
+            </dl>
+            <p className="cart-note">Checkout with Stripe will be connected in a later phase.</p>
+            <Link className="button primary" href="/products">
+              Continue shopping
+            </Link>
+          </aside>
+        </section>
+      ) : (
+        <section className="empty-state">
+          <h2>Cart is empty</h2>
+          <p>Browse the catalogue and add a jersey to get started.</p>
+          <div className="actions">
+            <Link className="button primary" href="/products">
+              Shop products
+            </Link>
+          </div>
+        </section>
+      )}
     </main>
   );
 }

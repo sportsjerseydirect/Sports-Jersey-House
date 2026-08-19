@@ -20,6 +20,14 @@ import { embeddingVector } from "./pg-types";
 export { fromExtractionCheckpoint, parseMigrationCheckpointPayload, toExtractionCheckpoint } from "./checkpoints";
 export { verifyMigration } from "./verify-migration";
 export type { MigrationVerificationResult } from "./verify-migration";
+export {
+  addItemToCart,
+  getCartBySessionId,
+  getOrCreateCart,
+  removeCartItem,
+  updateCartItemQuantity
+} from "./cart";
+export type { CartLineItem, CartSnapshot } from "./cart";
 
 export const productStatus = pgEnum("product_status", ["draft", "review", "published", "archived"]);
 export const approvalStatus = pgEnum("approval_status", [
@@ -120,6 +128,7 @@ export const collections = pgTable(
     title: text("title").notNull(),
     description: text("description"),
     status: productStatus("status").notNull().default("draft"),
+    sourcePayload: jsonb("source_payload"),
     ...auditColumns
   },
   (table) => ({
@@ -239,6 +248,55 @@ export const migrationCheckpoints = pgTable(
   })
 );
 
+export const carts = pgTable(
+  "carts",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    sessionId: text("session_id").notNull(),
+    currencyCode: text("currency_code").notNull().default("USD"),
+    customerId: uuid("customer_id"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
+  },
+  (table) => ({
+    sessionIdx: uniqueIndex("carts_session_id_idx").on(table.sessionId)
+  })
+);
+
+export const cartItems = pgTable(
+  "cart_items",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    cartId: uuid("cart_id")
+      .notNull()
+      .references(() => carts.id, { onDelete: "cascade" }),
+    productId: uuid("product_id")
+      .notNull()
+      .references(() => products.id),
+    variantId: uuid("variant_id")
+      .notNull()
+      .references(() => productVariants.id),
+    quantity: integer("quantity").notNull().default(1),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
+  },
+  (table) => ({
+    cartVariantIdx: uniqueIndex("cart_items_cart_variant_idx").on(table.cartId, table.variantId),
+    cartIdx: index("cart_items_cart_id_idx").on(table.cartId),
+    variantIdx: index("cart_items_variant_id_idx").on(table.variantId)
+  })
+);
+
+export const cartsRelations = relations(carts, ({ many }) => ({
+  items: many(cartItems)
+}));
+
+export const cartItemsRelations = relations(cartItems, ({ one }) => ({
+  cart: one(carts, { fields: [cartItems.cartId], references: [carts.id] }),
+  product: one(products, { fields: [cartItems.productId], references: [products.id] }),
+  variant: one(productVariants, { fields: [cartItems.variantId], references: [productVariants.id] })
+}));
+
 export const productsRelations = relations(products, ({ many }) => ({
   variants: many(productVariants),
   images: many(productImages)
@@ -265,10 +323,15 @@ export function createDatabaseClient(databaseUrl: string) {
       complianceFlags,
       creativeAssets,
       migrationRuns,
-      migrationCheckpoints
+      migrationCheckpoints,
+      carts,
+      cartItems
     }
   });
 }
+
+export type Cart = typeof carts.$inferSelect;
+export type CartItem = typeof cartItems.$inferSelect;
 
 export type Product = typeof products.$inferSelect;
 export type NewProduct = typeof products.$inferInsert;

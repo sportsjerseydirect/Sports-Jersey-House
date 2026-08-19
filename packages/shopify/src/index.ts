@@ -188,6 +188,19 @@ export type ShopifyProductsResponse = {
   products: ShopifyConnection<ShopifyProductNode>;
 };
 
+export type ShopifyCollectionNode = {
+  id: string;
+  handle: string;
+  title: string;
+  descriptionHtml: string;
+  updatedAt: string;
+  products: ShopifyConnection<{ id: string }>;
+};
+
+export type ShopifyCollectionsResponse = {
+  collections: ShopifyConnection<ShopifyCollectionNode>;
+};
+
 export const SHOPIFY_PRODUCTS_QUERY = `#graphql
   query ProductsPage($first: Int!, $after: String) {
     products(first: $first, after: $after, sortKey: UPDATED_AT) {
@@ -257,6 +270,48 @@ export async function fetchProductsPage(
   });
 }
 
+export const SHOPIFY_COLLECTIONS_QUERY = `#graphql
+  query CollectionsPage($first: Int!, $after: String) {
+    collections(first: $first, after: $after, sortKey: UPDATED_AT) {
+      edges {
+        cursor
+        node {
+          id
+          handle
+          title
+          descriptionHtml
+          updatedAt
+          products(first: 250) {
+            edges {
+              node {
+                id
+              }
+            }
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+`;
+
+export async function fetchCollectionsPage(
+  client: ShopifyGraphqlClient,
+  checkpoint: Pick<ExtractionCheckpoint, "cursor">,
+  first = 50
+): Promise<ShopifyCollectionsResponse> {
+  return client.graphql<ShopifyCollectionsResponse>({
+    query: SHOPIFY_COLLECTIONS_QUERY,
+    variables: {
+      first,
+      after: checkpoint.cursor
+    }
+  });
+}
+
 export function parseShopifyConfig(env: NodeJS.ProcessEnv): ShopifyConfig {
   return shopifyConfigSchema.parse({
     storeDomain: env.SHOPIFY_STORE_DOMAIN,
@@ -277,6 +332,14 @@ export { extractProductsPage } from "./migration/products-extract";
 export type { ExtractProductsPageOptions, ExtractProductsPageResult } from "./migration/products-extract";
 export { extractAllProducts } from "./migration/extract-all-products";
 export type { ExtractAllProductsOptions, ExtractAllProductsResult } from "./migration/extract-all-products";
+export { extractCollectionsPage } from "./migration/collections-extract";
+export type { ExtractCollectionsPageOptions, ExtractCollectionsPageResult } from "./migration/collections-extract";
+export { extractAllCollections } from "./migration/extract-all-collections";
+export type { ExtractAllCollectionsOptions, ExtractAllCollectionsResult } from "./migration/extract-all-collections";
+export { mapShopifyCollectionToInternal } from "./mappers/shopify-collection-to-internal";
+export type { InternalCollectionDraft } from "./mappers/shopify-collection-to-internal";
+export { upsertShopifyCollections } from "./load/upsert-collections";
+export type { UpsertCollectionsResult } from "./load/upsert-collections";
 
 export function normalizeShopifyStoreDomain(value: string): string {
   const trimmed = value.trim().replace(/^https?:\/\//, "").replace(/\/$/, "");

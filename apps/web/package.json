@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@sjh/ai": "workspace:*",
+    "@sjh/database": "workspace:*",
     "@sjh/search": "workspace:*",
     "@sjh/shared": "workspace:*",
     "@sjh/worker": "workspace:*",

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AddToCartButton } from "@/components/add-to-cart-button";
 import { formatProductPrice } from "@/lib/products";
 import { getSearchProvider } from "@/lib/search";
 import { breadcrumbJsonLd, createMetadata, productJsonLd } from "@/lib/seo";
@@ -89,9 +90,12 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           <h1>{product.title}</h1>
           {product.description ? <p className="product-detail-description">{product.description}</p> : null}
           {primaryVariant ? (
-            <p className="product-detail-price">
-              {formatProductPrice(primaryVariant.price.amount, primaryVariant.price.currencyCode)}
-            </p>
+            <>
+              <p className="product-detail-price">
+                {formatProductPrice(primaryVariant.price.amount, primaryVariant.price.currencyCode)}
+              </p>
+              <AddToCartButton disabled={!primaryVariant.isAvailable} variantId={primaryVariant.id} />
+            </>
           ) : null}
           {product.variants.length > 0 ? (
             <div className="product-detail-variants">
