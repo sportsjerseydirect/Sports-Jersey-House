@@ -78,11 +78,22 @@ Copy `.env.example` to `.env`. **Never commit `.env`.**
 
 When approved, set `ENABLE_SHOPIFY_SYNC=true` and run extraction via worker CLI (see below).
 
-### Production (Supabase + Vercel — when ready)
+### Supabase (staging/production DB)
+
+Project **Sports Jersey House** exists (`vergndtgsrqaqvsjtbds`, region `us-west-2`). Schema migrations `0000_foundation` + `0001_carts` have been applied via MCP (empty catalogue).
+
+| Variable | Purpose |
+|----------|---------|
+| `DATABASE_URL` | Supabase **pooler** connection string (Session or Transaction mode) — replace local Docker URL when developing against cloud |
+| `NEXT_PUBLIC_SUPABASE_URL` | Optional; only needed when Supabase Auth/client SDK is added |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Optional; publishable/anon key for client SDK later |
+
+App runtime today uses **direct Postgres** via Drizzle (`DATABASE_URL`), not the Supabase JS client. Keep `ENABLE_SHOPIFY_SYNC=false` until migration is approved.
+
+### Vercel
 
 | Service | Variables |
 |---------|-----------|
-| Supabase | `DATABASE_URL` (pooler URL), Supabase project URL, anon/service keys for auth |
 | Vercel | Project linked to repo; env vars mirrored from Supabase + feature flags |
 | OpenAI | `OPENAI_API_KEY` (when AI agents are enabled) |
 

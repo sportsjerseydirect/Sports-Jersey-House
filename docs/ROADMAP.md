@@ -25,7 +25,8 @@
 - [x] Worker CLI for extraction
 - [x] CI Postgres service + integration tests
 - [x] Admin auth scaffold (optional — open in dev when `ADMIN_PASSWORD` unset)
-- [ ] ISR for stable catalogue pages
+- [x] ISR for product/collection detail pages (`revalidate = 3600`)
+- [x] Session cart (PostgreSQL + API routes + header count)
 
 ## Phase 2 — Shopify Migration (Extract & Load)
 
@@ -36,11 +37,11 @@
 - [x] Resumable checkpoint model (`migration_runs`, `migration_checkpoints`)
 - [x] Product page extraction (100 products/page, individual upserts)
 - [x] Full bulk extract runner (all pages, rate-limit aware)
-- [ ] Collections extract + membership
+- [x] Collections extract + membership (CLI + BullMQ worker; gated)
 - [ ] Redirects extract
 - [ ] Media download to object storage (not hotlink Shopify CDN)
 - [ ] Migration verification reports (counts, sample audit)
-- [ ] Staging deploy on Vercel + Supabase
+- [ ] Staging deploy on Vercel + Supabase (project exists; schema applied; app not wired yet)
 
 ## Phase 3 — AI Enrichment
 
@@ -59,7 +60,8 @@
 **Goal:** Premium shopping experience with AI assistance.
 
 - [x] Design system foundation (tokens, logo concepts, footer, favicon)
-- [ ] Cart + checkout architecture (Stripe)
+- [x] Guest cart (session cookie) — Stripe checkout still deferred
+- [ ] Checkout (Stripe)
 - [ ] Customer accounts (Supabase Auth)
 - [ ] AI shopping assistant (grounded in catalogue data)
 - [ ] Semantic search (pgvector embeddings)
@@ -80,12 +82,12 @@
 
 ## Current Focus
 
-**Phase 1 completion + Phase 2 preparation:**
+**Wire Supabase + finish Phase 2 readiness:**
 
-1. Harden CI with Postgres integration tests
-2. Bulk extraction CLI (safe, checkpointed, no single giant transaction)
-3. Admin authentication before any write operations
-4. Vercel + Supabase project setup (when credentials provided)
+1. Point `DATABASE_URL` at Supabase (pooler) and seed / verify
+2. Enable RLS on public tables (Data API lockdown; app uses direct Postgres)
+3. Provide Shopify client-credentials and approve `ENABLE_SHOPIFY_SYNC` for extract
+4. Link Vercel project / Git remote for staging deploy
 
 ---
 

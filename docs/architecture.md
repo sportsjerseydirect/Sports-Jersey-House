@@ -54,11 +54,11 @@ flowchart TB
 | Path | Status | Purpose |
 |------|--------|---------|
 | `apps/web` | **Live** | Storefront, admin dashboard shell, SEO, health API |
-| `apps/worker` | **Scaffold** | Queue names, job envelopes, CLI extract runner |
-| `packages/database` | **Live** | Drizzle schema, 1 migration, seed, verify, checkpoints |
+| `apps/worker` | **Partial** | BullMQ product/collection extract workers + CLIs |
+| `packages/database` | **Live** | Drizzle schema, migrations `0000`+`0001` (carts), seed, verify |
 | `packages/search` | **Live** | Postgres FTS provider + empty fallback |
-| `packages/shopify` | **Partial** | Client-credentials auth, product page extract + load |
-| `packages/ai` | **Contracts** | Provider interface, disabled stub, brand brief |
+| `packages/shopify` | **Partial** | Client-credentials auth; product + collection extract/load (gated) |
+| `packages/ai` | **Partial** | Provider interface, OpenAI provider, disabled fallback, brand brief |
 | `packages/shared` | **Live** | Zod schemas, migration checkpoint types |
 
 ---
@@ -71,14 +71,16 @@ flowchart TB
 
 | Route | Rendering | Notes |
 |-------|-----------|-------|
-| `/` | Static | Marketing homepage, brand brief from `@sjh/ai` |
+| `/` | `force-dynamic` | Homepage with live collections / featured products |
 | `/products` | `force-dynamic` | PLP with sport/league facets |
-| `/products/[slug]` | `force-dynamic` | PDP + Product/Breadcrumb JSON-LD |
-| `/collections` | `force-dynamic` | Collection index |
-| `/collections/[slug]` | `force-dynamic` | Collection PLP |
+| `/products/[slug]` | ISR (`revalidate=3600`) | PDP + Product/Breadcrumb JSON-LD |
+| `/collections` | ISR | Collection index |
+| `/collections/[slug]` | ISR (`revalidate=3600`) | Collection PLP |
 | `/search` | `force-dynamic` | Full-text search |
-| `/admin` | `force-dynamic` | Feature flags, catalogue stats, queue list (**no auth yet**) |
-| `/api/health` | Dynamic | JSON health payload |
+| `/cart` | `force-dynamic` | Session cart with qty controls |
+| `/admin` | `force-dynamic` | Status dashboard; auth only when `ADMIN_PASSWORD` set |
+| `/api/health` | Dynamic | JSON health (pings Postgres) |
+| `/api/cart/*` | Dynamic | Guest cart API |
 | `/sitemap.xml` | Dynamic | From published slugs |
 | `/robots.txt` | Static config | Allows crawl, references sitemap |
 
@@ -88,7 +90,7 @@ CSS custom properties in `globals.css`: `--ink`, `--muted`, `--soft`, `--ember`,
 
 ### Data access pattern
 
-Web does **not** import `@sjh/database` directly. All catalogue reads go through `packages/search` → `PostgresSearchProvider` or `EmptySearchProvider`.
+Catalogue reads go through `packages/search` → `PostgresSearchProvider` or `EmptySearchProvider`. **Exception:** guest cart uses `@sjh/database` directly (`apps/web/src/lib/cart.ts`).
 
 ---
 
