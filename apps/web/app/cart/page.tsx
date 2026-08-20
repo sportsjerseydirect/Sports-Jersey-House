@@ -1,3 +1,4 @@
+import type { Route } from "next";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CartLineControls } from "@/components/cart-line-controls";
@@ -65,7 +66,10 @@ export default async function CartPage() {
               </div>
             </dl>
             <p className="cart-note">Checkout with Stripe will be connected in a later phase.</p>
-            <Link className="button primary" href="/products">
+            <Link className="button primary" href={"/checkout" as Route}>
+              Proceed to checkout
+            </Link>
+            <Link className="button secondary" href="/products">
               Continue shopping
             </Link>
           </aside>

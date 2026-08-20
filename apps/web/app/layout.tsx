@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { BrandMark } from "@/components/brand-mark";
-import { CartNavLink } from "@/components/cart-nav-link";
 import { SiteFooter } from "@/components/site-footer";
+import { SiteHeaderShell } from "@/components/site-header-shell";
 import { createMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import "./globals.css";
 
@@ -27,19 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             __html: JSON.stringify([organizationJsonLd(), websiteJsonLd()])
           }}
         />
-        <header className="site-header">
-          <Link href="/" className="brand-link" aria-label="Sports Jersey House home">
-            <BrandMark />
-            <span>Sports Jersey House</span>
-          </Link>
-          <nav className="site-nav" aria-label="Primary navigation">
-            <Link href="/products">Products</Link>
-            <Link href="/collections">Collections</Link>
-            <Link href="/search">Search</Link>
-            <CartNavLink />
-            <Link href="/admin">Admin</Link>
-          </nav>
-        </header>
+        <SiteHeaderShell />
         {children}
         <SiteFooter />
       </body>

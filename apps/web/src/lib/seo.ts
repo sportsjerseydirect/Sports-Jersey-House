@@ -6,14 +6,16 @@ type SeoInput = {
   title: string;
   description: string;
   path?: string;
+  noIndex?: boolean;
 };
 
-export function createMetadata({ title, description, path = "/" }: SeoInput): Metadata {
+export function createMetadata({ title, description, path = "/", noIndex = false }: SeoInput): Metadata {
   const canonical = new URL(path, env.APP_URL).toString();
 
   return {
     title,
     description,
+    ...(noIndex ? { robots: { index: false, follow: false } } : {}),
     alternates: {
       canonical
     },
