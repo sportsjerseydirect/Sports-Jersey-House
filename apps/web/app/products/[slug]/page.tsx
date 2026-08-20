@@ -97,19 +97,19 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           <h1>{product.title}</h1>
           {product.description ? <p className="product-detail-description">{product.description}</p> : null}
           {primaryVariant ? (
-            <>
+            <div className="pdp-purchase">
               <p className="product-detail-price">
                 {formatProductPrice(primaryVariant.price.amount, primaryVariant.price.currencyCode)}
               </p>
               <AddToCartButton disabled={!primaryVariant.isAvailable} variantId={primaryVariant.id} />
-            </>
+            </div>
           ) : null}
           {product.variants.length > 0 ? (
             <div className="product-detail-variants">
               <h2>Available sizes</h2>
               <ul>
                 {product.variants.map((variant) => (
-                  <li key={variant.id}>
+                  <li key={variant.id} className={variant.isAvailable ? undefined : "is-unavailable"}>
                     <span>{variant.title}</span>
                     {variant.sku ? <span className="product-detail-sku">{variant.sku}</span> : null}
                     <span>

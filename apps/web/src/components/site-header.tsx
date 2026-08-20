@@ -11,9 +11,14 @@ const navLinks = [
   { href: "/search", label: "Search" }
 ] as const;
 
-function useCartLabel(): string {
+type CartState = {
+  label: string;
+  count: number;
+};
+
+function useCartState(): CartState {
   const pathname = usePathname();
-  const [cartLabel, setCartLabel] = useState("Cart");
+  const [cart, setCart] = useState<CartState>({ label: "Cart", count: 0 });
 
   useEffect(() => {
     let cancelled = false;
@@ -29,30 +34,40 @@ function useCartLabel(): string {
         const count = body.cart?.itemCount ?? 0;
 
         if (!cancelled) {
-          setCartLabel(count > 0 ? `Cart (${count})` : "Cart");
+          setCart({
+            count,
+            label: count > 0 ? `Cart (${count})` : "Cart"
+          });
         }
       } catch {
         if (!cancelled) {
-          setCartLabel("Cart");
+          setCart({ label: "Cart", count: 0 });
         }
       }
     }
 
     void loadCartLabel();
 
+    function onCartUpdated() {
+      void loadCartLabel();
+    }
+
+    window.addEventListener("sjh:cart-updated", onCartUpdated);
+
     return () => {
       cancelled = true;
+      window.removeEventListener("sjh:cart-updated", onCartUpdated);
     };
   }, [pathname]);
 
-  return cartLabel;
+  return cart;
 }
 
 export function SiteHeader() {
   const pathname = usePathname();
   const menuId = useId();
   const [menuOpen, setMenuOpen] = useState(false);
-  const cartLabel = useCartLabel();
+  const cart = useCartState();
 
   useEffect(() => {
     setMenuOpen(false);
@@ -65,6 +80,21 @@ export function SiteHeader() {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (!menuOpen) {
+      return;
+    }
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
+
   return (
     <header className="site-header">
       <Link href="/" className="brand-link" aria-label="Sports Jersey House home">
@@ -74,7 +104,7 @@ export function SiteHeader() {
 
       <nav className="site-nav site-nav-desktop" aria-label="Primary navigation">
         {navLinks.map((link) => (
-          <Link href={link.href} key={link.href}>
+          <Link href={link.href} key={link.href} className={pathname === link.href ? "is-active" : undefined}>
             {link.label}
           </Link>
         ))}
@@ -92,19 +122,23 @@ export function SiteHeader() {
             type="search"
           />
         </form>
-        <Link href="/cart">{cartLabel}</Link>
+        <Link className="cart-link" href="/cart" aria-label={cart.label}>
+          Cart
+          {cart.count > 0 ? <span className="cart-badge">{cart.count}</span> : null}
+        </Link>
       </nav>
 
       <div className="site-header-actions">
         <Link className="header-icon-link" href="/search" aria-label="Search">
           Search
         </Link>
-        <Link className="header-cart-mobile" href="/cart" aria-label={cartLabel}>
-          {cartLabel}
+        <Link className="header-cart-mobile cart-link" href="/cart" aria-label={cart.label}>
+          Cart
+          {cart.count > 0 ? <span className="cart-badge">{cart.count}</span> : null}
         </Link>
         <button
           type="button"
-          className="nav-toggle"
+          className={`nav-toggle${menuOpen ? " is-open" : ""}`}
           aria-expanded={menuOpen}
           aria-controls={menuId}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -118,7 +152,7 @@ export function SiteHeader() {
 
       <div
         className={`mobile-nav-backdrop${menuOpen ? " is-open" : ""}`}
-        aria-hidden="true"
+        aria-hidden={!menuOpen}
         onClick={() => setMenuOpen(false)}
       />
 
@@ -147,12 +181,16 @@ export function SiteHeader() {
             </button>
           </form>
           {navLinks.map((link) => (
-            <Link className="mobile-nav-link" href={link.href} key={link.href}>
+            <Link
+              className={`mobile-nav-link${pathname === link.href ? " is-active" : ""}`}
+              href={link.href}
+              key={link.href}
+            >
               {link.label}
             </Link>
           ))}
           <Link className="mobile-nav-link mobile-nav-cart" href="/cart">
-            {cartLabel}
+            {cart.label}
           </Link>
         </div>
       </nav>

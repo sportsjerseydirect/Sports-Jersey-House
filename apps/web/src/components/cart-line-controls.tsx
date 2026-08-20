@@ -31,6 +31,7 @@ export function CartLineControls({ itemId, quantity }: CartLineControlsProps) {
       return;
     }
 
+    window.dispatchEvent(new Event("sjh:cart-updated"));
     router.refresh();
   }
 
@@ -48,6 +49,7 @@ export function CartLineControls({ itemId, quantity }: CartLineControlsProps) {
       return;
     }
 
+    window.dispatchEvent(new Event("sjh:cart-updated"));
     router.refresh();
   }
 

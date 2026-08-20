@@ -15,7 +15,14 @@ export function ProductGrid({ products, ariaLabel }: ProductGridProps) {
           <div className="product-card-media">
             {product.primaryImageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img alt={product.title} height={800} src={product.primaryImageUrl} width={600} />
+              <img
+                alt={product.title}
+                decoding="async"
+                height={800}
+                loading="lazy"
+                src={product.primaryImageUrl}
+                width={600}
+              />
             ) : (
               <div className="product-card-fallback" aria-hidden="true">
                 SJH
