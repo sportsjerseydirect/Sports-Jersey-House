@@ -1,6 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" role="img" aria-label="Jersey placeholder">
-  <rect width="600" height="800" fill="#232427"/>
-  <rect x="180" y="120" width="240" height="80" rx="8" fill="#3c3d3f"/>
-  <text x="300" y="470" fill="#ffffff" font-family="system-ui, sans-serif" font-size="48" font-weight="700" text-anchor="middle">SJH</text>
-  <text x="300" y="540" fill="#c99a43" font-family="system-ui, sans-serif" font-size="22" font-weight="600" text-anchor="middle">Dev catalogue</text>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1b1f"/>
+      <stop offset="100%" stop-color="#2c2e34"/>
+    </linearGradient>
+    <linearGradient id="stripe" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#b9452f"/>
+      <stop offset="100%" stop-color="#c99a43"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <path d="M150 160 L210 120 L270 170 L330 170 L390 120 L450 160 L430 250 L430 620 Q430 660 300 660 Q170 660 170 620 L170 250 Z" fill="#101114" stroke="#3a3b40" stroke-width="3"/>
+  <rect x="286" y="210" width="28" height="320" fill="url(#stripe)" opacity="0.9"/>
+  <text x="300" y="470" fill="#ffffff" font-family="system-ui, sans-serif" font-size="56" font-weight="800" text-anchor="middle">SJH</text>
+  <text x="300" y="520" fill="#c99a43" font-family="system-ui, sans-serif" font-size="18" font-weight="600" letter-spacing="2" text-anchor="middle">SPORTS JERSEY HOUSE</text>
 </svg>

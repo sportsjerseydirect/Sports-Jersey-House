@@ -7,7 +7,7 @@ export const revalidate = 3600;
 
 export const metadata = createMetadata({
   title: "Collections | Sports Jersey House",
-  description: "Browse development collections grouped by league in the local Sports Jersey House catalogue.",
+  description: "Shop sports jerseys by league — NFL, NBA, NHL, MLB, and Premier League.",
   path: "/collections"
 });
 
@@ -18,9 +18,9 @@ export default async function CollectionsPage() {
   return (
     <main className="page-shell">
       <div className="page-heading">
-        <p className="eyebrow">Collections</p>
+        <p className="eyebrow">Leagues</p>
         <h1>Shop by league</h1>
-        <p>Development collections seeded locally and linked to catalogue products by league metadata.</p>
+        <p>Find your team’s colours across the biggest leagues in sport.</p>
       </div>
 
       {collections.length > 0 ? (
@@ -35,8 +35,13 @@ export default async function CollectionsPage() {
         </section>
       ) : (
         <section className="empty-state">
-          <h2>No collections indexed yet</h2>
-          <p>Run migrations and seed development data to create NFL, NBA, and NHL collections locally.</p>
+          <h2>No collections yet</h2>
+          <p>League collections will appear here once the catalogue is connected.</p>
+          <div className="actions">
+            <Link className="button primary" href="/products">
+              Browse products
+            </Link>
+          </div>
         </section>
       )}
     </main>

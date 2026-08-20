@@ -307,10 +307,16 @@ export const migrationRunsRelations = relations(migrationRuns, ({ many }) => ({
 }));
 
 export function createDatabaseClient(databaseUrl: string) {
-  const queryClient = postgres(databaseUrl, {
+  const options: Parameters<typeof postgres>[1] = {
     max: 10,
     prepare: false
-  });
+  };
+
+  if (/supabase\.co|sslmode=require/i.test(databaseUrl)) {
+    options.ssl = "require";
+  }
+
+  const queryClient = postgres(databaseUrl, options);
 
   return drizzle(queryClient, {
     schema: {

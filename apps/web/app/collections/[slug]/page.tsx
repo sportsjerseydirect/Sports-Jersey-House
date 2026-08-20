@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductGrid } from "@/components/product-grid";
-import { staticPrerenderLimit } from "@/lib/isr";
+import { safeStaticSlugs } from "@/lib/isr";
 import { collectionDetailPath } from "@/lib/products";
 import { getSearchProvider } from "@/lib/search";
 import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
@@ -15,10 +15,7 @@ export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const search = getSearchProvider();
-  const limit = staticPrerenderLimit();
-  const slugs = await search.listPublishedCollectionSlugs(limit);
-
-  return slugs.map((slug) => ({ slug }));
+  return safeStaticSlugs((limit) => search.listPublishedCollectionSlugs(limit));
 }
 
 export async function generateMetadata({ params }: CollectionPageProps) {

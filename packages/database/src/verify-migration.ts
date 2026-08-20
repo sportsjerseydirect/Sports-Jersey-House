@@ -9,7 +9,16 @@ export type MigrationVerificationResult = {
 };
 
 export async function verifyMigration(databaseUrl: string): Promise<MigrationVerificationResult> {
-  const sql = postgres(databaseUrl, { max: 1, prepare: false });
+  const options: Parameters<typeof postgres>[1] = {
+    max: 1,
+    prepare: false
+  };
+
+  if (/supabase\.co|sslmode=require/i.test(databaseUrl)) {
+    options.ssl = "require";
+  }
+
+  const sql = postgres(databaseUrl, options);
 
   try {
     const extensions = await sql<{ extname: string }[]>`

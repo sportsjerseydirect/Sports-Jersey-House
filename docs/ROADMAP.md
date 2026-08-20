@@ -82,12 +82,14 @@
 
 ## Current Focus
 
-**Wire Supabase + finish Phase 2 readiness:**
+**Unblock local app against Supabase, then staging:**
 
-1. Point `DATABASE_URL` at Supabase (pooler) and seed / verify
-2. Enable RLS on public tables (Data API lockdown; app uses direct Postgres)
-3. Provide Shopify client-credentials and approve `ENABLE_SHOPIFY_SYNC` for extract
-4. Link Vercel project / Git remote for staging deploy
+1. Put the **real** database password into `DATABASE_URL` (replace any `[YOUR-PASSWORD]` placeholder)
+2. Confirm `pnpm db:verify` succeeds against the pooler
+3. Link Git remote + Vercel for staging deploy
+4. Shopify client-credentials only when extract is approved
+
+Supabase schema + RLS + 8-product/5-collection seed are already applied via MCP.
 
 ---
 

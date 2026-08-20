@@ -435,6 +435,14 @@ h2 {
   border-radius: var(--radius);
   background: var(--white);
   overflow: hidden;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.product-card:hover {
+  border-color: color-mix(in srgb, var(--ink) 22%, var(--line));
+  transform: translateY(-2px);
 }
 
 .product-card-media {
@@ -597,6 +605,48 @@ h2 {
   background: var(--white);
 }
 
+.header-search {
+  margin: 0 4px 0 8px;
+}
+
+.header-search input {
+  width: min(220px, 28vw);
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--soft);
+  font: inherit;
+  font-size: 0.9rem;
+  transition: border-color var(--duration-fast) var(--ease-out), background-color var(--duration-fast) var(--ease-out);
+}
+
+.header-search input:focus {
+  outline: 2px solid color-mix(in srgb, var(--ember) 35%, transparent);
+  outline-offset: 1px;
+  background: var(--white);
+}
+
+.header-icon-link {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.mobile-search {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.mobile-search input {
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font: inherit;
+}
+
 .facet-group h2 {
   margin: 0 0 10px;
   font-size: 0.82rem;
@@ -622,6 +672,15 @@ h2 {
   color: var(--muted);
   font-size: 0.88rem;
   font-weight: 700;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.facet-link:hover {
+  border-color: color-mix(in srgb, var(--ink) 28%, var(--line));
+  color: var(--ink);
 }
 
 .facet-link.is-active {
@@ -1047,6 +1106,27 @@ h2 {
 
   .search-submit {
     width: 100%;
+  }
+
+  .facet-nav {
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .facet-group {
+    width: 100%;
+  }
+
+  .facet-group ul {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .facet-link {
+    white-space: nowrap;
   }
 
   .site-header {

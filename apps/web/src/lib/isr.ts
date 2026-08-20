@@ -10,3 +10,19 @@ export function staticPrerenderLimit(): number | undefined {
 
   return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
 }
+
+/** Build-time slug fetch that never fails the build if the database is unreachable. */
+export async function safeStaticSlugs(
+  fetchSlugs: (limit?: number) => Promise<string[]>
+): Promise<Array<{ slug: string }>> {
+  try {
+    const slugs = await fetchSlugs(staticPrerenderLimit());
+    return slugs.map((slug) => ({ slug }));
+  } catch (error) {
+    console.warn(
+      "[isr] Skipping static params — catalogue unavailable:",
+      error instanceof Error ? error.message : error
+    );
+    return [];
+  }
+}

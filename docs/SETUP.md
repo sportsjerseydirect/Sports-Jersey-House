@@ -84,9 +84,11 @@ Project **Sports Jersey House** exists (`vergndtgsrqaqvsjtbds`, region `us-west-
 
 | Variable | Purpose |
 |----------|---------|
-| `DATABASE_URL` | Supabase **pooler** connection string (Session or Transaction mode) — replace local Docker URL when developing against cloud |
+| `DATABASE_URL` | Supabase **Session pooler** URI from Project Settings → Database |
 | `NEXT_PUBLIC_SUPABASE_URL` | Optional; only needed when Supabase Auth/client SDK is added |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Optional; publishable/anon key for client SDK later |
+
+**Important:** Replace any `[YOUR-PASSWORD]` / placeholder in the URI with the real database password (URL-encode special characters). Host should look like `aws-0-<region>.pooler.supabase.com` and username like `postgres.<project-ref>`.
 
 App runtime today uses **direct Postgres** via Drizzle (`DATABASE_URL`), not the Supabase JS client. Keep `ENABLE_SHOPIFY_SYNC=false` until migration is approved.
 

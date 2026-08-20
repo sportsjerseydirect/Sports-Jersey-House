@@ -45,10 +45,27 @@ export function SiteHeader({ cartLabel }: SiteHeaderProps) {
             {link.label}
           </Link>
         ))}
+        <form action="/search" className="header-search" method="get" role="search">
+          <label className="visually-hidden" htmlFor="header-search-q">
+            Search jerseys
+          </label>
+          <input
+            autoComplete="off"
+            enterKeyHint="search"
+            id="header-search-q"
+            inputMode="search"
+            name="q"
+            placeholder="Search teams…"
+            type="search"
+          />
+        </form>
         <Link href="/cart">{cartLabel}</Link>
       </nav>
 
       <div className="site-header-actions">
+        <Link className="header-icon-link" href="/search" aria-label="Search">
+          Search
+        </Link>
         <Link className="header-cart-mobile" href="/cart" aria-label={cartLabel}>
           {cartLabel}
         </Link>
@@ -66,7 +83,11 @@ export function SiteHeader({ cartLabel }: SiteHeaderProps) {
         </button>
       </div>
 
-      <div className={`mobile-nav-backdrop${menuOpen ? " is-open" : ""}`} aria-hidden="true" onClick={() => setMenuOpen(false)} />
+      <div
+        className={`mobile-nav-backdrop${menuOpen ? " is-open" : ""}`}
+        aria-hidden="true"
+        onClick={() => setMenuOpen(false)}
+      />
 
       <nav
         className={`mobile-nav${menuOpen ? " is-open" : ""}`}
@@ -75,6 +96,23 @@ export function SiteHeader({ cartLabel }: SiteHeaderProps) {
         aria-hidden={!menuOpen}
       >
         <div className="mobile-nav-inner">
+          <form action="/search" className="mobile-search" method="get" role="search">
+            <label className="visually-hidden" htmlFor="mobile-search-q">
+              Search jerseys
+            </label>
+            <input
+              autoComplete="off"
+              enterKeyHint="search"
+              id="mobile-search-q"
+              inputMode="search"
+              name="q"
+              placeholder="Search teams or leagues"
+              type="search"
+            />
+            <button className="button primary compact" type="submit">
+              Search
+            </button>
+          </form>
           {navLinks.map((link) => (
             <Link className="mobile-nav-link" href={link.href} key={link.href}>
               {link.label}
