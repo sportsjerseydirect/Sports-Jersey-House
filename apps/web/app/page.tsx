@@ -22,8 +22,8 @@ export default async function HomePage() {
     <main>
       <section className="hero">
         <div className="hero-copy">
-          <p className="eyebrow">Official-style jerseys</p>
-          <h1>Wear your team. Shop with confidence.</h1>
+          <p className="eyebrow">Sports Jersey House</p>
+          <h1>Wear your team.</h1>
           <p className="lede">
             Premium sports jerseys across NFL, NBA, NHL, MLB, and world football — curated for fans who
             expect quality, speed, and a polished mobile experience.
