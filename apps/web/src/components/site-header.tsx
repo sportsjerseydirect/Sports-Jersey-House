@@ -5,20 +5,54 @@ import { usePathname } from "next/navigation";
 import { useEffect, useId, useState } from "react";
 import { BrandMark } from "@/components/brand-mark";
 
-type SiteHeaderProps = {
-  cartLabel: string;
-};
-
 const navLinks = [
   { href: "/products", label: "Products" },
   { href: "/collections", label: "Collections" },
   { href: "/search", label: "Search" }
 ] as const;
 
-export function SiteHeader({ cartLabel }: SiteHeaderProps) {
+function useCartLabel(): string {
+  const pathname = usePathname();
+  const [cartLabel, setCartLabel] = useState("Cart");
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadCartLabel() {
+      try {
+        const response = await fetch("/api/cart", { cache: "no-store" });
+        if (!response.ok) {
+          return;
+        }
+
+        const body = (await response.json()) as { cart?: { itemCount?: number } };
+        const count = body.cart?.itemCount ?? 0;
+
+        if (!cancelled) {
+          setCartLabel(count > 0 ? `Cart (${count})` : "Cart");
+        }
+      } catch {
+        if (!cancelled) {
+          setCartLabel("Cart");
+        }
+      }
+    }
+
+    void loadCartLabel();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [pathname]);
+
+  return cartLabel;
+}
+
+export function SiteHeader() {
   const pathname = usePathname();
   const menuId = useId();
   const [menuOpen, setMenuOpen] = useState(false);
+  const cartLabel = useCartLabel();
 
   useEffect(() => {
     setMenuOpen(false);
