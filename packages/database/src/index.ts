@@ -328,19 +328,41 @@ export const migrationRunsRelations = relations(migrationRuns, ({ many }) => ({
   checkpoints: many(migrationCheckpoints)
 }));
 
+const databaseClients = new Map<string, ReturnType<typeof drizzle>>();
+
+function resolvePostgresPoolSize(): number {
+  // Supabase Session mode caps concurrent clients (often ~15). On Vercel each
+  // invocation used to open a fresh max:10 pool and leak them until EMAXCONNSESSION.
+  if (process.env.VERCEL || process.env.NODE_ENV === "production") {
+    return 1;
+  }
+
+  return 5;
+}
+
 export function createDatabaseClient(databaseUrl: string) {
+  const cached = databaseClients.get(databaseUrl);
+
+  if (cached) {
+    return cached;
+  }
+
   const options: Parameters<typeof postgres>[1] = {
-    max: 10,
-    prepare: false
+    max: resolvePostgresPoolSize(),
+    prepare: false,
+    idle_timeout: 20,
+    max_lifetime: 60 * 5,
+    connect_timeout: 10
   };
 
   if (/supabase\.co|sslmode=require/i.test(databaseUrl)) {
     options.ssl = "require";
   }
 
+  // Transaction pooler (6543) is preferred on serverless; session mode still works with max:1.
   const queryClient = postgres(databaseUrl, options);
 
-  return drizzle(queryClient, {
+  const db = drizzle(queryClient, {
     schema: {
       products,
       productVariants,
@@ -357,6 +379,9 @@ export function createDatabaseClient(databaseUrl: string) {
       redirects
     }
   });
+
+  databaseClients.set(databaseUrl, db);
+  return db;
 }
 
 export type Cart = typeof carts.$inferSelect;

@@ -35,7 +35,7 @@ Never commit `.env`.
 
 Required:
 
-- `DATABASE_URL` — Supabase **Session pooler** URI (same as local, password URL-encoded if needed)
+- `DATABASE_URL` — Supabase **Transaction pooler** URI preferred on Vercel (port `6543`, `prepare:false` already set). Session pooler (`5432`) works but caps concurrent clients (~15) and will 500 under load if the app opens many pools.
 - `APP_URL` — production URL, e.g. `https://sports-jersey-house.vercel.app`
 - `APP_NAME` — `Sports Jersey House`
 - `AUTH_SECRET` — long random string
