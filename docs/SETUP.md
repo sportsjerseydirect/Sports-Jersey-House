@@ -32,6 +32,12 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+Smoke-test the live catalogue (uses root `.env`):
+
+```bash
+pnpm --filter @sjh/web smoke
+```
+
 ### Local routes (after seed)
 
 | Route | Purpose |

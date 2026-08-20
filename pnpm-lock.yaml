@@ -41,9 +41,6 @@ importers:
       '@sjh/shared':
         specifier: workspace:*
         version: link:../../packages/shared
-      '@sjh/worker':
-        specifier: workspace:*
-        version: link:../worker
       next:
         specifier: ^15.5.2
         version: 15.5.23(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -72,6 +69,9 @@ importers:
       eslint-config-next:
         specifier: ^15.5.2
         version: 15.5.23(eslint@9.39.5)(typescript@5.9.3)
+      tsx:
+        specifier: ^4.20.5
+        version: 4.23.12
       typescript:
         specifier: ^5.9.2
         version: 5.9.3
@@ -90,6 +90,9 @@ importers:
       '@sjh/search':
         specifier: workspace:*
         version: link:../../packages/search
+      '@sjh/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       '@sjh/shopify':
         specifier: workspace:*
         version: link:../../packages/shopify

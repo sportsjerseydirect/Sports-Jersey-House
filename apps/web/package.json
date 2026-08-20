@@ -5,18 +5,18 @@
   "type": "module",
   "scripts": {
     "build": "next build",
-    "dev": "WATCHPACK_POLLING=true next dev --turbo",
+    "dev": "WATCHPACK_POLLING=true node --env-file=../../.env ./node_modules/next/dist/bin/next dev --turbo",
     "lint": "eslint .",
-    "start": "next start",
+    "start": "node --env-file=../../.env ./node_modules/next/dist/bin/next start",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "smoke": "node --env-file=../../.env --import tsx ./scripts/smoke.mjs"
   },
   "dependencies": {
     "@sjh/ai": "workspace:*",
     "@sjh/database": "workspace:*",
     "@sjh/search": "workspace:*",
     "@sjh/shared": "workspace:*",
-    "@sjh/worker": "workspace:*",
     "next": "^15.5.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -28,6 +28,7 @@
     "@types/react-dom": "^19.1.9",
     "eslint": "^9.34.0",
     "eslint-config-next": "^15.5.2",
+    "tsx": "^4.20.5",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   }

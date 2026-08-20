@@ -1,7 +1,7 @@
 import { AdminLogoutButton } from "@/components/admin-logout-button";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { queueNames } from "@sjh/worker";
+import { queueNames } from "@sjh/shared";
 import { ADMIN_SESSION_COOKIE, isAdminAuthRequired, verifyAdminSessionToken } from "@/lib/auth";
 import { getCatalogueStats } from "@/lib/catalogue";
 import { featureFlags } from "@/lib/env";
