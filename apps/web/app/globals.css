@@ -1041,6 +1041,14 @@ h2 {
 }
 
 @media (max-width: 860px) {
+  .search-form {
+    grid-template-columns: 1fr;
+  }
+
+  .search-submit {
+    width: 100%;
+  }
+
   .site-header {
     position: sticky;
     gap: 16px;
