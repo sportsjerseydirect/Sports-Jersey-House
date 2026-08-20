@@ -3,12 +3,32 @@ import { env } from "@/lib/env";
 import { getSearchProvider } from "@/lib/search";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticRoutes = ["/", "/products", "/collections", "/search", "/cart", "/pages/shipping", "/pages/returns", "/pages/privacy"];
+  const staticRoutes = [
+    "/",
+    "/products",
+    "/collections",
+    "/search",
+    "/cart",
+    "/pages/shipping",
+    "/pages/returns",
+    "/pages/privacy"
+  ];
+
   const search = getSearchProvider();
-  const [productSlugs, collectionSlugs] = await Promise.all([
-    search.listPublishedProductSlugs(),
-    search.listPublishedCollectionSlugs()
-  ]);
+  let productSlugs: string[] = [];
+  let collectionSlugs: string[] = [];
+
+  try {
+    [productSlugs, collectionSlugs] = await Promise.all([
+      search.listPublishedProductSlugs(),
+      search.listPublishedCollectionSlugs()
+    ]);
+  } catch (error) {
+    console.warn(
+      "[sitemap] Catalogue unavailable — emitting static routes only:",
+      error instanceof Error ? error.message : error
+    );
+  }
 
   const staticEntries = staticRoutes.map((route) => ({
     url: new URL(route, env.APP_URL).toString(),
