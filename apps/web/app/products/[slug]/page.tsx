@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AddToCartButton } from "@/components/add-to-cart-button";
-import { safeStaticSlugs, staticPrerenderLimit } from "@/lib/isr";
+import { safeStaticSlugs } from "@/lib/isr";
 import { formatProductPrice } from "@/lib/products";
 import { getSearchProvider } from "@/lib/search";
 import { breadcrumbJsonLd, createMetadata, productJsonLd } from "@/lib/seo";
