@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { addItemToCart, cartSessionCookieHeader, createCartSessionId, getCartSessionId } from "@/lib/cart";
+import { getClientIp, rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 const addItemSchema = z.object({
   variantId: z.string().uuid(),
@@ -7,6 +8,15 @@ const addItemSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  const limited = rateLimit(`cart-write:${getClientIp(request)}`, {
+    limit: 60,
+    windowMs: 60_000
+  });
+
+  if (!limited.allowed) {
+    return rateLimitResponse(limited.retryAfterSeconds);
+  }
+
   const body = addItemSchema.safeParse(await request.json());
 
   if (!body.success) {

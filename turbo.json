@@ -1,5 +1,17 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalPassThroughEnv": [
+    "DATABASE_URL",
+    "APP_NAME",
+    "APP_URL",
+    "AUTH_SECRET",
+    "AUTH_URL",
+    "ENABLE_SHOPIFY_SYNC",
+    "ENABLE_AI_SHOPPING_ASSISTANT",
+    "REDIS_URL",
+    "ADMIN_PASSWORD",
+    "STATIC_PRERENDER_LIMIT"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

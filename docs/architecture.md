@@ -160,27 +160,29 @@ Queue names defined. CLI runner for one-page Shopify product extraction. BullMQ 
 
 - Secrets via environment variables only
 - Shopify credentials server-side only
-- Admin routes **not authenticated** (known gap)
-- No rate limiting on public routes yet
-
+- Admin routes gated by middleware; `ADMIN_PASSWORD` required in production
+- Session cookies: `HttpOnly`, `SameSite=Lax`, `Secure` in production
+- Best-effort rate limits on cart writes and admin login
+- `/admin`, `/cart`, `/checkout`, `/api/` disallowed in `robots.txt`
 ---
 
 ## Deployment Target
 
 | Layer | Target |
 |-------|--------|
-| Web | Vercel |
-| Database / Auth / Storage | Supabase |
+| Web | Vercel — production at [sports-jersey-house.vercel.app](https://sports-jersey-house.vercel.app) |
+| Database / Auth / Storage | Supabase (`vergndtgsrqaqvsjtbds`, `us-west-2`) |
+| Source | Private GitHub `sportsjerseydirect/Sports-Jersey-House` |
 | Workers | Vercel cron or separate Node process (TBD) |
 | CDN | Vercel Edge / Supabase storage CDN |
 
-Not deployed yet. See `docs/SETUP.md` for local development.
+See `docs/DEPLOY.md` and `docs/SETUP.md`.
 
 ---
 
 ## Performance Notes
 
-All catalogue pages use `force-dynamic` today (dev-friendly). ISR for PDP/PLP is planned once data is stable post-migration.
+Catalogue index routes use `force-dynamic` where freshness matters. Product and collection detail pages use ISR (`revalidate = 3600`). Sitemap and builds degrade gracefully when the database is unreachable.
 
 ---
 
@@ -188,5 +190,6 @@ All catalogue pages use `force-dynamic` today (dev-friendly). ISR for PDP/PLP is
 
 - [ROADMAP.md](./ROADMAP.md) — phased delivery plan
 - [SETUP.md](./SETUP.md) — local development
+- [DEPLOY.md](./DEPLOY.md) — GitHub + Vercel
 - [DECISIONS.md](./DECISIONS.md) — architecture decision log
 - [migration-plan.md](./migration-plan.md) — Shopify cutover strategy

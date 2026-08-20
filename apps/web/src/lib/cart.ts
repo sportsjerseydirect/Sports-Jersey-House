@@ -27,7 +27,8 @@ export async function getCartSessionId(): Promise<string> {
 }
 
 export function cartSessionCookieHeader(sessionId: string): string {
-  return `${CART_SESSION_COOKIE}=${sessionId}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${CART_COOKIE_MAX_AGE}`;
+  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
+  return `${CART_SESSION_COOKIE}=${sessionId}; Path=/; HttpOnly; SameSite=Lax${secure}; Max-Age=${CART_COOKIE_MAX_AGE}`;
 }
 
 export async function loadCart(): Promise<CartSnapshot> {

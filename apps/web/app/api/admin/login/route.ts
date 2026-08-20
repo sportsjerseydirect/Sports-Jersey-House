@@ -1,11 +1,25 @@
 import { z } from "zod";
-import { ADMIN_SESSION_COOKIE, createAdminSessionToken, verifyAdminPassword } from "@/lib/auth";
+import {
+  adminSessionCookieHeader,
+  createAdminSessionToken,
+  verifyAdminPassword
+} from "@/lib/auth";
+import { getClientIp, rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 const loginSchema = z.object({
   password: z.string().min(1)
 });
 
 export async function POST(request: Request) {
+  const limited = rateLimit(`admin-login:${getClientIp(request)}`, {
+    limit: 10,
+    windowMs: 60_000
+  });
+
+  if (!limited.allowed) {
+    return rateLimitResponse(limited.retryAfterSeconds);
+  }
+
   const body = loginSchema.safeParse(await request.json());
 
   if (!body.success) {
@@ -22,7 +36,7 @@ export async function POST(request: Request) {
     { ok: true },
     {
       headers: {
-        "Set-Cookie": `${ADMIN_SESSION_COOKIE}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400`
+        "Set-Cookie": adminSessionCookieHeader(token)
       }
     }
   );

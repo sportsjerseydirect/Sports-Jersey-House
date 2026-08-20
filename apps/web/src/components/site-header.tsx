@@ -12,8 +12,7 @@ type SiteHeaderProps = {
 const navLinks = [
   { href: "/products", label: "Products" },
   { href: "/collections", label: "Collections" },
-  { href: "/search", label: "Search" },
-  { href: "/admin", label: "Admin" }
+  { href: "/search", label: "Search" }
 ] as const;
 
 export function SiteHeader({ cartLabel }: SiteHeaderProps) {

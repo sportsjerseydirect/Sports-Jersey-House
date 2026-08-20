@@ -1,5 +1,19 @@
 export const ADMIN_SESSION_COOKIE = "sjh_admin_session";
-const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
+export const ADMIN_SESSION_MAX_AGE = 60 * 60 * 24;
+const SESSION_TTL_MS = ADMIN_SESSION_MAX_AGE * 1000;
+
+export function cookieSecurityAttributes(): string {
+  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
+  return `Path=/; HttpOnly; SameSite=Lax${secure}`;
+}
+
+export function adminSessionCookieHeader(token: string): string {
+  return `${ADMIN_SESSION_COOKIE}=${token}; ${cookieSecurityAttributes()}; Max-Age=${ADMIN_SESSION_MAX_AGE}`;
+}
+
+export function clearAdminSessionCookieHeader(): string {
+  return `${ADMIN_SESSION_COOKIE}=; ${cookieSecurityAttributes()}; Max-Age=0`;
+}
 
 export type AdminSession = {
   role: "admin";

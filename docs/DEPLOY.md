@@ -24,11 +24,11 @@ Never commit `.env`.
 
 | Setting | Value |
 |---------|-------|
-| Root Directory | repository root (use root `vercel.json`) |
+| Root Directory | `apps/web` (uses `apps/web/vercel.json`) |
 | Framework | Next.js |
-| Install | `pnpm install --frozen-lockfile` |
-| Build | `pnpm build --filter @sjh/web` |
-| Output | `apps/web/.next` |
+| Install | `cd ../.. && pnpm install --frozen-lockfile` |
+| Build | `cd ../.. && pnpm build --filter @sjh/web` |
+| Output | `.next` (default) |
 | Node | 22.x |
 
 ### Environment variables (Production + Preview)
@@ -36,15 +36,15 @@ Never commit `.env`.
 Required:
 
 - `DATABASE_URL` — Supabase **Session pooler** URI (same as local, password URL-encoded if needed)
-- `APP_URL` — production URL, e.g. `https://your-app.vercel.app`
+- `APP_URL` — production URL, e.g. `https://sports-jersey-house.vercel.app`
 - `APP_NAME` — `Sports Jersey House`
 - `AUTH_SECRET` — long random string
+- `ADMIN_PASSWORD` — required in production; protects `/admin`
 - `ENABLE_SHOPIFY_SYNC` — `false`
 - `ENABLE_AI_SHOPPING_ASSISTANT` — `false`
 
 Recommended before public traffic:
 
-- `ADMIN_PASSWORD` — protects `/admin`
 - `STATIC_PRERENDER_LIMIT` — e.g. `200`
 
 Optional later: `OPENAI_API_KEY`, Shopify client credentials (only when sync is approved).

@@ -98,7 +98,7 @@ Record of significant technical decisions. Most recent first.
 ## ADR-008: Supabase for production PostgreSQL
 
 **Date:** 2026-08-19  
-**Status:** Accepted (not connected)
+**Status:** Accepted (connected — project `vergndtgsrqaqvsjtbds`)
 
 **Context:** User approved stack includes Supabase for PostgreSQL/auth/storage.
 
@@ -111,7 +111,7 @@ Record of significant technical decisions. Most recent first.
 ## ADR-009: Vercel for web hosting
 
 **Date:** 2026-08-19  
-**Status:** Accepted (not deployed)
+**Status:** Accepted (deployed — https://sports-jersey-house.vercel.app)
 
 **Decision:** Deploy `apps/web` to Vercel. Workers may run as Vercel cron or separate process.
 

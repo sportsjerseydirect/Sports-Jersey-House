@@ -77,3 +77,4 @@ vector-store/
 tmp/
 temp/
 *.local
+.vercel

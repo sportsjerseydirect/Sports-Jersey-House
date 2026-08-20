@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { getCartSessionId, removeCartItem, updateCartItemQuantity } from "@/lib/cart";
+import { getClientIp, rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
@@ -15,7 +16,25 @@ function hasCartSession(request: Request): boolean {
   return (request.headers.get("cookie") ?? "").includes("sjh_cart_session=");
 }
 
+async function enforceCartWriteLimit(request: Request): Promise<Response | null> {
+  const limited = rateLimit(`cart-write:${getClientIp(request)}`, {
+    limit: 60,
+    windowMs: 60_000
+  });
+
+  if (!limited.allowed) {
+    return rateLimitResponse(limited.retryAfterSeconds);
+  }
+
+  return null;
+}
+
 export async function PATCH(request: Request, context: RouteContext) {
+  const limited = await enforceCartWriteLimit(request);
+  if (limited) {
+    return limited;
+  }
+
   if (!hasCartSession(request)) {
     return Response.json({ error: "Cart not found." }, { status: 404 });
   }
@@ -40,6 +59,11 @@ export async function PATCH(request: Request, context: RouteContext) {
 }
 
 export async function DELETE(request: Request, context: RouteContext) {
+  const limited = await enforceCartWriteLimit(request);
+  if (limited) {
+    return limited;
+  }
+
   if (!hasCartSession(request)) {
     return Response.json({ error: "Cart not found." }, { status: 404 });
   }

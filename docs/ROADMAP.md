@@ -41,7 +41,7 @@
 - [ ] Redirects extract
 - [ ] Media download to object storage (not hotlink Shopify CDN)
 - [ ] Migration verification reports (counts, sample audit)
-- [ ] Staging deploy on Vercel + Supabase (project exists; schema applied; app not wired yet)
+- [x] Staging deploy on Vercel + Supabase (project linked; schema applied; production URL live)
 
 ## Phase 3 — AI Enrichment
 
@@ -82,14 +82,15 @@
 
 ## Current Focus
 
-**Unblock local app against Supabase, then staging:**
+**Staging is live** (Vercel + Supabase seed catalogue). Next:
 
-1. Put the **real** database password into `DATABASE_URL` (replace any `[YOUR-PASSWORD]` placeholder)
-2. Confirm `pnpm db:verify` succeeds against the pooler
-3. Link Git remote + Vercel for staging deploy
-4. Shopify client-credentials only when extract is approved
+1. Keep deploy config and docs in sync with GitHub (`main`)
+2. Harden production ops (admin password, rate limits) — in progress
+3. Shopify client-credentials extract only when approved + `ENABLE_SHOPIFY_SYNC=true`
+4. Redirects schema + 301 middleware before full catalogue load
+5. AI enrichment agents behind approval queues
 
-Supabase schema + RLS + 8-product/5-collection seed are already applied via MCP.
+Supabase schema + RLS + 8-product/5-collection seed are applied. Production health: `/api/health`.
 
 ---
 

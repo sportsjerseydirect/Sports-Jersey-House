@@ -12,7 +12,8 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = createMetadata({
   title: "Admin Foundation | Sports Jersey House",
   description: "Admin foundation for catalogue migration, SEO approvals, compliance review, search indexing, and creative production.",
-  path: "/admin"
+  path: "/admin",
+  noIndex: true
 });
 
 export default async function AdminPage() {
