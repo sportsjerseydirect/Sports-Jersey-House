@@ -100,7 +100,7 @@ Catalogue reads go through `packages/search` → `PostgresSearchProvider` or `Em
 
 **Extensions:** `uuid-ossp`, `vector`
 
-**Tables (11):** `products`, `product_variants`, `product_images`, `collections`, `collection_products`, `seo_records`, `compliance_flags`, `creative_assets`, `migration_runs`, `migration_checkpoints`
+**Tables (12+):** `products`, `product_variants`, `product_images`, `collections`, `collection_products`, `seo_records`, `compliance_flags`, `creative_assets`, `migration_runs`, `migration_checkpoints`, `carts`, `cart_items`, `redirects`
 
 **Generated column:** `products.search_vector` (tsvector) exists in SQL only — not in Drizzle schema (see `docs/DECISIONS.md`).
 
@@ -108,7 +108,7 @@ Catalogue reads go through `packages/search` → `PostgresSearchProvider` or `Em
 
 ### Planned tables (not migrated yet)
 
-`product_tags`, `orders`, `order_items`, `carts`, `customers`, `redirects`, `ai_jobs`, `users/sessions`
+`product_tags`, `orders`, `order_items`, `customers`, `ai_jobs`, `users/sessions`
 
 ---
 

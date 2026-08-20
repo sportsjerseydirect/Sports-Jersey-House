@@ -39,6 +39,7 @@
 - [x] Full bulk extract runner (all pages, rate-limit aware)
 - [x] Collections extract + membership (CLI + BullMQ worker; gated)
 - [ ] Redirects extract
+- [x] Redirects table + 301/302 serving on 404 (`0004_redirects`)
 - [ ] Media download to object storage (not hotlink Shopify CDN)
 - [ ] Migration verification reports (counts, sample audit)
 - [x] Staging deploy on Vercel + Supabase (project linked; schema applied; production URL live)

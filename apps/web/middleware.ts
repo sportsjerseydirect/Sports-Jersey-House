@@ -3,19 +3,26 @@ import { ADMIN_SESSION_COOKIE, isAdminAccessAllowed } from "@/lib/auth";
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-sjh-pathname", pathname);
+
+  const passThrough = () =>
+    NextResponse.next({
+      request: { headers: requestHeaders }
+    });
 
   if (!pathname.startsWith("/admin")) {
-    return NextResponse.next();
+    return passThrough();
   }
 
   if (pathname.startsWith("/admin/login")) {
-    return NextResponse.next();
+    return passThrough();
   }
 
   const sessionToken = request.cookies.get(ADMIN_SESSION_COOKIE)?.value;
 
   if (await isAdminAccessAllowed(sessionToken)) {
-    return NextResponse.next();
+    return passThrough();
   }
 
   const loginUrl = request.nextUrl.clone();
@@ -26,5 +33,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"]
+  matcher: ["/((?!_next/static|_next/image|.*\\..*).*)"]
 };

@@ -28,6 +28,8 @@ export {
   updateCartItemQuantity
 } from "./cart";
 export type { CartLineItem, CartSnapshot } from "./cart";
+export { findActiveRedirect, normalizeRedirectPath } from "./redirects";
+export type { RedirectMatch } from "./redirects";
 
 export const productStatus = pgEnum("product_status", ["draft", "review", "published", "archived"]);
 export const approvalStatus = pgEnum("approval_status", [
@@ -287,6 +289,26 @@ export const cartItems = pgTable(
   })
 );
 
+export const redirects = pgTable(
+  "redirects",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    fromPath: text("from_path").notNull(),
+    toPath: text("to_path").notNull(),
+    statusCode: integer("status_code").notNull().default(301),
+    isActive: boolean("is_active").notNull().default(true),
+    note: text("note"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
+  },
+  (table) => ({
+    fromPathActiveIdx: uniqueIndex("redirects_from_path_active_idx")
+      .on(table.fromPath)
+      .where(sql`${table.isActive} = true`),
+    activeIdx: index("redirects_active_idx").on(table.isActive)
+  })
+);
+
 export const cartsRelations = relations(carts, ({ many }) => ({
   items: many(cartItems)
 }));
@@ -331,13 +353,16 @@ export function createDatabaseClient(databaseUrl: string) {
       migrationRuns,
       migrationCheckpoints,
       carts,
-      cartItems
+      cartItems,
+      redirects
     }
   });
 }
 
 export type Cart = typeof carts.$inferSelect;
 export type CartItem = typeof cartItems.$inferSelect;
+export type Redirect = typeof redirects.$inferSelect;
+export type NewRedirect = typeof redirects.$inferInsert;
 
 export type Product = typeof products.$inferSelect;
 export type NewProduct = typeof products.$inferInsert;
