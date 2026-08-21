@@ -4,7 +4,7 @@ import { cartCustomisationSchema } from "@sjh/shared";
 import { createDatabaseClient } from "./client";
 import { getCartBySessionId } from "./cart";
 import { cartItems, carts, customers } from "./schema-catalogue";
-import { abandonedCheckouts, orderItems, orders } from "./schema-commerce";
+import { abandonedCheckouts, orderItems, orders, productSupplierMappings } from "./schema-commerce";
 
 function resolveDatabaseUrl(databaseUrl?: string): string {
   const url = databaseUrl ?? process.env.DATABASE_URL;
@@ -143,6 +143,26 @@ export async function createOrderFromCart(
     throw new Error("Failed to create order.");
   }
 
+  const productIds = [...new Set(cart.items.map((item) => item.productId))];
+  const mappings =
+    productIds.length > 0
+      ? await db
+          .select({
+            productId: productSupplierMappings.productId,
+            supplierId: productSupplierMappings.supplierId
+          })
+          .from(productSupplierMappings)
+          .where(
+            and(
+              inArray(productSupplierMappings.productId, productIds),
+              eq(productSupplierMappings.isPrimary, true),
+              isNull(productSupplierMappings.deletedAt)
+            )
+          )
+      : [];
+
+  const supplierByProduct = new Map(mappings.map((row) => [row.productId, row.supplierId]));
+
   await db.insert(orderItems).values(
     cart.items.map((item) => ({
       orderId: order.id,
@@ -159,7 +179,8 @@ export async function createOrderFromCart(
       lineTotalAmount: item.lineTotalAmount,
       currencyCode: item.currencyCode,
       fulfilmentStatus: "unfulfilled" as const,
-      shippingDestination: input.shippingAddress
+      shippingDestination: input.shippingAddress,
+      supplierId: supplierByProduct.get(item.productId) ?? null
     }))
   );
 

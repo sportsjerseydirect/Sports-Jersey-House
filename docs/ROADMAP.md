@@ -88,7 +88,7 @@
 1. **Phase 1** — Data model foundation ✅
 2. **Phase 2** — Product/customisation PDP ✅
 3. **Phase 3** — Checkout & orders ✅ (Stripe payment still deferred)
-4. **Phase 4** — Supplier / PO / packing slips (next)
+4. **Phase 4** — Supplier / PO / packing slips (in progress)
 5. Keep Vercel/Supabase/GitHub intact; Shopify sync remains gated
 
 Legacy catalogue/migration work continues in parallel under Phase 1–2 above (Shopify extract still requires approval).

@@ -46,6 +46,12 @@ export default async function AdminPage() {
             <li>
               <Link href={"/admin/orders" as Route}>Orders</Link>
             </li>
+            <li>
+              <Link href={"/admin/suppliers" as Route}>Suppliers</Link>
+            </li>
+            <li>
+              <Link href={"/admin/purchase-orders" as Route}>Purchase orders</Link>
+            </li>
           </ul>
         </article>
 

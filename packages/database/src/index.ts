@@ -25,6 +25,15 @@ export {
   recordAbandonedCheckout
 } from "./orders";
 export type { OrderLineSnapshot, OrderSnapshot } from "./orders";
+export {
+  createPurchaseOrderBatch,
+  createSupplier,
+  ensureDefaultSupplierMappings,
+  getPurchaseOrderByNumber,
+  listPurchaseOrders,
+  listSuppliers
+} from "./suppliers";
+export type { PoBatchResult, PurchaseOrderSnapshot, SupplierSnapshot } from "./suppliers";
 
 export {
   approvalStatus,

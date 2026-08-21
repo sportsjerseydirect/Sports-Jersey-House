@@ -90,7 +90,7 @@ Deliverables:
 
 ---
 
-### Phase 4 — Supplier / PO / packing slips
+### Phase 4 — Supplier / PO / packing slips 🔄 In progress
 
 **Goal:** Batch supplier submissions.
 
@@ -98,6 +98,8 @@ Deliverables:
 - Daily batch job: previous day’s unsent lines → unique PO per supplier.
 - Packing slip document generation (supplier format templates).
 - Supplier email **preview**; send only after confirmation (or approved automation flag).
+
+**Repo status:** Admin supplier bootstrap + CRUD, PO batch (pending_payment|paid → PO), default_html packing slip + email draft preview (no send).
 
 ---
 

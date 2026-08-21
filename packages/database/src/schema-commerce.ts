@@ -190,7 +190,9 @@ export const purchaseOrders = pgTable(
   "purchase_orders",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    poNumber: text("po_number").notNull(),
+    poNumber: text("po_number")
+      .notNull()
+      .default(sql`'PO-' || nextval('po_number_seq')`),
     supplierId: uuid("supplier_id")
       .notNull()
       .references(() => suppliers.id),
