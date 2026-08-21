@@ -53,8 +53,8 @@ function createSampleProduct(overrides: Partial<ShopifyProductNode> = {}): Shopi
             id: "gid://shopify/ProductVariant/456",
             title: "Medium",
             sku: "BEARS-M",
-            price: { amount: "129.99", currencyCode: "USD" },
-            compareAtPrice: { amount: "149.99", currencyCode: "USD" },
+            price: "129.99",
+            compareAtPrice: "149.99",
             inventoryQuantity: 10,
             availableForSale: true,
             selectedOptions: [{ name: "Size", value: "Medium" }]

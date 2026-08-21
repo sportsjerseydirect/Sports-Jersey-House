@@ -77,6 +77,9 @@ export default async function AdminPage() {
               <Link href={"/admin/catalogue" as Route}>Catalogue intelligence</Link>
             </li>
             <li>
+              <Link href={"/admin/catalogue/products" as Route}>Catalogue products / publish</Link>
+            </li>
+            <li>
               <Link href={"/admin/migration" as Route}>Migration / Shopify</Link>
             </li>
             <li>

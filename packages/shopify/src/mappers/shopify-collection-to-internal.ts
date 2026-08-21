@@ -5,7 +5,7 @@ export type InternalCollectionDraft = {
   slug: string;
   title: string;
   description: string | null;
-  status: "draft" | "review" | "published" | "archived";
+  status: "draft" | "review" | "approved" | "published" | "archived";
   sourcePayload: Record<string, unknown>;
   productShopifyIds: string[];
 };

@@ -5,7 +5,13 @@ import {
   sizeChartSchema
 } from "./commerce";
 
-export const productStatusSchema = z.enum(["draft", "review", "published", "archived"]);
+export const productStatusSchema = z.enum([
+  "draft",
+  "review",
+  "approved",
+  "published",
+  "archived"
+]);
 export type ProductStatus = z.infer<typeof productStatusSchema>;
 
 export const approvalStatusSchema = z.enum([
@@ -27,7 +33,7 @@ export type Market = z.infer<typeof marketSchema>;
 
 export const moneySchema = z.object({
   amount: z.string().regex(/^\d+(\.\d{2})?$/),
-  currencyCode: z.enum(["USD", "CAD"])
+  currencyCode: z.enum(["USD", "CAD", "GBP"])
 });
 export type Money = z.infer<typeof moneySchema>;
 

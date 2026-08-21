@@ -147,6 +147,20 @@ export type {
   StagedProductResult
 } from "./shopify-import";
 export {
+  assertWorkflowTransition,
+  ensureSeoRecordForProduct,
+  evaluateProductReadiness,
+  listCatalogueProductsForAdmin,
+  transitionProductStatus
+} from "./product-workflow";
+export type {
+  CatalogueProductListItem,
+  ProductReadiness,
+  ProductWorkflowAction,
+  ReadinessCheck,
+  ReadinessSeverity
+} from "./product-workflow";
+export {
   approvalStatus,
   auditColumns,
   cartItems,

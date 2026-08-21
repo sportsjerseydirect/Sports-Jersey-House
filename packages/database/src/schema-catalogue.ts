@@ -15,7 +15,13 @@ import {
 } from "drizzle-orm/pg-core";
 import { embeddingVector } from "./pg-types";
 
-export const productStatus = pgEnum("product_status", ["draft", "review", "published", "archived"]);
+export const productStatus = pgEnum("product_status", [
+  "draft",
+  "review",
+  "approved",
+  "published",
+  "archived"
+]);
 export const approvalStatus = pgEnum("approval_status", [
   "draft",
   "ai_generated",

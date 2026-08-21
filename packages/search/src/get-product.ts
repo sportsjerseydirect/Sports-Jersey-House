@@ -40,13 +40,13 @@ function mapVariant(variant: {
     sizeLabel: variant.sizeLabel ?? undefined,
     price: {
       amount: variant.priceAmount,
-      currencyCode: variant.currencyCode as "USD" | "CAD"
+      currencyCode: variant.currencyCode as "USD" | "CAD" | "GBP"
     },
     ...(variant.compareAtAmount
       ? {
           compareAtPrice: {
             amount: variant.compareAtAmount,
-            currencyCode: variant.currencyCode as "USD" | "CAD"
+            currencyCode: variant.currencyCode as "USD" | "CAD" | "GBP"
           }
         }
       : {}),
@@ -56,13 +56,19 @@ function mapVariant(variant: {
 
 export async function getProductBySlug(
   db: DatabaseClient,
-  slug: string
+  slug: string,
+  options: { allowedStatuses?: Array<"draft" | "review" | "approved" | "published" | "archived"> } = {}
 ): Promise<ProductDetail | null> {
+  const allowedStatuses = options.allowedStatuses ?? ["published"];
   const [product] = await db
     .select()
     .from(products)
     .where(
-      and(eq(products.slug, slug), eq(products.status, "published"), isNull(products.deletedAt))
+      and(
+        eq(products.slug, slug),
+        inArray(products.status, allowedStatuses),
+        isNull(products.deletedAt)
+      )
     )
     .limit(1);
 

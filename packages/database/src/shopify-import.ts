@@ -44,6 +44,10 @@ export type StagedProductResult = {
   rawId: string;
   stagedId: string;
   shopifyProductId: string;
+  /** Present for SOURCE_MATCH (same Shopify id) or POSSIBLE_DUPLICATE (slug overlap). */
+  matchedProductId: string | null;
+  matchKind: "SOURCE_MATCH" | "POSSIBLE_DUPLICATE" | null;
+  /** Only set for POSSIBLE_DUPLICATE — never for SOURCE_MATCH rematches. */
   duplicateOfProductId: string | null;
   duplicateScore: string | null;
 };
@@ -274,8 +278,16 @@ export async function stageNormalizedProduct(
         .where(and(eq(products.slug, handle), isNull(products.deletedAt)))
         .limit(1);
 
-  const duplicateOfProductId = byShopify?.id ?? bySlug?.id ?? null;
-  const duplicateScore = duplicateOfProductId ? (byShopify ? "100.00" : "90.00") : null;
+  const matchKind = byShopify
+    ? ("SOURCE_MATCH" as const)
+    : bySlug
+      ? ("POSSIBLE_DUPLICATE" as const)
+      : null;
+  const matchedProductId = byShopify?.id ?? bySlug?.id ?? null;
+  // SOURCE_MATCH is identity rematch of the same Shopify product — not a catalogue duplicate.
+  const duplicateOfProductId = matchKind === "POSSIBLE_DUPLICATE" ? matchedProductId : null;
+  const duplicateScore =
+    matchKind === "POSSIBLE_DUPLICATE" ? "90.00" : matchKind === "SOURCE_MATCH" ? null : null;
 
   const [raw] = await db
     .insert(shopifyImportRaw)
@@ -308,6 +320,7 @@ export async function stageNormalizedProduct(
       vendor: input.vendor ?? null,
       productType: input.productType ?? null,
       normalized: input.normalized,
+      matchKind,
       duplicateOfProductId,
       duplicateScore
     })
@@ -320,6 +333,7 @@ export async function stageNormalizedProduct(
         vendor: input.vendor ?? null,
         productType: input.productType ?? null,
         normalized: input.normalized,
+        matchKind,
         duplicateOfProductId,
         duplicateScore,
         updatedAt: new Date()
@@ -344,6 +358,8 @@ export async function stageNormalizedProduct(
     rawId: raw.id,
     stagedId: staged.id,
     shopifyProductId,
+    matchedProductId,
+    matchKind,
     duplicateOfProductId,
     duplicateScore
   };

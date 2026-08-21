@@ -13,15 +13,15 @@ export type UpsertProductsResult = {
   errors: Array<{ shopifyId: string; message: string }>;
 };
 
-const ALLOWED_IMPORT_STATUSES = new Set(["draft", "review", "archived"]);
+const ALLOWED_IMPORT_STATUSES = new Set(["draft", "review", "approved", "archived"]);
 
 function clampImportStatus(
   status: InternalProductDraft["status"]
-): "draft" | "review" | "archived" {
+): "draft" | "review" | "approved" | "archived" {
   if (status === "published" || !ALLOWED_IMPORT_STATUSES.has(status)) {
     return "draft";
   }
-  return status;
+  return status as "draft" | "review" | "approved" | "archived";
 }
 
 export async function upsertShopifyProducts(

@@ -10,7 +10,7 @@ export type InternalProductDraft = {
   sport: string | null;
   league: string | null;
   team: string | null;
-  status: "draft" | "review" | "published" | "archived";
+  status: "draft" | "review" | "approved" | "published" | "archived";
   sourcePayload: Record<string, unknown>;
   variants: InternalVariantDraft[];
   images: InternalImageDraft[];
@@ -102,16 +102,18 @@ function normalizePriceAmount(amount: string): string {
   return parsed.toFixed(2);
 }
 
+const DEFAULT_CURRENCY_CODE = "GBP";
+
 function mapVariants(node: ShopifyProductNode): InternalVariantDraft[] {
   return node.variants.edges.map(({ node: variant }) => ({
     shopifyId: variant.id,
     sku: variant.sku,
     title: variant.title,
-    priceAmount: normalizePriceAmount(variant.price.amount),
-    compareAtAmount: variant.compareAtPrice?.amount
-      ? normalizePriceAmount(variant.compareAtPrice.amount)
+    priceAmount: normalizePriceAmount(variant.price),
+    compareAtAmount: variant.compareAtPrice
+      ? normalizePriceAmount(variant.compareAtPrice)
       : null,
-    currencyCode: variant.price.currencyCode,
+    currencyCode: DEFAULT_CURRENCY_CODE,
     inventoryQuantity: variant.inventoryQuantity,
     isAvailable: variant.availableForSale,
     options: Object.fromEntries(variant.selectedOptions.map((option) => [option.name, option.value]))

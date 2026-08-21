@@ -323,6 +323,8 @@ export const shopifyImportStagedProducts = pgTable(
     vendor: text("vendor"),
     productType: text("product_type"),
     normalized: jsonb("normalized").notNull().default(sql`'{}'::jsonb`),
+    /** SOURCE_MATCH | POSSIBLE_DUPLICATE | null */
+    matchKind: text("match_kind"),
     duplicateOfProductId: uuid("duplicate_of_product_id").references(() => products.id),
     duplicateScore: numeric("duplicate_score", { precision: 5, scale: 2 }),
     importError: text("import_error"),

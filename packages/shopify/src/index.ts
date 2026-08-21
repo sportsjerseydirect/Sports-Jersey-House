@@ -129,10 +129,17 @@ export class ShopifyReadOnlyClient implements ShopifyGraphqlClient {
       throw new Error(`Shopify GraphQL request failed with HTTP ${response.status}.`);
     }
 
-    const payload = (await response.json()) as { data?: TResponse; errors?: unknown };
+    const payload = (await response.json()) as {
+      data?: TResponse;
+      errors?: Array<{ message?: string; path?: unknown }>;
+    };
 
-    if (payload.errors) {
-      throw new Error("Shopify GraphQL returned errors.");
+    if (payload.errors?.length) {
+      const summary = payload.errors
+        .map((entry) => entry.message ?? "Unknown GraphQL error")
+        .slice(0, 5)
+        .join("; ");
+      throw new Error(`Shopify GraphQL returned errors: ${summary}`);
     }
 
     if (!payload.data) {
@@ -160,14 +167,9 @@ export type ShopifyVariantNode = {
   id: string;
   title: string;
   sku: string | null;
-  price: {
-    amount: string;
-    currencyCode: string;
-  };
-  compareAtPrice?: {
-    amount: string;
-    currencyCode: string;
-  } | null;
+  /** Admin API Money scalar (decimal string), not Storefront MoneyV2. */
+  price: string;
+  compareAtPrice?: string | null;
   inventoryQuantity: number | null;
   availableForSale: boolean;
   selectedOptions: Array<{ name: string; value: string }>;
@@ -292,14 +294,8 @@ export const SHOPIFY_PRODUCTS_QUERY = `#graphql
                 id
                 title
                 sku
-                price {
-                  amount
-                  currencyCode
-                }
-                compareAtPrice {
-                  amount
-                  currencyCode
-                }
+                price
+                compareAtPrice
                 inventoryQuantity
                 availableForSale
                 selectedOptions {
@@ -469,6 +465,8 @@ export { mapShopifyCollectionToInternal } from "./mappers/shopify-collection-to-
 export type { InternalCollectionDraft } from "./mappers/shopify-collection-to-internal";
 export { upsertShopifyCollections } from "./load/upsert-collections";
 export type { UpsertCollectionsResult } from "./load/upsert-collections";
+export { syncProductCollectionMembershipsFromSourcePayload } from "./load/sync-product-collection-memberships";
+export type { SyncProductCollectionMembershipsResult } from "./load/sync-product-collection-memberships";
 export { runControlledSampleImport } from "./migration/sample-import";
 export type {
   ControlledSampleImportOptions,

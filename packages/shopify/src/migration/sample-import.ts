@@ -147,6 +147,7 @@ export async function runControlledSampleImport(
     };
   }
 
+  console.error("[sample-import] testing Shopify connection…");
   const connection = await testShopifyConnection(config);
   if (!connection.ok) {
     return {
@@ -168,10 +169,12 @@ export async function runControlledSampleImport(
     };
   }
 
+  console.error("[sample-import] creating import run…");
   const run = await createImportRun(
     { mode: "sample", sampleLimit },
     options.databaseUrl
   );
+  console.error(`[sample-import] runId=${run.id}`);
 
   const client = new ShopifyReadOnlyClient(config);
   const collected: ShopifyProductNode[] = [];
@@ -182,6 +185,9 @@ export async function runControlledSampleImport(
     while (collected.length < sampleLimit && hasNextPage) {
       const remaining = sampleLimit - collected.length;
       const first = Math.min(pageSize, remaining);
+      console.error(
+        `[sample-import] fetching products page (have=${collected.length}, first=${first})…`
+      );
       const response = await fetchProductsPage(client, { cursor }, first);
       const nodes = response.products.edges.map((edge) => edge.node);
       collected.push(...nodes);
@@ -191,6 +197,7 @@ export async function runControlledSampleImport(
         break;
       }
     }
+    console.error(`[sample-import] fetched ${collected.length} products`);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Product fetch failed.";
     errors.push({ stage: "fetch", message });
@@ -235,10 +242,18 @@ export async function runControlledSampleImport(
   let productsUpserted = 0;
   let productsFailed = 0;
 
+  let processed = 0;
   for (const node of collected) {
     const draft = mapShopifyProductForSampleImport(node);
+    processed += 1;
+    if (processed === 1 || processed % 10 === 0 || processed === collected.length) {
+      console.error(
+        `[sample-import] processing ${processed}/${collected.length} (${node.handle})…`
+      );
+    }
 
     try {
+      console.error(`[sample-import] stage ${processed}/${collected.length}`);
       await stageNormalizedProduct(
         run.id,
         {
@@ -264,6 +279,7 @@ export async function runControlledSampleImport(
       continue;
     }
 
+    console.error(`[sample-import] upsert ${processed}/${collected.length}`);
     const upsertResult = await upsertShopifyProducts(options.databaseUrl, [draft]);
     if (upsertResult.errors.length > 0) {
       productsFailed += upsertResult.errors.length;
@@ -279,6 +295,7 @@ export async function runControlledSampleImport(
 
     productsUpserted += upsertResult.upserted;
     productIds.push(...upsertResult.productIds);
+    console.error(`[sample-import] upsert done ${processed}/${collected.length}`);
   }
 
   let collectionsUpserted = 0;
