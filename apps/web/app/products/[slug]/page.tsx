@@ -4,7 +4,6 @@ import { connection } from "next/server";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductGrid } from "@/components/product-grid";
 import { PdpPurchasePanel } from "@/components/pdp-purchase-panel";
-import { safeStaticSlugs } from "@/lib/isr";
 import { getSearchProvider } from "@/lib/search";
 import { breadcrumbJsonLd, createMetadata, productJsonLd } from "@/lib/seo";
 import { createDatabaseClient } from "@sjh/database";
@@ -17,11 +16,6 @@ type ProductPageProps = {
 /** Force request-time resolution so missing/draft products return a real HTTP 404. */
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
-
-export async function generateStaticParams() {
-  const search = getSearchProvider();
-  return safeStaticSlugs((limit) => search.listPublishedProductSlugs(limit));
-}
 
 export async function generateMetadata({ params }: ProductPageProps) {
   await connection();
