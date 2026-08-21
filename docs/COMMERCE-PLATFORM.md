@@ -58,7 +58,7 @@ Deliverables:
 
 ---
 
-### Phase 2 — Product & customisation experience 🔄 In progress
+### Phase 2 — Product & customisation experience ✅ Complete
 
 **Goal:** Mobile-first PDP that sells customisable jerseys.
 
@@ -71,7 +71,7 @@ Deliverables:
 
 **Exit criteria:** Local + production PDP flows validated with seed catalogue; no incomplete ATC.
 
-**Repo status:** Purchase panel, gallery, size guide modal, info sections, related products, cart customisation display, and server-side customisation pricing landed. Awaiting production deploy confirmation.
+**Done:** Live on https://sports-jersey-house.vercel.app — PDP shows size picker, customisation pricing, size guide, shipping/care/FAQs, related products; health OK.
 
 ---
 
