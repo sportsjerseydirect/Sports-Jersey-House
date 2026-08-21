@@ -56,13 +56,21 @@ type DatabaseClient = ReturnType<typeof createDatabaseClient>;
 
 async function upsertSingleProduct(db: DatabaseClient, draft: InternalProductDraft): Promise<string> {
   const existing = await db
-    .select({ id: products.id })
+    .select({
+      id: products.id,
+      status: products.status,
+      sport: products.sport,
+      league: products.league,
+      team: products.team,
+      playerName: products.playerName,
+      description: products.description
+    })
     .from(products)
     .where(and(eq(products.shopifyId, draft.shopifyId), isNull(products.deletedAt)))
     .limit(1);
 
   const productId = existing[0]?.id
-    ? await updateProduct(db, existing[0].id, draft)
+    ? await updateProduct(db, existing[0], draft)
     : await insertProduct(db, draft);
 
   await syncVariants(db, productId, draft);
@@ -99,28 +107,43 @@ async function insertProduct(db: DatabaseClient, draft: InternalProductDraft): P
 
 async function updateProduct(
   db: DatabaseClient,
-  productId: string,
+  existing: {
+    id: string;
+    status: string;
+    sport: string | null;
+    league: string | null;
+    team: string | null;
+    playerName: string | null;
+    description: string | null;
+  },
   draft: InternalProductDraft
 ): Promise<string> {
+  // Never downgrade human workflow status during re-import.
+  const preserveStatus =
+    existing.status === "published" ||
+    existing.status === "approved" ||
+    existing.status === "review";
+
   await db
     .update(products)
     .set({
       slug: draft.slug,
       title: draft.title,
-      description: draft.description,
+      description: draft.description ?? existing.description,
       vendor: draft.vendor,
       productType: draft.productType,
-      sport: draft.sport,
-      league: draft.league,
-      team: draft.team,
-      status: draft.status,
+      sport: draft.sport ?? existing.sport,
+      league: draft.league ?? existing.league,
+      team: draft.team ?? existing.team,
+      playerName: existing.playerName,
+      status: preserveStatus ? (existing.status as "draft" | "review" | "approved" | "published" | "archived") : draft.status,
       sourcePayload: draft.sourcePayload,
       updatedBy: "shopify-extract",
       updatedAt: new Date()
     })
-    .where(eq(products.id, productId));
+    .where(eq(products.id, existing.id));
 
-  return productId;
+  return existing.id;
 }
 
 async function syncVariants(db: DatabaseClient, productId: string, draft: InternalProductDraft): Promise<void> {
