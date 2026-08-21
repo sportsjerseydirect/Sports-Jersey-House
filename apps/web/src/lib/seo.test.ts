@@ -12,6 +12,8 @@ describe("productJsonLd", () => {
       vendor: "Sports Jersey House Dev",
       league: "NFL",
       team: "Chicago Bears",
+      faqs: [],
+      customisationEnabled: true,
       images: [{ url: "http://localhost:3000/dev/jersey-placeholder.svg", altText: "Jersey" }],
       variants: [
         {

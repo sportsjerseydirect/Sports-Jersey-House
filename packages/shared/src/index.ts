@@ -1,4 +1,9 @@
 import { z } from "zod";
+import {
+  customisationProfileSchema,
+  productFaqSchema,
+  sizeChartSchema
+} from "./commerce";
 
 export const productStatusSchema = z.enum(["draft", "review", "published", "archived"]);
 export type ProductStatus = z.infer<typeof productStatusSchema>;
@@ -45,7 +50,9 @@ export const productVariantSummarySchema = z.object({
   id: z.string().uuid(),
   title: z.string().min(1),
   sku: z.string().optional(),
+  sizeLabel: z.string().optional(),
   price: moneySchema,
+  compareAtPrice: moneySchema.optional(),
   isAvailable: z.boolean()
 });
 export type ProductVariantSummary = z.infer<typeof productVariantSummarySchema>;
@@ -57,6 +64,13 @@ export const productImageSchema = z.object({
 export type ProductImage = z.infer<typeof productImageSchema>;
 
 export const productDetailSchema = productSummarySchema.extend({
+  playerName: z.string().optional(),
+  careInstructions: z.string().optional(),
+  shippingExpectations: z.string().optional(),
+  faqs: z.array(productFaqSchema).default([]),
+  customisationEnabled: z.boolean().default(true),
+  sizeChart: sizeChartSchema.optional(),
+  customisationProfile: customisationProfileSchema.optional(),
   variants: z.array(productVariantSummarySchema).default([]),
   images: z.array(productImageSchema).default([])
 });
@@ -148,3 +162,28 @@ export {
   type QueueName,
   type JobEnvelope
 } from "./queues";
+
+export {
+  cartCustomisationSchema,
+  customisationModeSchema,
+  customisationPriceForMode,
+  customisationProfileSchema,
+  formatCustomisationSummary,
+  fulfilmentStatusSchema,
+  issueReasonSchema,
+  issueStatusSchema,
+  orderStatusSchema,
+  productFaqSchema,
+  sizeChartRowSchema,
+  sizeChartSchema,
+  type CartCustomisation,
+  type CustomisationMode,
+  type CustomisationProfile,
+  type FulfilmentStatus,
+  type IssueReason,
+  type IssueStatus,
+  type OrderStatus,
+  type ProductFaq,
+  type SizeChart,
+  type SizeChartRow
+} from "./commerce";

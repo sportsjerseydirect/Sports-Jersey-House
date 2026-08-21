@@ -1,397 +1,97 @@
-import { relations, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
-import {
-  boolean,
-  index,
-  integer,
-  jsonb,
-  numeric,
-  pgEnum,
-  pgTable,
-  primaryKey,
-  text,
-  timestamp,
-  uniqueIndex,
-  uuid
-} from "drizzle-orm/pg-core";
-import postgres from "postgres";
-import { embeddingVector } from "./pg-types";
 
 export { fromExtractionCheckpoint, parseMigrationCheckpointPayload, toExtractionCheckpoint } from "./checkpoints";
 export { verifyMigration } from "./verify-migration";
 export type { MigrationVerificationResult } from "./verify-migration";
 export {
   addItemToCart,
+  fingerprintCustomisation,
   getCartBySessionId,
   getOrCreateCart,
   removeCartItem,
   updateCartItemQuantity
 } from "./cart";
-export type { CartLineItem, CartSnapshot } from "./cart";
+export type { CartCustomisationInput, CartLineItem, CartSnapshot } from "./cart";
+export { resolveCartCustomisationPricing } from "./cart-customisation";
+export type { ResolvedCartCustomisation } from "./cart-customisation";
 export { findActiveRedirect, normalizeRedirectPath } from "./redirects";
 export type { RedirectMatch } from "./redirects";
+export { createDatabaseClient, databaseSchema } from "./client";
 
-export const productStatus = pgEnum("product_status", ["draft", "review", "published", "archived"]);
-export const approvalStatus = pgEnum("approval_status", [
-  "draft",
-  "ai_generated",
-  "under_review",
-  "approved",
-  "rejected",
-  "published",
-  "archived"
-]);
-export const riskLevel = pgEnum("risk_level", ["low", "medium", "high", "critical"]);
-export const market = pgEnum("market", ["US", "CA"]);
+export {
+  approvalStatus,
+  auditColumns,
+  cartItems,
+  cartItemsRelations,
+  carts,
+  cartsRelations,
+  collectionProducts,
+  collections,
+  complianceFlags,
+  creativeAssets,
+  customers,
+  customisationProfiles,
+  market,
+  migrationCheckpoints,
+  migrationRuns,
+  migrationRunsRelations,
+  productImages,
+  productStatus,
+  productVariants,
+  products,
+  productsRelations,
+  redirects,
+  riskLevel,
+  seoRecords,
+  sizeCharts
+} from "./schema-catalogue";
 
-const auditColumns = {
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
-  createdBy: text("created_by"),
-  updatedBy: text("updated_by"),
-  deletedAt: timestamp("deleted_at", { withTimezone: true })
-};
+export {
+  abandonedCheckouts,
+  aiActionAudits,
+  aiActionStatus,
+  courierRules,
+  customisationMode,
+  emailSubscribers,
+  fulfilmentStatus,
+  issueCases,
+  issueReason,
+  issueStatus,
+  leadCaptureSource,
+  marketingLeads,
+  orderItems,
+  orderItemsRelations,
+  orderStatus,
+  orders,
+  ordersRelations,
+  productSupplierMappings,
+  purchaseOrderLines,
+  purchaseOrderStatus,
+  purchaseOrders,
+  suppliers
+} from "./schema-commerce";
 
-export const products = pgTable(
-  "products",
-  {
-    id: uuid("id").primaryKey().defaultRandom(),
-    shopifyId: text("shopify_id"),
-    slug: text("slug").notNull(),
-    title: text("title").notNull(),
-    description: text("description"),
-    vendor: text("vendor"),
-    productType: text("product_type"),
-    sport: text("sport"),
-    league: text("league"),
-    team: text("team"),
-    status: productStatus("status").notNull().default("draft"),
-    sourcePayload: jsonb("source_payload"),
-    embedding: embeddingVector("embedding"),
-    ...auditColumns
-  },
-  (table) => ({
-    slugIdx: uniqueIndex("products_slug_idx").on(table.slug),
-    shopifyIdx: uniqueIndex("products_shopify_id_idx")
-      .on(table.shopifyId)
-      .where(sql`${table.shopifyId} is not null`),
-    statusIdx: index("products_status_idx").on(table.status)
-  })
-);
-
-export const productVariants = pgTable(
-  "product_variants",
-  {
-    id: uuid("id").primaryKey().defaultRandom(),
-    productId: uuid("product_id").notNull().references(() => products.id),
-    shopifyId: text("shopify_id"),
-    sku: text("sku"),
-    title: text("title").notNull(),
-    priceAmount: numeric("price_amount", { precision: 12, scale: 2 }).notNull(),
-    currencyCode: text("currency_code").notNull().default("USD"),
-    inventoryQuantity: integer("inventory_quantity"),
-    isAvailable: boolean("is_available").notNull().default(false),
-    options: jsonb("options").notNull().default(sql`'{}'::jsonb`),
-    ...auditColumns
-  },
-  (table) => ({
-    productIdx: index("product_variants_product_id_idx").on(table.productId),
-    skuIdx: index("product_variants_sku_idx").on(table.sku),
-    shopifyIdx: uniqueIndex("product_variants_shopify_id_idx")
-      .on(table.shopifyId)
-      .where(sql`${table.shopifyId} is not null`)
-  })
-);
-
-export const productImages = pgTable(
-  "product_images",
-  {
-    id: uuid("id").primaryKey().defaultRandom(),
-    productId: uuid("product_id").notNull().references(() => products.id),
-    url: text("url").notNull(),
-    altText: text("alt_text"),
-    width: integer("width"),
-    height: integer("height"),
-    sortOrder: integer("sort_order").notNull().default(0),
-    sourceUrl: text("source_url"),
-    ...auditColumns
-  },
-  (table) => ({
-    productIdx: index("product_images_product_id_idx").on(table.productId)
-  })
-);
-
-export const collections = pgTable(
-  "collections",
-  {
-    id: uuid("id").primaryKey().defaultRandom(),
-    shopifyId: text("shopify_id"),
-    slug: text("slug").notNull(),
-    title: text("title").notNull(),
-    description: text("description"),
-    status: productStatus("status").notNull().default("draft"),
-    sourcePayload: jsonb("source_payload"),
-    ...auditColumns
-  },
-  (table) => ({
-    slugIdx: uniqueIndex("collections_slug_idx").on(table.slug),
-    shopifyIdx: uniqueIndex("collections_shopify_id_idx")
-      .on(table.shopifyId)
-      .where(sql`${table.shopifyId} is not null`)
-  })
-);
-
-export const collectionProducts = pgTable(
-  "collection_products",
-  {
-    collectionId: uuid("collection_id").notNull().references(() => collections.id),
-    productId: uuid("product_id").notNull().references(() => products.id),
-    sortOrder: integer("sort_order").notNull().default(0)
-  },
-  (table) => ({
-    pk: primaryKey({ columns: [table.collectionId, table.productId] }),
-    collectionIdx: index("collection_products_collection_id_idx").on(table.collectionId),
-    productIdx: index("collection_products_product_id_idx").on(table.productId)
-  })
-);
-
-export const seoRecords = pgTable(
-  "seo_records",
-  {
-    id: uuid("id").primaryKey().defaultRandom(),
-    targetType: text("target_type").notNull(),
-    targetId: uuid("target_id").notNull(),
-    title: text("title"),
-    metaDescription: text("meta_description"),
-    canonicalPath: text("canonical_path"),
-    structuredData: jsonb("structured_data"),
-    aiTitle: text("ai_title"),
-    aiMetaDescription: text("ai_meta_description"),
-    approvalStatus: approvalStatus("approval_status").notNull().default("draft"),
-    ...auditColumns
-  },
-  (table) => ({
-    targetIdx: uniqueIndex("seo_records_target_idx").on(table.targetType, table.targetId)
-  })
-);
-
-export const complianceFlags = pgTable(
-  "compliance_flags",
-  {
-    id: uuid("id").primaryKey().defaultRandom(),
-    targetType: text("target_type").notNull(),
-    targetId: uuid("target_id").notNull(),
-    riskLevel: riskLevel("risk_level").notNull(),
-    reason: text("reason").notNull(),
-    recommendation: text("recommendation"),
-    approvalStatus: approvalStatus("approval_status").notNull().default("under_review"),
-    ...auditColumns
-  },
-  (table) => ({
-    targetIdx: index("compliance_flags_target_idx").on(table.targetType, table.targetId)
-  })
-);
-
-export const creativeAssets = pgTable(
-  "creative_assets",
-  {
-    id: uuid("id").primaryKey().defaultRandom(),
-    assetType: text("asset_type").notNull(),
-    campaign: text("campaign"),
-    page: text("page"),
-    productId: uuid("product_id"),
-    collectionId: uuid("collection_id"),
-    brief: text("brief").notNull(),
-    provider: text("provider").notNull(),
-    model: text("model").notNull(),
-    width: integer("width").notNull(),
-    height: integer("height").notNull(),
-    format: text("format").notNull(),
-    status: approvalStatus("status").notNull().default("draft"),
-    complianceStatus: approvalStatus("compliance_status").notNull().default("draft"),
-    version: integer("version").notNull().default(1),
-    provenance: text("provenance").notNull(),
-    altText: text("alt_text").notNull(),
-    url: text("url"),
-    ...auditColumns
-  },
-  (table) => ({
-    statusIdx: index("creative_assets_status_idx").on(table.status)
-  })
-);
-
-export const migrationRuns = pgTable("migration_runs", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  source: text("source").notNull().default("shopify"),
-  status: text("status").notNull().default("pending"),
-  startedAt: timestamp("started_at", { withTimezone: true }),
-  finishedAt: timestamp("finished_at", { withTimezone: true }),
-  lastCheckpoint: jsonb("last_checkpoint"),
-  counters: jsonb("counters").notNull().default(sql`'{}'::jsonb`),
-  errorMessage: text("error_message"),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
-});
-
-export const migrationCheckpoints = pgTable(
-  "migration_checkpoints",
-  {
-    id: uuid("id").primaryKey().defaultRandom(),
-    runId: uuid("run_id").notNull().references(() => migrationRuns.id),
-    resource: text("resource").notNull(),
-    cursor: text("cursor"),
-    completed: boolean("completed").notNull().default(false),
-    payload: jsonb("payload").notNull().default(sql`'{}'::jsonb`),
-    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
-  },
-  (table) => ({
-    runResourceIdx: uniqueIndex("migration_checkpoints_run_resource_idx").on(table.runId, table.resource)
-  })
-);
-
-export const carts = pgTable(
-  "carts",
-  {
-    id: uuid("id").primaryKey().defaultRandom(),
-    sessionId: text("session_id").notNull(),
-    currencyCode: text("currency_code").notNull().default("USD"),
-    customerId: uuid("customer_id"),
-    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
-  },
-  (table) => ({
-    sessionIdx: uniqueIndex("carts_session_id_idx").on(table.sessionId)
-  })
-);
-
-export const cartItems = pgTable(
-  "cart_items",
-  {
-    id: uuid("id").primaryKey().defaultRandom(),
-    cartId: uuid("cart_id")
-      .notNull()
-      .references(() => carts.id, { onDelete: "cascade" }),
-    productId: uuid("product_id")
-      .notNull()
-      .references(() => products.id),
-    variantId: uuid("variant_id")
-      .notNull()
-      .references(() => productVariants.id),
-    quantity: integer("quantity").notNull().default(1),
-    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
-  },
-  (table) => ({
-    cartVariantIdx: uniqueIndex("cart_items_cart_variant_idx").on(table.cartId, table.variantId),
-    cartIdx: index("cart_items_cart_id_idx").on(table.cartId),
-    variantIdx: index("cart_items_variant_id_idx").on(table.variantId)
-  })
-);
-
-export const redirects = pgTable(
-  "redirects",
-  {
-    id: uuid("id").primaryKey().defaultRandom(),
-    fromPath: text("from_path").notNull(),
-    toPath: text("to_path").notNull(),
-    statusCode: integer("status_code").notNull().default(301),
-    isActive: boolean("is_active").notNull().default(true),
-    note: text("note"),
-    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
-  },
-  (table) => ({
-    fromPathActiveIdx: uniqueIndex("redirects_from_path_active_idx")
-      .on(table.fromPath)
-      .where(sql`${table.isActive} = true`),
-    activeIdx: index("redirects_active_idx").on(table.isActive)
-  })
-);
-
-export const cartsRelations = relations(carts, ({ many }) => ({
-  items: many(cartItems)
-}));
-
-export const cartItemsRelations = relations(cartItems, ({ one }) => ({
-  cart: one(carts, { fields: [cartItems.cartId], references: [carts.id] }),
-  product: one(products, { fields: [cartItems.productId], references: [products.id] }),
-  variant: one(productVariants, { fields: [cartItems.variantId], references: [productVariants.id] })
-}));
-
-export const productsRelations = relations(products, ({ many }) => ({
-  variants: many(productVariants),
-  images: many(productImages)
-}));
-
-export const migrationRunsRelations = relations(migrationRuns, ({ many }) => ({
-  checkpoints: many(migrationCheckpoints)
-}));
-
-const databaseClients = new Map<string, ReturnType<typeof drizzle>>();
-
-function resolvePostgresPoolSize(): number {
-  // Supabase Session mode caps concurrent clients (often ~15). On Vercel each
-  // invocation used to open a fresh max:10 pool and leak them until EMAXCONNSESSION.
-  if (process.env.VERCEL || process.env.NODE_ENV === "production") {
-    return 1;
-  }
-
-  return 5;
-}
-
-export function createDatabaseClient(databaseUrl: string) {
-  const cached = databaseClients.get(databaseUrl);
-
-  if (cached) {
-    return cached;
-  }
-
-  const options: Parameters<typeof postgres>[1] = {
-    max: resolvePostgresPoolSize(),
-    prepare: false,
-    idle_timeout: 20,
-    max_lifetime: 60 * 5,
-    connect_timeout: 10
-  };
-
-  if (/supabase\.co|sslmode=require/i.test(databaseUrl)) {
-    options.ssl = "require";
-  }
-
-  // Transaction pooler (6543) is preferred on serverless; session mode still works with max:1.
-  const queryClient = postgres(databaseUrl, options);
-
-  const db = drizzle(queryClient, {
-    schema: {
-      products,
-      productVariants,
-      productImages,
-      collections,
-      collectionProducts,
-      seoRecords,
-      complianceFlags,
-      creativeAssets,
-      migrationRuns,
-      migrationCheckpoints,
-      carts,
-      cartItems,
-      redirects
-    }
-  });
-
-  databaseClients.set(databaseUrl, db);
-  return db;
-}
+import { cartItems, carts, migrationCheckpoints, migrationRuns, productVariants, products, redirects, customers, sizeCharts, customisationProfiles } from "./schema-catalogue";
+import { issueCases, orderItems, orders, purchaseOrders, suppliers } from "./schema-commerce";
 
 export type Cart = typeof carts.$inferSelect;
 export type CartItem = typeof cartItems.$inferSelect;
 export type Redirect = typeof redirects.$inferSelect;
 export type NewRedirect = typeof redirects.$inferInsert;
-
 export type Product = typeof products.$inferSelect;
 export type NewProduct = typeof products.$inferInsert;
 export type ProductVariant = typeof productVariants.$inferSelect;
 export type NewProductVariant = typeof productVariants.$inferInsert;
 export type MigrationRun = typeof migrationRuns.$inferSelect;
 export type MigrationCheckpoint = typeof migrationCheckpoints.$inferSelect;
+export type Customer = typeof customers.$inferSelect;
+export type Order = typeof orders.$inferSelect;
+export type OrderItem = typeof orderItems.$inferSelect;
+export type Supplier = typeof suppliers.$inferSelect;
+export type PurchaseOrder = typeof purchaseOrders.$inferSelect;
+export type IssueCase = typeof issueCases.$inferSelect;
+export type SizeChart = typeof sizeCharts.$inferSelect;
+export type CustomisationProfile = typeof customisationProfiles.$inferSelect;
+
+// Keep drizzle type available for callers that previously inferred via createDatabaseClient.
+export type DatabaseClient = ReturnType<typeof drizzle>;

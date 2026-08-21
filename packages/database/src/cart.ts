@@ -1,12 +1,10 @@
 import { and, eq } from "drizzle-orm";
-import {
-  cartItems,
-  carts,
-  createDatabaseClient,
-  productImages,
-  products,
-  productVariants
-} from "./index";
+import type { CartCustomisation } from "@sjh/shared";
+import { cartCustomisationSchema } from "@sjh/shared";
+import { createDatabaseClient } from "./client";
+import { cartItems, carts, productImages, products, productVariants } from "./schema-catalogue";
+
+export type CartCustomisationInput = CartCustomisation;
 
 export type CartLineItem = {
   id: string;
@@ -20,6 +18,8 @@ export type CartLineItem = {
   currencyCode: string;
   imageUrl?: string;
   lineTotalAmount: string;
+  customisation: CartCustomisation;
+  customisationPriceAmount: string;
 };
 
 export type CartSnapshot = {
@@ -47,6 +47,29 @@ function multiplyMoney(amount: string, quantity: number): string {
 
 function sumMoney(amounts: string[]): string {
   return amounts.reduce((total, amount) => total + Number.parseFloat(amount), 0).toFixed(2);
+}
+
+function addMoney(a: string, b: string): string {
+  return (Number.parseFloat(a) + Number.parseFloat(b)).toFixed(2);
+}
+
+export function fingerprintCustomisation(customisation: CartCustomisation): string {
+  if (customisation.mode === "none") {
+    return "none";
+  }
+
+  const payload = {
+    mode: customisation.mode,
+    name: customisation.name?.trim().toUpperCase() ?? "",
+    number: customisation.number?.trim() ?? "",
+    message: customisation.message?.trim() ?? ""
+  };
+
+  return Buffer.from(JSON.stringify(payload)).toString("base64url");
+}
+
+function normalizeCustomisation(input?: CartCustomisationInput): CartCustomisation {
+  return cartCustomisationSchema.parse(input ?? { mode: "none" });
 }
 
 export async function getOrCreateCart(sessionId: string, databaseUrl?: string): Promise<CartSnapshot> {
@@ -87,8 +110,11 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
       variantId: productVariants.id,
       variantTitle: productVariants.title,
       priceAmount: productVariants.priceAmount,
+      unitPriceAmount: cartItems.unitPriceAmount,
       currencyCode: productVariants.currencyCode,
-      imageUrl: productImages.url
+      imageUrl: productImages.url,
+      customisation: cartItems.customisation,
+      customisationPriceAmount: cartItems.customisationPriceAmount
     })
     .from(cartItems)
     .innerJoin(products, eq(cartItems.productId, products.id))
@@ -99,19 +125,28 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
     )
     .where(eq(cartItems.cartId, cart.id));
 
-  const items: CartLineItem[] = rows.map((row) => ({
-    id: row.id,
-    quantity: row.quantity,
-    productId: row.productId,
-    productSlug: row.productSlug,
-    productTitle: row.productTitle,
-    variantId: row.variantId,
-    variantTitle: row.variantTitle,
-    priceAmount: row.priceAmount,
-    currencyCode: row.currencyCode,
-    ...(row.imageUrl ? { imageUrl: row.imageUrl } : {}),
-    lineTotalAmount: multiplyMoney(row.priceAmount, row.quantity)
-  }));
+  const items: CartLineItem[] = rows.map((row) => {
+    const customisation = cartCustomisationSchema.parse(row.customisation ?? { mode: "none" });
+    const unitPrice = row.unitPriceAmount ?? row.priceAmount;
+    const customisationPrice = row.customisationPriceAmount ?? "0.00";
+    const unitWithCustomisation = addMoney(unitPrice, customisationPrice);
+
+    return {
+      id: row.id,
+      quantity: row.quantity,
+      productId: row.productId,
+      productSlug: row.productSlug,
+      productTitle: row.productTitle,
+      variantId: row.variantId,
+      variantTitle: row.variantTitle,
+      priceAmount: unitPrice,
+      currencyCode: row.currencyCode,
+      ...(row.imageUrl ? { imageUrl: row.imageUrl } : {}),
+      lineTotalAmount: multiplyMoney(unitWithCustomisation, row.quantity),
+      customisation,
+      customisationPriceAmount: customisationPrice
+    };
+  });
 
   return {
     id: cart.id,
@@ -127,10 +162,14 @@ export async function addItemToCart(
   sessionId: string,
   variantId: string,
   quantity = 1,
-  databaseUrl?: string
+  databaseUrl?: string,
+  customisationInput?: CartCustomisationInput,
+  customisationPriceAmount = "0.00"
 ): Promise<CartSnapshot> {
   const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
   const cart = await getOrCreateCart(sessionId, databaseUrl);
+  const customisation = normalizeCustomisation(customisationInput);
+  const fingerprint = fingerprintCustomisation(customisation);
 
   if (!cart.id) {
     throw new Error("Failed to resolve cart.");
@@ -140,7 +179,8 @@ export async function addItemToCart(
     .select({
       id: productVariants.id,
       productId: productVariants.productId,
-      isAvailable: productVariants.isAvailable
+      isAvailable: productVariants.isAvailable,
+      priceAmount: productVariants.priceAmount
     })
     .from(productVariants)
     .where(eq(productVariants.id, variantId))
@@ -157,7 +197,13 @@ export async function addItemToCart(
   const [existingItem] = await db
     .select({ id: cartItems.id, quantity: cartItems.quantity })
     .from(cartItems)
-    .where(and(eq(cartItems.cartId, cart.id), eq(cartItems.variantId, variant.id)))
+    .where(
+      and(
+        eq(cartItems.cartId, cart.id),
+        eq(cartItems.variantId, variant.id),
+        eq(cartItems.customisationFingerprint, fingerprint)
+      )
+    )
     .limit(1);
 
   if (existingItem) {
@@ -170,7 +216,11 @@ export async function addItemToCart(
       cartId: cart.id,
       productId: variant.productId,
       variantId: variant.id,
-      quantity
+      quantity,
+      customisation,
+      customisationFingerprint: fingerprint,
+      customisationPriceAmount,
+      unitPriceAmount: variant.priceAmount
     });
   }
 

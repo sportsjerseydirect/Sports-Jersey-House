@@ -1,6 +1,7 @@
 import type { Route } from "next";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { formatCustomisationSummary } from "@sjh/shared";
 import { CartLineControls } from "@/components/cart-line-controls";
 import { formatProductPrice, productDetailPath } from "@/lib/products";
 import { loadCart } from "@/lib/cart";
@@ -28,33 +29,44 @@ export default async function CartPage() {
       {cart.items.length > 0 ? (
         <section className="cart-layout" aria-label="Cart items">
           <ul className="cart-items">
-            {cart.items.map((item) => (
-              <li className="cart-item" key={item.id}>
-                <div className="cart-item-media">
-                  {item.imageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img alt={item.productTitle} height={120} src={item.imageUrl} width={90} />
-                  ) : (
-                    <div className="product-card-fallback" aria-hidden="true">
-                      SJH
-                    </div>
-                  )}
-                </div>
-                <div className="cart-item-body">
-                  <Link href={productDetailPath(item.productSlug)}>
-                    <h2>{item.productTitle}</h2>
-                  </Link>
-                  <p>{item.variantTitle}</p>
-                  <p>
-                    {formatProductPrice(item.priceAmount, item.currencyCode)} each
+            {cart.items.map((item) => {
+              const customisationSummary = formatCustomisationSummary(item.customisation);
+              const unitWithCustomisation = (
+                Number.parseFloat(item.priceAmount) + Number.parseFloat(item.customisationPriceAmount)
+              ).toFixed(2);
+
+              return (
+                <li className="cart-item" key={item.id}>
+                  <div className="cart-item-media">
+                    {item.imageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img alt={item.productTitle} height={120} src={item.imageUrl} width={90} />
+                    ) : (
+                      <div className="product-card-fallback" aria-hidden="true">
+                        SJH
+                      </div>
+                    )}
+                  </div>
+                  <div className="cart-item-body">
+                    <Link href={productDetailPath(item.productSlug)}>
+                      <h2>{item.productTitle}</h2>
+                    </Link>
+                    <p>{item.variantTitle}</p>
+                    {customisationSummary ? <p className="cart-item-customisation">{customisationSummary}</p> : null}
+                    <p>
+                      {formatProductPrice(unitWithCustomisation, item.currencyCode)} each
+                      {Number.parseFloat(item.customisationPriceAmount) > 0
+                        ? ` (incl. ${formatProductPrice(item.customisationPriceAmount, item.currencyCode)} customisation)`
+                        : ""}
+                    </p>
+                    <CartLineControls itemId={item.id} quantity={item.quantity} />
+                  </div>
+                  <p className="cart-item-total">
+                    {formatProductPrice(item.lineTotalAmount, item.currencyCode)}
                   </p>
-                  <CartLineControls itemId={item.id} quantity={item.quantity} />
-                </div>
-                <p className="cart-item-total">
-                  {formatProductPrice(item.lineTotalAmount, item.currencyCode)}
-                </p>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
 
           <aside className="cart-summary">

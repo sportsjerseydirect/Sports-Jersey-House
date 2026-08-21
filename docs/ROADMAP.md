@@ -83,21 +83,19 @@
 
 ## Current Focus
 
-**Staging is live** (Vercel + Supabase seed catalogue). Next:
+**Commerce platform (see [`docs/COMMERCE-PLATFORM.md`](./COMMERCE-PLATFORM.md))**
 
-1. Keep deploy config and docs in sync with GitHub (`main`)
-2. Harden production ops (admin password, rate limits) — in progress
-3. Shopify client-credentials extract only when approved + `ENABLE_SHOPIFY_SYNC=true`
-4. Redirects schema + 301 middleware before full catalogue load
-5. AI enrichment agents behind approval queues
+1. **Phase 1** — Data model foundation (`0005_commerce_foundation`) ✅ applied + verified on Supabase
+2. **Phase 2** — Product/customisation PDP experience (in progress)
+3. Keep Vercel/Supabase/GitHub intact; Shopify sync remains gated
 
-Supabase schema + RLS + 8-product/5-collection seed are applied. Production health: `/api/health`.
+Legacy catalogue/migration work continues in parallel under Phase 1–2 above (Shopify extract still requires approval).
 
 ---
 
 ## Explicitly Deferred
 
-- Payment processing (Stripe) — after catalogue load
-- Order migration — business decision required
+- Payment processing (Stripe) — Phase 3 after customisation UX
+- Order migration from Shopify — business decision required
 - Dedicated search engine (Meilisearch/Algolia) — only if PostgreSQL limits hit
 - Multi-locale — single locale first

@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { toBooleanFlag, creativeAssetSchema } from "./index";
+import {
+  cartCustomisationSchema,
+  creativeAssetSchema,
+  customisationPriceForMode,
+  toBooleanFlag
+} from "./index";
 
 describe("shared contracts", () => {
   it("parses boolean feature flags conservatively", () => {
@@ -28,5 +33,24 @@ describe("shared contracts", () => {
 
     expect(parsed.status).toBe("under_review");
     expect(parsed.complianceStatus).toBe("under_review");
+  });
+
+  it("validates jersey customisation payloads", () => {
+    expect(cartCustomisationSchema.parse({ mode: "none" }).mode).toBe("none");
+    expect(() => cartCustomisationSchema.parse({ mode: "name" })).toThrow();
+    expect(cartCustomisationSchema.parse({ mode: "name_number", name: "Jordan", number: "23" }).number).toBe(
+      "23"
+    );
+    expect(
+      customisationPriceForMode(
+        {
+          namePriceAmount: "15.00",
+          numberPriceAmount: "10.00",
+          nameNumberPriceAmount: "20.00",
+          messagePriceAmount: "0.00"
+        },
+        "name_number"
+      )
+    ).toBe("20.00");
   });
 });

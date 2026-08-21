@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AddToCartButton } from "@/components/add-to-cart-button";
+import { ProductGallery } from "@/components/product-gallery";
+import { ProductGrid } from "@/components/product-grid";
+import { PdpPurchasePanel } from "@/components/pdp-purchase-panel";
 import { safeStaticSlugs } from "@/lib/isr";
-import { formatProductPrice } from "@/lib/products";
 import { getSearchProvider } from "@/lib/search";
 import { breadcrumbJsonLd, createMetadata, productJsonLd } from "@/lib/seo";
+import { createDatabaseClient } from "@sjh/database";
+import { getRelatedProducts } from "@sjh/search";
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
@@ -53,8 +56,29 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     { name: product.title, path: `/products/${product.slug}` }
   ]);
   const structuredData = productJsonLd(product);
-  const primaryVariant = product.variants.find((variant) => variant.isAvailable) ?? product.variants[0];
-  const heroImage = product.images[0];
+
+  let related: Awaited<ReturnType<typeof getRelatedProducts>> = [];
+  const databaseUrl = process.env.DATABASE_URL;
+
+  if (databaseUrl) {
+    try {
+      const db = createDatabaseClient(databaseUrl);
+      related = await getRelatedProducts(
+        db,
+        {
+          id: product.id,
+          team: product.team ?? null,
+          league: product.league ?? null,
+          sport: product.sport ?? null
+        },
+        4
+      );
+    } catch {
+      related = [];
+    }
+  }
+
+  const metaBits = [product.league, product.team, product.playerName].filter(Boolean);
 
   return (
     <main className="page-shell">
@@ -76,53 +100,60 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
       </nav>
 
       <article className="product-detail">
-        <div className="product-detail-media">
-          {heroImage ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              alt={heroImage.altText ?? product.title}
-              height={800}
-              src={heroImage.url}
-              width={600}
-            />
-          ) : (
-            <div className="product-card-fallback" aria-hidden="true">
-              SJH
-            </div>
-          )}
-        </div>
+        <ProductGallery images={product.images} title={product.title} />
 
         <div className="product-detail-copy">
-          <p className="eyebrow">{[product.league, product.team].filter(Boolean).join(" · ")}</p>
+          {metaBits.length > 0 ? <p className="eyebrow">{metaBits.join(" · ")}</p> : null}
           <h1>{product.title}</h1>
           {product.description ? <p className="product-detail-description">{product.description}</p> : null}
-          {primaryVariant ? (
-            <div className="pdp-purchase">
-              <p className="product-detail-price">
-                {formatProductPrice(primaryVariant.price.amount, primaryVariant.price.currencyCode)}
-              </p>
-              <AddToCartButton disabled={!primaryVariant.isAvailable} variantId={primaryVariant.id} />
-            </div>
-          ) : null}
-          {product.variants.length > 0 ? (
-            <div className="product-detail-variants">
-              <h2>Available sizes</h2>
-              <ul>
-                {product.variants.map((variant) => (
-                  <li key={variant.id} className={variant.isAvailable ? undefined : "is-unavailable"}>
-                    <span>{variant.title}</span>
-                    {variant.sku ? <span className="product-detail-sku">{variant.sku}</span> : null}
-                    <span>
-                      {formatProductPrice(variant.price.amount, variant.price.currencyCode)}
-                      {variant.isAvailable ? "" : " · Out of stock"}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
+
+          <PdpPurchasePanel
+            customisationEnabled={product.customisationEnabled}
+            {...(product.customisationProfile ? { customisationProfile: product.customisationProfile } : {})}
+            productTitle={product.title}
+            {...(product.sizeChart ? { sizeChart: product.sizeChart } : {})}
+            variants={product.variants}
+          />
         </div>
       </article>
+
+      <section className="pdp-info-sections" aria-label="Product information">
+        {product.shippingExpectations ? (
+          <details className="pdp-info-block" open>
+            <summary>Shipping & fulfilment</summary>
+            <p>{product.shippingExpectations}</p>
+          </details>
+        ) : null}
+        {product.careInstructions ? (
+          <details className="pdp-info-block">
+            <summary>Care instructions</summary>
+            <p>{product.careInstructions}</p>
+          </details>
+        ) : null}
+        {product.faqs.length > 0 ? (
+          <details className="pdp-info-block">
+            <summary>FAQs</summary>
+            <dl className="pdp-faq-list">
+              {product.faqs.map((faq) => (
+                <div key={faq.question}>
+                  <dt>{faq.question}</dt>
+                  <dd>{faq.answer}</dd>
+                </div>
+              ))}
+            </dl>
+          </details>
+        ) : null}
+      </section>
+
+      {related.length > 0 ? (
+        <section className="related-products" aria-label="Related products">
+          <div className="page-heading compact">
+            <p className="eyebrow">You may also like</p>
+            <h2>Related jerseys</h2>
+          </div>
+          <ProductGrid ariaLabel="Related jerseys" products={related} />
+        </section>
+      ) : null}
     </main>
   );
 }

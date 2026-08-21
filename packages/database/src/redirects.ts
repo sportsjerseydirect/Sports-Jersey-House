@@ -1,5 +1,6 @@
 import { and, eq } from "drizzle-orm";
-import { createDatabaseClient, redirects } from "./index";
+import { createDatabaseClient } from "./client";
+import { redirects } from "./schema-catalogue";
 
 export type RedirectMatch = {
   toPath: string;

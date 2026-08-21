@@ -94,7 +94,7 @@ export {
   listPublishedCollectionSlugs,
   listPublishedCollections
 } from "./get-collection";
-export { createProductCatalogue, getProductBySlug, listPublishedProductSlugs, loadProductSummaries, resolveCatalogueImageUrl } from "./get-product";
+export { createProductCatalogue, getProductBySlug, getRelatedProducts, listPublishedProductSlugs, loadProductSummaries, resolveCatalogueImageUrl } from "./get-product";
 export { PostgresSearchProvider, createPostgresSearchProvider } from "./postgres-provider";
 export { mapProductToSummary, mapProductsToSummaries } from "./map-product";
 

@@ -1,9 +1,11 @@
-import { and, asc, eq, inArray, isNull } from "drizzle-orm";
+import { and, asc, eq, inArray, isNull, ne, or } from "drizzle-orm";
 import {
   createDatabaseClient,
+  customisationProfiles,
   productImages,
   products,
   productVariants,
+  sizeCharts,
   type Product
 } from "@sjh/database";
 import type { ProductDetail, ProductSummary } from "@sjh/shared";
@@ -19,6 +21,37 @@ export function resolveCatalogueImageUrl(url: string): string | undefined {
 
   const appUrl = process.env.APP_URL ?? "http://localhost:3000";
   return `${appUrl.replace(/\/$/, "")}${url.startsWith("/") ? url : `/${url}`}`;
+}
+
+function mapVariant(variant: {
+  id: string;
+  title: string;
+  sku: string | null;
+  sizeLabel: string | null;
+  priceAmount: string;
+  compareAtAmount: string | null;
+  currencyCode: string;
+  isAvailable: boolean;
+}) {
+  return {
+    id: variant.id,
+    title: variant.title,
+    sku: variant.sku ?? undefined,
+    sizeLabel: variant.sizeLabel ?? undefined,
+    price: {
+      amount: variant.priceAmount,
+      currencyCode: variant.currencyCode as "USD" | "CAD"
+    },
+    ...(variant.compareAtAmount
+      ? {
+          compareAtPrice: {
+            amount: variant.compareAtAmount,
+            currencyCode: variant.currencyCode as "USD" | "CAD"
+          }
+        }
+      : {}),
+    isAvailable: variant.isAvailable
+  };
 }
 
 export async function getProductBySlug(
@@ -37,7 +70,7 @@ export async function getProductBySlug(
     return null;
   }
 
-  const [variants, images] = await Promise.all([
+  const [variants, images, sizeChartRows, profileRows] = await Promise.all([
     db
       .select()
       .from(productVariants)
@@ -47,7 +80,26 @@ export async function getProductBySlug(
       .select()
       .from(productImages)
       .where(and(eq(productImages.productId, product.id), isNull(productImages.deletedAt)))
-      .orderBy(asc(productImages.sortOrder))
+      .orderBy(asc(productImages.sortOrder)),
+    product.sizeChartId
+      ? db
+          .select()
+          .from(sizeCharts)
+          .where(and(eq(sizeCharts.id, product.sizeChartId), isNull(sizeCharts.deletedAt)))
+          .limit(1)
+      : Promise.resolve([]),
+    product.customisationProfileId
+      ? db
+          .select()
+          .from(customisationProfiles)
+          .where(
+            and(
+              eq(customisationProfiles.id, product.customisationProfileId),
+              isNull(customisationProfiles.deletedAt)
+            )
+          )
+          .limit(1)
+      : Promise.resolve([])
   ]);
 
   const primaryImage = images[0];
@@ -58,18 +110,50 @@ export async function getProductBySlug(
     ...(primaryImageUrl ? { primaryImageUrl } : {})
   });
 
+  const sizeChart = sizeChartRows[0];
+  const profile = profileRows[0];
+
   return productDetailSchema.parse({
     ...summary,
-    variants: variants.map((variant) => ({
-      id: variant.id,
-      title: variant.title,
-      sku: variant.sku ?? undefined,
-      price: {
-        amount: variant.priceAmount,
-        currencyCode: variant.currencyCode
-      },
-      isAvailable: variant.isAvailable
-    })),
+    playerName: product.playerName ?? undefined,
+    careInstructions: product.careInstructions ?? undefined,
+    shippingExpectations: product.shippingExpectations ?? undefined,
+    faqs: Array.isArray(product.faqs) ? product.faqs : [],
+    customisationEnabled: product.customisationEnabled,
+    ...(sizeChart
+      ? {
+          sizeChart: {
+            id: sizeChart.id,
+            slug: sizeChart.slug,
+            title: sizeChart.title,
+            sport: sizeChart.sport ?? undefined,
+            description: sizeChart.description ?? undefined,
+            rows: Array.isArray(sizeChart.rows) ? sizeChart.rows : [],
+            notes: sizeChart.notes ?? undefined
+          }
+        }
+      : {}),
+    ...(profile
+      ? {
+          customisationProfile: {
+            id: profile.id,
+            slug: profile.slug,
+            title: profile.title,
+            description: profile.description ?? undefined,
+            allowedModes: profile.allowedModes,
+            nameMaxLength: profile.nameMaxLength,
+            numberMaxLength: profile.numberMaxLength,
+            messageMaxLength: profile.messageMaxLength,
+            namePriceAmount: profile.namePriceAmount,
+            numberPriceAmount: profile.numberPriceAmount,
+            nameNumberPriceAmount: profile.nameNumberPriceAmount,
+            messagePriceAmount: profile.messagePriceAmount,
+            currencyCode: profile.currencyCode,
+            requiresSize: profile.requiresSize
+          }
+        }
+      : {}),
+    variants: variants.map(mapVariant),
     images: images
       .map((image) => {
         const url = resolveCatalogueImageUrl(image.url);
@@ -77,6 +161,37 @@ export async function getProductBySlug(
       })
       .filter((image): image is NonNullable<typeof image> => image !== null)
   });
+}
+
+export async function getRelatedProducts(
+  db: DatabaseClient,
+  product: Pick<Product, "id" | "team" | "league" | "sport">,
+  limit = 4
+): Promise<ProductSummary[]> {
+  const affinityFilters = [
+    product.team ? eq(products.team, product.team) : undefined,
+    product.league ? eq(products.league, product.league) : undefined,
+    product.sport ? eq(products.sport, product.sport) : undefined
+  ].filter((value): value is NonNullable<typeof value> => Boolean(value));
+
+  const whereClause =
+    affinityFilters.length > 0
+      ? and(
+          eq(products.status, "published"),
+          isNull(products.deletedAt),
+          ne(products.id, product.id),
+          or(...affinityFilters)
+        )
+      : and(eq(products.status, "published"), isNull(products.deletedAt), ne(products.id, product.id));
+
+  const rows = await db
+    .select()
+    .from(products)
+    .where(whereClause)
+    .orderBy(asc(products.title))
+    .limit(limit);
+
+  return loadProductSummaries(db, rows);
 }
 
 export async function loadProductSummaries(
