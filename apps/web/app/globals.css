@@ -353,6 +353,30 @@ button,
   background: white;
 }
 
+.tracking-ingest-form {
+  max-width: 720px;
+}
+
+.tracking-ingest-form textarea {
+  width: 100%;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9rem;
+}
+
+.tracking-ingest-result ul {
+  margin: 8px 0 0;
+  padding-left: 1.2rem;
+}
+
+.tracking-line {
+  margin: 4px 0 0;
+  font-size: 0.92rem;
+}
+
+.email-draft-block + .email-draft-block {
+  margin-top: 16px;
+}
+
 .admin-table {
   width: 100%;
   border-collapse: collapse;

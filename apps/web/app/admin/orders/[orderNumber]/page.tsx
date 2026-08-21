@@ -3,7 +3,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { formatCustomisationSummary } from "@sjh/shared";
-import { getOrderByNumber } from "@sjh/database";
+import { buildShippingEmailDraft, getOrderByNumber } from "@sjh/database";
 import { formatProductPrice } from "@/lib/products";
 import { createMetadata } from "@/lib/seo";
 
@@ -103,9 +103,15 @@ export default async function AdminOrderDetailPage({ params }: AdminOrderDetailP
                   <div>
                     <strong>{item.productTitle}</strong>
                     <p>
-                      {item.variantTitle} · Qty {item.quantity}
+                      {item.variantTitle} · Qty {item.quantity} · {item.fulfilmentStatus.replaceAll("_", " ")}
                     </p>
                     {customisationSummary ? <p className="cart-item-customisation">{customisationSummary}</p> : null}
+                    {item.trackingNumber ? (
+                      <p className="tracking-line">
+                        {item.courier ? `${item.courier}: ` : "Tracking: "}
+                        <code>{item.trackingNumber}</code>
+                      </p>
+                    ) : null}
                   </div>
                   <span>{formatProductPrice(item.lineTotalAmount, item.currencyCode)}</span>
                 </li>
@@ -113,6 +119,30 @@ export default async function AdminOrderDetailPage({ params }: AdminOrderDetailP
             })}
           </ul>
         </article>
+
+        {order.items.some((item) => item.trackingNumber) ? (
+          <article className="status-panel">
+            <h2>Shipping email drafts (not sent)</h2>
+            {order.items
+              .filter((item) => item.trackingNumber)
+              .map((item) => {
+                const draft = buildShippingEmailDraft({
+                  orderNumber: order.orderNumber,
+                  email: order.email,
+                  trackingNumber: item.trackingNumber!,
+                  courierName: item.courier
+                });
+                return (
+                  <div key={`email-${item.id}`} className="email-draft-block">
+                    <p>
+                      To: {draft.to ?? "—"} · Subject: {draft.subject}
+                    </p>
+                    <pre className="email-draft">{draft.bodyText}</pre>
+                  </div>
+                );
+              })}
+          </article>
+        ) : null}
       </section>
     </main>
   );

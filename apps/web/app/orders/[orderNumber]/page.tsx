@@ -99,6 +99,12 @@ export default async function OrderConfirmationPage({ params }: OrderPageProps) 
                       {item.variantTitle} · Qty {item.quantity}
                     </p>
                     {customisationSummary ? <p className="cart-item-customisation">{customisationSummary}</p> : null}
+                    {item.trackingNumber ? (
+                      <p className="tracking-line">
+                        Shipped via {item.courier ?? "courier"}: <code>{item.trackingNumber}</code>
+                        <span className="cart-note"> Tracking may take a short time to become active.</span>
+                      </p>
+                    ) : null}
                   </div>
                   <span>{formatProductPrice(item.lineTotalAmount, item.currencyCode)}</span>
                 </li>

@@ -90,7 +90,7 @@ Deliverables:
 
 ---
 
-### Phase 4 — Supplier / PO / packing slips 🔄 In progress
+### Phase 4 — Supplier / PO / packing slips ✅
 
 **Goal:** Batch supplier submissions.
 
@@ -103,13 +103,15 @@ Deliverables:
 
 ---
 
-### Phase 5 — Tracking automation
+### Phase 5 — Tracking automation ✅
 
 **Goal:** Configurable courier matching + AI-assisted paste ingest.
 
 - Admin courier rules (regex/prefix → courier) — **no hard-coded permanent examples in code**.
 - Tracking ingest API; order matching; exception list.
 - Shipping/tracking customer emails when configured.
+
+**Repo status:** Courier rule CRUD, paste ingest (`ORDER TRACKING` / `ORDER|TRACKING`), order/customer tracking display, shipping email **draft** only (no send).
 
 ---
 

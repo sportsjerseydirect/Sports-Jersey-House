@@ -26,6 +26,10 @@ export type OrderLineSnapshot = {
   customisationPriceAmount: string;
   lineTotalAmount: string;
   currencyCode: string;
+  fulfilmentStatus: string;
+  trackingNumber: string | null;
+  courier: string | null;
+  shippedAt: Date | null;
 };
 
 export type OrderSnapshot = {
@@ -282,7 +286,11 @@ function mapOrderRow(
       unitPriceAmount: item.unitPriceAmount,
       customisationPriceAmount: item.customisationPriceAmount,
       lineTotalAmount: item.lineTotalAmount,
-      currencyCode: item.currencyCode
+      currencyCode: item.currencyCode,
+      fulfilmentStatus: item.fulfilmentStatus,
+      trackingNumber: item.trackingNumber,
+      courier: item.courier,
+      shippedAt: item.shippedAt
     }))
   };
 }
