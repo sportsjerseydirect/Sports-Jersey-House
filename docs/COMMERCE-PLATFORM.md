@@ -75,7 +75,7 @@ Deliverables:
 
 ---
 
-### Phase 3 — Checkout & order management
+### Phase 3 — Checkout & order management 🔄 In progress
 
 **Goal:** Create real orders (Stripe when credentials approved).
 
@@ -85,6 +85,8 @@ Deliverables:
 - Abandoned cart/checkout events written for later marketing.
 
 **Gate:** Stripe keys + explicit approval before live charges.
+
+**Repo status:** Guest checkout places `pending_payment` orders with customisation on lines; confirmation page + admin read-only orders; abandoned checkout drafts. No Stripe / no outbound email yet.
 
 ---
 

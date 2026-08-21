@@ -148,7 +148,9 @@ export const orders = pgTable(
   "orders",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    orderNumber: text("order_number").notNull(),
+    orderNumber: text("order_number")
+      .notNull()
+      .default(sql`'SJH-' || nextval('order_number_seq')`),
     customerId: uuid("customer_id").references(() => customers.id),
     email: text("email"),
     phone: text("phone"),

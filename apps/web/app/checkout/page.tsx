@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { formatCustomisationSummary } from "@sjh/shared";
+import { CheckoutForm } from "@/components/checkout-form";
 import { formatProductPrice, productDetailPath } from "@/lib/products";
 import { loadCart } from "@/lib/cart";
 import { createMetadata } from "@/lib/seo";
@@ -37,64 +39,54 @@ export default async function CheckoutPage() {
     <main className="page-shell">
       <div className="page-heading">
         <p className="eyebrow">Checkout</p>
-        <h1>Review your order</h1>
-        <p>Stripe payment will connect in a later phase. This page confirms your cart before payment.</p>
+        <h1>Complete your order</h1>
+        <p>Enter contact and shipping details. Customisation on each jersey is saved with your order.</p>
       </div>
 
       <section className="checkout-layout" aria-label="Checkout">
         <div className="checkout-items">
-          <h2 className="visually-hidden">Order items</h2>
+          <h2>Order items</h2>
           <ul className="cart-items">
-            {cart.items.map((item) => (
-              <li className="cart-item checkout-item" key={item.id}>
-                <div className="cart-item-media">
-                  {item.imageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img alt={item.productTitle} height={120} src={item.imageUrl} width={90} />
-                  ) : (
-                    <div className="product-card-fallback" aria-hidden="true">
-                      SJH
-                    </div>
-                  )}
-                </div>
-                <div className="cart-item-body">
-                  <Link href={productDetailPath(item.productSlug)}>
-                    <h3>{item.productTitle}</h3>
-                  </Link>
-                  <p>
-                    {item.variantTitle} · Qty {item.quantity}
-                  </p>
-                </div>
-                <p className="cart-item-total">
-                  {formatProductPrice(item.lineTotalAmount, item.currencyCode)}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
+            {cart.items.map((item) => {
+              const customisationSummary = formatCustomisationSummary(item.customisation);
 
-        <aside className="checkout-summary cart-summary">
-          <h2>Order total</h2>
-          <dl>
-            <div>
-              <dt>Subtotal</dt>
-              <dd>{formatProductPrice(cart.subtotalAmount, cart.currencyCode)}</dd>
-            </div>
-            <div>
-              <dt>Shipping</dt>
-              <dd>Calculated at payment</dd>
-            </div>
-          </dl>
-          <p className="cart-note">
-            Payments will be processed securely through Stripe. Tax and shipping are finalised at checkout.
-          </p>
-          <button type="button" className="button primary checkout-cta" disabled>
-            Pay with Stripe — coming soon
-          </button>
+              return (
+                <li className="cart-item checkout-item" key={item.id}>
+                  <div className="cart-item-media">
+                    {item.imageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img alt={item.productTitle} height={120} src={item.imageUrl} width={90} />
+                    ) : (
+                      <div className="product-card-fallback" aria-hidden="true">
+                        SJH
+                      </div>
+                    )}
+                  </div>
+                  <div className="cart-item-body">
+                    <Link href={productDetailPath(item.productSlug)}>
+                      <h3>{item.productTitle}</h3>
+                    </Link>
+                    <p>
+                      {item.variantTitle} · Qty {item.quantity}
+                    </p>
+                    {customisationSummary ? <p className="cart-item-customisation">{customisationSummary}</p> : null}
+                  </div>
+                  <p className="cart-item-total">
+                    {formatProductPrice(item.lineTotalAmount, item.currencyCode)}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
           <Link className="button secondary" href="/cart">
             Back to cart
           </Link>
-        </aside>
+        </div>
+
+        <CheckoutForm
+          currencyCode={cart.currencyCode}
+          subtotalLabel={formatProductPrice(cart.subtotalAmount, cart.currencyCode)}
+        />
       </section>
     </main>
   );

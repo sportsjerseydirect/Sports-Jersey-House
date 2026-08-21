@@ -153,3 +153,29 @@ export function formatCustomisationSummary(customisation: CartCustomisation): st
       return null;
   }
 }
+
+export const shippingAddressSchema = z.object({
+  fullName: z.string().trim().min(1).max(120),
+  line1: z.string().trim().min(1).max(120),
+  line2: z.string().trim().max(120).optional(),
+  city: z.string().trim().min(1).max(80),
+  region: z.string().trim().min(1).max(80),
+  postalCode: z.string().trim().min(1).max(20),
+  country: z.enum(["US", "CA"]).default("US")
+});
+export type ShippingAddress = z.infer<typeof shippingAddressSchema>;
+
+export const guestCheckoutSchema = z.object({
+  email: z.string().trim().email().max(180),
+  phone: z.string().trim().min(7).max(30),
+  shippingAddress: shippingAddressSchema,
+  customerNotes: z.string().trim().max(500).optional()
+});
+export type GuestCheckoutInput = z.infer<typeof guestCheckoutSchema>;
+
+export const abandonedCheckoutDraftSchema = z.object({
+  email: z.string().trim().email().max(180).optional(),
+  phone: z.string().trim().min(7).max(30).optional(),
+  shippingAddress: shippingAddressSchema.partial().optional()
+});
+export type AbandonedCheckoutDraft = z.infer<typeof abandonedCheckoutDraftSchema>;

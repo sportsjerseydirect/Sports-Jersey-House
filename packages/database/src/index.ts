@@ -17,6 +17,14 @@ export type { ResolvedCartCustomisation } from "./cart-customisation";
 export { findActiveRedirect, normalizeRedirectPath } from "./redirects";
 export type { RedirectMatch } from "./redirects";
 export { createDatabaseClient, databaseSchema } from "./client";
+export {
+  clearCart,
+  createOrderFromCart,
+  getOrderByNumber,
+  listOrders,
+  recordAbandonedCheckout
+} from "./orders";
+export type { OrderLineSnapshot, OrderSnapshot } from "./orders";
 
 export {
   approvalStatus,

@@ -1,0 +1,308 @@
+import { and, desc, eq, inArray, isNull, sql } from "drizzle-orm";
+import type { AbandonedCheckoutDraft, CartCustomisation, GuestCheckoutInput } from "@sjh/shared";
+import { cartCustomisationSchema } from "@sjh/shared";
+import { createDatabaseClient } from "./client";
+import { getCartBySessionId } from "./cart";
+import { cartItems, carts, customers } from "./schema-catalogue";
+import { abandonedCheckouts, orderItems, orders } from "./schema-commerce";
+
+function resolveDatabaseUrl(databaseUrl?: string): string {
+  const url = databaseUrl ?? process.env.DATABASE_URL;
+  if (!url) {
+    throw new Error("DATABASE_URL is required for order operations.");
+  }
+  return url;
+}
+
+export type OrderLineSnapshot = {
+  id: string;
+  productTitle: string;
+  variantTitle: string;
+  sku?: string;
+  sizeLabel?: string;
+  quantity: number;
+  customisation: CartCustomisation;
+  unitPriceAmount: string;
+  customisationPriceAmount: string;
+  lineTotalAmount: string;
+  currencyCode: string;
+};
+
+export type OrderSnapshot = {
+  id: string;
+  orderNumber: string;
+  email: string | null;
+  phone: string | null;
+  status: string;
+  fulfilmentStatus: string;
+  currencyCode: string;
+  subtotalAmount: string;
+  discountAmount: string;
+  shippingRevenueAmount: string;
+  taxAmount: string;
+  totalAmount: string;
+  shippingAddress: GuestCheckoutInput["shippingAddress"] | null;
+  customerNotes: string | null;
+  placedAt: Date | null;
+  items: OrderLineSnapshot[];
+};
+
+export async function clearCart(sessionId: string, databaseUrl?: string): Promise<void> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const [cart] = await db.select({ id: carts.id }).from(carts).where(eq(carts.sessionId, sessionId)).limit(1);
+
+  if (!cart) {
+    return;
+  }
+
+  await db.delete(cartItems).where(eq(cartItems.cartId, cart.id));
+  await db.update(carts).set({ updatedAt: new Date() }).where(eq(carts.id, cart.id));
+}
+
+async function findOrCreateCustomer(
+  db: ReturnType<typeof createDatabaseClient>,
+  input: GuestCheckoutInput
+): Promise<string> {
+  const email = input.email.toLowerCase();
+  const [existing] = await db
+    .select({ id: customers.id })
+    .from(customers)
+    .where(and(sql`lower(${customers.email}) = ${email}`, isNull(customers.deletedAt)))
+    .limit(1);
+
+  if (existing) {
+    await db
+      .update(customers)
+      .set({
+        phone: input.phone,
+        firstName: input.shippingAddress.fullName.split(" ")[0] ?? null,
+        lastName: input.shippingAddress.fullName.split(" ").slice(1).join(" ") || null,
+        updatedAt: new Date()
+      })
+      .where(eq(customers.id, existing.id));
+    return existing.id;
+  }
+
+  const [created] = await db
+    .insert(customers)
+    .values({
+      email,
+      phone: input.phone,
+      firstName: input.shippingAddress.fullName.split(" ")[0] ?? null,
+      lastName: input.shippingAddress.fullName.split(" ").slice(1).join(" ") || null
+    })
+    .returning({ id: customers.id });
+
+  if (!created) {
+    throw new Error("Failed to create customer.");
+  }
+
+  return created.id;
+}
+
+export async function createOrderFromCart(
+  sessionId: string,
+  input: GuestCheckoutInput,
+  databaseUrl?: string
+): Promise<OrderSnapshot> {
+  const url = resolveDatabaseUrl(databaseUrl);
+  const db = createDatabaseClient(url);
+  const cart = await getCartBySessionId(sessionId, url);
+
+  if (!cart.id || cart.items.length === 0) {
+    throw new Error("Cart is empty.");
+  }
+
+  const customerId = await findOrCreateCustomer(db, input);
+  const now = new Date();
+
+  const [order] = await db
+    .insert(orders)
+    .values({
+      customerId,
+      email: input.email.toLowerCase(),
+      phone: input.phone,
+      status: "pending_payment",
+      fulfilmentStatus: "unfulfilled",
+      currencyCode: cart.currencyCode,
+      subtotalAmount: cart.subtotalAmount,
+      discountAmount: "0.00",
+      shippingRevenueAmount: "0.00",
+      taxAmount: "0.00",
+      paymentFeeAmount: "0.00",
+      totalAmount: cart.subtotalAmount,
+      shippingAddress: input.shippingAddress,
+      billingAddress: input.shippingAddress,
+      customerNotes: input.customerNotes ?? null,
+      cartId: cart.id,
+      placedAt: now
+    })
+    .returning();
+
+  if (!order) {
+    throw new Error("Failed to create order.");
+  }
+
+  await db.insert(orderItems).values(
+    cart.items.map((item) => ({
+      orderId: order.id,
+      productId: item.productId,
+      variantId: item.variantId,
+      productTitle: item.productTitle,
+      variantTitle: item.variantTitle,
+      sizeLabel: item.variantTitle,
+      quantity: item.quantity,
+      customisation: item.customisation,
+      unitPriceAmount: item.priceAmount,
+      customisationPriceAmount: item.customisationPriceAmount,
+      discountAmount: "0.00",
+      lineTotalAmount: item.lineTotalAmount,
+      currencyCode: item.currencyCode,
+      fulfilmentStatus: "unfulfilled" as const,
+      shippingDestination: input.shippingAddress
+    }))
+  );
+
+  await db
+    .update(abandonedCheckouts)
+    .set({
+      recoveredOrderId: order.id,
+      recoveredAt: now,
+      updatedAt: now
+    })
+    .where(and(eq(abandonedCheckouts.cartId, cart.id), isNull(abandonedCheckouts.recoveredAt)));
+
+  await clearCart(sessionId, url);
+
+  const snapshot = await getOrderByNumber(order.orderNumber, url);
+  if (!snapshot) {
+    throw new Error("Order created but could not be reloaded.");
+  }
+
+  return snapshot;
+}
+
+export async function recordAbandonedCheckout(
+  sessionId: string,
+  draft: AbandonedCheckoutDraft,
+  databaseUrl?: string
+): Promise<void> {
+  const url = resolveDatabaseUrl(databaseUrl);
+  const db = createDatabaseClient(url);
+  const cart = await getCartBySessionId(sessionId, url);
+
+  if (!cart.id) {
+    return;
+  }
+
+  const [existing] = await db
+    .select({ id: abandonedCheckouts.id })
+    .from(abandonedCheckouts)
+    .where(and(eq(abandonedCheckouts.cartId, cart.id), isNull(abandonedCheckouts.recoveredAt)))
+    .limit(1);
+
+  const payload = {
+    email: draft.email?.toLowerCase() ?? null,
+    phone: draft.phone ?? null,
+    shippingAddress: draft.shippingAddress ?? null,
+    itemCount: cart.itemCount,
+    subtotalAmount: cart.subtotalAmount
+  };
+
+  if (existing) {
+    await db
+      .update(abandonedCheckouts)
+      .set({
+        email: draft.email?.toLowerCase() ?? null,
+        phone: draft.phone ?? null,
+        checkoutPayload: payload,
+        updatedAt: new Date()
+      })
+      .where(eq(abandonedCheckouts.id, existing.id));
+    return;
+  }
+
+  await db.insert(abandonedCheckouts).values({
+    cartId: cart.id,
+    email: draft.email?.toLowerCase() ?? null,
+    phone: draft.phone ?? null,
+    checkoutPayload: payload
+  });
+}
+
+function mapOrderRow(
+  order: typeof orders.$inferSelect,
+  items: Array<typeof orderItems.$inferSelect>
+): OrderSnapshot {
+  return {
+    id: order.id,
+    orderNumber: order.orderNumber,
+    email: order.email,
+    phone: order.phone,
+    status: order.status,
+    fulfilmentStatus: order.fulfilmentStatus,
+    currencyCode: order.currencyCode,
+    subtotalAmount: order.subtotalAmount,
+    discountAmount: order.discountAmount,
+    shippingRevenueAmount: order.shippingRevenueAmount,
+    taxAmount: order.taxAmount,
+    totalAmount: order.totalAmount,
+    shippingAddress: (order.shippingAddress as GuestCheckoutInput["shippingAddress"] | null) ?? null,
+    customerNotes: order.customerNotes,
+    placedAt: order.placedAt,
+    items: items.map((item) => ({
+      id: item.id,
+      productTitle: item.productTitle,
+      variantTitle: item.variantTitle,
+      ...(item.sku ? { sku: item.sku } : {}),
+      ...(item.sizeLabel ? { sizeLabel: item.sizeLabel } : {}),
+      quantity: item.quantity,
+      customisation: cartCustomisationSchema.parse(item.customisation ?? { mode: "none" }),
+      unitPriceAmount: item.unitPriceAmount,
+      customisationPriceAmount: item.customisationPriceAmount,
+      lineTotalAmount: item.lineTotalAmount,
+      currencyCode: item.currencyCode
+    }))
+  };
+}
+
+export async function getOrderByNumber(
+  orderNumber: string,
+  databaseUrl?: string
+): Promise<OrderSnapshot | null> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const [order] = await db.select().from(orders).where(eq(orders.orderNumber, orderNumber)).limit(1);
+
+  if (!order || order.deletedAt) {
+    return null;
+  }
+
+  const items = await db
+    .select()
+    .from(orderItems)
+    .where(and(eq(orderItems.orderId, order.id), isNull(orderItems.deletedAt)));
+
+  return mapOrderRow(order, items);
+}
+
+export async function listOrders(limit = 50, databaseUrl?: string): Promise<OrderSnapshot[]> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const rows = await db
+    .select()
+    .from(orders)
+    .where(isNull(orders.deletedAt))
+    .orderBy(desc(orders.placedAt), desc(orders.createdAt))
+    .limit(limit);
+
+  if (rows.length === 0) {
+    return [];
+  }
+
+  const orderIds = rows.map((row) => row.id);
+  const items = await db
+    .select()
+    .from(orderItems)
+    .where(and(inArray(orderItems.orderId, orderIds), isNull(orderItems.deletedAt)));
+
+  return rows.map((order) => mapOrderRow(order, items.filter((item) => item.orderId === order.id)));
+}

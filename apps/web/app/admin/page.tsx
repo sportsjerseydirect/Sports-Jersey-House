@@ -1,5 +1,7 @@
 import { AdminLogoutButton } from "@/components/admin-logout-button";
 import type { Metadata } from "next";
+import type { Route } from "next";
+import Link from "next/link";
 import { cookies } from "next/headers";
 import { queueNames } from "@sjh/shared";
 import { ADMIN_SESSION_COOKIE, isAdminAuthRequired, verifyAdminSessionToken } from "@/lib/auth";
@@ -38,6 +40,15 @@ export default async function AdminPage() {
       {session ? <AdminLogoutButton /> : null}
 
       <section className="admin-grid" aria-label="System status">
+        <article className="status-panel">
+          <h2>Commerce</h2>
+          <ul>
+            <li>
+              <Link href={"/admin/orders" as Route}>Orders</Link>
+            </li>
+          </ul>
+        </article>
+
         <article className="status-panel">
           <h2>Safety gates</h2>
           <dl>
