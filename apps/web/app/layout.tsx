@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeaderShell } from "@/components/site-header-shell";
+import { WelcomeLeadCapture } from "@/components/welcome-lead-capture";
 import { createMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import "./globals.css";
 
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteHeaderShell />
         {children}
         <SiteFooter />
+        <WelcomeLeadCapture />
       </body>
     </html>
   );

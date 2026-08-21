@@ -149,7 +149,7 @@ Deliverables:
 
 ---
 
-### Phase 9 — Marketing & lifecycle
+### Phase 9 — Marketing & lifecycle ✅
 
 **Goal:** Capture and nurture tied to customer/order data.
 
@@ -157,6 +157,8 @@ Deliverables:
 - Abandoned cart/checkout workflows.
 - Segmentation + campaigns; order/shipping/replacement/supplier email templates.
 - Integrated with customers/orders—not a silo.
+
+**Repo status:** Welcome popup → `marketing_leads` + `email_subscribers`, admin marketing desk (leads/subscribers/abandoned + draft abandoned emails). Outbound send still gated.
 
 ---
 

@@ -69,6 +69,18 @@ export {
   rejectOpsAction
 } from "./ai-ops";
 export type { AiActionAuditSnapshot } from "./ai-ops";
+export {
+  buildAbandonedCheckoutEmailDraft,
+  captureMarketingLead,
+  listAbandonedCheckouts,
+  listEmailSubscribers,
+  listMarketingLeads
+} from "./marketing";
+export type {
+  AbandonedCheckoutSnapshot,
+  EmailSubscriberSnapshot,
+  MarketingLeadSnapshot
+} from "./marketing";
 
 export {
   approvalStatus,

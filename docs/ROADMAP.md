@@ -93,8 +93,9 @@
 6. **Phase 6** — Costs & margins ✅
 7. **Phase 7** — Issue & replacement ✅
 8. **Phase 8** — AI operations assistant ✅
-9. **Phase 9** — Marketing & lifecycle (next)
+9. **Phase 9** — Marketing & lifecycle ✅
 10. Keep Vercel/Supabase/GitHub intact; Shopify sync remains gated
+11. Next optional: Stripe live payments, outbound email send, Shopify extract (gated)
 
 Legacy catalogue/migration work continues in parallel under Phase 1–2 above (Shopify extract still requires approval).
 

@@ -67,6 +67,9 @@ export default async function AdminPage() {
             <li>
               <Link href={"/admin/ai-ops" as Route}>AI ops</Link>
             </li>
+            <li>
+              <Link href={"/admin/marketing" as Route}>Marketing</Link>
+            </li>
           </ul>
         </article>
 
