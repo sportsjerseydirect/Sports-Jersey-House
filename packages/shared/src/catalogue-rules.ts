@@ -94,18 +94,20 @@ export function inferTaxonomyFromCatalogueText(input: {
 
   const normalizedTitle = input.title.replace(/\s+/g, " ").trim();
   const numberedJersey = normalizedTitle.match(/^(.*?)\s+(\d{1,3})\s+Jersey$/i);
-  if (numberedJersey) {
-    const headTokens = numberedJersey[1].trim().split(" ").filter(Boolean);
+  const jerseyHead = numberedJersey?.[1]?.trim();
+  if (jerseyHead) {
+    const headTokens = jerseyHead.split(" ").filter(Boolean);
     if (headTokens.length >= 3) {
       // Default: last two tokens ≈ City + Nickname; remainder ≈ player.
       // Exception: three-token place names like "Kansas City Royals", "Green Bay Packers",
       // "New York Yankees", "Tampa Bay Rays".
       let teamTokenCount = 2;
       if (headTokens.length >= 4) {
-        const maybeThree = headTokens.slice(-3);
+        const a = headTokens[headTokens.length - 3] ?? "";
+        const b = headTokens[headTokens.length - 2] ?? "";
         if (
-          /^(Kansas|New|Green|Tampa|Bay|Oklahoma|Salt)$/i.test(maybeThree[0]) ||
-          /^(City|Bay|York|Angeles|Diego|Jose|Francisco)$/i.test(maybeThree[1])
+          /^(Kansas|New|Green|Tampa|Bay|Oklahoma|Salt)$/i.test(a) ||
+          /^(City|Bay|York|Angeles|Diego|Jose|Francisco)$/i.test(b)
         ) {
           teamTokenCount = 3;
         }
