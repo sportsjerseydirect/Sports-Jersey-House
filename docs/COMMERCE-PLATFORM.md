@@ -75,7 +75,7 @@ Deliverables:
 
 ---
 
-### Phase 3 — Checkout & order management 🔄 In progress
+### Phase 3 — Checkout & order management ✅ Complete (Stripe deferred)
 
 **Goal:** Create real orders (Stripe when credentials approved).
 
@@ -86,7 +86,7 @@ Deliverables:
 
 **Gate:** Stripe keys + explicit approval before live charges.
 
-**Repo status:** Guest checkout places `pending_payment` orders with customisation on lines; confirmation page + admin read-only orders; abandoned checkout drafts. No Stripe / no outbound email yet.
+**Done:** Guest checkout places `pending_payment` orders with customisation on lines; `/orders/[orderNumber]` confirmation; `/admin/orders` read-only list/detail; abandoned checkout drafts. No Stripe charges and no outbound email yet.
 
 ---
 

@@ -85,10 +85,11 @@
 
 **Commerce platform (see [`docs/COMMERCE-PLATFORM.md`](./COMMERCE-PLATFORM.md))**
 
-1. **Phase 1** — Data model foundation (`0005_commerce_foundation`) ✅ applied + verified on Supabase
-2. **Phase 2** — Product/customisation PDP experience ✅ live on Vercel
-3. **Phase 3** — Checkout & order management (in progress — no Stripe charges yet)
-4. Keep Vercel/Supabase/GitHub intact; Shopify sync remains gated
+1. **Phase 1** — Data model foundation ✅
+2. **Phase 2** — Product/customisation PDP ✅
+3. **Phase 3** — Checkout & orders ✅ (Stripe payment still deferred)
+4. **Phase 4** — Supplier / PO / packing slips (next)
+5. Keep Vercel/Supabase/GitHub intact; Shopify sync remains gated
 
 Legacy catalogue/migration work continues in parallel under Phase 1–2 above (Shopify extract still requires approval).
 
