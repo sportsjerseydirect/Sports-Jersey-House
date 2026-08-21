@@ -115,13 +115,15 @@ Deliverables:
 
 ---
 
-### Phase 6 — Costs & margins
+### Phase 6 — Costs & margins ✅
 
 **Goal:** Line-level P&L.
 
 - Sell / discount / shipping revenue / fees / supplier / fulfilment / customisation / other costs.
 - Gross profit + margin %.
 - Link PO/invoice costs to order lines.
+
+**Repo status:** Margin report + detail, admin cost editor, apply mapped supplier unit costs from product mappings.
 
 ---
 

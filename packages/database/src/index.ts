@@ -47,6 +47,14 @@ export type {
   MatchedCourier,
   TrackingIngestResult
 } from "./tracking";
+export {
+  applyMappedSupplierCosts,
+  computeLineMargin,
+  getOrderMargins,
+  listRecentOrderMargins,
+  updateOrderItemCosts
+} from "./margins";
+export type { LineMarginSnapshot, OrderMarginSnapshot } from "./margins";
 
 export {
   approvalStatus,
