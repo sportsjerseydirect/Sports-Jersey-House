@@ -50,7 +50,8 @@ async function main(): Promise<void> {
 
     const patch: Record<string, string> = {};
     const numbered = product.title.replace(/\s+/g, " ").trim().match(/^(.*?)\s+(\d{1,3})\s+Jersey$/i);
-    const canParseJersey = Boolean(numbered && numbered[1].trim().split(" ").length >= 3);
+    const jerseyHead = numbered?.[1]?.trim() ?? "";
+    const canParseJersey = jerseyHead.split(" ").filter(Boolean).length >= 3;
 
     if (inferred.sport && inferred.sport !== product.sport) patch.sport = inferred.sport;
     if (inferred.league && inferred.league !== product.league) patch.league = inferred.league;
