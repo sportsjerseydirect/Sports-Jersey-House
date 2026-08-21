@@ -1,4 +1,4 @@
-import type { ShopifyProductNode } from "../index";
+import type { ShopifyMetafieldNode, ShopifyProductNode } from "../index";
 
 export type InternalProductDraft = {
   shopifyId: string;
@@ -21,6 +21,7 @@ export type InternalVariantDraft = {
   sku: string | null;
   title: string;
   priceAmount: string;
+  compareAtAmount: string | null;
   currencyCode: string;
   inventoryQuantity: number | null;
   isAvailable: boolean;
@@ -101,6 +102,68 @@ function normalizePriceAmount(amount: string): string {
   return parsed.toFixed(2);
 }
 
+function mapVariants(node: ShopifyProductNode): InternalVariantDraft[] {
+  return node.variants.edges.map(({ node: variant }) => ({
+    shopifyId: variant.id,
+    sku: variant.sku,
+    title: variant.title,
+    priceAmount: normalizePriceAmount(variant.price.amount),
+    compareAtAmount: variant.compareAtPrice?.amount
+      ? normalizePriceAmount(variant.compareAtPrice.amount)
+      : null,
+    currencyCode: variant.price.currencyCode,
+    inventoryQuantity: variant.inventoryQuantity,
+    isAvailable: variant.availableForSale,
+    options: Object.fromEntries(variant.selectedOptions.map((option) => [option.name, option.value]))
+  }));
+}
+
+function mapImages(node: ShopifyProductNode): InternalImageDraft[] {
+  return node.images.edges.map(({ node: image }, index) => ({
+    shopifyId: image.id,
+    url: image.url,
+    altText: image.altText,
+    sortOrder: index,
+    sourceUrl: image.url,
+    width: image.width,
+    height: image.height
+  }));
+}
+
+function metafieldNodes(node: ShopifyProductNode): ShopifyMetafieldNode[] {
+  return (node.metafields?.edges ?? []).map((edge) => edge.node);
+}
+
+function extractCustomizationHints(
+  tags: string[],
+  metafields: ShopifyMetafieldNode[]
+): Record<string, unknown> {
+  const tagText = tags.join(" ").toLowerCase();
+  const metafieldText = metafields
+    .map((field) => `${field.namespace}.${field.key}=${field.value}`)
+    .join(" ")
+    .toLowerCase();
+  const haystack = `${tagText} ${metafieldText}`;
+
+  const nameHint = /\b(name|personalise|personalize|custom.?name)\b/i.test(haystack);
+  const numberHint = /\b(number|numeral|custom.?number|#)\b/i.test(haystack);
+  const personaliseHint = /\b(personalise|personalize|customis|customiz)\b/i.test(haystack);
+
+  const matchingMetafields = metafields.filter((field) =>
+    /\b(name|number|personalise|personalize|custom)\b/i.test(`${field.key} ${field.value}`)
+  );
+
+  return {
+    namePersonalization: nameHint,
+    numberPersonalization: numberHint,
+    personalizationLikely: personaliseHint || nameHint || numberHint,
+    matchingMetafieldKeys: matchingMetafields.map((field) => `${field.namespace}.${field.key}`)
+  };
+}
+
+/**
+ * Full extract mapper (legacy path). May strip HTML into description for non-sample flows.
+ */
 export function mapShopifyProductToInternal(node: ShopifyProductNode): InternalProductDraft {
   const taxonomy = inferTaxonomy(node.tags, node.productType);
 
@@ -121,24 +184,53 @@ export function mapShopifyProductToInternal(node: ShopifyProductNode): InternalP
       tags: node.tags,
       rawStatus: node.status
     },
-    variants: node.variants.edges.map(({ node: variant }) => ({
-      shopifyId: variant.id,
-      sku: variant.sku,
-      title: variant.title,
-      priceAmount: normalizePriceAmount(variant.price.amount),
-      currencyCode: variant.price.currencyCode,
-      inventoryQuantity: variant.inventoryQuantity,
-      isAvailable: variant.availableForSale,
-      options: Object.fromEntries(variant.selectedOptions.map((option) => [option.name, option.value]))
-    })),
-    images: node.images.edges.map(({ node: image }, index) => ({
-      shopifyId: image.id,
-      url: image.url,
-      altText: image.altText,
-      sortOrder: index,
-      sourceUrl: image.url,
-      width: image.width,
-      height: image.height
-    }))
+    variants: mapVariants(node),
+    images: mapImages(node)
+  };
+}
+
+/**
+ * Controlled sample/migration import mapper.
+ * Never copies SJD descriptionHtml into products.description as canonical content.
+ */
+export function mapShopifyProductForSampleImport(node: ShopifyProductNode): InternalProductDraft {
+  const taxonomy = inferTaxonomy(node.tags, node.productType);
+  const metafields = metafieldNodes(node);
+  const collections = (node.collections?.edges ?? []).map((edge) => ({
+    id: edge.node.id,
+    handle: edge.node.handle,
+    title: edge.node.title
+  }));
+
+  return {
+    shopifyId: node.id,
+    slug: node.handle,
+    title: node.title,
+    description: `${node.title} (imported draft — content pending review)`,
+    vendor: node.vendor || null,
+    productType: node.productType || null,
+    sport: taxonomy.sport,
+    league: taxonomy.league,
+    team: taxonomy.team,
+    status: mapShopifyStatus(node.status),
+    sourcePayload: {
+      origin: "shopify-sample-import",
+      shopifyUpdatedAt: node.updatedAt,
+      tags: node.tags,
+      rawStatus: node.status,
+      descriptionHtml: node.descriptionHtml,
+      seo: node.seo ?? null,
+      metafields: metafields.map((field) => ({
+        id: field.id,
+        namespace: field.namespace,
+        key: field.key,
+        value: field.value,
+        type: field.type
+      })),
+      collections,
+      customizationHints: extractCustomizationHints(node.tags, metafields)
+    },
+    variants: mapVariants(node),
+    images: mapImages(node)
   };
 }

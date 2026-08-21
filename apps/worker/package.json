@@ -12,6 +12,7 @@
     "extract:products:all": "tsx src/cli/extract-all-products.ts",
     "extract:collections": "tsx src/cli/extract-collections.ts",
     "extract:collections:all": "tsx src/cli/extract-all-collections.ts",
+    "sample:import": "tsx src/cli/sample-import.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests"

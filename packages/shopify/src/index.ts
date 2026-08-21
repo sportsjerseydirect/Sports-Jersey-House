@@ -7,16 +7,23 @@ export const shopifyConfigSchema = z.object({
   storeDomain: z.string().min(1).transform(normalizeShopifyStoreDomain),
   clientId: z.string().min(1),
   clientSecret: z.string().min(1),
-  enableShopifySync: z.boolean().default(false)
+  enableShopifySync: z.boolean().default(false),
+  enableShopifySampleImport: z.boolean().default(false)
 });
 
 export type ShopifyConfig = z.infer<typeof shopifyConfigSchema>;
 
 export class ShopifySyncDisabledError extends Error {
   constructor() {
-    super("Shopify sync is disabled. Set ENABLE_SHOPIFY_SYNC=true only after migration approval.");
+    super(
+      "Shopify read access is disabled. Set ENABLE_SHOPIFY_SAMPLE_IMPORT=true for controlled sample imports, or ENABLE_SHOPIFY_SYNC=true only after full migration approval."
+    );
     this.name = "ShopifySyncDisabledError";
   }
+}
+
+export function isShopifyReadAllowed(config: ShopifyConfig): boolean {
+  return config.enableShopifySync || config.enableShopifySampleImport;
 }
 
 export type ShopifyGraphqlRequest = {
@@ -50,7 +57,7 @@ export class ShopifyClientCredentialsProvider implements ShopifyTokenProvider {
   constructor(private readonly config: ShopifyConfig) {}
 
   async getAccessToken(): Promise<ShopifyTokenResponse> {
-    if (!this.config.enableShopifySync) {
+    if (!isShopifyReadAllowed(this.config)) {
       throw new ShopifySyncDisabledError();
     }
 
@@ -101,7 +108,7 @@ export class ShopifyReadOnlyClient implements ShopifyGraphqlClient {
   ) {}
 
   async graphql<TResponse>(_request: ShopifyGraphqlRequest): Promise<TResponse> {
-    if (!this.config.enableShopifySync) {
+    if (!isShopifyReadAllowed(this.config)) {
       throw new ShopifySyncDisabledError();
     }
 
@@ -157,6 +164,10 @@ export type ShopifyVariantNode = {
     amount: string;
     currencyCode: string;
   };
+  compareAtPrice?: {
+    amount: string;
+    currencyCode: string;
+  } | null;
   inventoryQuantity: number | null;
   availableForSale: boolean;
   selectedOptions: Array<{ name: string; value: string }>;
@@ -170,6 +181,20 @@ export type ShopifyImageNode = {
   height: number | null;
 };
 
+export type ShopifyMetafieldNode = {
+  id: string;
+  namespace: string;
+  key: string;
+  value: string;
+  type: string;
+};
+
+export type ShopifyCollectionRefNode = {
+  id: string;
+  handle: string;
+  title: string;
+};
+
 export type ShopifyProductNode = {
   id: string;
   handle: string;
@@ -180,6 +205,12 @@ export type ShopifyProductNode = {
   status: string;
   tags: string[];
   updatedAt: string;
+  seo?: {
+    title: string | null;
+    description: string | null;
+  };
+  metafields?: ShopifyConnection<ShopifyMetafieldNode>;
+  collections?: ShopifyConnection<ShopifyCollectionRefNode>;
   variants: ShopifyConnection<ShopifyVariantNode>;
   images: ShopifyConnection<ShopifyImageNode>;
 };
@@ -201,6 +232,13 @@ export type ShopifyCollectionsResponse = {
   collections: ShopifyConnection<ShopifyCollectionNode>;
 };
 
+export type ShopifyShopResponse = {
+  shop: {
+    name: string;
+    primaryDomain: { url: string } | null;
+  };
+};
+
 export const SHOPIFY_PRODUCTS_QUERY = `#graphql
   query ProductsPage($first: Int!, $after: String) {
     products(first: $first, after: $after, sortKey: UPDATED_AT) {
@@ -216,6 +254,38 @@ export const SHOPIFY_PRODUCTS_QUERY = `#graphql
           status
           tags
           updatedAt
+          seo {
+            title
+            description
+          }
+          metafields(first: 30) {
+            edges {
+              node {
+                id
+                namespace
+                key
+                value
+                type
+              }
+            }
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+          }
+          collections(first: 20) {
+            edges {
+              node {
+                id
+                handle
+                title
+              }
+            }
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+          }
           variants(first: 100) {
             edges {
               node {
@@ -223,6 +293,10 @@ export const SHOPIFY_PRODUCTS_QUERY = `#graphql
                 title
                 sku
                 price {
+                  amount
+                  currencyCode
+                }
+                compareAtPrice {
                   amount
                   currencyCode
                 }
@@ -251,6 +325,17 @@ export const SHOPIFY_PRODUCTS_QUERY = `#graphql
       pageInfo {
         hasNextPage
         endCursor
+      }
+    }
+  }
+`;
+
+export const SHOPIFY_SHOP_QUERY = `#graphql
+  query ShopConnectionHealth {
+    shop {
+      name
+      primaryDomain {
+        url
       }
     }
   }
@@ -312,20 +397,64 @@ export async function fetchCollectionsPage(
   });
 }
 
+export type ShopifyConnectionTestResult = {
+  ok: boolean;
+  shopName?: string;
+  domain?: string;
+  message: string;
+};
+
+export async function testShopifyConnection(
+  config?: ShopifyConfig
+): Promise<ShopifyConnectionTestResult> {
+  const resolved = config ?? parseShopifyConfig(process.env);
+
+  if (!isShopifyReadAllowed(resolved)) {
+    return {
+      ok: false,
+      message:
+        "Shopify read access is disabled. Set ENABLE_SHOPIFY_SAMPLE_IMPORT=true for controlled sample imports, or ENABLE_SHOPIFY_SYNC=true only after full migration approval."
+    };
+  }
+
+  try {
+    const client = new ShopifyReadOnlyClient(resolved);
+    const data = await client.graphql<ShopifyShopResponse>({
+      query: SHOPIFY_SHOP_QUERY
+    });
+
+    return {
+      ok: true,
+      shopName: data.shop.name,
+      ...(data.shop.primaryDomain?.url ? { domain: data.shop.primaryDomain.url } : {}),
+      message: `Connected to ${data.shop.name}.`
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      message: error instanceof Error ? error.message : "Shopify connection test failed."
+    };
+  }
+}
+
 export function parseShopifyConfig(env: NodeJS.ProcessEnv): ShopifyConfig {
   return shopifyConfigSchema.parse({
     storeDomain: env.SHOPIFY_STORE_DOMAIN,
     clientId: env.SHOPIFY_CLIENT_ID,
     clientSecret: env.SHOPIFY_CLIENT_SECRET,
-    enableShopifySync: env.ENABLE_SHOPIFY_SYNC === "true"
+    enableShopifySync: env.ENABLE_SHOPIFY_SYNC === "true",
+    enableShopifySampleImport: env.ENABLE_SHOPIFY_SAMPLE_IMPORT === "true"
   });
 }
 
 export type { ExtractionCheckpoint };
 export { extractionCheckpointSchema };
 
-export { mapShopifyProductToInternal } from "./mappers/shopify-to-internal";
-export type { InternalProductDraft } from "./mappers/shopify-to-internal";
+export {
+  mapShopifyProductForSampleImport,
+  mapShopifyProductToInternal
+} from "./mappers/shopify-to-internal";
+export type { InternalProductDraft, InternalVariantDraft } from "./mappers/shopify-to-internal";
 export { upsertShopifyProducts } from "./load/upsert-products";
 export type { UpsertProductsResult } from "./load/upsert-products";
 export { extractProductsPage } from "./migration/products-extract";
@@ -340,6 +469,11 @@ export { mapShopifyCollectionToInternal } from "./mappers/shopify-collection-to-
 export type { InternalCollectionDraft } from "./mappers/shopify-collection-to-internal";
 export { upsertShopifyCollections } from "./load/upsert-collections";
 export type { UpsertCollectionsResult } from "./load/upsert-collections";
+export { runControlledSampleImport } from "./migration/sample-import";
+export type {
+  ControlledSampleImportOptions,
+  SampleImportReport
+} from "./migration/sample-import";
 
 export function normalizeShopifyStoreDomain(value: string): string {
   const trimmed = value.trim().replace(/^https?:\/\//, "").replace(/\/$/, "");

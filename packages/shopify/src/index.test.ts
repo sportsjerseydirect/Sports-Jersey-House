@@ -1,16 +1,30 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   ShopifyClientCredentialsProvider,
+  ShopifyReadOnlyClient,
   ShopifySyncDisabledError,
   fetchProductsPage,
+  isShopifyReadAllowed,
   normalizeShopifyStoreDomain,
-  parseShopifyConfig
+  parseShopifyConfig,
+  testShopifyConnection
 } from "./index";
-import type { ShopifyGraphqlClient, ShopifyGraphqlRequest } from "./index";
+import type { ShopifyConfig, ShopifyGraphqlClient, ShopifyGraphqlRequest } from "./index";
 
 afterEach(() => {
   vi.unstubAllGlobals();
 });
+
+function baseConfig(overrides: Partial<ShopifyConfig> = {}): ShopifyConfig {
+  return {
+    storeDomain: "sports-jersey-direct.myshopify.com",
+    clientId: "client-id",
+    clientSecret: "client-secret",
+    enableShopifySync: false,
+    enableShopifySampleImport: false,
+    ...overrides
+  };
+}
 
 describe("shopify safety gate", () => {
   it("uses only the approved client credentials environment contract", () => {
@@ -18,26 +32,64 @@ describe("shopify safety gate", () => {
       SHOPIFY_STORE_DOMAIN: "sports-jersey-direct.myshopify.com",
       SHOPIFY_CLIENT_ID: "client-id",
       SHOPIFY_CLIENT_SECRET: "client-secret",
-      ENABLE_SHOPIFY_SYNC: "false"
+      ENABLE_SHOPIFY_SYNC: "false",
+      ENABLE_SHOPIFY_SAMPLE_IMPORT: "false"
     });
 
     expect(config).toEqual({
       storeDomain: "sports-jersey-direct.myshopify.com",
       clientId: "client-id",
       clientSecret: "client-secret",
-      enableShopifySync: false
+      enableShopifySync: false,
+      enableShopifySampleImport: false
     });
   });
 
-  it("blocks token exchange while sync is disabled", async () => {
-    const provider = new ShopifyClientCredentialsProvider({
-      storeDomain: "sports-jersey-direct.myshopify.com",
-      clientId: "client-id",
-      clientSecret: "client-secret",
-      enableShopifySync: false
+  it("parses ENABLE_SHOPIFY_SAMPLE_IMPORT without enabling full sync", () => {
+    const config = parseShopifyConfig({
+      SHOPIFY_STORE_DOMAIN: "sports-jersey-direct.myshopify.com",
+      SHOPIFY_CLIENT_ID: "client-id",
+      SHOPIFY_CLIENT_SECRET: "client-secret",
+      ENABLE_SHOPIFY_SYNC: "false",
+      ENABLE_SHOPIFY_SAMPLE_IMPORT: "true"
     });
 
+    expect(config.enableShopifySampleImport).toBe(true);
+    expect(config.enableShopifySync).toBe(false);
+    expect(isShopifyReadAllowed(config)).toBe(true);
+  });
+
+  it("blocks token exchange while both gates are disabled", async () => {
+    const provider = new ShopifyClientCredentialsProvider(baseConfig());
+
     await expect(provider.getAccessToken()).rejects.toBeInstanceOf(ShopifySyncDisabledError);
+  });
+
+  it("allows token exchange when sample import gate is enabled", async () => {
+    const fetchMock = vi.fn<typeof fetch>(async () => {
+      return new Response(
+        JSON.stringify({
+          access_token: "temporary-token",
+          scope: "read_products",
+          expires_in: 86_399
+        }),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const provider = new ShopifyClientCredentialsProvider(
+      baseConfig({ enableShopifySampleImport: true })
+    );
+
+    const token = await provider.getAccessToken();
+    expect(token.accessToken).toBe("temporary-token");
+    expect(fetchMock).toHaveBeenCalledOnce();
   });
 
   it("normalizes store names to myshopify domains", () => {
@@ -65,12 +117,7 @@ describe("shopify safety gate", () => {
     });
     vi.stubGlobal("fetch", fetchMock);
 
-    const provider = new ShopifyClientCredentialsProvider({
-      storeDomain: "sports-jersey-direct.myshopify.com",
-      clientId: "client-id",
-      clientSecret: "client-secret",
-      enableShopifySync: true
-    });
+    const provider = new ShopifyClientCredentialsProvider(baseConfig({ enableShopifySync: true }));
 
     const token = await provider.getAccessToken();
 
@@ -117,5 +164,58 @@ describe("shopify safety gate", () => {
       })
     );
     expect(response.products.pageInfo.hasNextPage).toBe(false);
+  });
+
+  it("testShopifyConnection returns gated failure without calling Shopify when both gates are off", async () => {
+    const fetchMock = vi.fn<typeof fetch>();
+    vi.stubGlobal("fetch", fetchMock);
+
+    const result = await testShopifyConnection(baseConfig());
+
+    expect(result.ok).toBe(false);
+    expect(result.message).toContain("ENABLE_SHOPIFY_SAMPLE_IMPORT");
+    expect(result.message).toContain("ENABLE_SHOPIFY_SYNC");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("testShopifyConnection succeeds with mocked GraphQL when sample gate is on", async () => {
+    const fetchMock = vi.fn<typeof fetch>(async (input) => {
+      const url = String(input);
+      if (url.includes("/admin/oauth/access_token")) {
+        return new Response(
+          JSON.stringify({
+            access_token: "temporary-token",
+            expires_in: 86_399
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } }
+        );
+      }
+
+      return new Response(
+        JSON.stringify({
+          data: {
+            shop: {
+              name: "Sports Jersey Direct",
+              primaryDomain: { url: "https://sportsjerseydirect.com" }
+            }
+          }
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const result = await testShopifyConnection(baseConfig({ enableShopifySampleImport: true }));
+
+    expect(result.ok).toBe(true);
+    expect(result.shopName).toBe("Sports Jersey Direct");
+    expect(result.domain).toBe("https://sportsjerseydirect.com");
+  });
+
+  it("ShopifyReadOnlyClient graphql throws when neither gate is enabled", async () => {
+    const client = new ShopifyReadOnlyClient(baseConfig());
+    await expect(
+      client.graphql({ query: "{ shop { name } }" })
+    ).rejects.toBeInstanceOf(ShopifySyncDisabledError);
   });
 });

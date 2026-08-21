@@ -132,17 +132,20 @@ export type {
   ProductSignalSnapshot
 } from "./catalogue-intelligence";
 export {
+  buildImportReport,
   createImportRun,
+  finishImportRun,
+  getImportRun,
   getShopifyConnectionHealth,
   listImportRuns,
   stageNormalizedProduct
 } from "./shopify-import";
 export type {
   ShopifyConnectionHealth,
+  ShopifyImportReport,
   ShopifyImportRunSnapshot,
   StagedProductResult
 } from "./shopify-import";
-
 export {
   approvalStatus,
   auditColumns,

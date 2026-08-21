@@ -9,8 +9,20 @@ import type { InternalProductDraft } from "../mappers/shopify-to-internal";
 
 export type UpsertProductsResult = {
   upserted: number;
+  productIds: string[];
   errors: Array<{ shopifyId: string; message: string }>;
 };
+
+const ALLOWED_IMPORT_STATUSES = new Set(["draft", "review", "archived"]);
+
+function clampImportStatus(
+  status: InternalProductDraft["status"]
+): "draft" | "review" | "archived" {
+  if (status === "published" || !ALLOWED_IMPORT_STATUSES.has(status)) {
+    return "draft";
+  }
+  return status;
+}
 
 export async function upsertShopifyProducts(
   databaseUrl: string,
@@ -18,11 +30,16 @@ export async function upsertShopifyProducts(
 ): Promise<UpsertProductsResult> {
   const db = createDatabaseClient(databaseUrl);
   let upserted = 0;
+  const productIds: string[] = [];
   const errors: UpsertProductsResult["errors"] = [];
 
   for (const draft of drafts) {
     try {
-      await upsertSingleProduct(db, draft);
+      const productId = await upsertSingleProduct(db, {
+        ...draft,
+        status: clampImportStatus(draft.status)
+      });
+      productIds.push(productId);
       upserted += 1;
     } catch (error) {
       errors.push({
@@ -32,12 +49,12 @@ export async function upsertShopifyProducts(
     }
   }
 
-  return { upserted, errors };
+  return { upserted, productIds, errors };
 }
 
 type DatabaseClient = ReturnType<typeof createDatabaseClient>;
 
-async function upsertSingleProduct(db: DatabaseClient, draft: InternalProductDraft): Promise<void> {
+async function upsertSingleProduct(db: DatabaseClient, draft: InternalProductDraft): Promise<string> {
   const existing = await db
     .select({ id: products.id })
     .from(products)
@@ -50,6 +67,7 @@ async function upsertSingleProduct(db: DatabaseClient, draft: InternalProductDra
 
   await syncVariants(db, productId, draft);
   await syncImages(db, productId, draft);
+  return productId;
 }
 
 async function insertProduct(db: DatabaseClient, draft: InternalProductDraft): Promise<string> {
@@ -135,6 +153,7 @@ async function syncVariants(db: DatabaseClient, productId: string, draft: Intern
           sku: variant.sku,
           title: variant.title,
           priceAmount: variant.priceAmount,
+          compareAtAmount: variant.compareAtAmount,
           currencyCode: variant.currencyCode,
           inventoryQuantity: variant.inventoryQuantity,
           isAvailable: variant.isAvailable,
@@ -152,6 +171,7 @@ async function syncVariants(db: DatabaseClient, productId: string, draft: Intern
       sku: variant.sku,
       title: variant.title,
       priceAmount: variant.priceAmount,
+      compareAtAmount: variant.compareAtAmount,
       currencyCode: variant.currencyCode,
       inventoryQuantity: variant.inventoryQuantity,
       isAvailable: variant.isAvailable,

@@ -7,6 +7,7 @@ import {
   listImportRuns,
   stageNormalizedProduct
 } from "@sjh/database";
+import { runControlledSampleImport } from "@sjh/shopify";
 import { ADMIN_SESSION_COOKIE, isAdminAccessAllowed } from "@/lib/auth";
 
 async function requireAdmin(): Promise<NextResponse | null> {
@@ -29,6 +30,7 @@ const sampleProductSchema = z.object({
 });
 
 const postSchema = z.object({
+  action: z.enum(["stage", "run_sample"]).default("stage"),
   mode: z.enum(["dry_run", "sample"]).default("dry_run"),
   sampleLimit: z.number().int().min(1).max(100).optional(),
   sampleProducts: z.array(sampleProductSchema).max(50).optional()
@@ -62,8 +64,37 @@ export async function POST(request: Request) {
 
   const health = getShopifyConnectionHealth();
 
+  if (body.data.action === "run_sample") {
+    if (process.env.ENABLE_SHOPIFY_SAMPLE_IMPORT !== "true") {
+      return NextResponse.json(
+        {
+          error:
+            "Controlled sample import requires ENABLE_SHOPIFY_SAMPLE_IMPORT=true (full ENABLE_SHOPIFY_SYNC is not required and should stay off unless approved).",
+          health
+        },
+        { status: 403 }
+      );
+    }
+
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) {
+      return NextResponse.json({ error: "DATABASE_URL is required.", health }, { status: 400 });
+    }
+
+    try {
+      const report = await runControlledSampleImport({
+        databaseUrl,
+        ...(body.data.sampleLimit !== undefined ? { sampleLimit: body.data.sampleLimit } : {})
+      });
+      return NextResponse.json({ report, health });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Sample import failed.";
+      return NextResponse.json({ error: message, health }, { status: 400 });
+    }
+  }
+
   try {
-    // Stage only — never live Shopify fetch here. Sync remains gated.
+    // Stage only — never live Shopify fetch here unless action=run_sample.
     const run = await createImportRun({
       mode: body.data.mode,
       ...(body.data.sampleLimit !== undefined ? { sampleLimit: body.data.sampleLimit } : {})
@@ -120,9 +151,9 @@ export async function POST(request: Request) {
       health,
       staged,
       note:
-        health.syncEnabled
-          ? "Import run created (stage only from this endpoint; live fetch not invoked)."
-          : "Sync gated — staged optional sampleProducts only; no live Shopify API call."
+        health.status === "ready"
+          ? "Import run created (stage only from this endpoint; use action=run_sample for controlled live sample import)."
+          : "Sync/sample gated — staged optional sampleProducts only; no live Shopify API call."
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to create import run.";

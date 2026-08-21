@@ -95,8 +95,9 @@
 8. **Phase 8** — AI operations assistant ✅
 9. **Phase 9** — Marketing & lifecycle ✅
 10. Keep Vercel/Supabase/GitHub intact; Shopify sync remains gated
-11. **Ops hardening + catalogue intelligence foundation** — tracking exceptions queue, ops job runs (dry-run default), catalogue proposals/review (approve/reject only), Shopify import dry-run/sample staging, expanded AI ops tools. External email / Stripe / live Shopify sync still disabled.
-12. Next optional: Stripe live payments, outbound email send, Shopify extract (gated)
+11. **Ops hardening + catalogue intelligence foundation** ✅
+12. **Phase 11** — Controlled SJD sample import pipeline ready behind `ENABLE_SHOPIFY_SAMPLE_IMPORT` (full `ENABLE_SHOPIFY_SYNC` stays false). Live sample blocked until Shopify credentials are configured on the server.
+13. Next optional: Stripe live payments, outbound email send, approved live sample import
 
 Legacy catalogue/migration work continues in parallel under Phase 1–2 above (Shopify extract still requires approval).
 

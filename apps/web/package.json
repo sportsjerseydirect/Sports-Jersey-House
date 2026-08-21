@@ -17,6 +17,7 @@
     "@sjh/database": "workspace:*",
     "@sjh/search": "workspace:*",
     "@sjh/shared": "workspace:*",
+    "@sjh/shopify": "workspace:*",
     "next": "^15.5.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
