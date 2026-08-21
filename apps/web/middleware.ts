@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { ADMIN_SESSION_COOKIE, isAdminAccessAllowed } from "@/lib/auth";
 
 export async function middleware(request: NextRequest) {

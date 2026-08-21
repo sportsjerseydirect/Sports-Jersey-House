@@ -14,3 +14,11 @@ export {
 } from "./queues";
 export { createShopifyExtractWorker } from "./workers/shopify-extract";
 export { createShopifyExtractCollectionsWorker } from "./workers/shopify-extract-collections";
+export {
+  createDailyPoBatchWorker,
+  createTrackingRequestWorker,
+  createTrackingCheckWorker,
+  createExceptionDetectionWorker,
+  createMarginRefreshWorker,
+  type OpsJobWorkerPayload
+} from "./workers/ops-jobs";

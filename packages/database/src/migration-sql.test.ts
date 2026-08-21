@@ -13,6 +13,11 @@ const commerceSql = readFileSync(
   "utf8"
 );
 
+const opsSql = readFileSync(
+  join(dirname(fileURLToPath(import.meta.url)), "../drizzle/0006_ops_catalogue_intelligence.sql"),
+  "utf8"
+);
+
 describe("foundation migration sql", () => {
   it("enables pgvector and defines searchable product columns", () => {
     expect(foundationSql).toContain("CREATE EXTENSION IF NOT EXISTS vector");
@@ -33,5 +38,19 @@ describe("commerce foundation migration sql", () => {
     expect(commerceSql).toContain("CREATE TABLE issue_cases");
     expect(commerceSql).toContain("customisation_fingerprint");
     expect(commerceSql).toContain("CREATE TABLE ai_action_audits");
+  });
+});
+
+describe("ops catalogue intelligence migration sql", () => {
+  it("defines tracking exceptions, ops jobs, catalogue proposals, and import staging", () => {
+    expect(opsSql).toContain("CREATE TABLE tracking_exceptions");
+    expect(opsSql).toContain("CREATE TABLE issue_case_evidence");
+    expect(opsSql).toContain("CREATE TABLE marketing_offers");
+    expect(opsSql).toContain("CREATE TABLE ops_job_runs");
+    expect(opsSql).toContain("CREATE TABLE catalogue_proposals");
+    expect(opsSql).toContain("CREATE TABLE catalogue_review_queue");
+    expect(opsSql).toContain("CREATE TABLE shopify_import_runs");
+    expect(opsSql).toContain("CREATE TABLE shopify_import_staged_products");
+    expect(opsSql).toContain("product_catalogue_signals");
   });
 });

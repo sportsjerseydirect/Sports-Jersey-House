@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getIssueCaseByNumber } from "@sjh/database";
+import { getIssueCaseByNumber, listIssueEvidence } from "@sjh/database";
+import { AdminIssueEvidenceForm } from "@/components/admin-issue-evidence-form";
 import { AdminIssueUpdateForm } from "@/components/admin-issue-update-form";
 import { formatProductPrice } from "@/lib/products";
 import { createMetadata } from "@/lib/seo";
@@ -31,6 +32,8 @@ export default async function AdminIssueDetailPage({ params }: Props) {
   if (!issue) {
     notFound();
   }
+
+  const evidence = await listIssueEvidence(caseNumber);
 
   return (
     <main className="page-shell">
@@ -112,6 +115,32 @@ export default async function AdminIssueDetailPage({ params }: Props) {
             status={issue.status}
             supplierResponsibility={issue.supplierResponsibility}
           />
+        </article>
+
+        <article className="status-panel">
+          <h2>Evidence</h2>
+          {evidence.length === 0 ? (
+            <p>No evidence yet.</p>
+          ) : (
+            <ul>
+              {evidence.map((item) => (
+                <li key={item.id}>
+                  <strong>{item.kind}</strong>
+                  {item.label ? ` — ${item.label}` : ""}
+                  {item.url ? (
+                    <>
+                      {" · "}
+                      <a href={item.url} rel="noreferrer" target="_blank">
+                        {item.url}
+                      </a>
+                    </>
+                  ) : null}
+                  {item.notes ? <div>{item.notes}</div> : null}
+                </li>
+              ))}
+            </ul>
+          )}
+          <AdminIssueEvidenceForm caseNumber={issue.caseNumber} />
         </article>
       </section>
     </main>

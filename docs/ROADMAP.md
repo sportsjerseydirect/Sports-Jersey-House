@@ -95,7 +95,8 @@
 8. **Phase 8** — AI operations assistant ✅
 9. **Phase 9** — Marketing & lifecycle ✅
 10. Keep Vercel/Supabase/GitHub intact; Shopify sync remains gated
-11. Next optional: Stripe live payments, outbound email send, Shopify extract (gated)
+11. **Ops hardening + catalogue intelligence foundation** — tracking exceptions queue, ops job runs (dry-run default), catalogue proposals/review (approve/reject only), Shopify import dry-run/sample staging, expanded AI ops tools. External email / Stripe / live Shopify sync still disabled.
+12. Next optional: Stripe live payments, outbound email send, Shopify extract (gated)
 
 Legacy catalogue/migration work continues in parallel under Phase 1–2 above (Shopify extract still requires approval).
 

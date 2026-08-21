@@ -162,6 +162,20 @@ Deliverables:
 
 ---
 
+### Ops hardening & catalogue intelligence foundation
+
+**Goal:** Harden day-to-day ops and add a human-gated catalogue intelligence layer without enabling Stripe, outbound email, or live Shopify sync.
+
+- Tracking exceptions queue (resolve/ignore); issue case evidence URLs/notes.
+- Ops job runs with dry-run default (`OPS_JOBS_DRY_RUN`); worker queues for PO batch, tracking request/check, exception detection, margin refresh — **external send remains disabled**.
+- Catalogue signals + proposals + review queue (approve/reject only; never auto-publish/delete).
+- Shopify connection health + dry-run/sample import staging (sync still gated behind `ENABLE_SHOPIFY_SYNC`).
+- AI ops V2 tool definitions (`parseOpsIntentV2`); prepare_* tools stay preview-only.
+
+**Repo status:** Migration `0006_ops_catalogue_intelligence`; admin surfaces under `/admin/jobs`, `/admin/catalogue`, `/admin/migration`, `/admin/tracking/exceptions`.
+
+---
+
 ## Cross-cutting rules
 
 1. **Do not** reset Supabase/Vercel/GitHub or invent Shopify/Stripe secrets.
@@ -176,6 +190,7 @@ Deliverables:
 |----|--------|
 | `0000`–`0004` | Existing foundation (live) |
 | `0005_commerce_foundation` | Phase 1 schema (this plan) |
+| `0006_ops_catalogue_intelligence` | Ops jobs, tracking exceptions, catalogue proposals, Shopify import staging |
 | Later | Phase-specific additive migrations only |
 
 ## Open decisions (do not block Phase 1)

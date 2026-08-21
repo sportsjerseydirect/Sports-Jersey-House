@@ -59,6 +59,9 @@ export default async function AdminPage() {
               <Link href={"/admin/tracking" as Route}>Tracking ingest</Link>
             </li>
             <li>
+              <Link href={"/admin/tracking/exceptions" as Route}>Tracking exceptions</Link>
+            </li>
+            <li>
               <Link href={"/admin/margins" as Route}>Margins</Link>
             </li>
             <li>
@@ -66,6 +69,15 @@ export default async function AdminPage() {
             </li>
             <li>
               <Link href={"/admin/ai-ops" as Route}>AI ops</Link>
+            </li>
+            <li>
+              <Link href={"/admin/jobs" as Route}>Ops jobs</Link>
+            </li>
+            <li>
+              <Link href={"/admin/catalogue" as Route}>Catalogue intelligence</Link>
+            </li>
+            <li>
+              <Link href={"/admin/migration" as Route}>Migration / Shopify</Link>
             </li>
             <li>
               <Link href={"/admin/marketing" as Route}>Marketing</Link>

@@ -35,6 +35,8 @@ export function CheckoutForm({ currencyCode, subtotalLabel }: CheckoutFormProps)
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
+  const [offerCode, setOfferCode] = useState("");
+  const [offerHint, setOfferHint] = useState<string | null>(null);
   const [address, setAddress] = useState<AddressState>(emptyAddress);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -75,6 +77,37 @@ export function CheckoutForm({ currencyCode, subtotalLabel }: CheckoutFormProps)
     };
   }, [email, phone, address]);
 
+  useEffect(() => {
+    const code = offerCode.trim().toUpperCase();
+    if (!email || code !== "WELCOME10") {
+      setOfferHint(null);
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      void fetch(`/api/offers/welcome10?email=${encodeURIComponent(email)}`)
+        .then(async (response) => {
+          const data = (await response.json()) as {
+            eligible?: boolean;
+            reasons?: string[];
+            discountPreview?: string;
+          };
+          if (data.eligible) {
+            setOfferHint(
+              data.discountPreview
+                ? `WELCOME10 eligible — about ${data.discountPreview} off.`
+                : "WELCOME10 eligible for this email."
+            );
+          } else {
+            setOfferHint(data.reasons?.[0] ?? "WELCOME10 not eligible.");
+          }
+        })
+        .catch(() => setOfferHint(null));
+    }, 400);
+
+    return () => window.clearTimeout(timer);
+  }, [email, offerCode]);
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
@@ -92,7 +125,8 @@ export function CheckoutForm({ currencyCode, subtotalLabel }: CheckoutFormProps)
         postalCode: address.postalCode,
         country: address.country
       },
-      ...(notes ? { customerNotes: notes } : {})
+      ...(notes ? { customerNotes: notes } : {}),
+      ...(offerCode.trim() ? { offerCode: offerCode.trim().toUpperCase() } : {})
     };
 
     try {
@@ -143,6 +177,16 @@ export function CheckoutForm({ currencyCode, subtotalLabel }: CheckoutFormProps)
             value={phone}
           />
         </label>
+        <label className="field">
+          <span>Offer code (optional)</span>
+          <input
+            onChange={(event) => setOfferCode(event.target.value)}
+            placeholder="WELCOME10"
+            type="text"
+            value={offerCode}
+          />
+        </label>
+        {offerHint ? <p className="cart-note">{offerHint}</p> : null}
       </fieldset>
 
       <fieldset>

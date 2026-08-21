@@ -9,7 +9,12 @@ export const queueNames = [
   "creative:compliance",
   "search:index",
   "search:embed",
-  "seo:technical-audit"
+  "seo:technical-audit",
+  "ops:daily-po-batch",
+  "ops:tracking-request",
+  "ops:tracking-check",
+  "ops:exception-detection",
+  "ops:margin-refresh"
 ] as const;
 
 export type QueueName = (typeof queueNames)[number];

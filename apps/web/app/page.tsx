@@ -8,7 +8,7 @@ export const revalidate = 300;
 const trustPoints = [
   "Authentic-style jerseys from top leagues worldwide",
   "Fast, mobile-first shopping built for search",
-  "Secure checkout and order tracking — coming soon"
+  "Guest checkout with customisation and order tracking on confirmation"
 ];
 
 export default async function HomePage() {

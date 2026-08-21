@@ -29,9 +29,11 @@ export default async function AdminCourierRulesPage() {
         <Link href={"/admin" as Route}>← Admin home</Link>
         {" · "}
         <Link href={"/admin/tracking" as Route}>Tracking ingest</Link>
+        {" · "}
+        <Link href={"/admin/tracking/exceptions" as Route}>Exceptions</Link>
       </p>
 
-      <AdminCourierRuleForm />
+      <AdminCourierRuleForm rules={rules} />
 
       {rules.length === 0 ? (
         <section className="empty-state">

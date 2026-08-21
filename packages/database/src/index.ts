@@ -30,21 +30,36 @@ export {
   createSupplier,
   ensureDefaultSupplierMappings,
   getPurchaseOrderByNumber,
+  listProductSupplierMappings,
   listPurchaseOrders,
-  listSuppliers
+  listSuppliers,
+  setSupplierActive,
+  updateSupplier,
+  upsertProductSupplierMapping
 } from "./suppliers";
-export type { PoBatchResult, PurchaseOrderSnapshot, SupplierSnapshot } from "./suppliers";
+export type {
+  PoBatchResult,
+  ProductSupplierMappingSnapshot,
+  PurchaseOrderSnapshot,
+  SupplierSnapshot
+} from "./suppliers";
 export {
   buildShippingEmailDraft,
   createCourierRule,
   ingestTrackingPaste,
   listCourierRules,
+  listTrackingExceptions,
   matchCourier,
-  matchCourierFromRules
+  matchCourierFromRules,
+  persistTrackingException,
+  resolveTrackingException,
+  setCourierRuleActive,
+  updateCourierRule
 } from "./tracking";
 export type {
   CourierRuleSnapshot,
   MatchedCourier,
+  TrackingExceptionSnapshot,
   TrackingIngestResult
 } from "./tracking";
 export {
@@ -56,12 +71,14 @@ export {
 } from "./margins";
 export type { LineMarginSnapshot, OrderMarginSnapshot } from "./margins";
 export {
+  addIssueEvidence,
   createIssueCase,
   getIssueCaseByNumber,
   listIssueCases,
+  listIssueEvidence,
   updateIssueCase
 } from "./issues";
-export type { IssueCaseSnapshot } from "./issues";
+export type { IssueCaseSnapshot, IssueEvidenceSnapshot } from "./issues";
 export {
   confirmOpsAction,
   createOpsAuditPreview,
@@ -81,6 +98,50 @@ export type {
   EmailSubscriberSnapshot,
   MarketingLeadSnapshot
 } from "./marketing";
+
+export {
+  finishOpsJobRun,
+  listOpsJobRuns,
+  runDailyPoBatchJob,
+  runMarginCostRefreshJob,
+  runOpsExceptionDetectionJob,
+  runSupplierTrackingRequestJob,
+  runTrackingIngestCheckJob,
+  startOpsJobRun
+} from "./ops-jobs";
+export type { OpsJobRunSnapshot, OpsJobType } from "./ops-jobs";
+export {
+  applyOfferToAmounts,
+  computeDiscountForSubtotal,
+  evaluateWelcome10Eligibility,
+  getOfferByCode
+} from "./offers";
+export type { MarketingOfferSnapshot, Welcome10Eligibility } from "./offers";
+export {
+  computeProductSignals,
+  createCatalogueProposal,
+  flagContentIpRisk,
+  listCatalogueProposals,
+  listReviewQueue,
+  reviewCatalogueProposal
+} from "./catalogue-intelligence";
+export type {
+  CatalogueProposalSnapshot,
+  CatalogueRecommendation,
+  CatalogueReviewQueueSnapshot,
+  ProductSignalSnapshot
+} from "./catalogue-intelligence";
+export {
+  createImportRun,
+  getShopifyConnectionHealth,
+  listImportRuns,
+  stageNormalizedProduct
+} from "./shopify-import";
+export type {
+  ShopifyConnectionHealth,
+  ShopifyImportRunSnapshot,
+  StagedProductResult
+} from "./shopify-import";
 
 export {
   approvalStatus,

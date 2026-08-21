@@ -26,6 +26,8 @@ export default function AdminTrackingPage() {
         <Link href={"/admin" as Route}>← Admin home</Link>
         {" · "}
         <Link href={"/admin/courier-rules" as Route}>Courier rules</Link>
+        {" · "}
+        <Link href={"/admin/tracking/exceptions" as Route}>Exceptions</Link>
       </p>
 
       <AdminTrackingIngestForm />

@@ -1,11 +1,12 @@
 import { and, asc, desc, eq, isNull, lt } from "drizzle-orm";
 import type { IssueReason } from "@sjh/shared";
+import { computeProductSignals, listReviewQueue } from "./catalogue-intelligence";
 import { createDatabaseClient } from "./client";
 import { createIssueCase } from "./issues";
 import { getOrderMargins, listRecentOrderMargins } from "./margins";
 import { aiActionAudits, orderItems, orders } from "./schema-commerce";
 import { createPurchaseOrderBatch, getPurchaseOrderByNumber } from "./suppliers";
-import { ingestTrackingPaste } from "./tracking";
+import { ingestTrackingPaste, matchCourier } from "./tracking";
 
 function resolveDatabaseUrl(databaseUrl?: string): string {
   const url = databaseUrl ?? process.env.DATABASE_URL;
@@ -165,6 +166,39 @@ async function executeOpsAction(
         databaseUrl
       );
     }
+    case "identify_courier": {
+      const trackingNumber = typeof input.trackingNumber === "string" ? input.trackingNumber : "";
+      if (!trackingNumber.trim()) {
+        throw new Error("Tracking number is required.");
+      }
+      return matchCourier(trackingNumber, databaseUrl);
+    }
+    case "inspect_catalogue": {
+      const productId = typeof input.productId === "string" ? input.productId : undefined;
+      const [signals, reviewQueue] = await Promise.all([
+        computeProductSignals(productId, databaseUrl),
+        listReviewQueue(20, databaseUrl)
+      ]);
+      return {
+        signalCount: signals.length,
+        outdatedCount: signals.filter((row) => row.isOutdated).length,
+        duplicateSuspectCount: signals.filter((row) => row.isDuplicateSuspect).length,
+        openReviewCount: reviewQueue.length,
+        sample: signals.slice(0, 10).map((row) => ({
+          productId: row.productId,
+          healthStatus: row.healthStatus,
+          qualityScore: row.qualityScore,
+          isOutdated: row.isOutdated,
+          isDuplicateSuspect: row.isDuplicateSuspect
+        }))
+      };
+    }
+    case "prepare_replacement":
+    case "prepare_customer_email":
+    case "update_supplier_cost":
+      throw new Error(
+        `${actionType} is preview-only or requires a dedicated admin form — not auto-executed.`
+      );
     default:
       throw new Error(`Unsupported action: ${actionType}`);
   }

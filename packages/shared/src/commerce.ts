@@ -169,7 +169,8 @@ export const guestCheckoutSchema = z.object({
   email: z.string().trim().email().max(180),
   phone: z.string().trim().min(7).max(30),
   shippingAddress: shippingAddressSchema,
-  customerNotes: z.string().trim().max(500).optional()
+  customerNotes: z.string().trim().max(500).optional(),
+  offerCode: z.string().trim().max(40).optional()
 });
 export type GuestCheckoutInput = z.infer<typeof guestCheckoutSchema>;
 

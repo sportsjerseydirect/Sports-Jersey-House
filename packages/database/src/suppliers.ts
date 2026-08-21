@@ -481,7 +481,8 @@ export async function createPurchaseOrderBatch(
       lineSupplierId: orderItems.supplierId,
       orderNumber: orders.orderNumber,
       mappingSupplierId: productSupplierMappings.supplierId,
-      supplierSku: productSupplierMappings.supplierSku
+      supplierSku: productSupplierMappings.supplierSku,
+      unitCostAmount: productSupplierMappings.unitCostAmount
     })
     .from(orderItems)
     .innerJoin(orders, eq(orderItems.orderId, orders.id))
@@ -613,16 +614,22 @@ export async function createPurchaseOrderBatch(
       }))
     );
 
-    const orderItemIds = lines.map((line) => line.orderItemId);
-    await db
-      .update(orderItems)
-      .set({
-        purchaseOrderId: po.id,
-        supplierId: supplier.id,
-        fulfilmentStatus: "submitted",
-        updatedAt: new Date()
-      })
-      .where(inArray(orderItems.id, orderItemIds));
+    for (const line of lines) {
+      const supplierCost =
+        line.unitCostAmount != null
+          ? (Number.parseFloat(String(line.unitCostAmount)) * line.quantity).toFixed(2)
+          : null;
+      await db
+        .update(orderItems)
+        .set({
+          purchaseOrderId: po.id,
+          supplierId: supplier.id,
+          fulfilmentStatus: "submitted",
+          ...(supplierCost !== null ? { supplierCostAmount: supplierCost } : {}),
+          updatedAt: new Date()
+        })
+        .where(eq(orderItems.id, line.orderItemId));
+    }
 
     const orderIds = [...new Set(lines.map((line) => line.orderId))];
     for (const orderId of orderIds) {
@@ -662,4 +669,230 @@ export async function createPurchaseOrderBatch(
     skippedUnmapped,
     eligibleLineCount: eligible.length
   };
+}
+
+export async function updateSupplier(
+  id: string,
+  fields: {
+    code?: string;
+    name?: string;
+    email?: string | null;
+    phone?: string | null;
+    packingSlipFormat?: string;
+    courierNotes?: string | null;
+    trackingNotes?: string | null;
+    metadata?: Record<string, unknown>;
+  },
+  databaseUrl?: string
+): Promise<SupplierSnapshot> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const [existing] = await db
+    .select()
+    .from(suppliers)
+    .where(and(eq(suppliers.id, id), isNull(suppliers.deletedAt)))
+    .limit(1);
+
+  if (!existing) {
+    throw new Error("Supplier not found.");
+  }
+
+  const [updated] = await db
+    .update(suppliers)
+    .set({
+      ...(fields.code !== undefined ? { code: fields.code.trim().toUpperCase() } : {}),
+      ...(fields.name !== undefined ? { name: fields.name.trim() } : {}),
+      ...(fields.email !== undefined
+        ? { email: fields.email === null ? null : fields.email.trim() || null }
+        : {}),
+      ...(fields.phone !== undefined
+        ? { phone: fields.phone === null ? null : fields.phone.trim() || null }
+        : {}),
+      ...(fields.packingSlipFormat !== undefined
+        ? { packingSlipFormat: fields.packingSlipFormat }
+        : {}),
+      ...(fields.courierNotes !== undefined ? { courierNotes: fields.courierNotes } : {}),
+      ...(fields.trackingNotes !== undefined ? { trackingNotes: fields.trackingNotes } : {}),
+      ...(fields.metadata !== undefined ? { metadata: fields.metadata } : {}),
+      updatedAt: new Date()
+    })
+    .where(eq(suppliers.id, id))
+    .returning();
+
+  if (!updated) {
+    throw new Error("Failed to update supplier.");
+  }
+
+  return {
+    id: updated.id,
+    code: updated.code,
+    name: updated.name,
+    email: updated.email,
+    phone: updated.phone,
+    packingSlipFormat: updated.packingSlipFormat,
+    isActive: updated.isActive
+  };
+}
+
+export async function setSupplierActive(
+  id: string,
+  isActive: boolean,
+  databaseUrl?: string
+): Promise<SupplierSnapshot> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const [updated] = await db
+    .update(suppliers)
+    .set({ isActive, updatedAt: new Date() })
+    .where(and(eq(suppliers.id, id), isNull(suppliers.deletedAt)))
+    .returning();
+
+  if (!updated) {
+    throw new Error("Supplier not found.");
+  }
+
+  return {
+    id: updated.id,
+    code: updated.code,
+    name: updated.name,
+    email: updated.email,
+    phone: updated.phone,
+    packingSlipFormat: updated.packingSlipFormat,
+    isActive: updated.isActive
+  };
+}
+
+export type ProductSupplierMappingSnapshot = {
+  id: string;
+  productId: string;
+  supplierId: string;
+  supplierSku: string | null;
+  unitCostAmount: string | null;
+  currencyCode: string;
+  isPrimary: boolean;
+  leadTimeDays: number | null;
+};
+
+export async function upsertProductSupplierMapping(
+  input: {
+    productId: string;
+    supplierId: string;
+    supplierSku?: string;
+    unitCostAmount?: string;
+    isPrimary?: boolean;
+  },
+  databaseUrl?: string
+): Promise<ProductSupplierMappingSnapshot> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const isPrimary = input.isPrimary ?? false;
+
+  if (isPrimary) {
+    await db
+      .update(productSupplierMappings)
+      .set({ isPrimary: false, updatedAt: new Date() })
+      .where(
+        and(
+          eq(productSupplierMappings.productId, input.productId),
+          isNull(productSupplierMappings.deletedAt)
+        )
+      );
+  }
+
+  const [existing] = await db
+    .select()
+    .from(productSupplierMappings)
+    .where(
+      and(
+        eq(productSupplierMappings.productId, input.productId),
+        eq(productSupplierMappings.supplierId, input.supplierId),
+        isNull(productSupplierMappings.deletedAt)
+      )
+    )
+    .limit(1);
+
+  let row: typeof productSupplierMappings.$inferSelect | undefined;
+
+  if (existing) {
+    const [updated] = await db
+      .update(productSupplierMappings)
+      .set({
+        ...(input.supplierSku !== undefined
+          ? { supplierSku: input.supplierSku.trim() || null }
+          : {}),
+        ...(input.unitCostAmount !== undefined
+          ? { unitCostAmount: input.unitCostAmount || null }
+          : {}),
+        isPrimary,
+        deletedAt: null,
+        updatedAt: new Date()
+      })
+      .where(eq(productSupplierMappings.id, existing.id))
+      .returning();
+    row = updated;
+  } else {
+    const [created] = await db
+      .insert(productSupplierMappings)
+      .values({
+        productId: input.productId,
+        supplierId: input.supplierId,
+        isPrimary,
+        currencyCode: "USD",
+        ...(input.supplierSku !== undefined
+          ? { supplierSku: input.supplierSku.trim() || null }
+          : {}),
+        ...(input.unitCostAmount !== undefined
+          ? { unitCostAmount: input.unitCostAmount || null }
+          : {})
+      })
+      .returning();
+    row = created;
+  }
+
+  if (!row) {
+    throw new Error("Failed to upsert product supplier mapping.");
+  }
+
+  return {
+    id: row.id,
+    productId: row.productId,
+    supplierId: row.supplierId,
+    supplierSku: row.supplierSku,
+    unitCostAmount: row.unitCostAmount,
+    currencyCode: row.currencyCode,
+    isPrimary: row.isPrimary,
+    leadTimeDays: row.leadTimeDays
+  };
+}
+
+export async function listProductSupplierMappings(
+  productId?: string,
+  databaseUrl?: string
+): Promise<ProductSupplierMappingSnapshot[]> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const rows = productId
+    ? await db
+        .select()
+        .from(productSupplierMappings)
+        .where(
+          and(
+            eq(productSupplierMappings.productId, productId),
+            isNull(productSupplierMappings.deletedAt)
+          )
+        )
+        .orderBy(desc(productSupplierMappings.isPrimary), productSupplierMappings.createdAt)
+    : await db
+        .select()
+        .from(productSupplierMappings)
+        .where(isNull(productSupplierMappings.deletedAt))
+        .orderBy(desc(productSupplierMappings.createdAt))
+        .limit(200);
+
+  return rows.map((row) => ({
+    id: row.id,
+    productId: row.productId,
+    supplierId: row.supplierId,
+    supplierSku: row.supplierSku,
+    unitCostAmount: row.unitCostAmount,
+    currencyCode: row.currencyCode,
+    isPrimary: row.isPrimary,
+    leadTimeDays: row.leadTimeDays
+  }));
 }

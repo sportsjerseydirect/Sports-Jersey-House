@@ -6,6 +6,11 @@ describe("worker queues", () => {
     expect(queueNames).toContain("shopify:extract");
     expect(queueNames).toContain("shopify:extract-collections");
     expect(queueNames).toContain("search:embed");
+    expect(queueNames).toContain("ops:daily-po-batch");
+    expect(queueNames).toContain("ops:tracking-request");
+    expect(queueNames).toContain("ops:tracking-check");
+    expect(queueNames).toContain("ops:exception-detection");
+    expect(queueNames).toContain("ops:margin-refresh");
   });
 
   it("creates deterministic job envelopes", () => {

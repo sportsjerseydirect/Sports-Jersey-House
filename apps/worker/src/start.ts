@@ -1,14 +1,33 @@
 import { queueNames } from "./index";
 import { resolveRedisUrl } from "./redis";
+import {
+  createDailyPoBatchWorker,
+  createExceptionDetectionWorker,
+  createMarginRefreshWorker,
+  createTrackingCheckWorker,
+  createTrackingRequestWorker
+} from "./workers/ops-jobs";
 import { createShopifyExtractCollectionsWorker } from "./workers/shopify-extract-collections";
 import { createShopifyExtractWorker } from "./workers/shopify-extract";
 
 async function main(): Promise<void> {
   const redisUrl = resolveRedisUrl();
-  const workers = [createShopifyExtractWorker(redisUrl), createShopifyExtractCollectionsWorker(redisUrl)];
+  const workers = [
+    createShopifyExtractWorker(redisUrl),
+    createShopifyExtractCollectionsWorker(redisUrl),
+    createDailyPoBatchWorker(redisUrl),
+    createTrackingRequestWorker(redisUrl),
+    createTrackingCheckWorker(redisUrl),
+    createExceptionDetectionWorker(redisUrl),
+    createMarginRefreshWorker(redisUrl)
+  ];
+
+  const listening = queueNames.filter(
+    (name) => name.startsWith("shopify:extract") || name.startsWith("ops:")
+  );
 
   console.log(
-    `Worker started — listening on ${queueNames.filter((name) => name.startsWith("shopify:extract")).join(", ")}`
+    `Worker started — listening on ${listening.join(", ")} (ops jobs dry-run default; external send disabled)`
   );
 
   for (const worker of workers) {

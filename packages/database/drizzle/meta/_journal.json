@@ -43,6 +43,13 @@
       "when": 1755763200000,
       "tag": "0005_commerce_foundation",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1755780000000,
+      "tag": "0006_ops_catalogue_intelligence",
+      "breakpoints": true
     }
   ]
 }

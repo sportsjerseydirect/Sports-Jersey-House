@@ -32,6 +32,21 @@ import {
   purchaseOrders,
   suppliers
 } from "./schema-commerce";
+import {
+  catalogueProposals,
+  catalogueReviewQueue,
+  contentIpRiskFlags,
+  issueCaseEvidence,
+  issueCaseEvents,
+  marketingOffers,
+  opsJobRuns,
+  productCatalogueSignals,
+  shopifyImportErrors,
+  shopifyImportRaw,
+  shopifyImportRuns,
+  shopifyImportStagedProducts,
+  trackingExceptions
+} from "./schema-ops";
 
 const databaseClients = new Map<string, ReturnType<typeof drizzle>>();
 
@@ -71,7 +86,20 @@ export const databaseSchema = {
   marketingLeads,
   emailSubscribers,
   abandonedCheckouts,
-  aiActionAudits
+  aiActionAudits,
+  trackingExceptions,
+  issueCaseEvidence,
+  issueCaseEvents,
+  marketingOffers,
+  opsJobRuns,
+  productCatalogueSignals,
+  catalogueProposals,
+  catalogueReviewQueue,
+  contentIpRiskFlags,
+  shopifyImportRuns,
+  shopifyImportRaw,
+  shopifyImportStagedProducts,
+  shopifyImportErrors
 };
 
 export function createDatabaseClient(databaseUrl: string) {

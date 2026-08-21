@@ -1,6 +1,7 @@
-import { and, asc, eq, isNull, sql } from "drizzle-orm";
+import { and, asc, desc, eq, isNull, sql } from "drizzle-orm";
 import { createDatabaseClient } from "./client";
 import { courierRules, orderItems, orders } from "./schema-commerce";
+import { trackingExceptions } from "./schema-ops";
 
 function resolveDatabaseUrl(databaseUrl?: string): string {
   const url = databaseUrl ?? process.env.DATABASE_URL;
@@ -234,6 +235,7 @@ export async function ingestTrackingPaste(
   const rules = await listCourierRules(url);
   const lines = paste.split(/\r?\n/);
   const results: TrackingIngestLineResult[] = [];
+  const ingestBatchId = crypto.randomUUID();
 
   for (const raw of lines) {
     const parsed = parseTrackingPasteLine(raw);
@@ -250,11 +252,20 @@ export async function ingestTrackingPaste(
 
     const trackingNumber = parsed.trackingNumber?.trim();
     if (!trackingNumber) {
+      const message = "Missing tracking number.";
       results.push({
         raw,
         status: "exception",
-        message: "Missing tracking number."
+        message
       });
+      await persistTrackingException(
+        {
+          rawLine: raw,
+          reason: message,
+          ingestBatchId
+        },
+        url
+      );
       continue;
     }
 
@@ -271,14 +282,26 @@ export async function ingestTrackingPaste(
         .limit(1);
 
       if (!order) {
+        const message = `Order ${orderNumber} not found.`;
         results.push({
           raw,
           status: "exception",
           orderNumber,
           trackingNumber,
           courier,
-          message: `Order ${orderNumber} not found.`
+          message
         });
+        await persistTrackingException(
+          {
+            rawLine: raw,
+            trackingNumber,
+            orderNumber,
+            courierGuess: courier?.courierName ?? null,
+            reason: message,
+            ingestBatchId
+          },
+          url
+        );
         continue;
       }
 
@@ -299,26 +322,49 @@ export async function ingestTrackingPaste(
         .limit(1);
 
       if (!line) {
+        const message = `No untracked lines on ${orderNumber}.`;
         results.push({
           raw,
           status: "exception",
           orderNumber,
           trackingNumber,
           courier,
-          message: `No untracked lines on ${orderNumber}.`
+          message
         });
+        await persistTrackingException(
+          {
+            rawLine: raw,
+            trackingNumber,
+            orderNumber,
+            courierGuess: courier?.courierName ?? null,
+            reason: message,
+            ingestBatchId
+          },
+          url
+        );
         continue;
       }
 
       orderItemId = line.id;
     } else {
+      const message = "Tracking without order number — add to exception list.";
       results.push({
         raw,
         status: "exception",
         trackingNumber,
         courier,
-        message: "Tracking without order number — add to exception list."
+        message
       });
+      await persistTrackingException(
+        {
+          rawLine: raw,
+          trackingNumber,
+          courierGuess: courier?.courierName ?? null,
+          reason: message,
+          ingestBatchId
+        },
+        url
+      );
       continue;
     }
 
@@ -399,5 +445,228 @@ export function buildShippingEmailDraft(input: {
       "",
       "This is a DRAFT email — not sent automatically."
     ].join("\n")
+  };
+}
+
+export type TrackingExceptionSnapshot = {
+  id: string;
+  rawLine: string;
+  trackingNumber: string | null;
+  orderNumber: string | null;
+  orderItemId: string | null;
+  courierGuess: string | null;
+  reason: string;
+  status: string;
+  ingestBatchId: string | null;
+  resolvedAt: Date | null;
+  resolvedBy: string | null;
+  resolutionNotes: string | null;
+  createdAt: Date;
+};
+
+function mapTrackingException(
+  row: typeof trackingExceptions.$inferSelect
+): TrackingExceptionSnapshot {
+  return {
+    id: row.id,
+    rawLine: row.rawLine,
+    trackingNumber: row.trackingNumber,
+    orderNumber: row.orderNumber,
+    orderItemId: row.orderItemId,
+    courierGuess: row.courierGuess,
+    reason: row.reason,
+    status: row.status,
+    ingestBatchId: row.ingestBatchId,
+    resolvedAt: row.resolvedAt,
+    resolvedBy: row.resolvedBy,
+    resolutionNotes: row.resolutionNotes,
+    createdAt: row.createdAt
+  };
+}
+
+export async function persistTrackingException(
+  input: {
+    rawLine: string;
+    trackingNumber?: string | null;
+    orderNumber?: string | null;
+    orderItemId?: string | null;
+    courierGuess?: string | null;
+    reason: string;
+    ingestBatchId?: string;
+    metadata?: Record<string, unknown>;
+  },
+  databaseUrl?: string
+): Promise<TrackingExceptionSnapshot> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const [created] = await db
+    .insert(trackingExceptions)
+    .values({
+      rawLine: input.rawLine,
+      reason: input.reason,
+      status: "open",
+      ...(input.trackingNumber !== undefined
+        ? { trackingNumber: input.trackingNumber }
+        : {}),
+      ...(input.orderNumber !== undefined ? { orderNumber: input.orderNumber } : {}),
+      ...(input.orderItemId !== undefined ? { orderItemId: input.orderItemId } : {}),
+      ...(input.courierGuess !== undefined ? { courierGuess: input.courierGuess } : {}),
+      ...(input.ingestBatchId !== undefined ? { ingestBatchId: input.ingestBatchId } : {}),
+      ...(input.metadata !== undefined ? { metadata: input.metadata } : {})
+    })
+    .returning();
+
+  if (!created) {
+    throw new Error("Failed to persist tracking exception.");
+  }
+  return mapTrackingException(created);
+}
+
+export async function listTrackingExceptions(
+  status?: "open" | "resolved" | "ignored",
+  databaseUrl?: string
+): Promise<TrackingExceptionSnapshot[]> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const rows = status
+    ? await db
+        .select()
+        .from(trackingExceptions)
+        .where(and(eq(trackingExceptions.status, status), isNull(trackingExceptions.deletedAt)))
+        .orderBy(desc(trackingExceptions.createdAt))
+        .limit(200)
+    : await db
+        .select()
+        .from(trackingExceptions)
+        .where(isNull(trackingExceptions.deletedAt))
+        .orderBy(desc(trackingExceptions.createdAt))
+        .limit(200);
+
+  return rows.map(mapTrackingException);
+}
+
+export async function resolveTrackingException(
+  id: string,
+  input: {
+    status: "resolved" | "ignored";
+    resolvedBy: string;
+    notes?: string;
+  },
+  databaseUrl?: string
+): Promise<TrackingExceptionSnapshot> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const now = new Date();
+  const [updated] = await db
+    .update(trackingExceptions)
+    .set({
+      status: input.status,
+      resolvedBy: input.resolvedBy.trim(),
+      resolvedAt: now,
+      ...(input.notes !== undefined ? { resolutionNotes: input.notes.trim() || null } : {}),
+      updatedAt: now
+    })
+    .where(and(eq(trackingExceptions.id, id), isNull(trackingExceptions.deletedAt)))
+    .returning();
+
+  if (!updated) {
+    throw new Error("Tracking exception not found.");
+  }
+  return mapTrackingException(updated);
+}
+
+export async function updateCourierRule(
+  id: string,
+  fields: {
+    name?: string;
+    pattern?: string;
+    patternType?: CourierRuleSnapshot["patternType"];
+    courierCode?: string;
+    courierName?: string;
+    priority?: number;
+    notes?: string | null;
+  },
+  databaseUrl?: string
+): Promise<CourierRuleSnapshot> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const [existing] = await db
+    .select()
+    .from(courierRules)
+    .where(and(eq(courierRules.id, id), isNull(courierRules.deletedAt)))
+    .limit(1);
+
+  if (!existing) {
+    throw new Error("Courier rule not found.");
+  }
+
+  const patternType = fields.patternType ?? (existing.patternType as CourierRuleSnapshot["patternType"]);
+  const pattern = fields.pattern ?? existing.pattern;
+  if (patternType === "regex") {
+    try {
+      void new RegExp(pattern);
+    } catch {
+      throw new Error("Invalid regex pattern.");
+    }
+  }
+
+  const [updated] = await db
+    .update(courierRules)
+    .set({
+      ...(fields.name !== undefined ? { name: fields.name.trim() } : {}),
+      ...(fields.pattern !== undefined ? { pattern: fields.pattern } : {}),
+      ...(fields.patternType !== undefined ? { patternType: fields.patternType } : {}),
+      ...(fields.courierCode !== undefined
+        ? { courierCode: fields.courierCode.trim().toUpperCase() }
+        : {}),
+      ...(fields.courierName !== undefined ? { courierName: fields.courierName.trim() } : {}),
+      ...(fields.priority !== undefined ? { priority: fields.priority } : {}),
+      ...(fields.notes !== undefined
+        ? { notes: fields.notes === null ? null : fields.notes.trim() || null }
+        : {}),
+      updatedAt: new Date()
+    })
+    .where(eq(courierRules.id, id))
+    .returning();
+
+  if (!updated) {
+    throw new Error("Failed to update courier rule.");
+  }
+
+  return {
+    id: updated.id,
+    name: updated.name,
+    pattern: updated.pattern,
+    patternType: updated.patternType as CourierRuleSnapshot["patternType"],
+    courierCode: updated.courierCode,
+    courierName: updated.courierName,
+    priority: updated.priority,
+    isActive: updated.isActive,
+    notes: updated.notes
+  };
+}
+
+export async function setCourierRuleActive(
+  id: string,
+  isActive: boolean,
+  databaseUrl?: string
+): Promise<CourierRuleSnapshot> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const [updated] = await db
+    .update(courierRules)
+    .set({ isActive, updatedAt: new Date() })
+    .where(and(eq(courierRules.id, id), isNull(courierRules.deletedAt)))
+    .returning();
+
+  if (!updated) {
+    throw new Error("Courier rule not found.");
+  }
+
+  return {
+    id: updated.id,
+    name: updated.name,
+    pattern: updated.pattern,
+    patternType: updated.patternType as CourierRuleSnapshot["patternType"],
+    courierCode: updated.courierCode,
+    courierName: updated.courierName,
+    priority: updated.priority,
+    isActive: updated.isActive,
+    notes: updated.notes
   };
 }

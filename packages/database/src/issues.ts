@@ -2,6 +2,7 @@ import { and, desc, eq, isNull } from "drizzle-orm";
 import type { IssueReason, IssueStatus } from "@sjh/shared";
 import { createDatabaseClient } from "./client";
 import { issueCases, orderItems, orders } from "./schema-commerce";
+import { issueCaseEvidence, issueCaseEvents } from "./schema-ops";
 
 function resolveDatabaseUrl(databaseUrl?: string): string {
   const url = databaseUrl ?? process.env.DATABASE_URL;
@@ -31,6 +32,32 @@ export type IssueCaseSnapshot = {
   resolvedAt: Date | null;
   createdAt: Date;
 };
+
+export type IssueEvidenceSnapshot = {
+  id: string;
+  issueCaseId: string;
+  kind: string;
+  label: string | null;
+  url: string | null;
+  notes: string | null;
+  uploadedBy: string | null;
+  createdAt: Date;
+};
+
+async function recordIssueEvent(
+  db: ReturnType<typeof createDatabaseClient>,
+  issueCaseId: string,
+  eventType: string,
+  actor: string,
+  payload: Record<string, unknown> = {}
+): Promise<void> {
+  await db.insert(issueCaseEvents).values({
+    issueCaseId,
+    eventType,
+    actor,
+    payload
+  });
+}
 
 async function loadIssueSnapshot(
   db: ReturnType<typeof createDatabaseClient>,
@@ -172,6 +199,11 @@ export async function createIssueCase(
     .set({ status: "issue", updatedAt: new Date() })
     .where(eq(orders.id, order.id));
 
+  await recordIssueEvent(db, created.id, "created", "system", {
+    orderNumber: input.orderNumber,
+    reason: input.reason
+  });
+
   const snapshot = await loadIssueSnapshot(db, created.id);
   if (!snapshot) {
     throw new Error("Issue created but could not be reloaded.");
@@ -251,9 +283,103 @@ export async function updateIssueCase(
     })
     .where(eq(issueCases.id, existing.id));
 
+  await recordIssueEvent(db, existing.id, "updated", "system", {
+    ...input,
+    previousStatus: existing.status,
+    status
+  });
+
   const snapshot = await loadIssueSnapshot(db, existing.id);
   if (!snapshot) {
     throw new Error("Issue updated but could not be reloaded.");
   }
   return snapshot;
+}
+
+export async function addIssueEvidence(
+  caseNumber: string,
+  input: {
+    kind: "note" | "url" | "image" | "file";
+    label?: string;
+    url?: string;
+    notes?: string;
+    uploadedBy?: string;
+  },
+  databaseUrl?: string
+): Promise<IssueEvidenceSnapshot> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const [issue] = await db
+    .select({ id: issueCases.id })
+    .from(issueCases)
+    .where(and(eq(issueCases.caseNumber, caseNumber), isNull(issueCases.deletedAt)))
+    .limit(1);
+
+  if (!issue) {
+    throw new Error("Issue case not found.");
+  }
+
+  const [created] = await db
+    .insert(issueCaseEvidence)
+    .values({
+      issueCaseId: issue.id,
+      kind: input.kind,
+      ...(input.label !== undefined ? { label: input.label.trim() || null } : {}),
+      ...(input.url !== undefined ? { url: input.url.trim() || null } : {}),
+      ...(input.notes !== undefined ? { notes: input.notes.trim() || null } : {}),
+      ...(input.uploadedBy !== undefined ? { uploadedBy: input.uploadedBy.trim() || null } : {})
+    })
+    .returning();
+
+  if (!created) {
+    throw new Error("Failed to add issue evidence.");
+  }
+
+  await recordIssueEvent(db, issue.id, "evidence_added", input.uploadedBy ?? "system", {
+    evidenceId: created.id,
+    kind: input.kind
+  });
+
+  return {
+    id: created.id,
+    issueCaseId: created.issueCaseId,
+    kind: created.kind,
+    label: created.label,
+    url: created.url,
+    notes: created.notes,
+    uploadedBy: created.uploadedBy,
+    createdAt: created.createdAt
+  };
+}
+
+export async function listIssueEvidence(
+  caseNumber: string,
+  databaseUrl?: string
+): Promise<IssueEvidenceSnapshot[]> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const [issue] = await db
+    .select({ id: issueCases.id })
+    .from(issueCases)
+    .where(and(eq(issueCases.caseNumber, caseNumber), isNull(issueCases.deletedAt)))
+    .limit(1);
+
+  if (!issue) {
+    throw new Error("Issue case not found.");
+  }
+
+  const rows = await db
+    .select()
+    .from(issueCaseEvidence)
+    .where(and(eq(issueCaseEvidence.issueCaseId, issue.id), isNull(issueCaseEvidence.deletedAt)))
+    .orderBy(desc(issueCaseEvidence.createdAt));
+
+  return rows.map((row) => ({
+    id: row.id,
+    issueCaseId: row.issueCaseId,
+    kind: row.kind,
+    label: row.label,
+    url: row.url,
+    notes: row.notes,
+    uploadedBy: row.uploadedBy,
+    createdAt: row.createdAt
+  }));
 }

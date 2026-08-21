@@ -3,6 +3,7 @@ import type { AbandonedCheckoutDraft, CartCustomisation, GuestCheckoutInput } fr
 import { cartCustomisationSchema } from "@sjh/shared";
 import { createDatabaseClient } from "./client";
 import { getCartBySessionId } from "./cart";
+import { applyOfferToAmounts, evaluateWelcome10Eligibility } from "./offers";
 import { cartItems, carts, customers } from "./schema-catalogue";
 import { abandonedCheckouts, orderItems, orders, productSupplierMappings } from "./schema-commerce";
 
@@ -120,6 +121,26 @@ export async function createOrderFromCart(
   const customerId = await findOrCreateCustomer(db, input);
   const now = new Date();
 
+  const offerCode = input.offerCode?.trim().toUpperCase() || null;
+  let discountAmount = "0.00";
+  let totalAmount = cart.subtotalAmount;
+  let internalNotes: string | null = null;
+
+  if (offerCode === "WELCOME10") {
+    const eligibility = await evaluateWelcome10Eligibility({ email: input.email }, url);
+    if (!eligibility.eligible || !eligibility.offer) {
+      throw new Error(
+        eligibility.reasons[0] ?? "WELCOME10 is not available for this checkout."
+      );
+    }
+    const applied = applyOfferToAmounts(cart.subtotalAmount, eligibility.offer);
+    discountAmount = applied.discountAmount;
+    totalAmount = applied.totalAfterDiscount;
+    internalNotes = `Applied offer ${offerCode} (${eligibility.offer.percentOff ?? "0"}% off).`;
+  } else if (offerCode) {
+    throw new Error(`Unknown offer code: ${offerCode}`);
+  }
+
   const [order] = await db
     .insert(orders)
     .values({
@@ -130,14 +151,15 @@ export async function createOrderFromCart(
       fulfilmentStatus: "unfulfilled",
       currencyCode: cart.currencyCode,
       subtotalAmount: cart.subtotalAmount,
-      discountAmount: "0.00",
+      discountAmount,
       shippingRevenueAmount: "0.00",
       taxAmount: "0.00",
       paymentFeeAmount: "0.00",
-      totalAmount: cart.subtotalAmount,
+      totalAmount,
       shippingAddress: input.shippingAddress,
       billingAddress: input.shippingAddress,
       customerNotes: input.customerNotes ?? null,
+      internalNotes,
       cartId: cart.id,
       placedAt: now
     })

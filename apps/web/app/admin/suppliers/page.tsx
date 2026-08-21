@@ -29,7 +29,7 @@ export default async function AdminSuppliersPage() {
         <Link href={"/admin" as Route}>← Admin home</Link>
       </p>
 
-      <AdminSupplierActions />
+      <AdminSupplierActions suppliers={suppliers} />
 
       {suppliers.length === 0 ? (
         <section className="empty-state">
