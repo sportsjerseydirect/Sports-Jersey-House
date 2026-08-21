@@ -127,12 +127,14 @@ Deliverables:
 
 ---
 
-### Phase 7 — Issue & replacement
+### Phase 7 — Issue & replacement ✅
 
 **Goal:** Replace “returns” with operational cases.
 
 - Case types: wrong item, defect, damaged, lost, missing, supplier error, customer issue, goodwill.
 - Evidence, notes, decision, replacement order link, cost, supplier responsibility, resolution.
+
+**Repo status:** Admin issue create/list/detail, status workflow, replacement order link + cost, source order marked `issue`.
 
 ---
 

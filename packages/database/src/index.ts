@@ -55,6 +55,13 @@ export {
   updateOrderItemCosts
 } from "./margins";
 export type { LineMarginSnapshot, OrderMarginSnapshot } from "./margins";
+export {
+  createIssueCase,
+  getIssueCaseByNumber,
+  listIssueCases,
+  updateIssueCase
+} from "./issues";
+export type { IssueCaseSnapshot } from "./issues";
 
 export {
   approvalStatus,

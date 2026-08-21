@@ -61,6 +61,9 @@ export default async function AdminPage() {
             <li>
               <Link href={"/admin/margins" as Route}>Margins</Link>
             </li>
+            <li>
+              <Link href={"/admin/issues" as Route}>Issue cases</Link>
+            </li>
           </ul>
         </article>
 

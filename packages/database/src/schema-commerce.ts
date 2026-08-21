@@ -304,7 +304,9 @@ export const issueCases = pgTable(
   "issue_cases",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    caseNumber: text("case_number").notNull(),
+    caseNumber: text("case_number")
+      .notNull()
+      .default(sql`'ISS-' || nextval('issue_case_number_seq')`),
     orderId: uuid("order_id")
       .notNull()
       .references(() => orders.id),
