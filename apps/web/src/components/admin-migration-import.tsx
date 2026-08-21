@@ -175,9 +175,9 @@ export function AdminMigrationImport({ health }: Props) {
           Does not enable full sync.
         </p>
         <label className="field">
-          <span>Sample limit (max 100)</span>
+          <span>Sample limit (max 500)</span>
           <input
-            max={100}
+            max={500}
             min={1}
             onChange={(event) => setSampleLimit(Number.parseInt(event.target.value, 10) || 80)}
             type="number"

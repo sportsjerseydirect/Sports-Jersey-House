@@ -467,7 +467,7 @@ export { upsertShopifyCollections } from "./load/upsert-collections";
 export type { UpsertCollectionsResult } from "./load/upsert-collections";
 export { syncProductCollectionMembershipsFromSourcePayload } from "./load/sync-product-collection-memberships";
 export type { SyncProductCollectionMembershipsResult } from "./load/sync-product-collection-memberships";
-export { runControlledSampleImport } from "./migration/sample-import";
+export { runControlledSampleImport, selectRepresentativeSample } from "./migration/sample-import";
 export type {
   ControlledSampleImportOptions,
   SampleImportReport

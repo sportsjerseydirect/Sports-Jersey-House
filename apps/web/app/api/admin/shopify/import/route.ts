@@ -32,7 +32,7 @@ const sampleProductSchema = z.object({
 const postSchema = z.object({
   action: z.enum(["stage", "run_sample"]).default("stage"),
   mode: z.enum(["dry_run", "sample"]).default("dry_run"),
-  sampleLimit: z.number().int().min(1).max(100).optional(),
+  sampleLimit: z.number().int().min(1).max(500).optional(),
   sampleProducts: z.array(sampleProductSchema).max(50).optional()
 });
 

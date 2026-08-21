@@ -1,4 +1,21 @@
 export {
+  LEAGUE_TO_SPORT,
+  buildImageAltText,
+  displayCategoryLabel,
+  draftMetaDescription,
+  evaluateDescriptionQuality,
+  inferTaxonomyFromCatalogueText,
+  nextCategoryModeAfterDecision,
+  sportFromLeague
+} from "./catalogue-rules";
+export type {
+  CatalogueChangeCategory,
+  DescriptionDecision,
+  InferredTaxonomy
+} from "./catalogue-rules";
+export { seoRecommendationsFromGsc } from "./gsc-seo-foundation";
+export type { GscIssueCode, GscPageInsight } from "./gsc-seo-foundation";
+export {
   aiProviderNameSchema,
   AiRouter,
   createAiRouterFromEnv,

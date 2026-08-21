@@ -147,6 +147,23 @@ export type {
   StagedProductResult
 } from "./shopify-import";
 export {
+  calibrateAndApplyPendingChanges,
+  decideAiChange,
+  getAiAgentStatus,
+  listPendingAiChanges,
+  listRecentAiChanges,
+  runSimplifiedCatalogueAgent,
+  setAiAgentAutonomousEnabled,
+  isCategoryAutonomous
+} from "./catalogue-agent";
+export type {
+  AiAgentStatusSnapshot,
+  AiCategoryModeSnapshot,
+  AiChangeLogSnapshot,
+  CalibrationApplyResult,
+  CatalogueAgentRunResult
+} from "./catalogue-agent";
+export {
   assertWorkflowTransition,
   ensureSeoRecordForProduct,
   evaluateProductReadiness,

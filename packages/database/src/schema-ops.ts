@@ -359,6 +359,76 @@ export const shopifyImportErrors = pgTable(
   })
 );
 
+export const aiAgentSettings = pgTable("ai_agent_settings", {
+  id: text("id").primaryKey().default("default"),
+  autonomousEnabled: boolean("autonomous_enabled").notNull().default(true),
+  notes: text("notes"),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedBy: text("updated_by")
+});
+
+export const aiAgentCategoryModes = pgTable("ai_agent_category_modes", {
+  category: text("category").primaryKey(),
+  mode: text("mode").notNull().default("learning"),
+  consecutiveApprovals: integer("consecutive_approvals").notNull().default(0),
+  approvalThreshold: integer("approval_threshold").notNull().default(3),
+  alwaysRequireApproval: boolean("always_require_approval").notNull().default(false),
+  label: text("label").notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedBy: text("updated_by")
+});
+
+export const aiChangeLog = pgTable(
+  "ai_change_log",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    category: text("category")
+      .notNull()
+      .references(() => aiAgentCategoryModes.category),
+    productId: uuid("product_id").references(() => products.id),
+    fieldName: text("field_name").notNull(),
+    previousValue: jsonb("previous_value"),
+    newValue: jsonb("new_value"),
+    reason: text("reason").notNull(),
+    confidence: numeric("confidence", { precision: 5, scale: 2 }),
+    decision: text("decision").notNull().default("pending"),
+    decidedBy: text("decided_by"),
+    decidedAt: timestamp("decided_at", { withTimezone: true }),
+    appliedAt: timestamp("applied_at", { withTimezone: true }),
+    metadata: jsonb("metadata").notNull().default(sql`'{}'::jsonb`),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
+  },
+  (table) => ({
+    categoryDecisionIdx: index("ai_change_log_category_decision_idx").on(
+      table.category,
+      table.decision,
+      table.createdAt
+    ),
+    productIdx: index("ai_change_log_product_idx").on(table.productId)
+  })
+);
+
+export const gscPageInsights = pgTable(
+  "gsc_page_insights",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    pagePath: text("page_path").notNull(),
+    productId: uuid("product_id").references(() => products.id),
+    impressions: integer("impressions"),
+    clicks: integer("clicks"),
+    ctr: numeric("ctr", { precision: 8, scale: 6 }),
+    averagePosition: numeric("average_position", { precision: 8, scale: 2 }),
+    issueCodes: text("issue_codes").array().notNull().default(sql`'{}'::text[]`),
+    notes: text("notes"),
+    observedAt: timestamp("observed_at", { withTimezone: true }).notNull().defaultNow(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
+  },
+  (table) => ({
+    productIdx: index("gsc_page_insights_product_idx").on(table.productId)
+  })
+);
+
 export const catalogueProposalsRelations = relations(catalogueProposals, ({ one, many }) => ({
   product: one(products, { fields: [catalogueProposals.productId], references: [products.id] }),
   queueItems: many(catalogueReviewQueue)

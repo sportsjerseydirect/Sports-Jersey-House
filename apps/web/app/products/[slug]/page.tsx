@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductGrid } from "@/components/product-grid";
 import { PdpPurchasePanel } from "@/components/pdp-purchase-panel";
@@ -13,7 +14,8 @@ type ProductPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const revalidate = 3600;
+/** Force request-time resolution so missing/draft products return a real HTTP 404. */
+export const dynamic = "force-dynamic";
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
@@ -22,16 +24,13 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ProductPageProps) {
+  await connection();
   const { slug } = await params;
   const search = getSearchProvider();
   const product = await search.getProductBySlug(slug);
 
   if (!product) {
-    return createMetadata({
-      title: "Product not found | Sports Jersey House",
-      description: "The requested product could not be found in the local catalogue.",
-      path: `/products/${slug}`
-    });
+    notFound();
   }
 
   return createMetadata({
@@ -42,6 +41,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
 }
 
 export default async function ProductDetailPage({ params }: ProductPageProps) {
+  await connection();
   const { slug } = await params;
   const search = getSearchProvider();
   const product = await search.getProductBySlug(slug);

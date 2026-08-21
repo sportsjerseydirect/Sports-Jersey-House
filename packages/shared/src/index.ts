@@ -199,3 +199,22 @@ export {
   type SizeChart,
   type SizeChartRow
 } from "./commerce";
+
+export {
+  LEAGUE_TO_SPORT,
+  buildImageAltText,
+  displayCategoryLabel,
+  draftMetaDescription,
+  evaluateDescriptionQuality,
+  inferTaxonomyFromCatalogueText,
+  nextCategoryModeAfterDecision,
+  sportFromLeague,
+  CALIBRATABLE_CATEGORIES,
+  HIGH_CONFIDENCE_THRESHOLD,
+  isHighConfidenceChange
+} from "./catalogue-rules";
+export type {
+  CatalogueChangeCategory,
+  DescriptionDecision,
+  InferredTaxonomy
+} from "./catalogue-rules";

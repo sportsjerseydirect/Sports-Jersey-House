@@ -45,7 +45,11 @@ import {
   shopifyImportRaw,
   shopifyImportRuns,
   shopifyImportStagedProducts,
-  trackingExceptions
+  trackingExceptions,
+  aiAgentSettings,
+  aiAgentCategoryModes,
+  aiChangeLog,
+  gscPageInsights
 } from "./schema-ops";
 
 const databaseClients = new Map<string, ReturnType<typeof drizzle>>();
@@ -99,7 +103,11 @@ export const databaseSchema = {
   shopifyImportRuns,
   shopifyImportRaw,
   shopifyImportStagedProducts,
-  shopifyImportErrors
+  shopifyImportErrors,
+  aiAgentSettings,
+  aiAgentCategoryModes,
+  aiChangeLog,
+  gscPageInsights
 };
 
 export function createDatabaseClient(databaseUrl: string) {
