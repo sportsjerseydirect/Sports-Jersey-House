@@ -138,12 +138,14 @@ Deliverables:
 
 ---
 
-### Phase 8 — AI operations assistant
+### Phase 8 — AI operations assistant ✅
 
 **Goal:** Natural-language ops with permissions.
 
 - Tool contracts for: tracking paste, PO create, ageing queries, supplier chase email **draft**, replacement create, margin reports.
 - Preview + confirmation for high-risk actions; audit log; never blind destructive execution.
+
+**Repo status:** Deterministic intent parser in `@sjh/ai`, audited preview/confirm/reject in `ai_action_audits`, admin `/admin/ai-ops` console (emails never auto-sent).
 
 ---
 

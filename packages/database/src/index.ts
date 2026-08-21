@@ -62,6 +62,13 @@ export {
   updateIssueCase
 } from "./issues";
 export type { IssueCaseSnapshot } from "./issues";
+export {
+  confirmOpsAction,
+  createOpsAuditPreview,
+  listAiActionAudits,
+  rejectOpsAction
+} from "./ai-ops";
+export type { AiActionAuditSnapshot } from "./ai-ops";
 
 export {
   approvalStatus,
