@@ -49,8 +49,29 @@ const PRICE_PATTERNS = [
   /max\s*[£$€]?\s*(\d+(?:\.\d{2})?)/i
 ];
 
+const TEAM_TO_SPORT: Record<string, string> = {
+  lakers: "Basketball",
+  celtics: "Basketball",
+  warriors: "Basketball",
+  bulls: "Basketball",
+  knicks: "Basketball",
+  heat: "Basketball",
+  chiefs: "Football",
+  cowboys: "Football",
+  patriots: "Football",
+  yankees: "Baseball",
+  dodgers: "Baseball",
+  "manchester city": "Soccer",
+  "manchester united": "Soccer",
+  liverpool: "Soccer",
+  chelsea: "Soccer",
+  arsenal: "Soccer",
+  "real madrid": "Soccer",
+  barcelona: "Soccer"
+};
+
 const TEAM_PATTERNS = [
-  /\b(lakers|celtics|warriors|bulls|knicks|heat|manchester city|manchester united|liverpool|chelsea|arsenal|real madrid|barcelona|chiefs|cowboys|patriots|yankees|dodgers)\b/i
+  /\b(lakers|celtics|warriors|bulls|knicks|heat|manchester city|manchester united|liverpool|chelsea|arsenal|tottenham|real madrid|barcelona|chiefs|cowboys|patriots|yankees|dodgers)\b/i
 ];
 
 const SPORT_PATTERNS: Array<{ pattern: RegExp; sport: string }> = [
@@ -92,7 +113,12 @@ export function parseShoppingIntent(input: string): ShoppingToolIntent {
 
   const teamMatch = message.match(TEAM_PATTERNS[0]!);
   if (teamMatch?.[1]) {
-    filters.team = [teamMatch[1].replace(/\b\w/g, (c) => c.toUpperCase())];
+    const teamName = teamMatch[1];
+    filters.team = [teamName.replace(/\b\w/g, (c) => c.toUpperCase())];
+    const sportFromTeam = TEAM_TO_SPORT[teamName.toLowerCase()];
+    if (sportFromTeam && !filters.sport) {
+      filters.sport = [sportFromTeam];
+    }
   }
 
   for (const pattern of PRICE_PATTERNS) {
