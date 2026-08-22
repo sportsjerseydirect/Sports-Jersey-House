@@ -145,31 +145,53 @@ function mapProposal(row: typeof catalogueProposals.$inferSelect): CatalogueProp
  */
 export async function computeProductSignals(
   productId?: string,
-  databaseUrl?: string
+  databaseUrl?: string,
+  options?: { scope?: "published" | "shopify_imports" | "all" }
 ): Promise<ProductSignalSnapshot[]> {
   const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
   const currentYear = new Date().getFullYear();
   const outdatedYearThreshold = currentYear - 2;
+  const scope = options?.scope ?? "published";
 
-  const productRows = productId
-    ? await db
-        .select()
-        .from(products)
-        .where(and(eq(products.id, productId), isNull(products.deletedAt)))
-    : await db
-        .select()
-        .from(products)
-        .where(and(eq(products.status, "published"), isNull(products.deletedAt)));
+  let productRows;
+  if (productId) {
+    productRows = await db
+      .select()
+      .from(products)
+      .where(and(eq(products.id, productId), isNull(products.deletedAt)));
+  } else if (scope === "shopify_imports") {
+    productRows = await db
+      .select()
+      .from(products)
+      .where(and(isNull(products.deletedAt), sql`${products.shopifyId} is not null`));
+  } else if (scope === "all") {
+    productRows = await db.select().from(products).where(isNull(products.deletedAt));
+  } else {
+    productRows = await db
+      .select()
+      .from(products)
+      .where(and(eq(products.status, "published"), isNull(products.deletedAt)));
+  }
 
-  const allPublished = await db
-    .select({
-      id: products.id,
-      title: products.title,
-      team: products.team,
-      status: products.status
-    })
-    .from(products)
-    .where(and(eq(products.status, "published"), isNull(products.deletedAt)));
+  const comparisonScope =
+    scope === "shopify_imports" || scope === "all"
+      ? productRows
+      : await db
+          .select({
+            id: products.id,
+            title: products.title,
+            team: products.team,
+            status: products.status
+          })
+          .from(products)
+          .where(and(eq(products.status, "published"), isNull(products.deletedAt)));
+
+  const allPublished = comparisonScope.map((row) => ({
+    id: row.id,
+    title: row.title,
+    team: row.team,
+    status: row.status
+  }));
 
   const tokenByProduct = new Map(
     allPublished.map((row) => [row.id, titleTokens(row.title)] as const)

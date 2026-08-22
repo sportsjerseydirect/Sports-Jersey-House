@@ -42,8 +42,48 @@ const LEAGUE_PATTERNS: Array<{ pattern: RegExp; league: string }> = [
   { pattern: /\bla liga\b/i, league: "La Liga" },
   { pattern: /\bserie a\b/i, league: "Serie A" },
   { pattern: /\bbundesliga\b/i, league: "Bundesliga" },
-  { pattern: /\bligue 1\b/i, league: "Ligue 1" }
+  { pattern: /\bligue 1\b/i, league: "Ligue 1" },
+  { pattern: /\bfifa world cup\b/i, league: "FIFA World Cup" },
+  { pattern: /\bfifa euro\b|\beuro cup\b|\buefa euro\b/i, league: "UEFA Euro" },
+  { pattern: /\buefa champions league\b|\bchampions league\b/i, league: "UEFA Champions League" },
+  { pattern: /\buefa\b/i, league: "UEFA" }
 ];
+
+/** Slug/handle prefixes commonly used by SJD for league routing. */
+const SLUG_LEAGUE_PREFIXES: Array<{ pattern: RegExp; league: string }> = [
+  { pattern: /^nfl-/i, league: "NFL" },
+  { pattern: /^nba-/i, league: "NBA" },
+  { pattern: /^nhl-/i, league: "NHL" },
+  { pattern: /^mlb-/i, league: "MLB" },
+  { pattern: /^mls-/i, league: "MLS" },
+  { pattern: /^soccer-/i, league: "Soccer" },
+  { pattern: /^football-/i, league: "Football" }
+];
+
+/** National teams and common soccer clubs for sport= Soccer when league unknown. */
+const SOCCER_NATIONAL_TEAMS = new Set([
+  "England",
+  "Brazil",
+  "Argentina",
+  "France",
+  "Germany",
+  "Spain",
+  "Italy",
+  "Portugal",
+  "Netherlands",
+  "Belgium",
+  "USA",
+  "Mexico",
+  "Japan",
+  "South Korea",
+  "Croatia",
+  "Scotland",
+  "Wales",
+  "Ireland"
+]);
+
+const SOCCER_CLUB_HINTS =
+  /\b(real madrid|barcelona|manchester city|manchester united|liverpool|chelsea|arsenal|tottenham|bayern|juventus|inter milan|ac milan|psg|paris saint|brentford|dortmund|atletico)\b/i;
 
 export function sportFromLeague(league: string | null | undefined): string | null {
   if (!league) {
@@ -60,9 +100,17 @@ export function inferTaxonomyFromCatalogueText(input: {
   title: string;
   tags?: string[];
   productType?: string | null;
+  slug?: string | null;
+  collections?: string[];
   existing?: Partial<InferredTaxonomy>;
 }): InferredTaxonomy {
-  const haystack = [input.title, ...(input.tags ?? []), input.productType ?? ""].join(" ");
+  const haystack = [
+    input.title,
+    ...(input.tags ?? []),
+    ...(input.collections ?? []),
+    input.productType ?? "",
+    input.slug ?? ""
+  ].join(" ");
   let league = input.existing?.league ?? null;
 
   for (const entry of LEAGUE_PATTERNS) {
@@ -72,7 +120,26 @@ export function inferTaxonomyFromCatalogueText(input: {
     }
   }
 
-  const sport = input.existing?.sport ?? sportFromLeague(league);
+  if (!league && input.slug) {
+    for (const entry of SLUG_LEAGUE_PREFIXES) {
+      if (entry.pattern.test(input.slug)) {
+        league = entry.league === "Soccer" || entry.league === "Football" ? null : entry.league;
+        break;
+      }
+    }
+  }
+
+  let sport = input.existing?.sport ?? sportFromLeague(league);
+
+  // Soccer from FIFA/Euro/national/club hints when league not mapped to LEAGUE_TO_SPORT.
+  if (!sport) {
+    if (
+      /\bfifa\b|\beuro cup\b|\bworld cup\b|\buefa\b/i.test(haystack) ||
+      SOCCER_CLUB_HINTS.test(haystack)
+    ) {
+      sport = "Soccer";
+    }
+  }
   const seasonMatch = input.title.match(/\b((?:19|20)\d{2})(?:\s*[-/]\s*((?:19|20)\d{2}))?\b/);
   const season = input.existing?.season ?? (seasonMatch ? seasonMatch[0].replace(/\s+/g, "") : null);
 
@@ -93,6 +160,19 @@ export function inferTaxonomyFromCatalogueText(input: {
   }
 
   const normalizedTitle = input.title.replace(/\s+/g, " ").trim();
+
+  // FIFA / Euro / national team jerseys: "{Player} {Country} {Number} FIFA Euro Cup Jersey"
+  const fifaNational = normalizedTitle.match(
+    /^(.+?)\s+(England|Brazil|Argentina|France|Germany|Spain|Italy|Portugal|Netherlands|Belgium|USA|Mexico|Japan|Scotland|Wales|Ireland|Croatia|South Korea)\s+(\d{1,3})\s+(?:FIFA|Euro|UEFA).*Jersey$/i
+  );
+  if (fifaNational?.[1] && fifaNational[2]) {
+    if (!player) player = fifaNational[1].trim();
+    if (!team) team = fifaNational[2];
+    if (!sport) sport = "Soccer";
+    if (!league && /fifa world cup/i.test(normalizedTitle)) league = "FIFA World Cup";
+    if (!league && /euro|uefa euro/i.test(normalizedTitle)) league = "UEFA Euro";
+  }
+
   const numberedJersey = normalizedTitle.match(/^(.*?)\s+(\d{1,3})\s+Jersey$/i);
   const jerseyHead = numberedJersey?.[1]?.trim();
   if (jerseyHead) {
@@ -139,6 +219,10 @@ export function inferTaxonomyFromCatalogueText(input: {
     team = nonLeague ?? null;
   }
 
+  if (!sport && team && SOCCER_NATIONAL_TEAMS.has(team)) {
+    sport = "Soccer";
+  }
+
   return {
     sport,
     league,
@@ -147,6 +231,90 @@ export function inferTaxonomyFromCatalogueText(input: {
     productType,
     season
   };
+}
+
+export type ProductHealthIssue = {
+  code: string;
+  severity: "info" | "warning" | "critical";
+  message: string;
+};
+
+export type ProductHealthReport = {
+  score: number;
+  status: "healthy" | "needs_review" | "at_risk";
+  issues: ProductHealthIssue[];
+  recommendation: "KEEP" | "UPDATE" | "REVIEW";
+};
+
+/** Score catalogue completeness without rewriting titles or inventing facts. */
+export function scoreProductHealth(input: {
+  title: string;
+  description?: string | null;
+  sport?: string | null;
+  league?: string | null;
+  team?: string | null;
+  player?: string | null;
+  productType?: string | null;
+  imageCount: number;
+  variantCount: number;
+  hasPrice: boolean;
+  hasSeoMeta: boolean;
+  hasCanonical: boolean;
+  collectionCount: number;
+  shopifyId?: string | null;
+}): ProductHealthReport {
+  const issues: ProductHealthIssue[] = [];
+  let score = 0;
+
+  if (input.title?.trim()) score += 15;
+  else issues.push({ code: "missing_title", severity: "critical", message: "Title missing." });
+
+  const desc = (input.description ?? "").trim();
+  if (desc.length >= 40 && !/imported draft|placeholder|lorem ipsum/i.test(desc)) {
+    score += 15;
+  } else if (!desc) {
+    issues.push({ code: "missing_description", severity: "warning", message: "Description missing." });
+  } else {
+    issues.push({ code: "thin_description", severity: "warning", message: "Description thin or placeholder." });
+  }
+
+  if (input.sport) score += 10;
+  else issues.push({ code: "missing_sport", severity: "warning", message: "Sport not classified." });
+
+  if (input.league) score += 5;
+  if (input.team) score += 10;
+  else issues.push({ code: "missing_team", severity: "info", message: "Team not identified." });
+
+  if (input.player) score += 5;
+  if (input.productType) score += 5;
+
+  if (input.imageCount > 0) score += 15;
+  else issues.push({ code: "missing_images", severity: "critical", message: "No product images." });
+
+  if (input.variantCount > 0) score += 10;
+  else issues.push({ code: "missing_variants", severity: "warning", message: "No variants." });
+
+  if (input.hasPrice) score += 10;
+  else issues.push({ code: "missing_price", severity: "warning", message: "No priced variant." });
+
+  if (input.hasSeoMeta) score += 5;
+  else issues.push({ code: "missing_seo_meta", severity: "info", message: "SEO meta description missing." });
+
+  if (input.hasCanonical) score += 3;
+  if (input.collectionCount > 0) score += 2;
+  if (input.shopifyId) score += 0; // source traceability, not scored
+
+  const status: ProductHealthReport["status"] =
+    score >= 75 ? "healthy" : score >= 50 ? "needs_review" : "at_risk";
+
+  const recommendation: ProductHealthReport["recommendation"] =
+    issues.some((i) => i.severity === "critical") || score < 50
+      ? "REVIEW"
+      : issues.length > 0
+        ? "UPDATE"
+        : "KEEP";
+
+  return { score: Math.min(100, score), status, issues, recommendation };
 }
 
 export type DescriptionDecision = {

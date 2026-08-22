@@ -5,6 +5,7 @@ import {
   inferTaxonomyFromCatalogueText,
   isHighConfidenceChange,
   nextCategoryModeAfterDecision,
+  scoreProductHealth,
   sportFromLeague
 } from "./catalogue-rules";
 
@@ -63,6 +64,38 @@ describe("catalogue rules", () => {
     expect(isHighConfidenceChange(0.82)).toBe(true);
     expect(isHighConfidenceChange("0.75")).toBe(true);
     expect(isHighConfidenceChange(0.5)).toBe(false);
+  });
+
+  it("parses FIFA Euro national team jerseys", () => {
+    const inferred = inferTaxonomyFromCatalogueText({
+      title: "Eberchi Eze England 21 FIFA Euro Cup Jersey",
+      tags: ["Soccer"]
+    });
+    expect(inferred.sport).toBe("Soccer");
+    expect(inferred.team).toBe("England");
+    expect(inferred.player).toBe("Eberchi Eze");
+    expect(inferred.league).toBe("UEFA Euro");
+  });
+
+  it("scores product health without rewriting titles", () => {
+    const health = scoreProductHealth({
+      title: "Matthew Boyd Cleveland Guardians 16 Jersey",
+      description: "Authentic Cleveland Guardians jersey with comfortable fit.",
+      sport: "Baseball",
+      league: "MLB",
+      team: "Cleveland Guardians",
+      player: "Matthew Boyd",
+      productType: "Jersey",
+      imageCount: 2,
+      variantCount: 5,
+      hasPrice: true,
+      hasSeoMeta: true,
+      hasCanonical: true,
+      collectionCount: 3,
+      shopifyId: "gid://shopify/Product/1"
+    });
+    expect(health.status).toBe("healthy");
+    expect(health.recommendation).toBe("KEEP");
   });
 });
 

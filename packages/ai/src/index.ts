@@ -15,6 +15,18 @@ export type {
 } from "./catalogue-rules";
 export { seoRecommendationsFromGsc } from "./gsc-seo-foundation";
 export type { GscIssueCode, GscPageInsight } from "./gsc-seo-foundation";
+export { isGscConfigured, planGscSync } from "./gsc-sync-foundation";
+export type { GscSyncConfig, GscSyncResult } from "./gsc-sync-foundation";
+export {
+  parseShoppingIntent,
+  runShoppingAssistantTurn,
+  SHOPPING_ASSISTANT_NAME
+} from "./shopping-assistant";
+export type {
+  ShoppingAssistantResponse,
+  ShoppingToolIntent,
+  ShoppingToolName
+} from "./shopping-assistant";
 export {
   aiProviderNameSchema,
   AiRouter,

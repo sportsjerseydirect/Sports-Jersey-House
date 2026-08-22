@@ -208,6 +208,7 @@ export {
   evaluateDescriptionQuality,
   inferTaxonomyFromCatalogueText,
   nextCategoryModeAfterDecision,
+  scoreProductHealth,
   sportFromLeague,
   CALIBRATABLE_CATEGORIES,
   HIGH_CONFIDENCE_THRESHOLD,
@@ -216,5 +217,7 @@ export {
 export type {
   CatalogueChangeCategory,
   DescriptionDecision,
-  InferredTaxonomy
+  InferredTaxonomy,
+  ProductHealthIssue,
+  ProductHealthReport
 } from "./catalogue-rules";

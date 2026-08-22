@@ -21,10 +21,15 @@ async function main(): Promise<void> {
   for (const product of rows) {
     const payload = (product.sourcePayload ?? {}) as Record<string, unknown>;
     const tags = Array.isArray(payload.tags) ? (payload.tags as string[]) : [];
+    const sourceCollections = Array.isArray(payload.collections)
+      ? (payload.collections as Array<{ title?: string }>).map((c) => c.title ?? "").filter(Boolean)
+      : [];
     const inferred = inferTaxonomyFromCatalogueText({
       title: product.title,
+      slug: product.slug,
       tags,
       productType: product.productType,
+      collections: sourceCollections,
       existing: {
         sport: product.sport,
         league: product.league,

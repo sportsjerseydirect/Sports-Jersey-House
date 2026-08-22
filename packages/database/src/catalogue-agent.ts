@@ -504,6 +504,7 @@ export async function runSimplifiedCatalogueAgent(
 
     const inferred = inferTaxonomyFromCatalogueText({
       title: product.title,
+      slug: product.slug,
       tags,
       productType: product.productType,
       existing: {

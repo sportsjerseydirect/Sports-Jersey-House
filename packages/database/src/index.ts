@@ -164,6 +164,11 @@ export type {
   CatalogueAgentRunResult
 } from "./catalogue-agent";
 export {
+  getCatalogueHealthStats,
+  listLowHealthProducts
+} from "./catalogue-health";
+export type { CatalogueHealthStats } from "./catalogue-health";
+export {
   assertWorkflowTransition,
   ensureSeoRecordForProduct,
   evaluateProductReadiness,
