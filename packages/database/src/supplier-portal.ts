@@ -432,6 +432,29 @@ export async function supplierSubmitCost(
     })
     .where(eq(purchaseOrders.id, po.id));
 
+  // Propagate supplier costs to order lines for admin margin reporting.
+  const lines = await db
+    .select({ id: orderItems.id })
+    .from(orderItems)
+    .where(eq(orderItems.purchaseOrderId, po.id));
+
+  const productCost = Number.parseFloat(input.amount);
+  const shippingCost = input.shippingCost ? Number.parseFloat(input.shippingCost) : 0;
+  const perLineProduct = lines.length > 0 ? (productCost / lines.length).toFixed(2) : input.amount;
+  const perLineShipping =
+    lines.length > 0 && shippingCost > 0 ? (shippingCost / lines.length).toFixed(2) : "0.00";
+
+  for (const line of lines) {
+    await db
+      .update(orderItems)
+      .set({
+        supplierCostAmount: perLineProduct,
+        ...(shippingCost > 0 ? { fulfilmentCostAmount: perLineShipping } : {}),
+        updatedAt: now
+      })
+      .where(eq(orderItems.id, line.id));
+  }
+
   await db.execute(sql`
     insert into supplier_action_audits (supplier_id, supplier_user_id, action, entity_type, entity_id, new_value)
     values (${supplierId}::uuid, ${supplierUserId}::uuid, 'submit_cost', 'purchase_order', ${po.id}::uuid,

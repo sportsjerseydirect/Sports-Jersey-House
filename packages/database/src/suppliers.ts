@@ -464,8 +464,15 @@ export async function createPurchaseOrderBatch(
   databaseUrl?: string
 ): Promise<PoBatchResult> {
   const url = resolveDatabaseUrl(databaseUrl);
-  await ensureDefaultSupplierMappings(url);
   const db = createDatabaseClient(url);
+  const [defaultSupplier] = await db
+    .select({ id: suppliers.id })
+    .from(suppliers)
+    .where(and(eq(suppliers.code, "DEFAULT"), isNull(suppliers.deletedAt)))
+    .limit(1);
+  if (!defaultSupplier) {
+    await ensureDefaultSupplierMappings(url);
+  }
 
   const eligible = await db
     .select({

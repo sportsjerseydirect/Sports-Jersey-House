@@ -8,7 +8,8 @@ export const shopifyConfigSchema = z.object({
   clientId: z.string().min(1),
   clientSecret: z.string().min(1),
   enableShopifySync: z.boolean().default(false),
-  enableShopifySampleImport: z.boolean().default(false)
+  enableShopifySampleImport: z.boolean().default(false),
+  enableShopifyFullImport: z.boolean().default(false)
 });
 
 export type ShopifyConfig = z.infer<typeof shopifyConfigSchema>;
@@ -23,7 +24,7 @@ export class ShopifySyncDisabledError extends Error {
 }
 
 export function isShopifyReadAllowed(config: ShopifyConfig): boolean {
-  return config.enableShopifySync || config.enableShopifySampleImport;
+  return config.enableShopifySync || config.enableShopifySampleImport || config.enableShopifyFullImport;
 }
 
 export type ShopifyGraphqlRequest = {
@@ -439,7 +440,8 @@ export function parseShopifyConfig(env: NodeJS.ProcessEnv): ShopifyConfig {
     clientId: env.SHOPIFY_CLIENT_ID,
     clientSecret: env.SHOPIFY_CLIENT_SECRET,
     enableShopifySync: env.ENABLE_SHOPIFY_SYNC === "true",
-    enableShopifySampleImport: env.ENABLE_SHOPIFY_SAMPLE_IMPORT === "true"
+    enableShopifySampleImport: env.ENABLE_SHOPIFY_SAMPLE_IMPORT === "true",
+    enableShopifyFullImport: env.ENABLE_SHOPIFY_FULL_IMPORT === "true"
   });
 }
 

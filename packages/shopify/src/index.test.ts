@@ -22,6 +22,7 @@ function baseConfig(overrides: Partial<ShopifyConfig> = {}): ShopifyConfig {
     clientSecret: "client-secret",
     enableShopifySync: false,
     enableShopifySampleImport: false,
+    enableShopifyFullImport: false,
     ...overrides
   };
 }
@@ -41,7 +42,8 @@ describe("shopify safety gate", () => {
       clientId: "client-id",
       clientSecret: "client-secret",
       enableShopifySync: false,
-      enableShopifySampleImport: false
+      enableShopifySampleImport: false,
+      enableShopifyFullImport: false
     });
   });
 

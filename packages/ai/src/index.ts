@@ -27,6 +27,8 @@ export type {
   ShoppingToolIntent,
   ShoppingToolName
 } from "./shopping-assistant";
+export { executeShoppingTool } from "./shopping-assistant/tools";
+export type { ShoppingToolExecution } from "./shopping-assistant/tools";
 export {
   aiProviderNameSchema,
   AiRouter,
