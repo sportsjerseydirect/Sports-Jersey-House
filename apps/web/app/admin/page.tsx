@@ -1,4 +1,4 @@
-import { getCatalogueHealthStats } from "@sjh/database";
+import { getAdminOpsStats, getCatalogueHealthStats } from "@sjh/database";
 import { AdminLogoutButton } from "@/components/admin-logout-button";
 import type { Metadata } from "next";
 import type { Route } from "next";
@@ -20,7 +20,7 @@ export const metadata: Metadata = createMetadata({
 });
 
 export default async function AdminPage() {
-  const health = await getCatalogueHealthStats();
+  const [health, ops] = await Promise.all([getCatalogueHealthStats(), getAdminOpsStats()]);
   const authRequired = isAdminAuthRequired();
   const session = await verifyAdminSessionToken((await cookies()).get(ADMIN_SESSION_COOKIE)?.value);
 
@@ -165,6 +165,64 @@ export default async function AdminPage() {
               ))}
             </ul>
           ) : null}
+        </article>
+      </section>
+
+      <section className="admin-grid" aria-label="Operations">
+        <article className="status-panel">
+          <h2>Orders</h2>
+          <dl>
+            <div>
+              <dt>Total orders</dt>
+              <dd>{ops.orders.total}</dd>
+            </div>
+            <div>
+              <dt>Pending payment</dt>
+              <dd>{ops.orders.pendingPayment}</dd>
+            </div>
+            <div>
+              <dt>Paid / unfulfilled</dt>
+              <dd>{ops.orders.paidUnfulfilled}</dd>
+            </div>
+            <div>
+              <dt>With suppliers</dt>
+              <dd>{ops.orders.submittedToSupplier}</dd>
+            </div>
+          </dl>
+        </article>
+        <article className="status-panel">
+          <h2>Supplier POs &amp; SLA</h2>
+          <dl>
+            <div>
+              <dt>Purchase orders</dt>
+              <dd>{ops.purchaseOrders.total}</dd>
+            </div>
+            <div>
+              <dt>Awaiting acknowledgement</dt>
+              <dd>{ops.purchaseOrders.awaitingAcknowledgement}</dd>
+            </div>
+            <div>
+              <dt>Tracking overdue ({ops.sla.trackingOverdueDays}d)</dt>
+              <dd>{ops.purchaseOrders.trackingOverdue}</dd>
+            </div>
+            <div>
+              <dt>Delivery overdue ({ops.sla.deliveryOverdueDays}d)</dt>
+              <dd>{ops.purchaseOrders.deliveryOverdue}</dd>
+            </div>
+            <div>
+              <dt>Open tracking exceptions</dt>
+              <dd>{ops.exceptions.openTrackingExceptions}</dd>
+            </div>
+          </dl>
+        </article>
+        <article className="status-panel">
+          <h2>Supplier portal</h2>
+          <ul>
+            <li>
+              <Link href={"/supplier/login" as Route}>Supplier login</Link>
+            </li>
+          </ul>
+          <p className="admin-notice">Suppliers see assigned POs only — no selling prices or margins.</p>
         </article>
       </section>
 

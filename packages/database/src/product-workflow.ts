@@ -301,9 +301,25 @@ export async function evaluateProductReadiness(
         "Sport/league/team not set."
     },
     {
+      id: "size_chart",
+      label: "Size chart linked",
+      ok: Boolean(product.sizeChartId),
+      severity: "warning",
+      detail: product.sizeChartId ? "Size guide available on PDP." : "No size chart assigned."
+    },
+    {
+      id: "customisation_profile",
+      label: "Customisation profile",
+      ok: Boolean(product.customisationProfileId),
+      severity: "warning",
+      detail: product.customisationProfileId
+        ? "Customisation profile linked."
+        : "No customisation profile assigned."
+    },
+    {
       id: "customization",
       label: "Customization configuration",
-      ok: Boolean(product.customisationEnabled || customization.personalizationLikely),
+      ok: Boolean(product.customisationEnabled && product.customisationProfileId),
       severity: "info",
       detail: product.customisationEnabled
         ? "Customisation enabled on product."

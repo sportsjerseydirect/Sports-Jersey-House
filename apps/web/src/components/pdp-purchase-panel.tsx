@@ -250,6 +250,14 @@ export function PdpPurchasePanel({
       ) : null}
 
       <div className={`pdp-purchase${justAdded ? " is-added" : ""}`}>
+        <div className="pdp-sticky-summary">
+          {selectedVariant ? (
+            <p className="pdp-sticky-size">
+              Size: {selectedVariant.sizeLabel ?? selectedVariant.title}
+            </p>
+          ) : null}
+          {preview ? <p className="pdp-sticky-custom">{preview}</p> : null}
+        </div>
         <div className="pdp-price-stack">
           <p className="product-detail-price">{formatProductPrice(unitTotal, currency)}</p>
           {selectedVariant?.compareAtPrice ? (

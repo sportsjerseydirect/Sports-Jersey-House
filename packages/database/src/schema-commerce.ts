@@ -203,6 +203,13 @@ export const purchaseOrders = pgTable(
     packingSlipPayload: jsonb("packing_slip_payload"),
     emailTo: text("email_to"),
     emailSentAt: timestamp("email_sent_at", { withTimezone: true }),
+    acknowledgedAt: timestamp("acknowledged_at", { withTimezone: true }),
+    supplierReceivedAt: timestamp("supplier_received_at", { withTimezone: true }),
+    supplierCostAmount: numeric("supplier_cost_amount", { precision: 12, scale: 2 }),
+    supplierCostCurrency: text("supplier_cost_currency").default("USD"),
+    supplierCostNotes: text("supplier_cost_notes"),
+    supplierCostSubmittedAt: timestamp("supplier_cost_submitted_at", { withTimezone: true }),
+    dispatchedAt: timestamp("dispatched_at", { withTimezone: true }),
     notes: text("notes"),
     ...auditColumns
   },

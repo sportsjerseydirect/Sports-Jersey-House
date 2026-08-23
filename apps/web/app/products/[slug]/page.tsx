@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
+import { PdpMadeToOrderNotice } from "@/components/pdp-made-to-order-notice";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductGrid } from "@/components/product-grid";
 import { PdpPurchasePanel } from "@/components/pdp-purchase-panel";
@@ -99,6 +100,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         <div className="product-detail-copy">
           {metaBits.length > 0 ? <p className="eyebrow">{metaBits.join(" · ")}</p> : null}
           <h1>{product.title}</h1>
+          <PdpMadeToOrderNotice />
           {product.description ? <p className="product-detail-description">{product.description}</p> : null}
 
           <PdpPurchasePanel

@@ -168,6 +168,20 @@ export {
   listLowHealthProducts
 } from "./catalogue-health";
 export type { CatalogueHealthStats } from "./catalogue-health";
+export { getAdminOpsStats } from "./admin-ops-stats";
+export type { AdminOpsStats } from "./admin-ops-stats";
+export {
+  bootstrapSupplierUser,
+  getSupplierPurchaseOrderDetail,
+  getSupplierUserByEmail,
+  hashSupplierPassword,
+  listSupplierPurchaseOrders,
+  supplierAcknowledgePo,
+  supplierSubmitCost,
+  supplierSubmitTracking,
+  verifySupplierLogin
+} from "./supplier-portal";
+export type { SupplierPoDetail, SupplierPoLineView, SupplierPoSummary } from "./supplier-portal";
 export {
   assertWorkflowTransition,
   ensureSeoRecordForProduct,
