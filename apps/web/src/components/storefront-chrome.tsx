@@ -13,7 +13,13 @@ function isOpsPath(pathname: string): boolean {
  * is never rendered into admin or supplier HTML — including SSR.
  */
 export async function StorefrontChrome() {
-  const pathname = (await headers()).get("x-sjh-pathname") ?? "";
+  const headerList = await headers();
+  const pathname =
+    headerList.get("x-sjh-pathname") ||
+    safePathname(headerList.get("next-url")) ||
+    safePathname(headerList.get("x-url")) ||
+    "";
+
   if (isOpsPath(pathname)) {
     return null;
   }
@@ -26,7 +32,13 @@ export async function StorefrontChrome() {
 }
 
 export async function StorefrontFooterChrome() {
-  const pathname = (await headers()).get("x-sjh-pathname") ?? "";
+  const headerList = await headers();
+  const pathname =
+    headerList.get("x-sjh-pathname") ||
+    safePathname(headerList.get("next-url")) ||
+    safePathname(headerList.get("x-url")) ||
+    "";
+
   if (isOpsPath(pathname)) {
     return null;
   }
@@ -38,4 +50,14 @@ export async function StorefrontFooterChrome() {
       <ShoppingAssistantWidget />
     </>
   );
+}
+
+function safePathname(value: string | null): string {
+  if (!value) return "";
+  try {
+    if (value.startsWith("/")) return value.split("?")[0] ?? value;
+    return new URL(value).pathname;
+  } catch {
+    return "";
+  }
 }

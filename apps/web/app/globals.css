@@ -2164,6 +2164,24 @@ h2 {
   color: var(--ink);
 }
 
+/* Hard-stop storefront marketing chrome on ops surfaces (click interception). */
+body:has(.admin-shell) .site-header,
+body:has(.admin-shell) .site-footer,
+body:has(.admin-shell) .lead-capture-overlay,
+body:has(.admin-shell) .sjh-ai-widget,
+body:has(.admin-shell) .mobile-nav,
+body:has(.admin-shell) .mobile-nav-backdrop,
+body:has(.supplier-shell) .site-header,
+body:has(.supplier-shell) .site-footer,
+body:has(.supplier-shell) .lead-capture-overlay,
+body:has(.supplier-shell) .sjh-ai-widget,
+body:has(.supplier-shell) .mobile-nav,
+body:has(.supplier-shell) .mobile-nav-backdrop {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
 .admin-command-centre-page .page-heading h1 {
   font-size: clamp(2.2rem, 5vw, 3.6rem);
 }
