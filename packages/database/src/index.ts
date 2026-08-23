@@ -165,9 +165,10 @@ export type {
 } from "./catalogue-agent";
 export {
   getCatalogueHealthStats,
+  getPublishReadinessStats,
   listLowHealthProducts
 } from "./catalogue-health";
-export type { CatalogueHealthStats } from "./catalogue-health";
+export type { CatalogueHealthStats, PublishReadinessStats } from "./catalogue-health";
 export { getAdminOpsStats } from "./admin-ops-stats";
 export type { AdminOpsStats } from "./admin-ops-stats";
 export {

@@ -48,6 +48,100 @@ export type CatalogueHealthStats = {
   agentMode: string;
 };
 
+export type PublishReadinessStats = {
+  ready: number;
+  needsReview: number;
+  blocked: number;
+  missingSizeChart: number;
+  missingCustomisation: number;
+  missingTaxonomy: number;
+  missingSeo: number;
+  draftReady: number;
+};
+
+export async function getPublishReadinessStats(databaseUrl?: string): Promise<PublishReadinessStats> {
+  const url = databaseUrl ?? process.env.DATABASE_URL;
+  if (!url) throw new Error("DATABASE_URL required");
+  const db = createDatabaseClient(url.replace(":6543/", ":5432/"));
+
+  const rows = await db.execute<{
+    ready: number;
+    needs_review: number;
+    blocked: number;
+    missing_size_chart: number;
+    missing_customisation: number;
+    missing_taxonomy: number;
+    missing_seo: number;
+    draft_ready: number;
+  }>(sql`
+    WITH sp AS (
+      SELECT p.* FROM products p
+      WHERE p.deleted_at IS NULL AND p.shopify_id IS NOT NULL
+    ),
+    img AS (
+      SELECT product_id, count(*)::int AS n FROM product_images
+      WHERE deleted_at IS NULL GROUP BY product_id
+    ),
+    var AS (
+      SELECT product_id, count(*)::int AS n,
+        bool_or(price_amount IS NOT NULL AND price_amount::numeric > 0) AS has_price
+      FROM product_variants WHERE deleted_at IS NULL GROUP BY product_id
+    ),
+    seo AS (
+      SELECT target_id AS product_id,
+        meta_description IS NOT NULL AND trim(meta_description) <> '' AS has_meta
+      FROM seo_records WHERE target_type = 'product'
+    ),
+    enriched AS (
+      SELECT sp.id, sp.status,
+        (sp.title IS NOT NULL AND trim(sp.title) <> '') AS ok_title,
+        (sp.slug IS NOT NULL AND trim(sp.slug) <> '') AS ok_slug,
+        coalesce(v.has_price, false) AS ok_price,
+        coalesce(v.n, 0) > 0 AS ok_variants,
+        coalesce(i.n, 0) > 0 AS ok_images,
+        coalesce(s.has_meta, false) AS ok_seo,
+        sp.size_chart_id IS NOT NULL AS ok_size_chart,
+        sp.customisation_profile_id IS NOT NULL AS ok_customisation,
+        (sp.sport IS NOT NULL OR sp.league IS NOT NULL OR sp.team IS NOT NULL) AS ok_taxonomy,
+        (sp.description IS NOT NULL AND trim(sp.description) <> '') AS ok_description
+      FROM sp
+      LEFT JOIN img i ON i.product_id = sp.id
+      LEFT JOIN var v ON v.product_id = sp.id
+      LEFT JOIN seo s ON s.product_id = sp.id
+    ),
+    classified AS (
+      SELECT *,
+        NOT (ok_title AND ok_slug AND ok_price AND ok_variants AND ok_images) AS is_blocked,
+        (ok_title AND ok_slug AND ok_price AND ok_variants AND ok_images)
+          AND NOT (ok_seo AND ok_size_chart AND ok_customisation AND ok_taxonomy AND ok_description) AS needs_review
+      FROM enriched
+    )
+    SELECT
+      count(*) FILTER (WHERE NOT is_blocked AND NOT needs_review)::int AS ready,
+      count(*) FILTER (WHERE NOT is_blocked AND needs_review)::int AS needs_review,
+      count(*) FILTER (WHERE is_blocked)::int AS blocked,
+      count(*) FILTER (WHERE NOT ok_size_chart)::int AS missing_size_chart,
+      count(*) FILTER (WHERE NOT ok_customisation)::int AS missing_customisation,
+      count(*) FILTER (WHERE NOT ok_taxonomy)::int AS missing_taxonomy,
+      count(*) FILTER (WHERE NOT ok_seo)::int AS missing_seo,
+      count(*) FILTER (WHERE status = 'draft' AND NOT is_blocked AND NOT needs_review)::int AS draft_ready
+    FROM classified
+  `);
+
+  const row = Array.isArray(rows) ? rows[0] : rows;
+
+  return {
+    ready: row?.ready ?? 0,
+    needsReview: row?.needs_review ?? 0,
+    blocked: row?.blocked ?? 0,
+    missingSizeChart: row?.missing_size_chart ?? 0,
+    missingCustomisation: row?.missing_customisation ?? 0,
+    missingTaxonomy: row?.missing_taxonomy ?? 0,
+    missingSeo: row?.missing_seo ?? 0,
+    draftReady: row?.draft_ready ?? 0
+  };
+}
+
 export async function getCatalogueHealthStats(databaseUrl?: string): Promise<CatalogueHealthStats> {
   const url = databaseUrl ?? process.env.DATABASE_URL;
   if (!url) throw new Error("DATABASE_URL required");

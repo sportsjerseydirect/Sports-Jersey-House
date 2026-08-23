@@ -1,4 +1,4 @@
-import { getAdminOpsStats, getCatalogueHealthStats } from "@sjh/database";
+import { getAdminOpsStats, getCatalogueHealthStats, getPublishReadinessStats } from "@sjh/database";
 import { AdminLogoutButton } from "@/components/admin-logout-button";
 import type { Metadata } from "next";
 import type { Route } from "next";
@@ -20,7 +20,11 @@ export const metadata: Metadata = createMetadata({
 });
 
 export default async function AdminPage() {
-  const [health, ops] = await Promise.all([getCatalogueHealthStats(), getAdminOpsStats()]);
+  const [health, ops, readiness] = await Promise.all([
+    getCatalogueHealthStats(),
+    getAdminOpsStats(),
+    getPublishReadinessStats()
+  ]);
   const authRequired = isAdminAuthRequired();
   const session = await verifyAdminSessionToken((await cookies()).get(ADMIN_SESSION_COOKIE)?.value);
 
@@ -68,6 +72,36 @@ export default async function AdminPage() {
             <div>
               <dt>AI agent mode</dt>
               <dd>{health.agentMode}</dd>
+            </div>
+          </dl>
+        </article>
+
+        <article className="status-panel">
+          <h2>Publish readiness (Shopify)</h2>
+          <dl>
+            <div>
+              <dt>Ready</dt>
+              <dd>{readiness.ready}</dd>
+            </div>
+            <div>
+              <dt>Needs review</dt>
+              <dd>{readiness.needsReview}</dd>
+            </div>
+            <div>
+              <dt>Blocked</dt>
+              <dd>{readiness.blocked}</dd>
+            </div>
+            <div>
+              <dt>Draft ready to publish</dt>
+              <dd>{readiness.draftReady}</dd>
+            </div>
+            <div>
+              <dt>Missing size chart</dt>
+              <dd>{readiness.missingSizeChart}</dd>
+            </div>
+            <div>
+              <dt>Missing customisation</dt>
+              <dd>{readiness.missingCustomisation}</dd>
             </div>
           </dl>
         </article>

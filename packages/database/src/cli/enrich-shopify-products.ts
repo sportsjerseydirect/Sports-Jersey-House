@@ -47,7 +47,7 @@ async function main(): Promise<void> {
                 OR (lower(products.sport) = 'basketball' AND sc.slug = 'nba-adult')
                 OR (lower(products.sport) = 'hockey' AND sc.slug = 'nhl-adult')
                 OR (lower(products.sport) = 'baseball' AND sc.slug = 'mlb-adult')
-                OR (lower(products.sport) IN ('soccer', 'football') AND sc.slug = 'soccer-adult')
+                OR (lower(products.sport) = 'soccer' AND sc.slug = 'soccer-adult')
               )
             LIMIT 1
           )

@@ -2,6 +2,9 @@ import type { MetadataRoute } from "next";
 import { env } from "@/lib/env";
 import { getSearchProvider } from "@/lib/search";
 
+/** Regenerate from live catalogue — bulk publishes must appear without redeploy. */
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     "/",
