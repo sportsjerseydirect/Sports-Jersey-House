@@ -11,7 +11,11 @@ export const LEAGUE_TO_SPORT: Record<string, string> = {
   "La Liga": "Soccer",
   "Serie A": "Soccer",
   Bundesliga: "Soccer",
-  "Ligue 1": "Soccer"
+  "Ligue 1": "Soccer",
+  "FIFA World Cup": "Soccer",
+  "UEFA Euro": "Soccer",
+  "UEFA Champions League": "Soccer",
+  UEFA: "Soccer"
 };
 
 export type CatalogueChangeCategory =
@@ -82,6 +86,14 @@ const SOCCER_NATIONAL_TEAMS = new Set([
   "Ireland"
 ]);
 
+const SOCCER_CLUB_TO_LEAGUE: Array<{ pattern: RegExp; league: string }> = [
+  { pattern: /\b(manchester city|manchester united|liverpool|chelsea|arsenal|tottenham|brentford)\b/i, league: "Premier League" },
+  { pattern: /\b(real madrid|barcelona|atletico)\b/i, league: "La Liga" },
+  { pattern: /\b(bayern|dortmund)\b/i, league: "Bundesliga" },
+  { pattern: /\b(juventus|inter milan|ac milan)\b/i, league: "Serie A" },
+  { pattern: /\b(psg|paris saint)\b/i, league: "Ligue 1" }
+];
+
 const SOCCER_CLUB_HINTS =
   /\b(real madrid|barcelona|manchester city|manchester united|liverpool|chelsea|arsenal|tottenham|bayern|juventus|inter milan|ac milan|psg|paris saint|brentford|dortmund|atletico)\b/i;
 
@@ -140,6 +152,17 @@ export function inferTaxonomyFromCatalogueText(input: {
       sport = "Soccer";
     }
   }
+
+  if (!league) {
+    for (const entry of SOCCER_CLUB_TO_LEAGUE) {
+      if (entry.pattern.test(haystack)) {
+        league = entry.league;
+        if (!sport) sport = "Soccer";
+        break;
+      }
+    }
+  }
+
   const seasonMatch = input.title.match(/\b((?:19|20)\d{2})(?:\s*[-/]\s*((?:19|20)\d{2}))?\b/);
   const season = input.existing?.season ?? (seasonMatch ? seasonMatch[0].replace(/\s+/g, "") : null);
 
