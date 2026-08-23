@@ -171,6 +171,8 @@ export {
 export type { CatalogueHealthStats, PublishReadinessStats } from "./catalogue-health";
 export { getAdminOpsStats } from "./admin-ops-stats";
 export type { AdminOpsStats } from "./admin-ops-stats";
+export { getAdminCommandCentreStats } from "./admin-command-centre";
+export type { AdminCommandCentreStats, MetricValue } from "./admin-command-centre";
 export {
   bootstrapSupplierUser,
   classifySupplierPoBucket,

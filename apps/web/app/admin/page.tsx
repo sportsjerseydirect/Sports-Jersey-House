@@ -1,40 +1,63 @@
-import { getAdminOpsStats, getCatalogueHealthStats, getPublishReadinessStats } from "@sjh/database";
+import { getAdminCommandCentreStats } from "@sjh/database";
 import { AdminLogoutButton } from "@/components/admin-logout-button";
+import { AdminCommandAiBox } from "@/components/admin-command-ai-box";
+import { AdminCommandCard, AdminCommandSection } from "@/components/admin-command-card";
 import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { queueNames } from "@sjh/shared";
 import { ADMIN_SESSION_COOKIE, isAdminAuthRequired, verifyAdminSessionToken } from "@/lib/auth";
-import { featureFlags } from "@/lib/env";
 import { createMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = createMetadata({
-  title: "Admin Foundation | Sports Jersey House",
-  description:
-    "Admin foundation for catalogue migration, SEO approvals, compliance review, search indexing, and creative production.",
+  title: "Command Centre | Admin | Sports Jersey House",
+  description: "Sports Jersey House operations command centre for orders, fulfilment, catalogue, and marketing.",
   path: "/admin",
   noIndex: true
 });
 
+const STATS_TIMEOUT_MS = 15_000;
+
+function formatMoney(value: string | null): string | null {
+  if (!value) return null;
+  const amount = Number.parseFloat(value);
+  if (!Number.isFinite(amount)) return null;
+  return new Intl.NumberFormat("en-GB", { style: "currency", currency: "USD" }).format(amount);
+}
+
+async function loadCommandCentreStats() {
+  try {
+    return await Promise.race([
+      getAdminCommandCentreStats(),
+      new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error("Stats timed out")), STATS_TIMEOUT_MS);
+      })
+    ]);
+  } catch {
+    return null;
+  }
+}
+
 export default async function AdminPage() {
-  const [health, ops, readiness] = await Promise.all([
-    getCatalogueHealthStats(),
-    getAdminOpsStats(),
-    getPublishReadinessStats()
-  ]);
+  const stats = await loadCommandCentreStats();
   const authRequired = isAdminAuthRequired();
   const session = await verifyAdminSessionToken((await cookies()).get(ADMIN_SESSION_COOKIE)?.value);
+  const revenue = stats ? formatMoney(stats.commerce.paidRevenue) : null;
 
   return (
-    <main className="page-shell">
-      <div className="page-heading">
-        <p className="eyebrow">Admin</p>
-        <h1>Operating system foundation</h1>
-        <p>Catalogue health, AI agent status, and migration controls.</p>
-      </div>
+    <main className="page-shell admin-command-centre-page">
+      <header className="admin-command-header">
+        <div className="page-heading">
+          <p className="eyebrow">Sports Jersey House</p>
+          <h1>Command Centre</h1>
+          <p>Run the business — orders, fulfilment, catalogue, marketing, and suppliers in one place.</p>
+        </div>
+        <div className="admin-command-header__actions">
+          {session ? <AdminLogoutButton /> : null}
+        </div>
+      </header>
 
       {!authRequired ? (
         <p className="admin-notice">
@@ -43,301 +66,336 @@ export default async function AdminPage() {
         </p>
       ) : null}
 
-      {session ? <AdminLogoutButton /> : null}
+      {!stats ? (
+        <p className="admin-notice">
+          Live counts are temporarily unavailable. Navigation below is still active — open any section
+          to work.
+        </p>
+      ) : null}
 
-      <section className="admin-grid" aria-label="Catalogue health">
-        <article className="status-panel">
-          <h2>Catalogue overview</h2>
-          <dl>
-            <div>
-              <dt>Total products</dt>
-              <dd>{health.products.total}</dd>
-            </div>
-            <div>
-              <dt>Published</dt>
-              <dd>{health.products.published}</dd>
-            </div>
-            <div>
-              <dt>Draft</dt>
-              <dd>{health.products.draft}</dd>
-            </div>
-            <div>
-              <dt>Review</dt>
-              <dd>{health.products.review}</dd>
-            </div>
-            <div>
-              <dt>Shopify imported</dt>
-              <dd>{health.products.shopifyImported}</dd>
-            </div>
-            <div>
-              <dt>AI agent mode</dt>
-              <dd>{health.agentMode}</dd>
-            </div>
-          </dl>
-        </article>
+      <AdminCommandAiBox />
 
-        <article className="status-panel">
-          <h2>Publish readiness (Shopify)</h2>
-          <dl>
-            <div>
-              <dt>Ready</dt>
-              <dd>{readiness.ready}</dd>
-            </div>
-            <div>
-              <dt>Needs review</dt>
-              <dd>{readiness.needsReview}</dd>
-            </div>
-            <div>
-              <dt>Blocked</dt>
-              <dd>{readiness.blocked}</dd>
-            </div>
-            <div>
-              <dt>Draft ready to publish</dt>
-              <dd>{readiness.draftReady}</dd>
-            </div>
-            <div>
-              <dt>Missing size chart</dt>
-              <dd>{readiness.missingSizeChart}</dd>
-            </div>
-            <div>
-              <dt>Missing customisation</dt>
-              <dd>{readiness.missingCustomisation}</dd>
-            </div>
-          </dl>
-        </article>
+      {stats ? (
+        <>
+          <AdminCommandSection
+            description="Items that need a decision or follow-up today."
+            title="Today / action required"
+          >
+            <AdminCommandCard
+              alert
+              count={stats.actionRequired.ordersNeedingAttention}
+              description="Pending payment, unfulfilled paid orders, and open order issues."
+              href={"/admin/orders" as Route}
+              title="Orders requiring attention"
+            />
+            <AdminCommandCard
+              alert
+              count={stats.actionRequired.trackingOverdue}
+              description="With suppliers more than 7 days without tracking."
+              href={"/admin/tracking/exceptions" as Route}
+              title="Tracking overdue"
+            />
+            <AdminCommandCard
+              alert
+              count={stats.actionRequired.deliveryOverdue}
+              description="Shipped more than 30 days ago and not marked delivered."
+              href={"/admin/tracking/exceptions" as Route}
+              title="Delivery overdue"
+            />
+            <AdminCommandCard
+              alert
+              count={stats.actionRequired.supplierIssues}
+              description="POs awaiting acknowledgement and open tracking exceptions."
+              href={"/admin/purchase-orders" as Route}
+              title="Supplier issues"
+            />
+            <AdminCommandCard
+              alert
+              count={stats.actionRequired.customerIssues}
+              description="Open or in-progress customer issue cases."
+              href={"/admin/issues" as Route}
+              title="Customer issues"
+            />
+            <AdminCommandCard
+              count={stats.actionRequired.replacementCases}
+              description="Cases linked to a replacement order or goodwill replacement."
+              href={"/admin/issues" as Route}
+              title="Replacement cases"
+            />
+            <AdminCommandCard
+              description="Chargeback monitoring is not wired yet."
+              href={"/admin/issues" as Route}
+              title="Chargeback-risk cases"
+              unavailable
+            />
+            <AdminCommandCard
+              alert
+              count={stats.actionRequired.lowMarginOrders}
+              countLabel="Low margin orders"
+              description="Paid lines with supplier cost logged and margin below 20%."
+              href={"/admin/margins" as Route}
+              title="Low-margin orders"
+            />
+          </AdminCommandSection>
 
-        <article className="status-panel">
-          <h2>Taxonomy coverage (Shopify)</h2>
-          <dl>
-            <div>
-              <dt>Sport</dt>
-              <dd>
-                {health.taxonomy.withSport}/{health.taxonomy.shopifyTotal}
-              </dd>
-            </div>
-            <div>
-              <dt>League</dt>
-              <dd>
-                {health.taxonomy.withLeague}/{health.taxonomy.shopifyTotal}
-              </dd>
-            </div>
-            <div>
-              <dt>Team</dt>
-              <dd>
-                {health.taxonomy.withTeam}/{health.taxonomy.shopifyTotal}
-              </dd>
-            </div>
-            <div>
-              <dt>Player</dt>
-              <dd>
-                {health.taxonomy.withPlayer}/{health.taxonomy.shopifyTotal}
-              </dd>
-            </div>
-            <div>
-              <dt>Missing sport</dt>
-              <dd>{health.taxonomy.missingSport}</dd>
-            </div>
-          </dl>
-        </article>
+          <AdminCommandSection description="Sales, customers, and profitability." title="Commerce">
+            <AdminCommandCard
+              count={stats.commerce.totalOrders}
+              href={"/admin/orders" as Route}
+              title="Orders"
+            />
+            <AdminCommandCard
+              count={stats.commerce.distinctCustomers}
+              description="Unique customer emails on file."
+              href={"/admin/orders" as Route}
+              title="Customers"
+            />
+            <AdminCommandCard
+              count={stats.commerce.abandonedCheckouts}
+              href={"/admin/marketing" as Route}
+              title="Abandoned checkouts"
+            />
+            <AdminCommandCard
+              description="Paid order revenue from fulfilled and in-progress paid orders."
+              href={"/admin/orders" as Route}
+              metric={revenue}
+              title="Revenue"
+              unavailable={!revenue}
+            />
+            <AdminCommandCard
+              count={stats.commerce.ordersWithMarginData}
+              description="Orders with supplier cost captured for margin reporting."
+              href={"/admin/margins" as Route}
+              title="Margins"
+            />
+          </AdminCommandSection>
 
-        <article className="status-panel">
-          <h2>Content &amp; SEO</h2>
-          <dl>
-            <div>
-              <dt>SEO meta (Shopify)</dt>
-              <dd>{health.content.withSeoMeta}</dd>
-            </div>
-            <div>
-              <dt>SEO issues</dt>
-              <dd>{health.content.seoIssues}</dd>
-            </div>
-            <div>
-              <dt>Missing descriptions</dt>
-              <dd>{health.content.missingDescription}</dd>
-            </div>
-            <div>
-              <dt>Missing images</dt>
-              <dd>{health.content.missingImages}</dd>
-            </div>
-            <div>
-              <dt>Collection memberships</dt>
-              <dd>{health.collections.memberships}</dd>
-            </div>
-          </dl>
-        </article>
+          <AdminCommandSection description="Supplier POs, tracking, and delivery." title="Fulfilment">
+            <AdminCommandCard
+              count={stats.fulfilment.purchaseOrders}
+              href={"/admin/purchase-orders" as Route}
+              title="Purchase orders"
+            />
+            <AdminCommandCard
+              count={stats.fulfilment.activeSuppliers}
+              href={"/admin/suppliers" as Route}
+              title="Suppliers"
+            />
+            <AdminCommandCard
+              count={stats.actionRequired.trackingOverdue + stats.actionRequired.deliveryOverdue}
+              description="Late tracking and delivery based on SLA rules."
+              href={"/admin/purchase-orders" as Route}
+              title="Supplier performance"
+            />
+            <AdminCommandCard
+              href={"/admin/tracking" as Route}
+              title="Tracking ingest"
+            />
+            <AdminCommandCard
+              count={stats.fulfilment.openTrackingExceptions}
+              href={"/admin/tracking/exceptions" as Route}
+              title="Tracking exceptions"
+            />
+            <AdminCommandCard
+              count={stats.actionRequired.deliveryOverdue}
+              href={"/admin/tracking/exceptions" as Route}
+              title="Delivery exceptions"
+            />
+          </AdminCommandSection>
 
-        <article className="status-panel">
-          <h2>Signals &amp; proposals</h2>
-          <dl>
-            <div>
-              <dt>Healthy</dt>
-              <dd>{health.signals.healthy}</dd>
-            </div>
-            <div>
-              <dt>Needs review</dt>
-              <dd>{health.signals.needsReview}</dd>
-            </div>
-            <div>
-              <dt>At risk</dt>
-              <dd>{health.signals.atRisk}</dd>
-            </div>
-            <div>
-              <dt>Duplicate suspects</dt>
-              <dd>{health.signals.duplicateSuspects}</dd>
-            </div>
-            <div>
-              <dt>Pending human decisions</dt>
-              <dd>{health.pendingHumanDecisions}</dd>
-            </div>
-          </dl>
-          {health.proposals.length > 0 ? (
-            <ul>
-              {health.proposals.map((p) => (
-                <li key={p.recommendation}>
-                  {p.recommendation}: {p.count}
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </article>
-      </section>
+          <AdminCommandSection description="Products, migration, and catalogue quality." title="Catalogue">
+            <AdminCommandCard
+              count={stats.catalogue.totalProducts}
+              href={"/admin/catalogue/products" as Route}
+              title="Products"
+            />
+            <AdminCommandCard
+              description="Collection management lives with catalogue intelligence for now."
+              href={"/admin/catalogue" as Route}
+              title="Collections"
+            />
+            <AdminCommandCard
+              count={stats.catalogue.needsReview + stats.catalogue.blocked}
+              href={"/admin/catalogue" as Route}
+              title="Catalogue intelligence"
+            />
+            <AdminCommandCard
+              count={stats.ai.pendingHumanDecisions}
+              href={"/admin/catalogue/agent" as Route}
+              title="AI catalogue agent"
+            />
+            <AdminCommandCard
+              href={"/admin/migration" as Route}
+              title="Migration / Shopify"
+            />
+            <AdminCommandCard
+              count={stats.catalogue.createNewListingProposals}
+              description="Human review only — nothing is auto-created."
+              href={"/admin/catalogue" as Route}
+              title="New listing proposals"
+            />
+            <AdminCommandCard
+              count={stats.catalogue.seoIssues}
+              description="Products flagged with SEO metadata gaps."
+              href={"/admin/catalogue/products" as Route}
+              title="SEO"
+            />
+          </AdminCommandSection>
 
-      <section className="admin-grid" aria-label="Operations">
-        <article className="status-panel">
-          <h2>Orders</h2>
-          <dl>
-            <div>
-              <dt>Total orders</dt>
-              <dd>{ops.orders.total}</dd>
-            </div>
-            <div>
-              <dt>Pending payment</dt>
-              <dd>{ops.orders.pendingPayment}</dd>
-            </div>
-            <div>
-              <dt>Paid / unfulfilled</dt>
-              <dd>{ops.orders.paidUnfulfilled}</dd>
-            </div>
-            <div>
-              <dt>With suppliers</dt>
-              <dd>{ops.orders.submittedToSupplier}</dd>
-            </div>
-          </dl>
-        </article>
-        <article className="status-panel">
-          <h2>Supplier POs &amp; SLA</h2>
-          <dl>
-            <div>
-              <dt>Purchase orders</dt>
-              <dd>{ops.purchaseOrders.total}</dd>
-            </div>
-            <div>
-              <dt>Awaiting acknowledgement</dt>
-              <dd>{ops.purchaseOrders.awaitingAcknowledgement}</dd>
-            </div>
-            <div>
-              <dt>Tracking overdue ({ops.sla.trackingOverdueDays}d)</dt>
-              <dd>{ops.purchaseOrders.trackingOverdue}</dd>
-            </div>
-            <div>
-              <dt>Delivery overdue ({ops.sla.deliveryOverdueDays}d)</dt>
-              <dd>{ops.purchaseOrders.deliveryOverdue}</dd>
-            </div>
-            <div>
-              <dt>Open tracking exceptions</dt>
-              <dd>{ops.exceptions.openTrackingExceptions}</dd>
-            </div>
-          </dl>
-        </article>
-        <article className="status-panel">
-          <h2>Supplier portal</h2>
-          <ul>
-            <li>
-              <Link href={"/supplier/login" as Route}>Supplier login</Link>
-            </li>
-          </ul>
-          <p className="admin-notice">Suppliers see assigned POs only — no selling prices or margins.</p>
-        </article>
-      </section>
+          <AdminCommandSection description="Post-purchase customer care." title="Customer experience">
+            <AdminCommandCard
+              description="Conversation history is not available yet."
+              href={"/admin/ai-ops" as Route}
+              title="Customer AI conversations"
+              unavailable
+            />
+            <AdminCommandCard
+              count={stats.actionRequired.customerIssues}
+              href={"/admin/issues" as Route}
+              title="Customer issues"
+            />
+            <AdminCommandCard
+              count={stats.actionRequired.replacementCases}
+              href={"/admin/issues" as Route}
+              title="Replacements"
+            />
+            <AdminCommandCard
+              description="Chargeback-risk scoring is not available yet."
+              href={"/admin/issues" as Route}
+              title="Chargeback-risk cases"
+              unavailable
+            />
+            <AdminCommandCard
+              description="Returns and exchange policy cases are tracked as issue cases."
+              href={"/admin/issues" as Route}
+              title="Returns / exchange cases"
+            />
+          </AdminCommandSection>
 
-      <section className="admin-grid" aria-label="System status">
-        <article className="status-panel">
-          <h2>Commerce</h2>
-          <ul>
-            <li>
-              <Link href={"/admin/orders" as Route}>Orders</Link>
-            </li>
-            <li>
-              <Link href={"/admin/suppliers" as Route}>Suppliers</Link>
-            </li>
-            <li>
-              <Link href={"/admin/purchase-orders" as Route}>Purchase orders</Link>
-            </li>
-            <li>
-              <Link href={"/admin/courier-rules" as Route}>Courier rules</Link>
-            </li>
-            <li>
-              <Link href={"/admin/tracking" as Route}>Tracking ingest</Link>
-            </li>
-            <li>
-              <Link href={"/admin/tracking/exceptions" as Route}>Tracking exceptions</Link>
-            </li>
-            <li>
-              <Link href={"/admin/margins" as Route}>Margins</Link>
-            </li>
-            <li>
-              <Link href={"/admin/issues" as Route}>Issue cases</Link>
-            </li>
-            <li>
-              <Link href={"/admin/ai-ops" as Route}>AI ops</Link>
-            </li>
-            <li>
-              <Link href={"/admin/jobs" as Route}>Ops jobs</Link>
-            </li>
-            <li>
-              <Link href={"/admin/catalogue" as Route}>Catalogue intelligence</Link>
-            </li>
-            <li>
-              <Link href={"/admin/catalogue/products" as Route}>Catalogue products / publish</Link>
-            </li>
-            <li>
-              <Link href={"/admin/catalogue/agent" as Route}>AI Catalogue Agent</Link>
-            </li>
-            <li>
-              <Link href={"/admin/migration" as Route}>Migration / Shopify</Link>
-            </li>
-            <li>
-              <Link href={"/admin/marketing" as Route}>Marketing</Link>
-            </li>
-            <li>
-              <Link href={"/admin/notifications" as Route}>Notifications (drafts)</Link>
-            </li>
-          </ul>
-        </article>
+          <AdminCommandSection description="Acquisition, offers, and retention." title="Marketing">
+            <AdminCommandCard count={stats.marketing.leads} href={"/admin/marketing" as Route} title="Leads" />
+            <AdminCommandCard
+              count={stats.marketing.welcome10Leads}
+              href={"/admin/marketing" as Route}
+              title="WELCOME10"
+            />
+            <AdminCommandCard
+              count={stats.marketing.abandonedCheckouts}
+              href={"/admin/marketing" as Route}
+              title="Abandoned checkout"
+            />
+            <AdminCommandCard
+              description="Offer management is grouped under Marketing for now."
+              href={"/admin/marketing" as Route}
+              title="Offers"
+            />
+            <AdminCommandCard
+              description="Campaign orchestration is not available yet."
+              href={"/admin/marketing" as Route}
+              title="Campaigns"
+              unavailable
+            />
+            <AdminCommandCard
+              count={stats.catalogue.seoIssues}
+              description="Google Search Console integration is not connected yet."
+              href={"/admin/catalogue/products" as Route}
+              title="SEO / GSC"
+            />
+          </AdminCommandSection>
 
-        <article className="status-panel">
-          <h2>Safety gates</h2>
-          <dl>
-            <div>
-              <dt>Shopify sync</dt>
-              <dd>{featureFlags.enableShopifySync ? "Enabled" : "Disabled"}</dd>
-            </div>
-            <div>
-              <dt>AI shopping assistant</dt>
-              <dd>{featureFlags.enableAiShoppingAssistant ? "Enabled" : "Disabled"}</dd>
-            </div>
-          </dl>
-        </article>
+          <AdminCommandSection description="Supplier accounts, costs, and SLAs." title="Suppliers">
+            <AdminCommandCard
+              count={stats.fulfilment.activeSuppliers}
+              href={"/admin/suppliers" as Route}
+              title="Supplier management"
+            />
+            <AdminCommandCard
+              count={stats.fulfilment.purchaseOrders}
+              href={"/admin/purchase-orders" as Route}
+              title="Purchase orders"
+            />
+            <AdminCommandCard
+              count={stats.commerce.ordersWithMarginData}
+              href={"/admin/margins" as Route}
+              title="Supplier costs"
+            />
+            <AdminCommandCard href={"/admin/tracking" as Route} title="Supplier tracking" />
+            <AdminCommandCard
+              count={stats.actionRequired.trackingOverdue}
+              href={"/admin/tracking/exceptions" as Route}
+              title="Supplier SLA / performance"
+            />
+            <AdminCommandCard href={"/supplier/login" as Route} title="Supplier portal login" />
+          </AdminCommandSection>
 
-        <article className="status-panel">
-          <h2>Queues</h2>
-          <ul>
-            {queueNames.map((queue) => (
-              <li key={queue}>{queue}</li>
-            ))}
-          </ul>
-        </article>
-      </section>
+          <AdminCommandSection
+            description="Operational automation status — no internal queue names on this screen."
+            title="Background automation"
+          >
+            <AdminCommandCard
+              count={stats.backgroundAutomation.running}
+              description="Imports and scheduled ops jobs currently in progress."
+              href={"/admin/jobs" as Route}
+              title="Running"
+            />
+            <AdminCommandCard
+              count={stats.backgroundAutomation.completedToday}
+              description="Successful runs finished today."
+              href={"/admin/jobs" as Route}
+              title="Completed today"
+            />
+            <AdminCommandCard
+              alert
+              count={stats.backgroundAutomation.failed}
+              description="Failed or cancelled runs today."
+              href={"/admin/jobs" as Route}
+              title="Failed"
+            />
+            <AdminCommandCard
+              alert
+              count={stats.backgroundAutomation.needsAttention}
+              description="Long-running or failed jobs that may need review."
+              href={"/admin/jobs" as Route}
+              title="Needs attention"
+            />
+          </AdminCommandSection>
+
+          <AdminCommandSection description="AI audits and catalogue decisions." title="AI oversight">
+            <AdminCommandCard
+              count={stats.ai.pendingHumanDecisions}
+              href={"/admin/catalogue/agent" as Route}
+              title="Pending human decisions"
+            />
+            <AdminCommandCard
+              count={stats.ai.recentAudits}
+              description="AI ops actions logged in the last 7 days."
+              href={"/admin/ai-ops" as Route}
+              title="AI action audit log"
+            />
+            <AdminCommandCard href={"/admin/notifications" as Route} title="Notification drafts" />
+            <AdminCommandCard href={"/admin/courier-rules" as Route} title="Courier rules" />
+          </AdminCommandSection>
+        </>
+      ) : (
+        <AdminCommandSection description="Navigation remains available while counts load." title="Quick links">
+          <AdminCommandCard href={"/admin/orders" as Route} title="Orders" />
+          <AdminCommandCard href={"/admin/purchase-orders" as Route} title="Purchase orders" />
+          <AdminCommandCard href={"/admin/suppliers" as Route} title="Suppliers" />
+          <AdminCommandCard href={"/admin/margins" as Route} title="Margins" />
+          <AdminCommandCard href={"/admin/issues" as Route} title="Issue cases" />
+          <AdminCommandCard href={"/admin/catalogue/products" as Route} title="Catalogue products" />
+          <AdminCommandCard href={"/admin/catalogue" as Route} title="Catalogue intelligence" />
+          <AdminCommandCard href={"/admin/migration" as Route} title="Migration / Shopify" />
+          <AdminCommandCard href={"/admin/marketing" as Route} title="Marketing" />
+          <AdminCommandCard href={"/admin/ai-ops" as Route} title="AI ops" />
+          <AdminCommandCard href={"/admin/jobs" as Route} title="Background jobs (technical detail)" />
+        </AdminCommandSection>
+      )}
+
+      <p className="admin-command-footer">
+        Need technical migration details?{" "}
+        <Link href={"/admin/migration" as Route}>Open migration console</Link>
+      </p>
     </main>
   );
 }
