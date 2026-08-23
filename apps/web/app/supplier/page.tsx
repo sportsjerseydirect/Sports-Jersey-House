@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import { cookies } from "next/headers";
 import { SUPPLIER_SESSION_COOKIE, verifySupplierSessionToken } from "@/lib/supplier-auth";
-import { listSupplierPurchaseOrders } from "@sjh/database";
+import { getSupplierDashboard, type SupplierPoBucket } from "@sjh/database";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +12,24 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false }
 };
 
-export default async function SupplierDashboardPage() {
+const BUCKET_LABELS: Record<SupplierPoBucket, string> = {
+  new: "New",
+  awaiting_acknowledgement: "Awaiting acknowledgement",
+  in_production: "In production",
+  awaiting_tracking: "Awaiting tracking",
+  tracking_overdue: "Tracking overdue",
+  dispatched: "Dispatched",
+  delivered: "Delivered",
+  delivery_overdue: "Delivery overdue",
+  issues: "Issues",
+  completed: "Completed"
+};
+
+export default async function SupplierDashboardPage({
+  searchParams
+}: {
+  searchParams: Promise<{ bucket?: string }>;
+}) {
   const session = await verifySupplierSessionToken(
     (await cookies()).get(SUPPLIER_SESSION_COOKIE)?.value
   );
@@ -21,14 +38,11 @@ export default async function SupplierDashboardPage() {
     return null;
   }
 
-  const orders = await listSupplierPurchaseOrders(session.supplierId);
-
-  const buckets = {
-    new: orders.filter((o) => !o.acknowledgedAt && ["sent", "ready"].includes(o.status)),
-    awaitingTracking: orders.filter((o) => o.awaitingTracking && o.acknowledgedAt),
-    inProduction: orders.filter((o) => o.status === "acknowledged" && o.awaitingTracking),
-    completed: orders.filter((o) => o.status === "fulfilled")
-  };
+  const { bucket: filterBucket } = await searchParams;
+  const dashboard = await getSupplierDashboard(session.supplierId);
+  const filtered = filterBucket
+    ? dashboard.orders.filter((po) => po.bucket === filterBucket)
+    : dashboard.orders;
 
   return (
     <main className="page-shell">
@@ -45,31 +59,34 @@ export default async function SupplierDashboardPage() {
       </form>
 
       <section className="admin-grid" aria-label="Order queues">
-        <article className="status-panel">
-          <h2>New / awaiting acknowledgement</h2>
-          <p>{buckets.new.length}</p>
-        </article>
-        <article className="status-panel">
-          <h2>Awaiting tracking</h2>
-          <p>{buckets.awaitingTracking.length}</p>
-        </article>
-        <article className="status-panel">
-          <h2>In production</h2>
-          <p>{buckets.inProduction.length}</p>
-        </article>
+        {(Object.keys(BUCKET_LABELS) as SupplierPoBucket[]).map((bucket) => (
+          <article className="status-panel" key={bucket}>
+            <h2>{BUCKET_LABELS[bucket]}</h2>
+            <p>
+              <Link href={`/supplier?bucket=${bucket}` as Route}>{dashboard.buckets[bucket]}</Link>
+            </p>
+          </article>
+        ))}
       </section>
 
       <section aria-label="Purchase orders">
-        <h2>Purchase orders</h2>
-        {orders.length === 0 ? (
-          <p>No orders assigned yet.</p>
+        <h2>
+          Purchase orders
+          {filterBucket ? ` — ${BUCKET_LABELS[filterBucket as SupplierPoBucket] ?? filterBucket}` : ""}
+        </h2>
+        {filterBucket ? (
+          <p>
+            <Link href="/supplier">Show all</Link>
+          </p>
+        ) : null}
+        {filtered.length === 0 ? (
+          <p>No orders in this queue.</p>
         ) : (
           <ul className="admin-list">
-            {orders.map((po) => (
+            {filtered.map((po) => (
               <li key={po.id}>
                 <Link href={`/supplier/orders/${po.poNumber}` as Route}>
-                  {po.poNumber} — {po.status} — {po.lineCount} line(s)
-                  {po.awaitingTracking ? " · tracking needed" : ""}
+                  {po.poNumber} — {BUCKET_LABELS[po.bucket]} — {po.lineCount} line(s)
                 </Link>
               </li>
             ))}

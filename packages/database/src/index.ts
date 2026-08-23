@@ -173,6 +173,8 @@ export { getAdminOpsStats } from "./admin-ops-stats";
 export type { AdminOpsStats } from "./admin-ops-stats";
 export {
   bootstrapSupplierUser,
+  classifySupplierPoBucket,
+  getSupplierDashboard,
   getSupplierPurchaseOrderDetail,
   getSupplierUserByEmail,
   hashSupplierPassword,
@@ -182,7 +184,22 @@ export {
   supplierSubmitTracking,
   verifySupplierLogin
 } from "./supplier-portal";
-export type { SupplierPoDetail, SupplierPoLineView, SupplierPoSummary } from "./supplier-portal";
+export type {
+  SupplierDashboardStats,
+  SupplierPoBucket,
+  SupplierPoDetail,
+  SupplierPoLineView,
+  SupplierPoSummary
+} from "./supplier-portal";
+export { detectAndPersistSlaExceptions, getSlaSettings, updateSlaSettings } from "./ops-sla";
+export type { SlaDetectionResult, SlaSettings } from "./ops-sla";
+export {
+  buildCustomerOrderConfirmationDraft,
+  buildSupplierNewOrderDraft,
+  buildSupplierTrackingOverdueDraft,
+  listNotificationEventTypes
+} from "./notification-drafts";
+export type { NotificationDraft, NotificationEventType } from "./notification-drafts";
 export {
   assertWorkflowTransition,
   ensureSeoRecordForProduct,

@@ -37,7 +37,17 @@ export default async function SupplierOrderPage({ params }: Props) {
         <p>Status: {detail.status}</p>
       </div>
 
-      <SupplierOrderActions poNumber={detail.poNumber} acknowledged={Boolean(detail.acknowledgedAt)} />
+      <SupplierOrderActions
+        acknowledged={Boolean(detail.acknowledgedAt)}
+        lines={detail.lines.map((line) => ({
+          id: line.id,
+          productTitle: line.productTitle,
+          sizeLabel: line.sizeLabel,
+          orderNumber: line.orderNumber,
+          trackingNumber: line.trackingNumber
+        }))}
+        poNumber={detail.poNumber}
+      />
 
       <section className="supplier-order-lines" aria-label="Order lines">
         {detail.lines.map((line) => (

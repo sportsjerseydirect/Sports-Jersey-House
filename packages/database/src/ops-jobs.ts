@@ -3,6 +3,7 @@ import { applyMappedSupplierCosts } from "./margins";
 import { createDatabaseClient } from "./client";
 import { opsJobRuns, trackingExceptions } from "./schema-ops";
 import { orderItems, orders, purchaseOrders, suppliers } from "./schema-commerce";
+import { detectAndPersistSlaExceptions } from "./ops-sla";
 import { createPurchaseOrderBatch } from "./suppliers";
 
 function resolveDatabaseUrl(databaseUrl?: string): string {
@@ -419,7 +420,14 @@ export async function runOpsExceptionDetectionJob(
   databaseUrl?: string
 ): Promise<{
   run: OpsJobRunSnapshot;
-  result: { dryRun: boolean; openExceptionCount: number };
+  result: {
+    dryRun: boolean;
+    openExceptionCount: number;
+    trackingOverdueCreated: number;
+    deliveryOverdueCreated: number;
+    trackingOverdueCandidates: number;
+    deliveryOverdueCandidates: number;
+  };
 }> {
   const url = resolveDatabaseUrl(databaseUrl);
   const dryRun = input.dryRun ?? true;
@@ -440,15 +448,28 @@ export async function runOpsExceptionDetectionJob(
   if (run.status === "succeeded") {
     return {
       run,
-      result: (run.resultPayload ?? { dryRun, openExceptionCount: 0 }) as {
+      result: (run.resultPayload ?? {
+        dryRun,
+        openExceptionCount: 0,
+        trackingOverdueCreated: 0,
+        deliveryOverdueCreated: 0,
+        trackingOverdueCandidates: 0,
+        deliveryOverdueCandidates: 0
+      }) as {
         dryRun: boolean;
         openExceptionCount: number;
+        trackingOverdueCreated: number;
+        deliveryOverdueCreated: number;
+        trackingOverdueCandidates: number;
+        deliveryOverdueCandidates: number;
       }
     };
   }
 
   try {
     const db = createDatabaseClient(url);
+    const slaResult = await detectAndPersistSlaExceptions({ dryRun }, url);
+
     const [row] = await db
       .select({ count: sql<number>`count(*)::int` })
       .from(trackingExceptions)
@@ -458,7 +479,11 @@ export async function runOpsExceptionDetectionJob(
 
     const result = {
       dryRun,
-      openExceptionCount: row?.count ?? 0
+      openExceptionCount: row?.count ?? 0,
+      trackingOverdueCreated: slaResult.trackingOverdueCreated,
+      deliveryOverdueCreated: slaResult.deliveryOverdueCreated,
+      trackingOverdueCandidates: slaResult.trackingOverdueCandidates,
+      deliveryOverdueCandidates: slaResult.deliveryOverdueCandidates
     };
 
     const finished = await finishOpsJobRun(

@@ -6,6 +6,7 @@ import { supplierSubmitCost } from "@sjh/database";
 
 const bodySchema = z.object({
   amount: z.string().regex(/^\d+(\.\d{1,2})?$/),
+  shippingCost: z.string().regex(/^\d+(\.\d{1,2})?$/).optional(),
   notes: z.string().max(500).optional()
 });
 
@@ -29,6 +30,7 @@ export async function POST(request: Request, context: RouteContext) {
     await supplierSubmitCost(session.supplierId, session.supplierUserId, {
       poNumber,
       amount: parsed.data.amount,
+      ...(parsed.data.shippingCost ? { shippingCost: parsed.data.shippingCost } : {}),
       ...(parsed.data.notes ? { notes: parsed.data.notes } : {})
     });
     return NextResponse.json({ ok: true });

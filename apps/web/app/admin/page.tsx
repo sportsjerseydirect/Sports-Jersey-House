@@ -309,6 +309,9 @@ export default async function AdminPage() {
             <li>
               <Link href={"/admin/marketing" as Route}>Marketing</Link>
             </li>
+            <li>
+              <Link href={"/admin/notifications" as Route}>Notifications (drafts)</Link>
+            </li>
           </ul>
         </article>
 

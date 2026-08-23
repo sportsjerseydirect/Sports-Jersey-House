@@ -8,11 +8,88 @@ import {
   purchaseOrders,
   suppliers
 } from "./schema-commerce";
+import { matchCourier } from "./tracking";
 
 function resolveUrl(databaseUrl?: string): string {
   const url = databaseUrl ?? process.env.DATABASE_URL;
   if (!url) throw new Error("DATABASE_URL required");
   return url;
+}
+
+export type SupplierPoBucket =
+  | "new"
+  | "awaiting_acknowledgement"
+  | "in_production"
+  | "awaiting_tracking"
+  | "tracking_overdue"
+  | "dispatched"
+  | "delivered"
+  | "delivery_overdue"
+  | "issues"
+  | "completed";
+
+export type SupplierDashboardStats = {
+  buckets: Record<SupplierPoBucket, number>;
+  orders: SupplierPoSummary[];
+};
+
+export function classifySupplierPoBucket(
+  po: Pick<
+    SupplierPoSummary,
+    "status" | "acknowledgedAt" | "awaitingTracking" | "supplierReceivedAt"
+  > & { allShipped?: boolean; allDelivered?: boolean; hasOpenIssue?: boolean },
+  sla?: { trackingOverdueDays: number }
+): SupplierPoBucket {
+  if (po.hasOpenIssue) return "issues";
+  if (po.status === "fulfilled" || po.allDelivered) return "completed";
+  if (po.allShipped && !po.allDelivered) return "dispatched";
+
+  const trackingDays = sla?.trackingOverdueDays ?? 7;
+  const receivedAt = po.supplierReceivedAt ?? po.acknowledgedAt;
+  const trackingOverdue =
+    receivedAt &&
+    po.awaitingTracking &&
+    Date.now() - receivedAt.getTime() > trackingDays * 24 * 60 * 60 * 1000;
+
+  if (trackingOverdue) return "tracking_overdue";
+  if (!po.acknowledgedAt && ["sent", "ready"].includes(po.status)) return "new";
+  if (!po.acknowledgedAt) return "awaiting_acknowledgement";
+  if (po.status === "acknowledged" && po.awaitingTracking) return "in_production";
+  if (po.awaitingTracking) return "awaiting_tracking";
+  return "completed";
+}
+
+async function syncPurchaseOrderFulfilmentStatus(
+  db: ReturnType<typeof createDatabaseClient>,
+  poId: string
+): Promise<void> {
+  const lines = await db
+    .select({
+      fulfilmentStatus: orderItems.fulfilmentStatus,
+      trackingNumber: orderItems.trackingNumber
+    })
+    .from(orderItems)
+    .where(eq(orderItems.purchaseOrderId, poId));
+
+  if (lines.length === 0) return;
+
+  const allShipped = lines.every(
+    (l) => l.trackingNumber || ["shipped", "delivered"].includes(l.fulfilmentStatus)
+  );
+  const allDelivered = lines.every((l) => l.fulfilmentStatus === "delivered");
+  const now = new Date();
+
+  if (allDelivered) {
+    await db
+      .update(purchaseOrders)
+      .set({ status: "fulfilled", updatedAt: now })
+      .where(eq(purchaseOrders.id, poId));
+  } else if (allShipped) {
+    await db
+      .update(purchaseOrders)
+      .set({ status: "acknowledged", dispatchedAt: now, updatedAt: now })
+      .where(eq(purchaseOrders.id, poId));
+  }
 }
 
 export type SupplierPoSummary = {
@@ -24,6 +101,8 @@ export type SupplierPoSummary = {
   supplierReceivedAt: Date | null;
   lineCount: number;
   awaitingTracking: boolean;
+  allShipped: boolean;
+  bucket: SupplierPoBucket;
   createdAt: Date;
 };
 
@@ -54,8 +133,34 @@ export type SupplierPoDetail = {
   supplierReceivedAt: Date | null;
   supplierCostAmount: string | null;
   supplierCostNotes: string | null;
+  packingSlipHtml: string | null;
   lines: SupplierPoLineView[];
 };
+
+export async function getSupplierDashboard(
+  supplierId: string,
+  databaseUrl?: string
+): Promise<SupplierDashboardStats> {
+  const orders = await listSupplierPurchaseOrders(supplierId, databaseUrl);
+  const buckets = {
+    new: 0,
+    awaiting_acknowledgement: 0,
+    in_production: 0,
+    awaiting_tracking: 0,
+    tracking_overdue: 0,
+    dispatched: 0,
+    delivered: 0,
+    delivery_overdue: 0,
+    issues: 0,
+    completed: 0
+  } satisfies Record<SupplierPoBucket, number>;
+
+  for (const po of orders) {
+    buckets[po.bucket] += 1;
+  }
+
+  return { buckets, orders };
+}
 
 async function assertSupplierOwnsPo(
   db: ReturnType<typeof createDatabaseClient>,
@@ -97,6 +202,11 @@ export async function listSupplierPurchaseOrders(
         select 1 from order_items oi
         where oi.purchase_order_id = ${purchaseOrders.id}
           and oi.tracking_number is null
+      )`,
+      allShipped: sql<boolean>`not exists (
+        select 1 from order_items oi
+        where oi.purchase_order_id = ${purchaseOrders.id}
+          and oi.tracking_number is null
       )`
     })
     .from(purchaseOrders)
@@ -113,6 +223,14 @@ export async function listSupplierPurchaseOrders(
     supplierReceivedAt: row.supplierReceivedAt,
     lineCount: row.lineCount,
     awaitingTracking: row.awaitingTracking,
+    allShipped: row.allShipped,
+    bucket: classifySupplierPoBucket({
+      status: row.status,
+      acknowledgedAt: row.acknowledgedAt,
+      awaitingTracking: row.awaitingTracking,
+      supplierReceivedAt: row.supplierReceivedAt,
+      allShipped: row.allShipped
+    }),
     createdAt: row.createdAt
   }));
 }
@@ -166,6 +284,12 @@ export async function getSupplierPurchaseOrderDetail(
     supplierReceivedAt: po.supplierReceivedAt ?? null,
     supplierCostAmount: po.supplierCostAmount ?? null,
     supplierCostNotes: po.supplierCostNotes ?? null,
+    packingSlipHtml:
+      po.packingSlipPayload &&
+      typeof po.packingSlipPayload === "object" &&
+      "html" in (po.packingSlipPayload as Record<string, unknown>)
+        ? String((po.packingSlipPayload as { html: string }).html)
+        : null,
     lines: lines.map((line) => {
       const custom = (line.customisation ?? { mode: "none" }) as Record<string, string>;
       return {
@@ -218,6 +342,11 @@ export async function supplierAcknowledgePo(
     })
     .where(eq(purchaseOrders.id, po.id));
 
+  await db
+    .update(orderItems)
+    .set({ fulfilmentStatus: "in_production", updatedAt: now })
+    .where(eq(orderItems.purchaseOrderId, po.id));
+
   await db.execute(sql`
     insert into supplier_action_audits (supplier_id, supplier_user_id, action, entity_type, entity_id, new_value)
     values (${supplierId}::uuid, ${supplierUserId}::uuid, 'acknowledge', 'purchase_order', ${po.id}::uuid, ${JSON.stringify({ poNumber })}::jsonb)
@@ -248,11 +377,15 @@ export async function supplierSubmitTracking(
   if (!line) throw new Error("Order line not found on this purchase order.");
 
   const now = new Date();
+  const trackingNumber = input.trackingNumber.trim();
+  const matched = await matchCourier(trackingNumber, resolveUrl(databaseUrl));
+  const courier = input.courier?.trim() || matched?.courierName || null;
+
   await db
     .update(orderItems)
     .set({
-      trackingNumber: input.trackingNumber.trim(),
-      courier: input.courier?.trim() || null,
+      trackingNumber,
+      courier,
       fulfilmentStatus: "shipped",
       shippedAt: now,
       updatedAt: now
@@ -263,6 +396,8 @@ export async function supplierSubmitTracking(
     .update(purchaseOrders)
     .set({ dispatchedAt: now, updatedAt: now })
     .where(eq(purchaseOrders.id, po.id));
+
+  await syncPurchaseOrderFulfilmentStatus(db, po.id);
 
   await db.execute(sql`
     insert into supplier_action_audits (supplier_id, supplier_user_id, action, entity_type, entity_id, new_value, notes)
@@ -275,18 +410,23 @@ export async function supplierSubmitTracking(
 export async function supplierSubmitCost(
   supplierId: string,
   supplierUserId: string,
-  input: { poNumber: string; amount: string; notes?: string },
+  input: { poNumber: string; amount: string; shippingCost?: string; notes?: string },
   databaseUrl?: string
 ): Promise<void> {
   const db = createDatabaseClient(resolveUrl(databaseUrl));
   const po = await assertSupplierOwnsPo(db, supplierId, input.poNumber);
   const now = new Date();
 
+  const noteParts = [input.notes?.trim()].filter(Boolean);
+  if (input.shippingCost?.trim()) {
+    noteParts.push(`Shipping cost: ${input.shippingCost.trim()}`);
+  }
+
   await db
     .update(purchaseOrders)
     .set({
       supplierCostAmount: input.amount,
-      supplierCostNotes: input.notes?.trim() || null,
+      supplierCostNotes: noteParts.length > 0 ? noteParts.join("\n") : null,
       supplierCostSubmittedAt: now,
       updatedAt: now
     })

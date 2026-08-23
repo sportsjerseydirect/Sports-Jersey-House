@@ -1,8 +1,9 @@
 import { and, desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import type { AbandonedCheckoutDraft, CartCustomisation, GuestCheckoutInput } from "@sjh/shared";
-import { cartCustomisationSchema } from "@sjh/shared";
+import { cartCustomisationSchema, normalizeProductionCustomisation } from "@sjh/shared";
 import { createDatabaseClient } from "./client";
 import { getCartBySessionId } from "./cart";
+import { resolveCartCustomisationPricing } from "./cart-customisation";
 import { applyOfferToAmounts, evaluateWelcome10Eligibility } from "./offers";
 import { cartItems, carts, customers } from "./schema-catalogue";
 import { abandonedCheckouts, orderItems, orders, productSupplierMappings } from "./schema-commerce";
@@ -118,12 +119,32 @@ export async function createOrderFromCart(
     throw new Error("Cart is empty.");
   }
 
+  // Re-validate customisation + pricing at checkout — never trust stale cart snapshots.
+  const validatedLines: Array<(typeof cart.items)[number]> = [];
+  for (const item of cart.items) {
+    const resolved = await resolveCartCustomisationPricing(item.variantId, item.customisation, url);
+    const customisation = normalizeProductionCustomisation(resolved.customisation);
+    const unitTotal = (
+      Number.parseFloat(item.priceAmount) + Number.parseFloat(resolved.customisationPriceAmount)
+    ).toFixed(2);
+    validatedLines.push({
+      ...item,
+      customisation,
+      customisationPriceAmount: resolved.customisationPriceAmount,
+      lineTotalAmount: (Number.parseFloat(unitTotal) * item.quantity).toFixed(2)
+    });
+  }
+
+  const cartSubtotal = validatedLines
+    .reduce((sum, item) => sum + Number.parseFloat(item.lineTotalAmount), 0)
+    .toFixed(2);
+
   const customerId = await findOrCreateCustomer(db, input);
   const now = new Date();
 
   const offerCode = input.offerCode?.trim().toUpperCase() || null;
   let discountAmount = "0.00";
-  let totalAmount = cart.subtotalAmount;
+  let totalAmount = cartSubtotal;
   let internalNotes: string | null = null;
 
   if (offerCode === "WELCOME10") {
@@ -133,7 +154,7 @@ export async function createOrderFromCart(
         eligibility.reasons[0] ?? "WELCOME10 is not available for this checkout."
       );
     }
-    const applied = applyOfferToAmounts(cart.subtotalAmount, eligibility.offer);
+    const applied = applyOfferToAmounts(cartSubtotal, eligibility.offer);
     discountAmount = applied.discountAmount;
     totalAmount = applied.totalAfterDiscount;
     internalNotes = `Applied offer ${offerCode} (${eligibility.offer.percentOff ?? "0"}% off).`;
@@ -150,7 +171,7 @@ export async function createOrderFromCart(
       status: "pending_payment",
       fulfilmentStatus: "unfulfilled",
       currencyCode: cart.currencyCode,
-      subtotalAmount: cart.subtotalAmount,
+      subtotalAmount: cartSubtotal,
       discountAmount,
       shippingRevenueAmount: "0.00",
       taxAmount: "0.00",
@@ -169,7 +190,7 @@ export async function createOrderFromCart(
     throw new Error("Failed to create order.");
   }
 
-  const productIds = [...new Set(cart.items.map((item) => item.productId))];
+  const productIds = [...new Set(validatedLines.map((item) => item.productId))];
   const mappings =
     productIds.length > 0
       ? await db
@@ -190,7 +211,7 @@ export async function createOrderFromCart(
   const supplierByProduct = new Map(mappings.map((row) => [row.productId, row.supplierId]));
 
   await db.insert(orderItems).values(
-    cart.items.map((item) => ({
+    validatedLines.map((item) => ({
       orderId: order.id,
       productId: item.productId,
       variantId: item.variantId,
@@ -253,7 +274,13 @@ export async function recordAbandonedCheckout(
     phone: draft.phone ?? null,
     shippingAddress: draft.shippingAddress ?? null,
     itemCount: cart.itemCount,
-    subtotalAmount: cart.subtotalAmount
+    subtotalAmount: cart.subtotalAmount,
+    lines: cart.items.map((item) => ({
+      productTitle: item.productTitle,
+      sizeLabel: item.variantTitle,
+      quantity: item.quantity,
+      customisation: item.customisation
+    }))
   };
 
   if (existing) {

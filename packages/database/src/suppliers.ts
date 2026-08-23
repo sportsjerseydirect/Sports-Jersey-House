@@ -556,7 +556,7 @@ export async function createPurchaseOrderBatch(
       .insert(purchaseOrders)
       .values({
         supplierId: supplier.id,
-        status: "ready",
+        status: "sent",
         batchDate,
         packingSlipFormat: supplier.packingSlipFormat,
         packingSlipPayload: {

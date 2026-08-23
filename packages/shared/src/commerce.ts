@@ -25,6 +25,26 @@ export const cartCustomisationSchema = z
   });
 export type CartCustomisation = z.infer<typeof cartCustomisationSchema>;
 
+/** Canonical production spec — uppercase names for supplier fulfilment. */
+export function normalizeProductionCustomisation(input: CartCustomisation): CartCustomisation {
+  const parsed = cartCustomisationSchema.parse(input);
+  return {
+    mode: parsed.mode,
+    ...(parsed.name ? { name: parsed.name.trim().toUpperCase() } : {}),
+    ...(parsed.number ? { number: parsed.number.trim() } : {}),
+    ...(parsed.message ? { message: parsed.message.trim() } : {})
+  };
+}
+
+export function formatProductionSpec(input: CartCustomisation): string {
+  const c = normalizeProductionCustomisation(input);
+  const parts: string[] = [];
+  if (c.name) parts.push(`Name: ${c.name}`);
+  if (c.number) parts.push(`Number: ${c.number}`);
+  if (c.message) parts.push(`Message: ${c.message}`);
+  return parts.length > 0 ? parts.join(" · ") : "Standard (no customisation)";
+}
+
 export const productFaqSchema = z.object({
   question: z.string().min(1),
   answer: z.string().min(1)

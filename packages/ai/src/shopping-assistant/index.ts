@@ -31,7 +31,10 @@ export type ShoppingToolName =
   | "get_product"
   | "compare_products"
   | "size_guidance"
-  | "customisation_info";
+  | "customisation_info"
+  | "shipping_info"
+  | "returns_policy"
+  | "order_status";
 
 export type ShoppingToolIntent = {
   tool: ShoppingToolName;
@@ -100,6 +103,18 @@ export function parseShoppingIntent(input: string): ShoppingToolIntent {
 
   if (/customi[sz]e|personali[sz]e|name and number|patch/i.test(message)) {
     return { tool: "customisation_info", message };
+  }
+
+  if (/deliver|shipping|how long|when will|dispatch|made.?to.?order/i.test(message)) {
+    return { tool: "shipping_info", message };
+  }
+
+  if (/return|exchange|refund|no return/i.test(message)) {
+    return { tool: "returns_policy", message };
+  }
+
+  if (/where is my order|order status|track my order|order number/i.test(message)) {
+    return { tool: "order_status", message };
   }
 
   const filters: ShoppingSearchFilters = { availableOnly: true };
@@ -202,7 +217,37 @@ export async function runShoppingAssistantTurn(
         assistant: SHOPPING_ASSISTANT_NAME,
         intent,
         reply:
-          "Many jerseys support name and number personalisation. Open a product page and look for the customisation options — availability varies by item.",
+          "Many jerseys support name and number personalisation. Open a product page and look for the customisation options — availability varies by item. Custom names are produced exactly as entered.",
+        products: []
+      };
+    }
+
+    case "shipping_info": {
+      return {
+        assistant: SHOPPING_ASSISTANT_NAME,
+        intent,
+        reply:
+          "Our jerseys are made to order after you purchase. Production typically takes a few weeks before dispatch. See our shipping page for current delivery expectations by region.",
+        products: []
+      };
+    }
+
+    case "returns_policy": {
+      return {
+        assistant: SHOPPING_ASSISTANT_NAME,
+        intent,
+        reply:
+          "Customised and made-to-order jerseys cannot be returned or exchanged unless faulty. Standard policy details are on our returns page — I can't override published policy.",
+        products: []
+      };
+    }
+
+    case "order_status": {
+      return {
+        assistant: SHOPPING_ASSISTANT_NAME,
+        intent,
+        reply:
+          "For order tracking, use the confirmation link from checkout or contact support with your order number. I don't have access to live order tracking in this chat yet.",
         products: []
       };
     }

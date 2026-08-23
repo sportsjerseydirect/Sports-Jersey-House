@@ -175,6 +175,8 @@ export {
   customisationPriceForMode,
   customisationProfileSchema,
   formatCustomisationSummary,
+  formatProductionSpec,
+  normalizeProductionCustomisation,
   abandonedCheckoutDraftSchema,
   guestCheckoutSchema,
   shippingAddressSchema,

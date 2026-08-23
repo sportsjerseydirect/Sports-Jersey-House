@@ -5,6 +5,7 @@ import { PdpMadeToOrderNotice } from "@/components/pdp-made-to-order-notice";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductGrid } from "@/components/product-grid";
 import { PdpPurchasePanel } from "@/components/pdp-purchase-panel";
+import { RecentlyViewedTracker } from "@/components/recently-viewed";
 import { getSearchProvider } from "@/lib/search";
 import { breadcrumbJsonLd, createMetadata, productJsonLd } from "@/lib/seo";
 import { createDatabaseClient } from "@sjh/database";
@@ -77,6 +78,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
   return (
     <main className="page-shell">
+      <RecentlyViewedTracker slug={product.slug} title={product.title} />
       <script
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
         type="application/ld+json"
