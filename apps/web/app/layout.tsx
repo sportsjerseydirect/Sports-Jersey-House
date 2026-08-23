@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeaderShell } from "@/components/site-header-shell";
-import { ShoppingAssistantWidget } from "@/components/shopping-assistant-widget";
-import { StorefrontOnly } from "@/components/storefront-only";
-import { WelcomeLeadCapture } from "@/components/welcome-lead-capture";
+import { StorefrontChrome, StorefrontFooterChrome } from "@/components/storefront-chrome";
 import { createMetadata, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import "./globals.css";
 
@@ -28,15 +24,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             __html: JSON.stringify([organizationJsonLd(), websiteJsonLd()])
           }}
         />
-        <StorefrontOnly>
-          <SiteHeaderShell />
-        </StorefrontOnly>
+        <StorefrontChrome />
         {children}
-        <StorefrontOnly>
-          <SiteFooter />
-          <WelcomeLeadCapture />
-          <ShoppingAssistantWidget />
-        </StorefrontOnly>
+        <StorefrontFooterChrome />
       </body>
     </html>
   );

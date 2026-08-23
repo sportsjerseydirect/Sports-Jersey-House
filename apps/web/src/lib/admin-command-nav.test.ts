@@ -37,17 +37,19 @@ describe("admin command centre navigation", () => {
 
   it("does not expose marketing lead overlay on admin surfaces", () => {
     const layout = readFileSync(join(process.cwd(), "app/layout.tsx"), "utf8");
-    const storefrontOnly = readFileSync(
-      join(process.cwd(), "src/components/storefront-only.tsx"),
+    const chrome = readFileSync(
+      join(process.cwd(), "src/components/storefront-chrome.tsx"),
       "utf8"
     );
+    const middleware = readFileSync(join(process.cwd(), "middleware.ts"), "utf8");
     const lead = readFileSync(
       join(process.cwd(), "src/components/welcome-lead-capture.tsx"),
       "utf8"
     );
 
-    expect(layout).toContain("StorefrontOnly");
-    expect(storefrontOnly).toContain('pathname.startsWith("/admin")');
+    expect(layout).toContain("StorefrontChrome");
+    expect(chrome).toContain('pathname.startsWith("/admin")');
+    expect(middleware).toContain("x-sjh-pathname");
     expect(lead).toContain('pathname.startsWith("/admin")');
   });
 });
