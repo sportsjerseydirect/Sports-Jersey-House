@@ -135,11 +135,7 @@ export function inferTaxonomyFromCatalogueText(input: {
   if (!league && input.slug) {
     for (const entry of SLUG_LEAGUE_PREFIXES) {
       if (entry.pattern.test(input.slug)) {
-        if (entry.league === "Soccer") {
-          if (!sport) sport = "Soccer";
-        } else if (entry.league === "Football") {
-          if (!sport) sport = "Football";
-        } else {
+        if (entry.league !== "Soccer" && entry.league !== "Football") {
           league = entry.league;
         }
         break;
@@ -148,6 +144,16 @@ export function inferTaxonomyFromCatalogueText(input: {
   }
 
   let sport = input.existing?.sport ?? sportFromLeague(league);
+
+  if (!sport && input.slug) {
+    for (const entry of SLUG_LEAGUE_PREFIXES) {
+      if (entry.pattern.test(input.slug)) {
+        if (entry.league === "Soccer") sport = "Soccer";
+        else if (entry.league === "Football") sport = "Football";
+        break;
+      }
+    }
+  }
 
   // Soccer from FIFA/Euro/national/club hints when league not mapped to LEAGUE_TO_SPORT.
   if (!sport) {
