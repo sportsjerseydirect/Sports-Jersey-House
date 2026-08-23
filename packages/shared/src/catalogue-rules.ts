@@ -135,7 +135,13 @@ export function inferTaxonomyFromCatalogueText(input: {
   if (!league && input.slug) {
     for (const entry of SLUG_LEAGUE_PREFIXES) {
       if (entry.pattern.test(input.slug)) {
-        league = entry.league === "Soccer" || entry.league === "Football" ? null : entry.league;
+        if (entry.league === "Soccer") {
+          if (!sport) sport = "Soccer";
+        } else if (entry.league === "Football") {
+          if (!sport) sport = "Football";
+        } else {
+          league = entry.league;
+        }
         break;
       }
     }
