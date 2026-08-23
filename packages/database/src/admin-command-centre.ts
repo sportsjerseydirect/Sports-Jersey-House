@@ -127,7 +127,7 @@ export async function getAdminCommandCentreStats(
           from orders o
           inner join order_items oi on oi.order_id = o.id
           where o.deleted_at is null
-            and coalesce(oi.supplier_cost_amount, '') <> ''
+            and oi.supplier_cost_amount is not null
         ) as orders_with_margin_data,
         (
           select count(distinct o.id)::int
@@ -191,10 +191,10 @@ export async function getAdminCommandCentreStats(
       needs_attention: number;
     }>(sql`
       with combined as (
-        select status, created_at, finished_at, 'ops' as source
+        select status::text as status, created_at, finished_at
         from ops_job_runs
         union all
-        select status, created_at, finished_at, 'import' as source
+        select status::text as status, created_at, finished_at
         from shopify_import_runs
       )
       select
