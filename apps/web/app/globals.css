@@ -2123,6 +2123,47 @@ h2 {
 }
 
 /* Admin command centre */
+.admin-shell-nav {
+  border-bottom: 1px solid var(--line);
+  background: var(--white);
+}
+
+.admin-shell-nav__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px clamp(16px, 4vw, 40px);
+}
+
+.admin-shell-nav__brand {
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.admin-shell-nav__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-shell-nav__list a {
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.admin-shell-nav__list a:hover {
+  color: var(--ink);
+}
+
 .admin-command-centre-page .page-heading h1 {
   font-size: clamp(2.2rem, 5vw, 3.6rem);
 }
@@ -2163,6 +2204,8 @@ h2 {
 .admin-command-card {
   display: grid;
   gap: 8px;
+  position: relative;
+  z-index: 1;
   min-height: 112px;
   padding: 18px 18px 16px;
   border: 1px solid var(--line);
@@ -2170,6 +2213,8 @@ h2 {
   background: var(--white);
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
+  pointer-events: auto;
   transition:
     border-color var(--duration-fast) var(--ease-out),
     transform var(--duration-fast) var(--ease-out),

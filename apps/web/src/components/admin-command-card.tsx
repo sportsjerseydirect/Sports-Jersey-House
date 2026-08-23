@@ -1,8 +1,7 @@
 import type { Route } from "next";
-import Link from "next/link";
 
 export type AdminCommandCardProps = {
-  href: Route;
+  href: Route | string;
   title: string;
   description?: string;
   count?: number | null;
@@ -16,6 +15,10 @@ function formatCount(count: number): string {
   return count.toLocaleString("en-GB");
 }
 
+/**
+ * Native <a> navigation (not Next.js Link) so Command Centre cards always
+ * perform a real browser navigation — critical for an operable admin console.
+ */
 export function AdminCommandCard({
   href,
   title,
@@ -31,7 +34,7 @@ export function AdminCommandCard({
   const showUnavailable = unavailable;
 
   return (
-    <Link
+    <a
       className={[
         "admin-command-card",
         alert && showCount && count > 0 ? "admin-command-card--alert" : "",
@@ -56,7 +59,7 @@ export function AdminCommandCard({
         ) : null}
       </div>
       {description ? <p>{description}</p> : null}
-    </Link>
+    </a>
   );
 }
 

@@ -1,16 +1,26 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
+import { usePathname } from "next/navigation";
 
 const STORAGE_KEY = "sjh_welcome_lead_dismissed";
 
 export function WelcomeLeadCapture() {
+  const pathname = usePathname() ?? "";
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
+  const isOpsSurface =
+    pathname.startsWith("/admin") || pathname.startsWith("/supplier");
+
   useEffect(() => {
+    if (isOpsSurface) {
+      setOpen(false);
+      return;
+    }
+
     try {
       if (window.localStorage.getItem(STORAGE_KEY)) {
         return;
@@ -21,7 +31,7 @@ export function WelcomeLeadCapture() {
 
     const timer = window.setTimeout(() => setOpen(true), 1800);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [isOpsSurface]);
 
   function dismiss() {
     setOpen(false);
@@ -56,7 +66,7 @@ export function WelcomeLeadCapture() {
     }
   }
 
-  if (!open) {
+  if (isOpsSurface || !open) {
     return null;
   }
 
