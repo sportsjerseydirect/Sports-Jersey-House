@@ -122,12 +122,13 @@ export async function runControlledFullImport(options: {
   let productsUpserted = 0;
   let productsSkipped = 0;
   let productsFailed = 0;
-  const batch: ShopifyProductNode[] = [];
 
   const flushBatch = async (nodes: ShopifyProductNode[]): Promise<void> => {
     if (nodes.length === 0) return;
     const drafts = nodes.map((node) => mapShopifyProductForSampleImport(node));
-    const result = await upsertShopifyProducts(options.databaseUrl, drafts);
+    const result = await upsertShopifyProducts(options.databaseUrl, drafts, {
+      skipMediaSyncForExisting: true
+    });
     productsUpserted += result.upserted;
     for (const err of result.errors) {
       productsFailed += 1;
@@ -140,19 +141,14 @@ export async function runControlledFullImport(options: {
       const response = await fetchProductsPage(client, { cursor }, pageSize);
       const nodes = response.products.edges.map((e) => e.node);
       productsFetched += nodes.length;
-      batch.push(...nodes);
-
-      if (batch.length >= 100) {
-        await flushBatch(batch.splice(0, 100));
-        console.error(`[full-import] progress fetched=${productsFetched} upserted=${productsUpserted}`);
-      }
+      console.error(`[full-import] fetched page=${nodes.length} total=${productsFetched}`);
+      await flushBatch(nodes);
+      console.error(`[full-import] progress fetched=${productsFetched} upserted=${productsUpserted}`);
 
       hasNextPage = response.products.pageInfo.hasNextPage;
       cursor = response.products.pageInfo.endCursor;
       if (nodes.length === 0) break;
     }
-
-    await flushBatch(batch);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Fetch failed";
     errors.push({ message });

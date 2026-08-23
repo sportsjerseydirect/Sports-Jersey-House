@@ -26,7 +26,8 @@ function clampImportStatus(
 
 export async function upsertShopifyProducts(
   databaseUrl: string,
-  drafts: InternalProductDraft[]
+  drafts: InternalProductDraft[],
+  options: { skipMediaSyncForExisting?: boolean } = {}
 ): Promise<UpsertProductsResult> {
   const db = createDatabaseClient(databaseUrl);
   let upserted = 0;
@@ -35,10 +36,14 @@ export async function upsertShopifyProducts(
 
   for (const draft of drafts) {
     try {
-      const productId = await upsertSingleProduct(db, {
-        ...draft,
-        status: clampImportStatus(draft.status)
-      });
+      const productId = await upsertSingleProduct(
+        db,
+        {
+          ...draft,
+          status: clampImportStatus(draft.status)
+        },
+        options
+      );
       productIds.push(productId);
       upserted += 1;
     } catch (error) {
@@ -54,7 +59,11 @@ export async function upsertShopifyProducts(
 
 type DatabaseClient = ReturnType<typeof createDatabaseClient>;
 
-async function upsertSingleProduct(db: DatabaseClient, draft: InternalProductDraft): Promise<string> {
+async function upsertSingleProduct(
+  db: DatabaseClient,
+  draft: InternalProductDraft,
+  options: { skipMediaSyncForExisting?: boolean } = {}
+): Promise<string> {
   const existing = await db
     .select({
       id: products.id,
@@ -72,6 +81,10 @@ async function upsertSingleProduct(db: DatabaseClient, draft: InternalProductDra
   const productId = existing[0]?.id
     ? await updateProduct(db, existing[0], draft)
     : await insertProduct(db, draft);
+
+  if (existing[0] && options.skipMediaSyncForExisting) {
+    return productId;
+  }
 
   await syncVariants(db, productId, draft);
   await syncImages(db, productId, draft);
