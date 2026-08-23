@@ -10,7 +10,13 @@ export type OpsToolName =
   | "prepare_replacement"
   | "prepare_supplier_email"
   | "prepare_customer_email"
-  | "inspect_catalogue";
+  | "inspect_catalogue"
+  | "attention_today"
+  | "list_tracking_overdue"
+  | "list_delivery_overdue"
+  | "list_low_margin_orders"
+  | "list_poor_seo"
+  | "list_chargeback_risk";
 
 export type OpsToolDefinition = {
   name: OpsToolName;
@@ -163,6 +169,67 @@ export const OPS_TOOL_DEFINITIONS: OpsToolDefinition[] = [
       properties: {
         productId: { type: "string" },
         proposalNumber: { type: "string" }
+      }
+    }
+  },
+  {
+    name: "attention_today",
+    description: "Summarise orders, SLA, issues, margins, and jobs needing attention today.",
+    requiresConfirmation: false,
+    risk: "read",
+    inputSchema: { type: "object", properties: {} }
+  },
+  {
+    name: "list_tracking_overdue",
+    description: "List supplier lines missing tracking beyond the SLA window.",
+    requiresConfirmation: false,
+    risk: "read",
+    inputSchema: {
+      type: "object",
+      properties: { limit: { type: "number" } }
+    }
+  },
+  {
+    name: "list_delivery_overdue",
+    description: "List shipments older than 30 days without delivery.",
+    requiresConfirmation: false,
+    risk: "read",
+    inputSchema: {
+      type: "object",
+      properties: { limit: { type: "number" } }
+    }
+  },
+  {
+    name: "list_low_margin_orders",
+    description: "List orders with contribution margin below 20% where supplier cost is known.",
+    requiresConfirmation: false,
+    risk: "read",
+    inputSchema: {
+      type: "object",
+      properties: { limit: { type: "number" } }
+    }
+  },
+  {
+    name: "list_poor_seo",
+    description: "List published products with SEO metadata gaps (does not rewrite titles).",
+    requiresConfirmation: false,
+    risk: "read",
+    inputSchema: {
+      type: "object",
+      properties: { limit: { type: "number" } }
+    }
+  },
+  {
+    name: "list_chargeback_risk",
+    description: "List or evaluate chargeback/dispute risk scores (advisory only).",
+    requiresConfirmation: false,
+    risk: "read",
+    inputSchema: {
+      type: "object",
+      properties: {
+        orderNumber: { type: "string" },
+        evaluateRecent: { type: "boolean" },
+        limit: { type: "number" }
       }
     }
   }
@@ -331,6 +398,73 @@ export function parseOpsIntentV2(prompt: string): OpsToolIntent | null {
       args: {},
       requiresConfirmation: tool.requiresConfirmation,
       previewSummary: "Inspect catalogue signals and review queue (read-only)."
+    };
+  }
+
+  if (
+    /\b(attention|needs my attention|what needs|today'?s priorities|action required)\b/.test(lower)
+  ) {
+    const tool = TOOL_BY_NAME.get("attention_today")!;
+    return {
+      toolName: "attention_today",
+      args: {},
+      requiresConfirmation: tool.requiresConfirmation,
+      previewSummary: "Summarise everything that needs attention today (read-only)."
+    };
+  }
+
+  if (/\b(tracking overdue|missing tracking|waiting for tracking|no tracking)\b/.test(lower)) {
+    const tool = TOOL_BY_NAME.get("list_tracking_overdue")!;
+    return {
+      toolName: "list_tracking_overdue",
+      args: { limit: 50 },
+      requiresConfirmation: tool.requiresConfirmation,
+      previewSummary: "List orders/POs missing tracking beyond SLA (read-only)."
+    };
+  }
+
+  if (/\b(delivery overdue|not delivered|older than 30|30 days)\b/.test(lower)) {
+    const tool = TOOL_BY_NAME.get("list_delivery_overdue")!;
+    return {
+      toolName: "list_delivery_overdue",
+      args: { limit: 50 },
+      requiresConfirmation: tool.requiresConfirmation,
+      previewSummary: "List shipments older than 30 days without delivery (read-only)."
+    };
+  }
+
+  if (/\b(low[- ]margin|poor margin|margin below)\b/.test(lower)) {
+    const tool = TOOL_BY_NAME.get("list_low_margin_orders")!;
+    return {
+      toolName: "list_low_margin_orders",
+      args: { limit: 40 },
+      requiresConfirmation: tool.requiresConfirmation,
+      previewSummary: "List low-margin orders where supplier cost is known (read-only)."
+    };
+  }
+
+  if (/\b(poor seo|seo issues|missing meta|not indexed|seo gap)\b/.test(lower)) {
+    const tool = TOOL_BY_NAME.get("list_poor_seo")!;
+    return {
+      toolName: "list_poor_seo",
+      args: { limit: 40 },
+      requiresConfirmation: tool.requiresConfirmation,
+      previewSummary: "List published products with SEO metadata gaps (titles unchanged)."
+    };
+  }
+
+  if (/\b(chargeback|dispute risk|risk score|at risk)\b/.test(lower)) {
+    const orderMatch = text.match(/\b(SJH-\d+)\b/i);
+    const tool = TOOL_BY_NAME.get("list_chargeback_risk")!;
+    return {
+      toolName: "list_chargeback_risk",
+      args: orderMatch?.[1]
+        ? { orderNumber: orderMatch[1].toUpperCase() }
+        : { evaluateRecent: true, limit: 40 },
+      requiresConfirmation: tool.requiresConfirmation,
+      previewSummary: orderMatch?.[1]
+        ? `Evaluate chargeback/dispute risk for ${orderMatch[1].toUpperCase()} (advisory).`
+        : "Evaluate recent orders for chargeback/dispute risk (advisory only)."
     };
   }
 

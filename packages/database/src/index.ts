@@ -174,6 +174,28 @@ export type { AdminOpsStats } from "./admin-ops-stats";
 export { getAdminCommandCentreStats } from "./admin-command-centre";
 export type { AdminCommandCentreStats, MetricValue } from "./admin-command-centre";
 export {
+  getOpsAttentionBrief,
+  listDeliveryOverdueForOps,
+  listLowMarginOrdersForOps,
+  listPoorSeoProductsForOps,
+  listTrackingOverdueForOps
+} from "./ops-attention";
+export {
+  evaluateOrderRisk,
+  evaluateRecentOrdersRisk,
+  listElevatedRiskOrders
+} from "./order-risk";
+export type { OrderRiskSnapshot, RiskSignal } from "./order-risk";
+export {
+  countAdminUsers,
+  createAdminUser,
+  listAdminUsers,
+  resetAdminUserPassword,
+  setAdminUserActive,
+  verifyAdminUserLogin
+} from "./admin-users";
+export type { AdminUserSnapshot } from "./admin-users";
+export {
   bootstrapSupplierUser,
   classifySupplierPoBucket,
   getSupplierDashboard,

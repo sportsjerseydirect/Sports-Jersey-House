@@ -35,6 +35,23 @@ describe("admin command centre navigation", () => {
     }
   });
 
+  it("includes attention and SLA read tools", () => {
+    const tools = readFileSync(
+      join(process.cwd(), "../../packages/ai/src/ops-tools.ts"),
+      "utf8"
+    );
+    for (const name of [
+      "attention_today",
+      "list_tracking_overdue",
+      "list_delivery_overdue",
+      "list_low_margin_orders",
+      "list_poor_seo",
+      "list_chargeback_risk"
+    ]) {
+      expect(tools).toContain(`"${name}"`);
+    }
+  });
+
   it("does not expose marketing lead overlay on admin surfaces", () => {
     const layout = readFileSync(join(process.cwd(), "app/layout.tsx"), "utf8");
     const chrome = readFileSync(

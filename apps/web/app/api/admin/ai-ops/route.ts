@@ -64,7 +64,17 @@ function isPrepareTool(toolName: OpsToolName): boolean {
 }
 
 function isImmediateReadTool(toolName: OpsToolName): boolean {
-  return toolName === "identify_courier" || toolName === "calculate_margin" || toolName === "inspect_catalogue";
+  return (
+    toolName === "identify_courier" ||
+    toolName === "calculate_margin" ||
+    toolName === "inspect_catalogue" ||
+    toolName === "attention_today" ||
+    toolName === "list_tracking_overdue" ||
+    toolName === "list_delivery_overdue" ||
+    toolName === "list_low_margin_orders" ||
+    toolName === "list_poor_seo" ||
+    toolName === "list_chargeback_risk"
+  );
 }
 
 export async function POST(request: Request) {

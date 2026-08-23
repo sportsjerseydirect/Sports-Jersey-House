@@ -4,6 +4,18 @@ import { computeProductSignals, listReviewQueue } from "./catalogue-intelligence
 import { createDatabaseClient } from "./client";
 import { createIssueCase } from "./issues";
 import { getOrderMargins, listRecentOrderMargins } from "./margins";
+import {
+  getOpsAttentionBrief,
+  listDeliveryOverdueForOps,
+  listLowMarginOrdersForOps,
+  listPoorSeoProductsForOps,
+  listTrackingOverdueForOps
+} from "./ops-attention";
+import {
+  evaluateOrderRisk,
+  evaluateRecentOrdersRisk,
+  listElevatedRiskOrders
+} from "./order-risk";
 import { aiActionAudits, orderItems, orders } from "./schema-commerce";
 import { createPurchaseOrderBatch, getPurchaseOrderByNumber } from "./suppliers";
 import { ingestTrackingPaste, matchCourier } from "./tracking";
@@ -192,6 +204,45 @@ async function executeOpsAction(
           isDuplicateSuspect: row.isDuplicateSuspect
         }))
       };
+    }
+    case "attention_today":
+      return getOpsAttentionBrief(databaseUrl);
+    case "list_tracking_overdue":
+      return listTrackingOverdueForOps(
+        typeof input.limit === "number" ? input.limit : 50,
+        databaseUrl
+      );
+    case "list_delivery_overdue":
+      return listDeliveryOverdueForOps(
+        typeof input.limit === "number" ? input.limit : 50,
+        databaseUrl
+      );
+    case "list_low_margin_orders":
+      return listLowMarginOrdersForOps(
+        typeof input.limit === "number" ? input.limit : 40,
+        databaseUrl
+      );
+    case "list_poor_seo":
+      return listPoorSeoProductsForOps(
+        typeof input.limit === "number" ? input.limit : 40,
+        databaseUrl
+      );
+    case "list_chargeback_risk": {
+      if (typeof input.orderNumber === "string") {
+        return evaluateOrderRisk(input.orderNumber, databaseUrl);
+      }
+      if (input.evaluateRecent === true) {
+        const summary = await evaluateRecentOrdersRisk(
+          typeof input.limit === "number" ? input.limit : 40,
+          databaseUrl
+        );
+        const elevated = await listElevatedRiskOrders(40, databaseUrl);
+        return { ...summary, elevated };
+      }
+      return listElevatedRiskOrders(
+        typeof input.limit === "number" ? input.limit : 40,
+        databaseUrl
+      );
     }
     case "prepare_replacement":
     case "prepare_customer_email":

@@ -84,7 +84,8 @@ export async function getAdminCommandCentreStats(
     marketingStats,
     automationStats,
     aiStats,
-    createNewListingCount
+    createNewListingCount,
+    riskStats
   ] = await Promise.all([
     db
       .select({
@@ -227,12 +228,19 @@ export async function getAdminCommandCentreStats(
           eq(catalogueProposals.recommendation, "CREATE_NEW_LISTING"),
           eq(catalogueProposals.status, "pending_review")
         )
-      )
+      ),
+
+    db.execute<{ n: number }>(sql`
+      select count(*)::int as n
+      from order_risk_scores
+      where risk_band in ('medium', 'high')
+    `).catch(() => [{ n: 0 }])
   ]);
 
   const commerceRow = Array.isArray(commerceStats) ? commerceStats[0] : commerceStats;
   const marketingRow = Array.isArray(marketingStats) ? marketingStats[0] : marketingStats;
   const automationRow = Array.isArray(automationStats) ? automationStats[0] : automationStats;
+  const riskRow = Array.isArray(riskStats) ? riskStats[0] : riskStats;
 
   const supplierIssues =
     ops.purchaseOrders.awaitingAcknowledgement + ops.exceptions.openTrackingExceptions;
@@ -245,7 +253,7 @@ export async function getAdminCommandCentreStats(
       supplierIssues,
       customerIssues: issueStats[0]?.openCustomerIssues ?? 0,
       replacementCases: issueStats[0]?.replacementCases ?? 0,
-      chargebackRisk: null,
+      chargebackRisk: riskRow?.n ?? 0,
       lowMarginOrders: commerceRow?.low_margin_orders ?? null
     },
     commerce: {

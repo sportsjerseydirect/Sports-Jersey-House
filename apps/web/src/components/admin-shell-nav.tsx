@@ -18,6 +18,7 @@ export function AdminShellNav() {
     { href: "/admin/suppliers" as Route, label: "Suppliers" },
     { href: "/admin/catalogue/products" as Route, label: "Catalogue" },
     { href: "/admin/issues" as Route, label: "Issues" },
+    { href: "/admin/users" as Route, label: "Users" },
     { href: "/admin/ai-ops" as Route, label: "AI Ops" },
     { href: "/admin/jobs" as Route, label: "Jobs" }
   ];

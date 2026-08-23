@@ -7,6 +7,22 @@ export function cookieSecurityAttributes(): string {
   return `Path=/; HttpOnly; SameSite=Lax${secure}`;
 }
 
+export function adminSessionCookieOptions(): {
+  httpOnly: true;
+  secure: boolean;
+  sameSite: "lax";
+  maxAge: number;
+  path: string;
+} {
+  return {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: ADMIN_SESSION_MAX_AGE,
+    path: "/"
+  };
+}
+
 export function adminSessionCookieHeader(token: string): string {
   return `${ADMIN_SESSION_COOKIE}=${token}; ${cookieSecurityAttributes()}; Max-Age=${ADMIN_SESSION_MAX_AGE}`;
 }

@@ -1,39 +1,13 @@
 "use client";
 
-import type { Route } from "next";
-import { useRouter, useSearchParams } from "next/navigation";
-import type { FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export function AdminLoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setSubmitting(true);
-    setError(null);
-
-    const response = await fetch("/api/admin/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password })
-    });
-
-    setSubmitting(false);
-
-    if (!response.ok) {
-      setError("Invalid password.");
-      return;
-    }
-
-    const nextPath = (searchParams.get("next") ?? "/admin") as Route;
-    router.push(nextPath);
-    router.refresh();
-  }
+  const nextPath = searchParams.get("next") ?? "/admin";
+  const error = searchParams.get("error");
 
   return (
     <main className="page-shell">
@@ -43,15 +17,19 @@ export function AdminLoginForm() {
         <p>Enter the admin password configured in your environment.</p>
       </div>
 
-      <form className="admin-login-form" onSubmit={handleSubmit}>
+      <form
+        className="admin-login-form"
+        action="/api/admin/login"
+        method="POST"
+        onSubmit={() => setSubmitting(true)}
+      >
+        <input type="hidden" name="next" value={nextPath} />
         <label htmlFor="password">Password</label>
         <input
           id="password"
           name="password"
           type="password"
           autoComplete="current-password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
           required
         />
         {error ? <p className="form-error">{error}</p> : null}

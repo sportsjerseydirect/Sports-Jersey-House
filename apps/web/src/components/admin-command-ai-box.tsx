@@ -19,6 +19,8 @@ const EXAMPLE_PROMPTS = [
   "What needs my attention today?",
   "Show me all orders waiting for tracking.",
   "Which suppliers have overdue tracking?",
+  "Show me low-margin orders.",
+  "Show me chargeback risk.",
   "Create today's supplier packing slips.",
   "Margin for SJH-10002"
 ];

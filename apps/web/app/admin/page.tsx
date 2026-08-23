@@ -123,10 +123,11 @@ export default async function AdminPage() {
               title="Replacement cases"
             />
             <AdminCommandCard
-              description="Chargeback monitoring is not wired yet."
+              alert
+              count={stats.actionRequired.chargebackRisk}
+              description="Medium/high dispute-risk scores from the advisory risk engine."
               href={"/admin/issues" as Route}
               title="Chargeback-risk cases"
-              unavailable
             />
             <AdminCommandCard
               alert
@@ -260,10 +261,10 @@ export default async function AdminPage() {
               title="Replacements"
             />
             <AdminCommandCard
-              description="Chargeback-risk scoring is not available yet."
+              count={stats.actionRequired.chargebackRisk}
+              description="Advisory dispute-risk scores — never auto-refuses customers."
               href={"/admin/issues" as Route}
               title="Chargeback-risk cases"
-              unavailable
             />
             <AdminCommandCard
               description="Returns and exchange policy cases are tracked as issue cases."
@@ -297,10 +298,15 @@ export default async function AdminPage() {
             />
             <AdminCommandCard
               count={stats.catalogue.seoIssues}
-              description="Google Search Console integration is not connected yet."
+              description={
+                process.env.GSC_CLIENT_EMAIL
+                  ? "SEO metadata gaps. GSC credentials detected — sync not enabled yet."
+                  : "GSC not connected. Showing catalogue SEO metadata gaps only."
+              }
               href={"/admin/catalogue/products" as Route}
               title="SEO / GSC"
             />
+            <AdminCommandCard href={"/admin/users" as Route} title="Users & access" />
           </AdminCommandSection>
 
           <AdminCommandSection description="Supplier accounts, costs, and SLAs." title="Suppliers">

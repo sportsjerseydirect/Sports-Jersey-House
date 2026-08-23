@@ -62,7 +62,7 @@ export type PublishReadinessStats = {
 export async function getPublishReadinessStats(databaseUrl?: string): Promise<PublishReadinessStats> {
   const url = databaseUrl ?? process.env.DATABASE_URL;
   if (!url) throw new Error("DATABASE_URL required");
-  const db = createDatabaseClient(url.replace(":6543/", ":5432/"));
+  const db = createDatabaseClient(url);
 
   const rows = await db.execute<{
     ready: number;

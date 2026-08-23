@@ -1,12 +1,12 @@
-import { clearAdminSessionCookieHeader } from "@/lib/auth";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+import { ADMIN_SESSION_COOKIE, adminSessionCookieOptions } from "@/lib/auth";
 
 export async function POST() {
-  return Response.json(
-    { ok: true },
-    {
-      headers: {
-        "Set-Cookie": clearAdminSessionCookieHeader()
-      }
-    }
-  );
+  (await cookies()).set(ADMIN_SESSION_COOKIE, "", {
+    ...adminSessionCookieOptions(),
+    maxAge: 0
+  });
+
+  return NextResponse.json({ ok: true });
 }

@@ -64,6 +64,20 @@
       "when": 1755800000000,
       "tag": "0008_catalogue_agent_learning",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1755810000000,
+      "tag": "0009_supplier_portal",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1755820000000,
+      "tag": "0010_admin_users_and_risk",
+      "breakpoints": true
     }
   ]
 }
