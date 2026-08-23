@@ -4,8 +4,7 @@
  */
 import {
   createImportRun,
-  finishImportRun,
-  stageNormalizedProduct
+  finishImportRun
 } from "@sjh/database";
 import {
   fetchProductsPage,
@@ -128,33 +127,6 @@ export async function runControlledFullImport(options: {
   const flushBatch = async (nodes: ShopifyProductNode[]): Promise<void> => {
     if (nodes.length === 0) return;
     const drafts = nodes.map((node) => mapShopifyProductForSampleImport(node));
-    for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i]!;
-      const draft = drafts[i]!;
-      try {
-        await stageNormalizedProduct(
-          run.id,
-          {
-            shopifyProductId: node.id,
-            title: node.title,
-            handle: node.handle,
-            status: draft.status,
-            vendor: node.vendor,
-            productType: node.productType,
-            payload: node as unknown as Record<string, unknown>,
-            normalized: draft as unknown as Record<string, unknown>
-          },
-          options.databaseUrl
-        );
-      } catch (error) {
-        productsFailed += 1;
-        errors.push({
-          shopifyId: node.id,
-          message: error instanceof Error ? error.message : "Stage failed"
-        });
-        continue;
-      }
-    }
     const result = await upsertShopifyProducts(options.databaseUrl, drafts);
     productsUpserted += result.upserted;
     for (const err of result.errors) {
