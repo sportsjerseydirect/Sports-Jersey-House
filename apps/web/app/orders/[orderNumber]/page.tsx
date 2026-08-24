@@ -22,8 +22,12 @@ export async function generateMetadata({ params }: OrderPageProps): Promise<Meta
   });
 }
 
-export default async function OrderConfirmationPage({ params }: OrderPageProps) {
+export default async function OrderConfirmationPage({
+  params,
+  searchParams
+}: OrderPageProps & { searchParams: Promise<{ checkout?: string }> }) {
   const { orderNumber: raw } = await params;
+  const { checkout } = await searchParams;
   const orderNumber = decodeURIComponent(raw);
   const order = await getOrderByNumber(orderNumber);
 
@@ -31,14 +35,24 @@ export default async function OrderConfirmationPage({ params }: OrderPageProps) 
     notFound();
   }
 
+  const statusLabel = order.status.replaceAll("_", " ");
+  const paymentMessage =
+    order.status === "paid"
+      ? "Payment confirmed via Stripe. We will prepare your made-to-order jersey for production."
+      : checkout === "cancelled"
+        ? "Checkout was cancelled. This order remains awaiting payment and has not been sent to a supplier."
+        : checkout === "success"
+          ? "Thanks — if payment just completed, confirmation may take a moment while Stripe notifies us."
+          : "This order is awaiting payment. It will only move to production after Stripe confirms payment.";
+
   return (
     <main className="page-shell">
       <div className="page-heading">
-        <p className="eyebrow">Order confirmed</p>
+        <p className="eyebrow">{order.status === "paid" ? "Order paid" : "Order received"}</p>
         <h1>{order.orderNumber}</h1>
         <p>
-          Thanks{order.shippingAddress?.fullName ? `, ${order.shippingAddress.fullName}` : ""}. Your order is recorded
-          as <strong>{order.status.replaceAll("_", " ")}</strong>. Stripe payment will connect in a later phase.
+          Thanks{order.shippingAddress?.fullName ? `, ${order.shippingAddress.fullName}` : ""}. Status:{" "}
+          <strong>{statusLabel}</strong>. {paymentMessage}
         </p>
       </div>
 

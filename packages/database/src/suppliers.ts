@@ -457,7 +457,7 @@ export async function listPurchaseOrders(
 
 /**
  * Create one PO per supplier for eligible order lines.
- * Eligible: order status pending_payment|paid, line unfulfilled, no purchase_order_id, resolvable supplier.
+ * Eligible: order status paid only, line unfulfilled, no purchase_order_id, resolvable supplier.
  */
 export async function createPurchaseOrderBatch(
   batchDate = new Date().toISOString().slice(0, 10),
@@ -507,7 +507,7 @@ export async function createPurchaseOrderBatch(
         isNull(orders.deletedAt),
         isNull(orderItems.purchaseOrderId),
         eq(orderItems.fulfilmentStatus, "unfulfilled"),
-        inArray(orders.status, ["pending_payment", "paid"])
+        eq(orders.status, "paid")
       )
     );
 

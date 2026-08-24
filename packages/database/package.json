@@ -18,7 +18,8 @@
   "dependencies": {
     "@sjh/shared": "workspace:*",
     "drizzle-orm": "^0.44.5",
-    "postgres": "^3.4.7"
+    "postgres": "^3.4.7",
+    "stripe": "22.4.0"
   },
   "devDependencies": {
     "drizzle-kit": "^0.31.7",

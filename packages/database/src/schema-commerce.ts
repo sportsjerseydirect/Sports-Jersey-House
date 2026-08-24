@@ -171,6 +171,8 @@ export const orders = pgTable(
     internalNotes: text("internal_notes"),
     paymentProvider: text("payment_provider"),
     paymentReference: text("payment_reference"),
+    stripeCheckoutSessionId: text("stripe_checkout_session_id"),
+    stripePaymentIntentId: text("stripe_payment_intent_id"),
     cartId: uuid("cart_id").references(() => carts.id),
     placedAt: timestamp("placed_at", { withTimezone: true }),
     paidAt: timestamp("paid_at", { withTimezone: true }),
@@ -182,7 +184,35 @@ export const orders = pgTable(
     customerIdx: index("orders_customer_id_idx").on(table.customerId),
     statusIdx: index("orders_status_idx").on(table.status),
     fulfilmentIdx: index("orders_fulfilment_status_idx").on(table.fulfilmentStatus),
-    placedAtIdx: index("orders_placed_at_idx").on(table.placedAt)
+    placedAtIdx: index("orders_placed_at_idx").on(table.placedAt),
+    stripeCheckoutSessionIdx: uniqueIndex("orders_stripe_checkout_session_id_uidx").on(
+      table.stripeCheckoutSessionId
+    ),
+    stripePaymentIntentIdx: uniqueIndex("orders_stripe_payment_intent_id_uidx").on(
+      table.stripePaymentIntentId
+    ),
+    paymentReferenceIdx: index("orders_payment_reference_idx").on(table.paymentReference)
+  })
+);
+
+export const stripeWebhookEvents = pgTable(
+  "stripe_webhook_events",
+  {
+    id: text("id").primaryKey(),
+    eventType: text("event_type").notNull(),
+    livemode: boolean("livemode").notNull().default(false),
+    stripeCheckoutSessionId: text("stripe_checkout_session_id"),
+    stripePaymentIntentId: text("stripe_payment_intent_id"),
+    orderId: uuid("order_id").references(() => orders.id),
+    processingStatus: text("processing_status").notNull().default("processed"),
+    errorMessage: text("error_message"),
+    receivedAt: timestamp("received_at", { withTimezone: true }).notNull().defaultNow(),
+    processedAt: timestamp("processed_at", { withTimezone: true }),
+    ...auditColumns
+  },
+  (table) => ({
+    orderIdIdx: index("stripe_webhook_events_order_id_idx").on(table.orderId),
+    sessionIdIdx: index("stripe_webhook_events_session_id_idx").on(table.stripeCheckoutSessionId)
   })
 );
 

@@ -26,6 +26,20 @@ export {
 } from "./orders";
 export type { OrderLineSnapshot, OrderSnapshot } from "./orders";
 export {
+  amountToStripeCents,
+  attachStripeCheckoutSession,
+  beginStripeWebhookEvent,
+  getOrderPaymentState,
+  markOrderPaidFromStripe,
+  recordStripePaymentFailure,
+  stripeFeeToDecimal
+} from "./payments";
+export type {
+  AttachCheckoutSessionInput,
+  MarkOrderPaidFromStripeInput,
+  MarkOrderPaidFromStripeResult
+} from "./payments";
+export {
   createPurchaseOrderBatch,
   createSupplier,
   ensureDefaultSupplierMappings,

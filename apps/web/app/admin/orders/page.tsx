@@ -22,7 +22,7 @@ export default async function AdminOrdersPage() {
       <div className="page-heading">
         <p className="eyebrow">Admin</p>
         <h1>Orders</h1>
-        <p>Read-only order list. Payment collection (Stripe) arrives in a later phase.</p>
+        <p>Read-only order list. Stripe TEST MODE payment marks orders paid via webhook.</p>
       </div>
 
       <p>

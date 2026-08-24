@@ -77,7 +77,7 @@ export default async function CartPage() {
                 <dd>{formatProductPrice(cart.subtotalAmount, cart.currencyCode)}</dd>
               </div>
             </dl>
-            <p className="cart-note">Checkout records your order and customisation. Stripe payment connects later.</p>
+            <p className="cart-note">Checkout saves your customisation, then redirects to Stripe (TEST MODE when enabled) to pay.</p>
             <Link className="button primary" href={"/checkout" as Route}>
               Proceed to checkout
             </Link>

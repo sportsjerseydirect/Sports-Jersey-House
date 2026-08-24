@@ -139,6 +139,12 @@ export async function createOrderFromCart(
     .reduce((sum, item) => sum + Number.parseFloat(item.lineTotalAmount), 0)
     .toFixed(2);
 
+  const currencies = new Set(validatedLines.map((item) => item.currencyCode.toUpperCase()));
+  if (currencies.size !== 1) {
+    throw new Error("Cart contains mixed currencies. Remove items so all lines share one currency.");
+  }
+  const orderCurrency = [...currencies][0]!;
+
   const customerId = await findOrCreateCustomer(db, input);
   const now = new Date();
 
@@ -170,7 +176,7 @@ export async function createOrderFromCart(
       phone: input.phone,
       status: "pending_payment",
       fulfilmentStatus: "unfulfilled",
-      currencyCode: cart.currencyCode,
+      currencyCode: orderCurrency,
       subtotalAmount: cartSubtotal,
       discountAmount,
       shippingRevenueAmount: "0.00",

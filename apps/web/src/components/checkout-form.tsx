@@ -136,7 +136,12 @@ export function CheckoutForm({ currencyCode, subtotalLabel }: CheckoutFormProps)
         body: JSON.stringify(payload)
       });
 
-      const data = (await response.json()) as { orderNumber?: string; error?: string };
+      const data = (await response.json()) as {
+        orderNumber?: string;
+        error?: string;
+        checkoutUrl?: string;
+        paymentRequired?: boolean;
+      };
 
       if (!response.ok || !data.orderNumber) {
         setError(data.error ?? "Could not place order.");
@@ -144,6 +149,12 @@ export function CheckoutForm({ currencyCode, subtotalLabel }: CheckoutFormProps)
       }
 
       window.dispatchEvent(new Event("sjh:cart-updated"));
+
+      if (data.checkoutUrl) {
+        window.location.assign(data.checkoutUrl);
+        return;
+      }
+
       router.push(`/orders/${encodeURIComponent(data.orderNumber)}` as Route);
       router.refresh();
     } catch {
@@ -298,8 +309,8 @@ export function CheckoutForm({ currencyCode, subtotalLabel }: CheckoutFormProps)
           </div>
         </dl>
         <p className="cart-note">
-          Stripe payment connects in a later phase. Placing an order records it as awaiting payment with your
-          customisation attached to each line.
+          You will be redirected to Stripe Checkout (TEST MODE when enabled) to pay. Your order stays
+          awaiting payment until Stripe confirms — customisation is already saved on the SJH order.
         </p>
         {error ? (
           <p className="add-to-cart-message is-error" role="alert">
@@ -307,7 +318,7 @@ export function CheckoutForm({ currencyCode, subtotalLabel }: CheckoutFormProps)
           </p>
         ) : null}
         <button className="button primary checkout-cta" disabled={submitting} type="submit">
-          {submitting ? "Placing order…" : "Place order"}
+          {submitting ? "Redirecting to payment…" : "Pay with Stripe"}
         </button>
       </aside>
     </form>
