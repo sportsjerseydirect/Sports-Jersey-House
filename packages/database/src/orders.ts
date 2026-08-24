@@ -223,6 +223,7 @@ export async function createOrderFromCart(
       variantId: item.variantId,
       productTitle: item.productTitle,
       variantTitle: item.variantTitle,
+      sku: item.sku,
       sizeLabel: item.variantTitle,
       quantity: item.quantity,
       customisation: item.customisation,

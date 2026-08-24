@@ -331,19 +331,37 @@ export async function retrievePaymentFeeAmount(
     return null;
   }
 
-  const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, {
-    expand: ["latest_charge.balance_transaction"]
-  });
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    try {
+      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, {
+        expand: ["latest_charge.balance_transaction"]
+      });
 
-  const charge = paymentIntent.latest_charge;
-  if (!charge || typeof charge === "string") {
-    return null;
+      let charge = paymentIntent.latest_charge;
+      if (typeof charge === "string") {
+        charge = await stripe.charges.retrieve(charge, {
+          expand: ["balance_transaction"]
+        });
+      }
+      if (!charge || typeof charge === "string") {
+        await new Promise((resolve) => setTimeout(resolve, 400 * (attempt + 1)));
+        continue;
+      }
+
+      let balanceTransaction = charge.balance_transaction;
+      if (typeof balanceTransaction === "string") {
+        balanceTransaction = await stripe.balanceTransactions.retrieve(balanceTransaction);
+      }
+      if (!balanceTransaction || typeof balanceTransaction === "string") {
+        await new Promise((resolve) => setTimeout(resolve, 400 * (attempt + 1)));
+        continue;
+      }
+
+      return (balanceTransaction.fee / 100).toFixed(2);
+    } catch {
+      await new Promise((resolve) => setTimeout(resolve, 400 * (attempt + 1)));
+    }
   }
 
-  const balanceTransaction = charge.balance_transaction;
-  if (!balanceTransaction || typeof balanceTransaction === "string") {
-    return null;
-  }
-
-  return (balanceTransaction.fee / 100).toFixed(2);
+  return null;
 }

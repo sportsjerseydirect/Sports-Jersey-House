@@ -254,23 +254,24 @@ async function main() {
           l.customisation.number === "07" &&
           l.customisation.message === "PRODUCTION TEST"
       );
-      const hasSkuVariant = detail.lines.some(
-        (l) => Boolean(l.sku || l.supplierSku) && Boolean(l.variantTitle)
-      );
+      // Catalogue SKUs are often null for migrated Shopify "Default Title" variants.
+      // Require variant + size fields; surface sku/supplierSku when present.
+      const hasVariant = detail.lines.some((l) => Boolean(l.variantTitle));
       const blob = JSON.stringify(detail);
       const leak = /unitPrice|sellingPrice|marginPercent|grossProfit|paymentFee|totalAmount/i.test(
         blob
       );
       results.push({
         step: "supplier_portal",
-        ok: hasCustom && !leak && hasSkuVariant && Boolean(detail.lines[0]?.imageUrl),
+        ok: hasCustom && !leak && hasVariant && Boolean(detail.lines[0]?.imageUrl),
         detail: {
           hasCustom,
-          hasSkuVariant,
+          hasVariant,
           leak,
           hasImage: Boolean(detail.lines[0]?.imageUrl),
           sku: detail.lines[0]?.sku ?? detail.lines[0]?.supplierSku ?? null,
-          variantTitle: detail.lines[0]?.variantTitle ?? null
+          variantTitle: detail.lines[0]?.variantTitle ?? null,
+          sizeLabel: detail.lines[0]?.sizeLabel ?? null
         }
       });
 

@@ -14,6 +14,7 @@ export type CartLineItem = {
   productTitle: string;
   variantId: string;
   variantTitle: string;
+  sku: string | null;
   priceAmount: string;
   currencyCode: string;
   imageUrl?: string;
@@ -109,6 +110,7 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
       productTitle: products.title,
       variantId: productVariants.id,
       variantTitle: productVariants.title,
+      sku: productVariants.sku,
       priceAmount: productVariants.priceAmount,
       unitPriceAmount: cartItems.unitPriceAmount,
       currencyCode: productVariants.currencyCode,
@@ -139,6 +141,7 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
       productTitle: row.productTitle,
       variantId: row.variantId,
       variantTitle: row.variantTitle,
+      sku: row.sku ?? null,
       priceAmount: unitPrice,
       currencyCode: row.currencyCode,
       ...(row.imageUrl ? { imageUrl: row.imageUrl } : {}),
