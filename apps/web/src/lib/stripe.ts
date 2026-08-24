@@ -3,10 +3,19 @@ import { Stripe } from "stripe";
 import {
   amountToStripeCents,
   attachStripeCheckoutSession,
+  getStoredStripeWebhookSigningSecret,
+  upsertStripeWebhookRuntimeConfig,
   type OrderSnapshot
 } from "@sjh/database";
 
 const STRIPE_API_VERSION = "2026-07-29.dahlia" as const;
+
+export const REQUIRED_STRIPE_WEBHOOK_EVENTS = [
+  "checkout.session.completed",
+  "checkout.session.async_payment_succeeded",
+  "checkout.session.async_payment_failed",
+  "checkout.session.expired"
+] as const;
 
 export class StripeTestModeRequiredError extends Error {
   constructor(message: string) {
@@ -57,6 +66,25 @@ export function getStripeWebhookSecret(): string {
   return secret;
 }
 
+/** Deduplicate env + stored TEST webhook signing secrets. Never returns live secrets. */
+export function collectWebhookSigningSecrets(
+  envSecret: string | undefined | null,
+  storedSecret: string | undefined | null
+): string[] {
+  const secrets: string[] = [];
+  for (const value of [envSecret, storedSecret]) {
+    const secret = value?.trim();
+    if (!secret || secret.includes("_live_")) continue;
+    if (!secrets.includes(secret)) secrets.push(secret);
+  }
+  return secrets;
+}
+
+export async function resolveStripeWebhookSigningSecrets(): Promise<string[]> {
+  const stored = await getStoredStripeWebhookSigningSecret().catch(() => null);
+  return collectWebhookSigningSecrets(process.env.STRIPE_WEBHOOK_SECRET, stored);
+}
+
 export function createStripeClient(): Stripe {
   return new Stripe(getStripeSecretKey(), {
     apiVersion: STRIPE_API_VERSION,
@@ -69,6 +97,14 @@ function appBaseUrl(): string {
   return url;
 }
 
+function webhookTargetUrl(): string {
+  return `${appBaseUrl()}/api/webhooks/stripe`;
+}
+
+function normalizeWebhookUrl(url: string): string {
+  return url.trim().replace(/\/$/, "");
+}
+
 function integrationIdentifier(): string {
   return `sjh_checkout_${randomBytes(4).toString("hex")}`;
 }
@@ -78,11 +114,158 @@ export type CreatedCheckoutSession = {
   url: string;
 };
 
+export type StripeWebhookEndpointProbe = {
+  inspected: boolean;
+  matchedUrl: boolean;
+  created: boolean;
+  updated: boolean;
+  status: string | null;
+  missingEvents: string[];
+  enabledEventCount: number;
+  recentCheckoutCompletedEvents: number;
+  error?: string;
+};
+
+let ensureWebhookPromise: Promise<StripeWebhookEndpointProbe> | null = null;
+
+export async function inspectStripeWebhookEndpoint(): Promise<StripeWebhookEndpointProbe> {
+  try {
+    const stripe = createStripeClient();
+    const target = normalizeWebhookUrl(webhookTargetUrl());
+    const endpoints = await stripe.webhookEndpoints.list({ limit: 100 });
+    const match = endpoints.data.find((endpoint) => normalizeWebhookUrl(endpoint.url) === target) ?? null;
+    const events = await stripe.events.list({
+      type: "checkout.session.completed",
+      limit: 10
+    });
+    const missing = match
+      ? REQUIRED_STRIPE_WEBHOOK_EVENTS.filter(
+          (eventName) =>
+            !match.enabled_events.includes(eventName) && !match.enabled_events.includes("*")
+        )
+      : [...REQUIRED_STRIPE_WEBHOOK_EVENTS];
+
+    return {
+      inspected: true,
+      matchedUrl: Boolean(match),
+      created: false,
+      updated: false,
+      status: match?.status ?? null,
+      missingEvents: [...missing],
+      enabledEventCount: match?.enabled_events.length ?? 0,
+      recentCheckoutCompletedEvents: events.data.filter((event) => !event.livemode).length
+    };
+  } catch (error) {
+    return {
+      inspected: false,
+      matchedUrl: false,
+      created: false,
+      updated: false,
+      status: null,
+      missingEvents: [...REQUIRED_STRIPE_WEBHOOK_EVENTS],
+      enabledEventCount: 0,
+      recentCheckoutCompletedEvents: 0,
+      error: error instanceof Error ? error.name : "inspect_failed"
+    };
+  }
+}
+
+/**
+ * Ensure a TEST-mode webhook endpoint exists on the SAME Stripe account as STRIPE_SECRET_KEY.
+ * Stores the signing secret when created so fulfillment works even if Vercel env still
+ * holds a secret from a different sandbox/account.
+ */
+export async function ensureStripeWebhookEndpoint(): Promise<StripeWebhookEndpointProbe> {
+  const stripe = createStripeClient();
+  const target = normalizeWebhookUrl(webhookTargetUrl());
+  const endpoints = await stripe.webhookEndpoints.list({ limit: 100 });
+  const match = endpoints.data.find((endpoint) => normalizeWebhookUrl(endpoint.url) === target) ?? null;
+
+  if (match) {
+    const missing = REQUIRED_STRIPE_WEBHOOK_EVENTS.filter(
+      (eventName) => !match.enabled_events.includes(eventName) && !match.enabled_events.includes("*")
+    );
+    let updated = false;
+    if (missing.length > 0 || match.status !== "enabled") {
+      const enabled_events = Array.from(
+        new Set([
+          ...match.enabled_events.filter((eventName) => eventName !== "*"),
+          ...REQUIRED_STRIPE_WEBHOOK_EVENTS
+        ])
+      ) as NonNullable<Stripe.WebhookEndpointUpdateParams["enabled_events"]>;
+      await stripe.webhookEndpoints.update(match.id, {
+        enabled_events,
+        disabled: false
+      });
+      updated = true;
+    }
+
+    await upsertStripeWebhookRuntimeConfig({
+      webhookEndpointId: match.id,
+      webhookEndpointUrl: match.url
+    });
+
+    return {
+      inspected: true,
+      matchedUrl: true,
+      created: false,
+      updated,
+      status: "enabled",
+      missingEvents: [],
+      enabledEventCount: match.enabled_events.length + (updated ? missing.length : 0),
+      recentCheckoutCompletedEvents: 0
+    };
+  }
+
+  const created = await stripe.webhookEndpoints.create({
+    url: target,
+    enabled_events: [...REQUIRED_STRIPE_WEBHOOK_EVENTS],
+    description: "Sports Jersey House production TEST checkout fulfillment",
+    api_version: STRIPE_API_VERSION
+  });
+
+  await upsertStripeWebhookRuntimeConfig({
+    webhookEndpointId: created.id,
+    webhookEndpointUrl: created.url,
+    webhookSigningSecret: created.secret ?? null
+  });
+
+  return {
+    inspected: true,
+    matchedUrl: true,
+    created: true,
+    updated: false,
+    status: created.status ?? "enabled",
+    missingEvents: [],
+    enabledEventCount: REQUIRED_STRIPE_WEBHOOK_EVENTS.length,
+    recentCheckoutCompletedEvents: 0
+  };
+}
+
+export function ensureStripeWebhookEndpointOnce(): Promise<StripeWebhookEndpointProbe> {
+  if (!ensureWebhookPromise) {
+    ensureWebhookPromise = ensureStripeWebhookEndpoint().catch((error) => {
+      ensureWebhookPromise = null;
+      throw error;
+    });
+  }
+  return ensureWebhookPromise;
+}
+
 export async function createCheckoutSessionForOrder(
   order: OrderSnapshot
 ): Promise<CreatedCheckoutSession> {
   if (!isStripePaymentsEnabled()) {
     throw new StripeTestModeRequiredError("ENABLE_STRIPE_PAYMENTS must be true.");
+  }
+
+  try {
+    await ensureStripeWebhookEndpointOnce();
+  } catch (error) {
+    console.error(
+      "[stripe.webhook.ensure]",
+      error instanceof Error ? error.name : "ensure_failed"
+    );
   }
 
   const stripe = createStripeClient();

@@ -40,6 +40,10 @@ export type {
   MarkOrderPaidFromStripeResult
 } from "./payments";
 export {
+  getStoredStripeWebhookSigningSecret,
+  upsertStripeWebhookRuntimeConfig
+} from "./stripe-runtime";
+export {
   createPurchaseOrderBatch,
   createSupplier,
   ensureDefaultSupplierMappings,

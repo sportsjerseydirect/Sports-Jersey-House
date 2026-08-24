@@ -205,7 +205,8 @@ async function countEligiblePoLines(
         isNull(orders.deletedAt),
         isNull(orderItems.purchaseOrderId),
         eq(orderItems.fulfilmentStatus, "unfulfilled"),
-        inArray(orders.status, ["pending_payment", "paid"])
+        // PAID orders only — never pending_payment → supplier PO.
+        eq(orders.status, "paid")
       )
     );
 

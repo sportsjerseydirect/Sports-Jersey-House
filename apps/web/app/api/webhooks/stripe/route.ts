@@ -1,4 +1,8 @@
-import { createStripeClient, getStripeWebhookSecret, retrievePaymentFeeAmount } from "@/lib/stripe";
+import {
+  createStripeClient,
+  resolveStripeWebhookSigningSecrets,
+  retrievePaymentFeeAmount
+} from "@/lib/stripe";
 import {
   markOrderPaidFromStripe,
   recordStripePaymentFailure
@@ -76,12 +80,27 @@ export async function POST(request: Request) {
 
   const payload = await request.text();
   const stripe = createStripeClient();
+  const secrets = await resolveStripeWebhookSigningSecrets();
+  if (secrets.length === 0) {
+    return Response.json(
+      { error: "Stripe webhook signing secret is not configured." },
+      { status: 503 }
+    );
+  }
 
-  let event: Stripe.Event;
-  try {
-    event = stripe.webhooks.constructEvent(payload, signature, getStripeWebhookSecret());
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Invalid signature";
+  let event: Stripe.Event | undefined;
+  let lastError: unknown;
+  for (const secret of secrets) {
+    try {
+      event = stripe.webhooks.constructEvent(payload, signature, secret);
+      break;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  if (!event) {
+    const message = lastError instanceof Error ? lastError.message : "Invalid signature";
     return Response.json({ error: message }, { status: 400 });
   }
 

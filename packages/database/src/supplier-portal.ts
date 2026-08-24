@@ -109,6 +109,9 @@ export type SupplierPoSummary = {
 export type SupplierPoLineView = {
   id: string;
   productTitle: string;
+  variantTitle: string | null;
+  sku: string | null;
+  supplierSku: string | null;
   sizeLabel: string | null;
   quantity: number;
   customisation: {
@@ -247,6 +250,9 @@ export async function getSupplierPurchaseOrderDetail(
     .select({
       id: orderItems.id,
       productTitle: orderItems.productTitle,
+      variantTitle: orderItems.variantTitle,
+      sku: orderItems.sku,
+      supplierSku: purchaseOrderLines.supplierSku,
       sizeLabel: orderItems.sizeLabel,
       quantity: orderItems.quantity,
       customisation: orderItems.customisation,
@@ -295,6 +301,9 @@ export async function getSupplierPurchaseOrderDetail(
       return {
         id: line.id,
         productTitle: line.productTitle,
+        variantTitle: line.variantTitle ?? null,
+        sku: line.sku ?? null,
+        supplierSku: line.supplierSku ?? null,
         sizeLabel: line.sizeLabel,
         quantity: line.quantity,
         customisation: {

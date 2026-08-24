@@ -216,6 +216,16 @@ export const stripeWebhookEvents = pgTable(
   })
 );
 
+/** Single-row runtime Stripe config (TEST webhook signing secret fallback). */
+export const stripeRuntimeConfig = pgTable("stripe_runtime_config", {
+  id: text("id").primaryKey(),
+  webhookEndpointId: text("webhook_endpoint_id"),
+  webhookEndpointUrl: text("webhook_endpoint_url"),
+  webhookSigningSecret: text("webhook_signing_secret"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
+});
+
 export const purchaseOrders = pgTable(
   "purchase_orders",
   {

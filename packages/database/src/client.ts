@@ -30,6 +30,8 @@ import {
   productSupplierMappings,
   purchaseOrderLines,
   purchaseOrders,
+  stripeRuntimeConfig,
+  stripeWebhookEvents,
   suppliers
 } from "./schema-commerce";
 import {
@@ -85,6 +87,8 @@ export const databaseSchema = {
   orderItems,
   purchaseOrders,
   purchaseOrderLines,
+  stripeWebhookEvents,
+  stripeRuntimeConfig,
   courierRules,
   issueCases,
   marketingLeads,

@@ -64,6 +64,14 @@ export default async function SupplierOrderPage({ params }: Props) {
                   <dd>{line.orderNumber}</dd>
                 </div>
                 <div>
+                  <dt>SKU</dt>
+                  <dd>{line.sku ?? line.supplierSku ?? "—"}</dd>
+                </div>
+                <div>
+                  <dt>Variant</dt>
+                  <dd>{line.variantTitle ?? "—"}</dd>
+                </div>
+                <div>
                   <dt>Size</dt>
                   <dd>{line.sizeLabel ?? "—"}</dd>
                 </div>
