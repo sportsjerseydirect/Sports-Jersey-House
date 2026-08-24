@@ -15,6 +15,7 @@ export type CartLineItem = {
   variantId: string;
   variantTitle: string;
   sku: string | null;
+  sizeLabel: string | null;
   priceAmount: string;
   currencyCode: string;
   imageUrl?: string;
@@ -111,6 +112,7 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
       variantId: productVariants.id,
       variantTitle: productVariants.title,
       sku: productVariants.sku,
+      sizeLabel: productVariants.sizeLabel,
       priceAmount: productVariants.priceAmount,
       unitPriceAmount: cartItems.unitPriceAmount,
       currencyCode: productVariants.currencyCode,
@@ -142,6 +144,7 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
       variantId: row.variantId,
       variantTitle: row.variantTitle,
       sku: row.sku ?? null,
+      sizeLabel: row.sizeLabel ?? null,
       priceAmount: unitPrice,
       currencyCode: row.currencyCode,
       ...(row.imageUrl ? { imageUrl: row.imageUrl } : {}),
@@ -154,7 +157,7 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
   return {
     id: cart.id,
     sessionId: cart.sessionId,
-    currencyCode: cart.currencyCode,
+    currencyCode: items[0]?.currencyCode ?? cart.currencyCode,
     itemCount: items.reduce((count, item) => count + item.quantity, 0),
     subtotalAmount: sumMoney(items.map((item) => item.lineTotalAmount)),
     items
@@ -183,7 +186,8 @@ export async function addItemToCart(
       id: productVariants.id,
       productId: productVariants.productId,
       isAvailable: productVariants.isAvailable,
-      priceAmount: productVariants.priceAmount
+      priceAmount: productVariants.priceAmount,
+      currencyCode: productVariants.currencyCode
     })
     .from(productVariants)
     .where(eq(productVariants.id, variantId))
@@ -195,6 +199,10 @@ export async function addItemToCart(
 
   if (!variant.isAvailable) {
     throw new Error("Variant is not available.");
+  }
+
+  if (cart.currencyCode && cart.itemCount > 0 && cart.currencyCode !== variant.currencyCode) {
+    throw new Error("Cart already contains items in a different currency.");
   }
 
   const [existingItem] = await db
@@ -227,7 +235,10 @@ export async function addItemToCart(
     });
   }
 
-  await db.update(carts).set({ updatedAt: new Date() }).where(eq(carts.id, cart.id));
+  await db
+    .update(carts)
+    .set({ updatedAt: new Date(), currencyCode: variant.currencyCode })
+    .where(eq(carts.id, cart.id));
 
   return getCartBySessionId(sessionId, databaseUrl);
 }

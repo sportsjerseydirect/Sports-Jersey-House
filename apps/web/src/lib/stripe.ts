@@ -14,7 +14,8 @@ export const REQUIRED_STRIPE_WEBHOOK_EVENTS = [
   "checkout.session.completed",
   "checkout.session.async_payment_succeeded",
   "checkout.session.async_payment_failed",
-  "checkout.session.expired"
+  "checkout.session.expired",
+  "payment_intent.succeeded"
 ] as const;
 
 export class StripeTestModeRequiredError extends Error {

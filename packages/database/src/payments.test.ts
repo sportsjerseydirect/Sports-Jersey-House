@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { amountToStripeCents, stripeFeeToDecimal } from "./payments";
+import { amountToStripeCents, shouldReplacePaymentFee, stripeFeeToDecimal } from "./payments";
 
 describe("amountToStripeCents", () => {
   it("converts decimal money without floating error", () => {
@@ -20,5 +20,13 @@ describe("stripeFeeToDecimal", () => {
   it("formats fee cents", () => {
     expect(stripeFeeToDecimal(204)).toBe("2.04");
     expect(stripeFeeToDecimal(null)).toBe("0.00");
+  });
+});
+
+describe("shouldReplacePaymentFee", () => {
+  it("fills a missing or zero fee when Stripe later reports one", () => {
+    expect(shouldReplacePaymentFee("0.00", "1.91")).toBe(true);
+    expect(shouldReplacePaymentFee("1.91", "1.91")).toBe(false);
+    expect(shouldReplacePaymentFee("1.91", "0.00")).toBe(false);
   });
 });

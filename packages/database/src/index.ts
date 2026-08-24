@@ -31,8 +31,10 @@ export {
   beginStripeWebhookEvent,
   getOrderPaymentState,
   markOrderPaidFromStripe,
+  applyStripePaymentFeeIfMissing,
   recordStripePaymentFailure,
-  stripeFeeToDecimal
+  stripeFeeToDecimal,
+  shouldReplacePaymentFee
 } from "./payments";
 export type {
   AttachCheckoutSessionInput,

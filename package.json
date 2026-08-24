@@ -12,6 +12,8 @@
     "db:migrate": "pnpm --filter @sjh/database db:migrate",
     "db:seed": "pnpm --filter @sjh/database db:seed",
     "db:verify": "pnpm --filter @sjh/database db:verify",
+    "qa:prod": "pnpm --filter @sjh/web qa:prod",
+    "qa:prod:install": "pnpm --filter @sjh/web qa:prod:install",
     "infra:up": "bash infrastructure/local/up.sh",
     "infra:down": "docker compose -f infrastructure/local/docker-compose.yml down"
   },

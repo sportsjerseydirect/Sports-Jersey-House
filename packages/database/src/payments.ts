@@ -31,6 +31,14 @@ export function stripeFeeToDecimal(feeCents: number | null | undefined): string 
   return (feeCents / 100).toFixed(2);
 }
 
+export function shouldReplacePaymentFee(current: string | null | undefined, next: string | null | undefined): boolean {
+  if (!next) return false;
+  const incoming = Number.parseFloat(next);
+  if (!Number.isFinite(incoming) || incoming <= 0) return false;
+  const existing = Number.parseFloat(current ?? "0");
+  return !Number.isFinite(existing) || existing <= 0;
+}
+
 export type AttachCheckoutSessionInput = {
   orderId: string;
   checkoutSessionId: string;
@@ -185,6 +193,7 @@ export async function markOrderPaidFromStripe(
         currencyCode: string;
         paidAt: Date | null;
         stripePaymentIntentId: string | null;
+        paymentFeeAmount: string;
       }
     | undefined;
 
@@ -197,7 +206,8 @@ export async function markOrderPaidFromStripe(
         totalAmount: orders.totalAmount,
         currencyCode: orders.currencyCode,
         paidAt: orders.paidAt,
-        stripePaymentIntentId: orders.stripePaymentIntentId
+        stripePaymentIntentId: orders.stripePaymentIntentId,
+        paymentFeeAmount: orders.paymentFeeAmount
       })
       .from(orders)
       .where(and(eq(orders.id, input.orderId), isNull(orders.deletedAt)))
@@ -214,7 +224,8 @@ export async function markOrderPaidFromStripe(
         totalAmount: orders.totalAmount,
         currencyCode: orders.currencyCode,
         paidAt: orders.paidAt,
-        stripePaymentIntentId: orders.stripePaymentIntentId
+        stripePaymentIntentId: orders.stripePaymentIntentId,
+        paymentFeeAmount: orders.paymentFeeAmount
       })
       .from(orders)
       .where(
@@ -233,7 +244,8 @@ export async function markOrderPaidFromStripe(
         totalAmount: orders.totalAmount,
         currencyCode: orders.currencyCode,
         paidAt: orders.paidAt,
-        stripePaymentIntentId: orders.stripePaymentIntentId
+        stripePaymentIntentId: orders.stripePaymentIntentId,
+        paymentFeeAmount: orders.paymentFeeAmount
       })
       .from(orders)
       .where(and(eq(orders.orderNumber, input.orderNumber), isNull(orders.deletedAt)))
@@ -290,6 +302,17 @@ export async function markOrderPaidFromStripe(
   }
 
   if (orderRow.status === "paid") {
+    if (shouldReplacePaymentFee(orderRow.paymentFeeAmount, input.paymentFeeAmount ?? null)) {
+      await db
+        .update(orders)
+        .set({
+          paymentFeeAmount: input.paymentFeeAmount ?? undefined,
+          stripePaymentIntentId: input.paymentIntentId ?? orderRow.stripePaymentIntentId,
+          updatedAt: now
+        })
+        .where(eq(orders.id, orderRow.id));
+    }
+
     await db
       .update(stripeWebhookEvents)
       .set({
@@ -426,6 +449,133 @@ export async function recordStripePaymentFailure(
     .where(eq(stripeWebhookEvents.id, input.eventId));
 
   return { duplicateEvent: false, orderNumber };
+}
+
+export async function applyStripePaymentFeeIfMissing(
+  input: {
+    eventId: string;
+    eventType: string;
+    livemode: boolean;
+    paymentIntentId: string;
+    paymentFeeAmount?: string | null;
+    orderId?: string | null;
+    orderNumber?: string | null;
+  },
+  databaseUrl?: string
+): Promise<{ duplicateEvent: boolean; updated: boolean; orderNumber: string | null }> {
+  const url = resolveDatabaseUrl(databaseUrl);
+  const db = createDatabaseClient(url);
+  const started = await beginStripeWebhookEvent(
+    {
+      eventId: input.eventId,
+      eventType: input.eventType,
+      livemode: input.livemode,
+      paymentIntentId: input.paymentIntentId
+    },
+    url
+  );
+  if (started.duplicate) {
+    return { duplicateEvent: true, updated: false, orderNumber: input.orderNumber ?? null };
+  }
+
+  if (input.livemode) {
+    await db
+      .update(stripeWebhookEvents)
+      .set({
+        processingStatus: "rejected_livemode",
+        errorMessage: "Live-mode Stripe events are rejected. TEST MODE only.",
+        processedAt: new Date(),
+        updatedAt: new Date()
+      })
+      .where(eq(stripeWebhookEvents.id, input.eventId));
+    throw new Error("Live-mode Stripe webhook rejected. TEST MODE only.");
+  }
+
+  let orderRow:
+    | {
+        id: string;
+        orderNumber: string;
+        paymentFeeAmount: string;
+      }
+    | undefined;
+
+  if (input.orderId) {
+    const [row] = await db
+      .select({
+        id: orders.id,
+        orderNumber: orders.orderNumber,
+        paymentFeeAmount: orders.paymentFeeAmount
+      })
+      .from(orders)
+      .where(and(eq(orders.id, input.orderId), isNull(orders.deletedAt)))
+      .limit(1);
+    orderRow = row;
+  }
+
+  if (!orderRow) {
+    const [row] = await db
+      .select({
+        id: orders.id,
+        orderNumber: orders.orderNumber,
+        paymentFeeAmount: orders.paymentFeeAmount
+      })
+      .from(orders)
+      .where(and(eq(orders.stripePaymentIntentId, input.paymentIntentId), isNull(orders.deletedAt)))
+      .limit(1);
+    orderRow = row;
+  }
+
+  if (!orderRow && input.orderNumber) {
+    const [row] = await db
+      .select({
+        id: orders.id,
+        orderNumber: orders.orderNumber,
+        paymentFeeAmount: orders.paymentFeeAmount
+      })
+      .from(orders)
+      .where(and(eq(orders.orderNumber, input.orderNumber), isNull(orders.deletedAt)))
+      .limit(1);
+    orderRow = row;
+  }
+
+  if (!orderRow) {
+    await db
+      .update(stripeWebhookEvents)
+      .set({
+        processingStatus: "order_not_found",
+        processedAt: new Date(),
+        updatedAt: new Date()
+      })
+      .where(eq(stripeWebhookEvents.id, input.eventId));
+    return { duplicateEvent: false, updated: false, orderNumber: null };
+  }
+
+  const now = new Date();
+  let updated = false;
+  if (shouldReplacePaymentFee(orderRow.paymentFeeAmount, input.paymentFeeAmount ?? null)) {
+    await db
+      .update(orders)
+      .set({
+        paymentFeeAmount: input.paymentFeeAmount ?? undefined,
+        stripePaymentIntentId: input.paymentIntentId,
+        updatedAt: now
+      })
+      .where(eq(orders.id, orderRow.id));
+    updated = true;
+  }
+
+  await db
+    .update(stripeWebhookEvents)
+    .set({
+      orderId: orderRow.id,
+      processingStatus: updated ? "fee_updated" : "fee_unchanged",
+      processedAt: now,
+      updatedAt: now,
+      stripePaymentIntentId: input.paymentIntentId
+    })
+    .where(eq(stripeWebhookEvents.id, input.eventId));
+
+  return { duplicateEvent: false, updated, orderNumber: orderRow.orderNumber };
 }
 
 export async function getOrderPaymentState(

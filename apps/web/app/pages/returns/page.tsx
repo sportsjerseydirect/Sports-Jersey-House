@@ -3,7 +3,7 @@ import { createMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createMetadata({
   title: "Returns | Sports Jersey House",
-  description: "Returns and exchange policy for Sports Jersey House.",
+  description: "Returns and exchange information for Sports Jersey House made-to-order jerseys.",
   path: "/pages/returns"
 });
 
@@ -13,16 +13,20 @@ export default function ReturnsPage() {
       <div className="page-heading">
         <p className="eyebrow">Policy</p>
         <h1>Returns &amp; exchanges</h1>
-        <p>Fair, clear return policies will be published before the storefront accepts orders.</p>
+        <p>Most jerseys are made to order with your size and customisation, so they cannot be treated as standard off-the-shelf stock.</p>
       </div>
       <article className="policy-content">
-        <h2>Current status</h2>
-        <p>Returns processing is not active while the platform remains in development.</p>
-        <h2>Planned policy principles</h2>
+        <h2>How to request help</h2>
+        <p>
+          Contact Sports Jersey House with your order number. We will review production status, the
+          customisation on the order, and any fulfilment or quality issue recorded against it.
+        </p>
+        <h2>What we keep on the order</h2>
         <ul>
-          <li>Eligible unworn items returnable within a published window</li>
-          <li>Clear guidance for sizing exchanges on jerseys and kits</li>
-          <li>Transparent exceptions for personalised or final-sale items</li>
+          <li>Custom name, number, and message</li>
+          <li>Size and quantity</li>
+          <li>Payment confirmation from Stripe</li>
+          <li>Supplier purchase order and any tracking that has been submitted</li>
         </ul>
       </article>
     </main>

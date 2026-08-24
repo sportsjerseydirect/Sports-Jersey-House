@@ -301,7 +301,9 @@ export function CheckoutForm({ currencyCode, subtotalLabel }: CheckoutFormProps)
           </div>
           <div>
             <dt>Shipping</dt>
-            <dd>Calculated later</dd>
+            <dd>
+              <a href="/pages/shipping">See shipping policy</a>
+            </dd>
           </div>
           <div>
             <dt>Total ({currencyCode})</dt>

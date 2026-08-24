@@ -4,6 +4,7 @@ import {
   retrievePaymentFeeAmount
 } from "@/lib/stripe";
 import {
+  applyStripePaymentFeeIfMissing,
   markOrderPaidFromStripe,
   recordStripePaymentFailure
 } from "@sjh/database";
@@ -146,6 +147,21 @@ export async function POST(request: Request) {
           paymentIntentId: ids.paymentIntentId,
           orderId: ids.orderId,
           orderNumber: ids.orderNumber
+        });
+        return Response.json({ received: true, result });
+      }
+      case "payment_intent.succeeded": {
+        const paymentIntent = event.data.object as Stripe.PaymentIntent;
+        const stripe = createStripeClient();
+        const paymentFeeAmount = await retrievePaymentFeeAmount(stripe, paymentIntent.id);
+        const result = await applyStripePaymentFeeIfMissing({
+          eventId: event.id,
+          eventType: event.type,
+          livemode: event.livemode,
+          paymentIntentId: paymentIntent.id,
+          paymentFeeAmount,
+          orderId: paymentIntent.metadata?.sjh_order_id ?? null,
+          orderNumber: paymentIntent.metadata?.sjh_order_number ?? null
         });
         return Response.json({ received: true, result });
       }

@@ -10,7 +10,10 @@
     "start": "node --env-file=../../.env ./node_modules/next/dist/bin/next start",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
-    "smoke": "node --env-file=../../.env --import tsx ./scripts/smoke.mjs"
+    "smoke": "node --env-file=../../.env --import tsx ./scripts/smoke.mjs",
+    "qa:prod": "env -u PLAYWRIGHT_BROWSERS_PATH PW_USE_SYSTEM_CHROME=1 playwright test --config e2e/playwright.config.ts",
+    "qa:prod:install": "playwright install chromium",
+    "qa:prod:bundled": "playwright test --config e2e/playwright.config.ts"
   },
   "dependencies": {
     "@sjh/ai": "workspace:*",
@@ -32,6 +35,7 @@
     "eslint-config-next": "^15.5.2",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "@playwright/test": "1.55.0"
   }
 }

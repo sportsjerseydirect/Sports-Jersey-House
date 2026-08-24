@@ -24,7 +24,7 @@ function formatMoney(value: string | null): string | null {
   if (!value) return null;
   const amount = Number.parseFloat(value);
   if (!Number.isFinite(amount)) return null;
-  return new Intl.NumberFormat("en-GB", { style: "currency", currency: "USD" }).format(amount);
+  return new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" }).format(amount);
 }
 
 async function loadCommandCentreStats() {

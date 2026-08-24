@@ -13,7 +13,7 @@ export default function PrivacyPage() {
       <div className="page-heading">
         <p className="eyebrow">Policy</p>
         <h1>Privacy</h1>
-        <p>How Sports Jersey House will handle customer data when accounts and checkout launch.</p>
+        <p>How Sports Jersey House handles customer data for browsing, checkout, and order fulfilment.</p>
       </div>
       <article className="policy-content">
         <h2>Data minimisation</h2>
@@ -24,7 +24,7 @@ export default function PrivacyPage() {
         <h2>Security</h2>
         <ul>
           <li>Secrets and credentials are never exposed to the browser</li>
-          <li>Payment processing will use PCI-compliant providers</li>
+          <li>Payment processing uses Stripe. We do not collect raw card numbers on this website</li>
           <li>Admin access is authenticated before catalogue write operations in production</li>
         </ul>
         <h2>Contact</h2>

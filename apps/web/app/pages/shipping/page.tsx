@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createMetadata({
   title: "Shipping | Sports Jersey House",
-  description: "Shipping information for Sports Jersey House orders.",
+  description: "Shipping and delivery information for Sports Jersey House made-to-order jerseys.",
   path: "/pages/shipping"
 });
 
@@ -13,20 +14,23 @@ export default function ShippingPage() {
       <div className="page-heading">
         <p className="eyebrow">Policy</p>
         <h1>Shipping</h1>
-        <p>Shipping rates and delivery timelines will be published before checkout goes live.</p>
+        <p>Jerseys are made to order. Delivery timing depends on production and the destination on your order.</p>
       </div>
       <article className="policy-content">
-        <h2>Current status</h2>
+        <h2>What you pay at checkout</h2>
         <p>
-          Sports Jersey House is under active development. Checkout and fulfilment are not yet available on this
-          platform.
+          Stripe Checkout charges the Sports Jersey House order total calculated on our servers. There is no
+          separate shipping line added on the Stripe payment page today.
         </p>
-        <h2>What to expect at launch</h2>
+        <h2>After you pay</h2>
         <ul>
-          <li>Transparent delivery estimates shown before purchase</li>
-          <li>Tracked shipping for domestic and international orders</li>
-          <li>Clear handling times for made-to-order or imported inventory</li>
+          <li>Paid orders are sent to a supplier as a purchase order</li>
+          <li>Tracking and carrier details are stored on the order when the supplier dispatches</li>
+          <li>Product pages show production/delivery expectations when that content exists on the listing</li>
         </ul>
+        <p>
+          See <Link href="/pages/returns">returns</Link> for made-to-order limitations.
+        </p>
       </article>
     </main>
   );

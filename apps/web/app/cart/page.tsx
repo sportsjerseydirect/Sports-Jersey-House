@@ -12,7 +12,8 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = createMetadata({
   title: "Cart | Sports Jersey House",
   description: "Your shopping cart at Sports Jersey House.",
-  path: "/cart"
+  path: "/cart",
+  noIndex: true
 });
 
 export default async function CartPage() {
