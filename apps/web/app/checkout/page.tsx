@@ -48,7 +48,16 @@ export default async function CheckoutPage() {
           <h2>Order items</h2>
           <ul className="cart-items">
             {cart.items.map((item) => {
-              const customisationSummary = formatCustomisationSummary(item.customisation);
+              const summaryLines =
+                item.optionsSummary && item.optionsSummary.length > 0
+                  ? item.optionsSummary
+                  : [
+                      ...(item.colourLabel ? [`Colour: ${item.colourLabel}`] : []),
+                      ...(item.sizeLabel ? [`Size: ${item.sizeLabel}`] : [item.variantTitle]),
+                      ...(formatCustomisationSummary(item.customisation)
+                        ? [formatCustomisationSummary(item.customisation)!]
+                        : [])
+                    ];
 
               return (
                 <li className="cart-item checkout-item" key={item.id}>
@@ -66,10 +75,12 @@ export default async function CheckoutPage() {
                     <Link href={productDetailPath(item.productSlug)}>
                       <h3>{item.productTitle}</h3>
                     </Link>
-                    <p>
-                      {item.variantTitle} · Qty {item.quantity}
-                    </p>
-                    {customisationSummary ? <p className="cart-item-customisation">{customisationSummary}</p> : null}
+                    <p>Qty {item.quantity}</p>
+                    {summaryLines.map((line) => (
+                      <p className="cart-item-customisation" key={line}>
+                        {line}
+                      </p>
+                    ))}
                   </div>
                   <p className="cart-item-total">
                     {formatProductPrice(item.lineTotalAmount, item.currencyCode)}

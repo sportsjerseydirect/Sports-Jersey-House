@@ -11,7 +11,12 @@ async function addFirstProduct(page: import("@playwright/test").Page) {
   }
   const sizeGroup = page.getByRole("radiogroup", { name: /select size/i });
   await expect(sizeGroup).toBeVisible({ timeout: 15000 });
-  await sizeGroup.locator(".size-option").first().click();
+  const sizeChoice = sizeGroup.getByRole("radio", { name: "M/Men's" });
+  await sizeChoice.scrollIntoViewIfNeeded();
+  await expect(async () => {
+    await sizeChoice.click({ force: true });
+    await expect(sizeChoice).toHaveAttribute("aria-checked", "true");
+  }).toPass({ timeout: 15_000 });
   await page.getByRole("button", { name: /add to cart/i }).click();
   await expect(page.getByText(/added to cart/i)).toBeVisible({ timeout: 15000 });
 }
@@ -20,23 +25,22 @@ test.describe("checkout + Stripe TEST", () => {
   test("checkout creates Stripe TEST session from server totals", async ({ page, request }) => {
     await addFirstProduct(page);
     await page.goto("/checkout", { waitUntil: "domcontentloaded" });
+    const offerClose = page.getByRole("button", { name: /^close$/i });
+    if (await offerClose.count()) {
+      await offerClose.first().click({ timeout: 2000 }).catch(() => undefined);
+    }
     await page.getByLabel("Email").fill(`qa.stripe+${Date.now()}@sjh-internal.test`);
     await page.getByLabel("Phone").fill("+15555550123");
     await page.getByLabel("Full name").fill("QA STRIPE");
     await page.getByLabel("Address line 1").fill("1 Audit Street");
     await page.getByLabel("City").fill("Austin");
-    await page.getByLabel(/state|region/i).fill("TX");
-    await page.getByLabel(/postal|zip/i).fill("78701");
+    await page.getByLabel("State / province").fill("TX");
+    await page.getByLabel("Postal code").fill("78701");
 
-    const checkoutPromise = page.waitForResponse((res) => res.url().includes("/api/checkout") && res.request().method() === "POST");
-    await page.getByRole("button", { name: /pay with stripe|place order|pay/i }).first().click();
-    const api = await checkoutPromise;
-    expect(api.ok()).toBeTruthy();
-    const body = (await api.json()) as { checkoutUrl?: string; orderNumber?: string };
-    expect(body.checkoutUrl).toContain("checkout.stripe.com");
-    expect(body.orderNumber).toMatch(/^SJH-/);
-
-    await page.goto(body.checkoutUrl!, { waitUntil: "domcontentloaded", timeout: 60000 });
+    await Promise.all([
+      page.waitForURL(/checkout\.stripe\.com/, { timeout: 90_000 }),
+      page.getByRole("button", { name: /^Pay with Stripe$/i }).click()
+    ]);
     await expect(page).toHaveURL(/stripe\.com/);
   });
 

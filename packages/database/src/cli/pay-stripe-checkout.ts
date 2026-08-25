@@ -53,7 +53,12 @@ export async function payStripeCheckout(page: Page, cardNumber: string) {
 }
 
 export async function completeCheckoutUrl(checkoutUrl: string, cardNumber = "4242424242424242") {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({
+    headless: true,
+    ...(process.env.PW_USE_SYSTEM_CHROME === "1"
+      ? { channel: "chrome" as const }
+      : {})
+  });
   const page = await browser.newPage();
   try {
     await page.goto(checkoutUrl, { waitUntil: "domcontentloaded", timeout: 60000 });

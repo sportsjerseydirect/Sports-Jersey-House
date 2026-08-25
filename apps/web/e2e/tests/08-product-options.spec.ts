@@ -48,8 +48,13 @@ test.describe("product options layer", () => {
         await expect(page.getByRole("radiogroup", { name: /select colour/i })).toBeVisible();
       }
 
-      await sizeGroup.locator(".size-option").first().click();
-      await page.getByRole("radio", { name: /^Yes/i }).click();
+      const sizeChoice = sizeGroup.getByRole("radio", { name: "M/Men's" });
+      await sizeChoice.scrollIntoViewIfNeeded();
+      await expect(async () => {
+        await sizeChoice.click({ force: true });
+        await expect(sizeChoice).toHaveAttribute("aria-checked", "true");
+      }).toPass({ timeout: 15_000 });
+      await page.getByRole("radiogroup", { name: /^Customisation$/i }).getByRole("radio", { name: /^Yes/i }).click();
       await page.getByLabel(/^Name$/i).fill("CHADHA");
       await page.getByLabel(/^Number$/i).fill("07");
       await page.getByLabel(/any message/i).fill("TEST");

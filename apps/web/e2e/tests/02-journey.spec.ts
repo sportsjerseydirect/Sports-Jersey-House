@@ -18,12 +18,17 @@ test.describe("discovery + PDP + cart", () => {
 
     const colourGroup = page.getByRole("radiogroup", { name: /select colour/i });
     if (await colourGroup.count()) {
-      await colourGroup.locator(".size-option:not(.is-unavailable)").first().click();
+      await colourGroup.getByRole("radio").first().click({ force: true });
     }
 
     const sizeGroup = page.getByRole("radiogroup", { name: /select size/i });
     await expect(sizeGroup).toBeVisible({ timeout: 15000 });
-    await sizeGroup.locator(".size-option").first().click();
+    const sizeChoice = sizeGroup.getByRole("radio", { name: "M/Men's" });
+    await sizeChoice.scrollIntoViewIfNeeded();
+    await expect(async () => {
+      await sizeChoice.click({ force: true });
+      await expect(sizeChoice).toHaveAttribute("aria-checked", "true");
+    }).toPass({ timeout: 15_000 });
 
     const add = page.getByRole("button", { name: /add to cart/i });
     await expect(add).toBeVisible();
