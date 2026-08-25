@@ -108,6 +108,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           <PdpPurchasePanel
             customisationEnabled={product.customisationEnabled}
             {...(product.customisationProfile ? { customisationProfile: product.customisationProfile } : {})}
+            {...(product.productOptions ? { productOptions: product.productOptions } : {})}
             productTitle={product.title}
             {...(product.sizeChart ? { sizeChart: product.sizeChart } : {})}
             variants={product.variants}

@@ -104,15 +104,26 @@ export default async function OrderConfirmationPage({
           <h2>Items</h2>
           <ul className="order-lines">
             {order.items.map((item) => {
-              const customisationSummary = formatCustomisationSummary(item.customisation);
+              const summaryLines =
+                item.optionsSummary && item.optionsSummary.length > 0
+                  ? item.optionsSummary
+                  : [
+                      ...(item.colourLabel ? [`Colour: ${item.colourLabel}`] : []),
+                      ...(item.sizeLabel ? [`Size: ${item.sizeLabel}`] : [item.variantTitle]),
+                      ...(formatCustomisationSummary(item.customisation)
+                        ? [formatCustomisationSummary(item.customisation)!]
+                        : [])
+                    ];
               return (
                 <li key={item.id}>
                   <div>
                     <strong>{item.productTitle}</strong>
-                    <p>
-                      {item.variantTitle} · Qty {item.quantity}
-                    </p>
-                    {customisationSummary ? <p className="cart-item-customisation">{customisationSummary}</p> : null}
+                    <p>Qty {item.quantity}</p>
+                    {summaryLines.map((line) => (
+                      <p className="cart-item-customisation" key={line}>
+                        {line}
+                      </p>
+                    ))}
                     {item.trackingNumber ? (
                       <p className="tracking-line">
                         Shipped via {item.courier ?? "courier"}: <code>{item.trackingNumber}</code>

@@ -60,6 +60,22 @@ export const sizeCharts = pgTable(
   })
 );
 
+export const productOptionSets = pgTable(
+  "product_option_sets",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    slug: text("slug").notNull(),
+    title: text("title").notNull(),
+    sport: text("sport"),
+    sizes: jsonb("sizes").notNull().default(sql`'[]'::jsonb`),
+    source: text("source").notNull().default("aris-sjd"),
+    ...auditColumns
+  },
+  (table) => ({
+    slugIdx: uniqueIndex("product_option_sets_slug_idx").on(table.slug)
+  })
+);
+
 export const customisationProfiles = pgTable(
   "customisation_profiles",
   {
@@ -110,6 +126,7 @@ export const products = pgTable(
     customisationEnabled: boolean("customisation_enabled").notNull().default(true),
     sizeChartId: uuid("size_chart_id").references(() => sizeCharts.id),
     customisationProfileId: uuid("customisation_profile_id").references(() => customisationProfiles.id),
+    optionSetId: uuid("option_set_id").references(() => productOptionSets.id),
     status: productStatus("status").notNull().default("draft"),
     sourcePayload: jsonb("source_payload"),
     embedding: embeddingVector("embedding"),
@@ -122,7 +139,8 @@ export const products = pgTable(
       .where(sql`${table.shopifyId} is not null`),
     statusIdx: index("products_status_idx").on(table.status),
     sizeChartIdx: index("products_size_chart_id_idx").on(table.sizeChartId),
-    customisationProfileIdx: index("products_customisation_profile_id_idx").on(table.customisationProfileId)
+    customisationProfileIdx: index("products_customisation_profile_id_idx").on(table.customisationProfileId),
+    optionSetIdx: index("products_option_set_id_idx").on(table.optionSetId)
   })
 );
 
@@ -361,6 +379,7 @@ export const cartItems = pgTable(
     customisationPriceAmount: numeric("customisation_price_amount", { precision: 12, scale: 2 })
       .notNull()
       .default("0"),
+    selectedOptions: jsonb("selected_options"),
     unitPriceAmount: numeric("unit_price_amount", { precision: 12, scale: 2 }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
@@ -410,6 +429,10 @@ export const productsRelations = relations(products, ({ many, one }) => ({
   variants: many(productVariants),
   images: many(productImages),
   sizeChart: one(sizeCharts, { fields: [products.sizeChartId], references: [sizeCharts.id] }),
+  optionSet: one(productOptionSets, {
+    fields: [products.optionSetId],
+    references: [productOptionSets.id]
+  }),
   customisationProfile: one(customisationProfiles, {
     fields: [products.customisationProfileId],
     references: [customisationProfiles.id]

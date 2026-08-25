@@ -20,7 +20,8 @@ export const customisationMode = pgEnum("customisation_mode", [
   "name",
   "number",
   "name_number",
-  "message"
+  "message",
+  "custom"
 ]);
 
 export const orderStatus = pgEnum("order_status", [
@@ -274,6 +275,11 @@ export const orderItems = pgTable(
     variantTitle: text("variant_title").notNull(),
     sku: text("sku"),
     sizeLabel: text("size_label"),
+    colourLabel: text("colour_label"),
+    selectedOptions: jsonb("selected_options"),
+    shopifyProductId: text("shopify_product_id"),
+    shopifyVariantId: text("shopify_variant_id"),
+    storefront: text("storefront").notNull().default("sjh"),
     quantity: integer("quantity").notNull().default(1),
     customisation: jsonb("customisation").notNull().default(sql`'{"mode":"none"}'::jsonb`),
     unitPriceAmount: numeric("unit_price_amount", { precision: 12, scale: 2 }).notNull(),

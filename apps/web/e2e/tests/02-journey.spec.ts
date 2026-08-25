@@ -16,10 +16,14 @@ test.describe("discovery + PDP + cart", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(page.getByText(/made to order/i).first()).toBeVisible();
 
-    const sizeBtn = page.locator(".size-option:not(.is-unavailable)").first();
-    if (await sizeBtn.count()) {
-      await sizeBtn.click();
+    const colourGroup = page.getByRole("radiogroup", { name: /select colour/i });
+    if (await colourGroup.count()) {
+      await colourGroup.locator(".size-option:not(.is-unavailable)").first().click();
     }
+
+    const sizeGroup = page.getByRole("radiogroup", { name: /select size/i });
+    await expect(sizeGroup).toBeVisible({ timeout: 15000 });
+    await sizeGroup.locator(".size-option").first().click();
 
     const add = page.getByRole("button", { name: /add to cart/i });
     await expect(add).toBeVisible();
@@ -28,9 +32,10 @@ test.describe("discovery + PDP + cart", () => {
 
     await page.goto("/cart", { waitUntil: "domcontentloaded" });
     await expect(page.locator("main")).toBeVisible();
+    await expect(page.getByText(/^Size:/i).first()).toBeVisible();
   });
 
-  test("invalid customisation is rejected by API", async ({ request }) => {
+  test("invalid options without size are rejected by API", async ({ request }) => {
     const products = await request.get("/products");
     expect(products.ok()).toBeTruthy();
     const html = await products.text();
@@ -47,8 +52,10 @@ test.describe("discovery + PDP + cart", () => {
       data: {
         variantId: variant[1],
         quantity: 1,
-        customisation: { mode: "name_number", name: "", number: "" },
-        unitPriceAmount: "0.01"
+        selectedOptions: {
+          size: "NOT-A-REAL-SIZE",
+          customisation: { enabled: false }
+        }
       }
     });
     expect(res.status()).toBeGreaterThanOrEqual(400);

@@ -1,7 +1,6 @@
 import type { Route } from "next";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { formatCustomisationSummary } from "@sjh/shared";
 import { CartLineControls } from "@/components/cart-line-controls";
 import { formatProductPrice, productDetailPath } from "@/lib/products";
 import { loadCart } from "@/lib/cart";
@@ -31,10 +30,16 @@ export default async function CartPage() {
         <section className="cart-layout" aria-label="Cart items">
           <ul className="cart-items">
             {cart.items.map((item) => {
-              const customisationSummary = formatCustomisationSummary(item.customisation);
               const unitWithCustomisation = (
                 Number.parseFloat(item.priceAmount) + Number.parseFloat(item.customisationPriceAmount)
               ).toFixed(2);
+              const summaryLines =
+                item.optionsSummary && item.optionsSummary.length > 0
+                  ? item.optionsSummary
+                  : [
+                      ...(item.colourLabel ? [`Colour: ${item.colourLabel}`] : []),
+                      ...(item.sizeLabel ? [`Size: ${item.sizeLabel}`] : [`Variant: ${item.variantTitle}`])
+                    ];
 
               return (
                 <li className="cart-item" key={item.id}>
@@ -52,8 +57,11 @@ export default async function CartPage() {
                     <Link href={productDetailPath(item.productSlug)}>
                       <h2>{item.productTitle}</h2>
                     </Link>
-                    <p>{item.variantTitle}</p>
-                    {customisationSummary ? <p className="cart-item-customisation">{customisationSummary}</p> : null}
+                    {summaryLines.map((line) => (
+                      <p className="cart-item-customisation" key={line}>
+                        {line}
+                      </p>
+                    ))}
                     <p>
                       {formatProductPrice(unitWithCustomisation, item.currencyCode)} each
                       {Number.parseFloat(item.customisationPriceAmount) > 0
@@ -78,7 +86,9 @@ export default async function CartPage() {
                 <dd>{formatProductPrice(cart.subtotalAmount, cart.currencyCode)}</dd>
               </div>
             </dl>
-            <p className="cart-note">Checkout saves your customisation, then redirects to Stripe (TEST MODE when enabled) to pay.</p>
+            <p className="cart-note">
+              Checkout saves your options, then redirects to Stripe (TEST MODE when enabled) to pay.
+            </p>
             <Link className="button primary" href={"/checkout" as Route}>
               Proceed to checkout
             </Link>

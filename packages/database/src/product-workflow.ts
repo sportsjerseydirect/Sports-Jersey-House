@@ -301,6 +301,15 @@ export async function evaluateProductReadiness(
         "Sport/league/team not set."
     },
     {
+      id: "size_options",
+      label: "Product size options",
+      ok: Boolean(product.optionSetId),
+      severity: "warning",
+      detail: product.optionSetId
+        ? "Size option set linked (Aris-compatible)."
+        : "No size option set — product needs review before sellable size selection."
+    },
+    {
       id: "size_chart",
       label: "Size chart linked",
       ok: Boolean(product.sizeChartId),

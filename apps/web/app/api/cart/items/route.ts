@@ -1,14 +1,19 @@
 import { z } from "zod";
-import { cartCustomisationSchema } from "@sjh/shared";
-import { addItemToCart, resolveCartCustomisationPricing } from "@sjh/database";
+import { cartCustomisationSchema, selectedProductOptionsSchema } from "@sjh/shared";
+import { addItemToCart, resolveCartCustomisationPricing, resolveCartLineOptions } from "@sjh/database";
 import { cartSessionCookieHeader, createCartSessionId, getCartSessionId } from "@/lib/cart";
 import { getClientIp, rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
-const addItemSchema = z.object({
-  variantId: z.string().uuid(),
-  quantity: z.number().int().positive().max(99).optional(),
-  customisation: cartCustomisationSchema.optional()
-});
+const addItemSchema = z
+  .object({
+    variantId: z.string().uuid(),
+    quantity: z.number().int().positive().max(99).optional(),
+    customisation: cartCustomisationSchema.optional(),
+    selectedOptions: selectedProductOptionsSchema.optional()
+  })
+  .refine((value) => value.selectedOptions || value.customisation, {
+    message: "selectedOptions or customisation is required."
+  });
 
 export async function POST(request: Request) {
   const limited = rateLimit(`cart-write:${getClientIp(request)}`, {
@@ -23,7 +28,10 @@ export async function POST(request: Request) {
   const body = addItemSchema.safeParse(await request.json());
 
   if (!body.success) {
-    return Response.json({ error: "Invalid cart item or customisation." }, { status: 400 });
+    return Response.json(
+      { error: body.error.issues[0]?.message ?? "Invalid cart item or options." },
+      { status: 400 }
+    );
   }
 
   let sessionId = await getCartSessionId();
@@ -36,17 +44,22 @@ export async function POST(request: Request) {
     setCookie = true;
   }
 
-  const customisation = body.data.customisation ?? { mode: "none" as const };
-
   try {
-    const priced = await resolveCartCustomisationPricing(body.data.variantId, customisation);
+    const priced = body.data.selectedOptions
+      ? await resolveCartLineOptions(body.data.variantId, body.data.selectedOptions)
+      : await resolveCartCustomisationPricing(
+          body.data.variantId,
+          body.data.customisation ?? { mode: "none" as const }
+        );
+
     const cart = await addItemToCart(
       sessionId,
       body.data.variantId,
       body.data.quantity ?? 1,
       undefined,
       priced.customisation,
-      priced.customisationPriceAmount
+      priced.customisationPriceAmount,
+      priced.selectedOptions ?? null
     );
 
     return Response.json(

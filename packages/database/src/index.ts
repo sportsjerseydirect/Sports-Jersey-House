@@ -276,6 +276,7 @@ export {
   migrationRuns,
   migrationRunsRelations,
   productImages,
+  productOptionSets,
   productStatus,
   productVariants,
   products,
@@ -285,6 +286,16 @@ export {
   seoRecords,
   sizeCharts
 } from "./schema-catalogue";
+
+export {
+  getProductOptionSetForProduct,
+  optionsFingerprint,
+  resolveSelectedProductOptions,
+  toLegacyCustomisation
+} from "./product-options";
+export type { ResolvedProductOptions } from "./product-options";
+
+export { resolveCartLineOptions } from "./cart-customisation";
 
 export {
   abandonedCheckouts,

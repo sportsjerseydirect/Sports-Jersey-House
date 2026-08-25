@@ -113,6 +113,10 @@ export type SupplierPoLineView = {
   sku: string | null;
   supplierSku: string | null;
   sizeLabel: string | null;
+  colourLabel: string | null;
+  shopifyProductId: string | null;
+  shopifyVariantId: string | null;
+  storefront: string | null;
   quantity: number;
   customisation: {
     mode: string;
@@ -120,6 +124,7 @@ export type SupplierPoLineView = {
     number?: string;
     message?: string;
   };
+  selectedOptions: unknown;
   imageUrl: string | null;
   fulfilmentStatus: string;
   trackingNumber: string | null;
@@ -254,6 +259,11 @@ export async function getSupplierPurchaseOrderDetail(
       sku: orderItems.sku,
       supplierSku: purchaseOrderLines.supplierSku,
       sizeLabel: orderItems.sizeLabel,
+      colourLabel: orderItems.colourLabel,
+      selectedOptions: orderItems.selectedOptions,
+      shopifyProductId: orderItems.shopifyProductId,
+      shopifyVariantId: orderItems.shopifyVariantId,
+      storefront: orderItems.storefront,
       quantity: orderItems.quantity,
       customisation: orderItems.customisation,
       fulfilmentStatus: orderItems.fulfilmentStatus,
@@ -298,20 +308,36 @@ export async function getSupplierPurchaseOrderDetail(
         : null,
     lines: lines.map((line) => {
       const custom = (line.customisation ?? { mode: "none" }) as Record<string, string>;
+      const selected = line.selectedOptions as {
+        colour?: string | null;
+        size?: string;
+        customisation?: { enabled?: boolean; name?: string; number?: string; message?: string };
+      } | null;
       return {
         id: line.id,
         productTitle: line.productTitle,
         variantTitle: line.variantTitle ?? null,
         sku: line.sku ?? null,
         supplierSku: line.supplierSku ?? null,
-        sizeLabel: line.sizeLabel,
+        sizeLabel: selected?.size ?? line.sizeLabel,
+        colourLabel: selected?.colour ?? line.colourLabel ?? null,
+        shopifyProductId: line.shopifyProductId ?? null,
+        shopifyVariantId: line.shopifyVariantId ?? null,
+        storefront: line.storefront ?? "sjh",
         quantity: line.quantity,
         customisation: {
           mode: custom.mode ?? "none",
-          ...(custom.name ? { name: custom.name } : {}),
-          ...(custom.number ? { number: custom.number } : {}),
-          ...(custom.message ? { message: custom.message } : {})
+          ...(selected?.customisation?.name || custom.name
+            ? { name: selected?.customisation?.name ?? custom.name }
+            : {}),
+          ...(selected?.customisation?.number || custom.number
+            ? { number: selected?.customisation?.number ?? custom.number }
+            : {}),
+          ...(selected?.customisation?.message || custom.message
+            ? { message: selected?.customisation?.message ?? custom.message }
+            : {})
         },
+        selectedOptions: line.selectedOptions,
         imageUrl: line.productId ? imageByProduct.get(line.productId) ?? null : null,
         fulfilmentStatus: line.fulfilmentStatus,
         trackingNumber: line.trackingNumber,

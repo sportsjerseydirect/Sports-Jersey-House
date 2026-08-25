@@ -269,6 +269,7 @@ async function main(): Promise<void> {
         count(*)::int AS total_variants,
         count(*) FILTER (WHERE pv.sku IS NULL OR trim(pv.sku) = '')::int AS sku_missing,
         count(*) FILTER (WHERE lower(trim(pv.title)) = 'default title')::int AS default_title,
+        -- Size is NOT on Shopify variants (SJD Aris model). Informational only.
         count(*) FILTER (
           WHERE lower(trim(pv.title)) = 'default title'
             AND (pv.size_label IS NULL OR trim(pv.size_label) = '')
@@ -276,7 +277,9 @@ async function main(): Promise<void> {
         )::int AS size_required,
         count(DISTINCT pv.product_id) FILTER (
           WHERE pv.sku IS NULL OR trim(pv.sku) = ''
-        )::int AS products_sku_required
+        )::int AS products_sku_required,
+        count(DISTINCT p.id) FILTER (WHERE p.option_set_id IS NULL)::int AS products_missing_option_set,
+        count(DISTINCT p.id) FILTER (WHERE p.option_set_id IS NOT NULL)::int AS products_with_option_set
       FROM product_variants pv
       INNER JOIN products p ON p.id = pv.product_id
       WHERE p.deleted_at IS NULL AND p.status = 'published' AND pv.deleted_at IS NULL
@@ -346,15 +349,7 @@ async function main(): Promise<void> {
       var AS (
         SELECT pv.product_id,
           bool_or(pv.price_amount IS NOT NULL AND pv.price_amount::numeric > 0) AS has_price,
-          count(*)::int AS n,
-          bool_and(
-            NOT (
-              lower(trim(coalesce(pv.title, ''))) = 'default title'
-              AND (pv.size_label IS NULL OR trim(pv.size_label) = '')
-              AND coalesce(nullif(trim(pv.options->>'Size'), ''), nullif(trim(pv.options->>'size'), '')) IS NULL
-            )
-          ) AS all_sizes_usable,
-          bool_and(pv.sku IS NOT NULL AND trim(pv.sku) <> '') AS all_have_sku
+          count(*)::int AS n
         FROM product_variants pv
         INNER JOIN pub ON pub.id = pv.product_id
         WHERE pv.deleted_at IS NULL
@@ -376,8 +371,8 @@ async function main(): Promise<void> {
           coalesce(v.has_price, false) AS ok_price,
           coalesce(v.n, 0) > 0 AS ok_variants,
           coalesce(i.n, 0) > 0 AS ok_images,
-          coalesce(v.all_sizes_usable, false) AS ok_size,
-          coalesce(v.all_have_sku, false) AS ok_sku,
+          -- Size comes from product_option_sets (Aris), NOT Shopify variant titles/SKUs.
+          pub.option_set_id IS NOT NULL AS ok_option_set,
           pub.size_chart_id IS NOT NULL AS ok_size_chart,
           pub.customisation_profile_id IS NOT NULL AS ok_customisation,
           (pub.sport IS NOT NULL OR pub.league IS NOT NULL OR pub.team IS NOT NULL) AS ok_taxonomy,
@@ -390,19 +385,23 @@ async function main(): Promise<void> {
       ),
       classified AS (
         SELECT *,
-          NOT (ok_title AND ok_slug AND ok_price AND ok_variants AND ok_images AND ok_size) AS is_blocked,
-          (ok_title AND ok_slug AND ok_price AND ok_variants AND ok_images AND ok_size)
-            AND NOT (ok_sku AND ok_size_chart AND ok_customisation AND ok_taxonomy AND ok_seo AND ok_description) AS needs_review
+          NOT (ok_title AND ok_slug AND ok_price AND ok_variants AND ok_images) AS is_blocked,
+          (ok_title AND ok_slug AND ok_price AND ok_variants AND ok_images)
+            AND NOT (
+              ok_option_set AND ok_size_chart AND ok_customisation
+              AND ok_taxonomy AND ok_seo AND ok_description
+            ) AS needs_review
         FROM enriched
       )
       SELECT
         count(*) FILTER (WHERE NOT is_blocked AND NOT needs_review)::int AS ready,
         count(*) FILTER (WHERE NOT is_blocked AND needs_review)::int AS needs_review,
         count(*) FILTER (WHERE is_blocked)::int AS blocked,
-        count(*) FILTER (WHERE NOT ok_sku)::int AS sku_required,
-        count(*) FILTER (WHERE NOT ok_size)::int AS size_required,
+        0::int AS sku_required,
+        count(*) FILTER (WHERE NOT ok_option_set)::int AS size_required,
         count(*) FILTER (WHERE NOT ok_size_chart)::int AS missing_size_chart,
-        count(*) FILTER (WHERE NOT ok_taxonomy)::int AS taxonomy_review
+        count(*) FILTER (WHERE NOT ok_taxonomy)::int AS taxonomy_review,
+        count(*) FILTER (WHERE ok_option_set)::int AS with_option_set
       FROM classified
     `;
 
@@ -500,14 +499,11 @@ async function main(): Promise<void> {
     `;
 
     const sizeBlockedProducts = await sql`
-      SELECT DISTINCT p.slug, p.title
+      SELECT p.slug, p.title, p.sport, p.league
       FROM products p
-      INNER JOIN product_variants pv ON pv.product_id = p.id AND pv.deleted_at IS NULL
       WHERE p.deleted_at IS NULL AND p.status = 'published' AND p.shopify_id IS NOT NULL
-        AND lower(trim(pv.title)) = 'default title'
-        AND (pv.size_label IS NULL OR trim(pv.size_label) = '')
-        AND coalesce(nullif(trim(pv.options->>'Size'), ''), nullif(trim(pv.options->>'size'), '')) IS NULL
-      ORDER BY p.slug
+        AND p.option_set_id IS NULL
+      ORDER BY p.sport NULLS LAST, p.slug
     `;
 
     const [shopifyRawSku] = await sql`
@@ -538,38 +534,15 @@ async function main(): Promise<void> {
 
     const flaggedSamples = await sql`
       SELECT p.slug, p.title,
+        NULL::text AS sku_flag,
         CASE
-          WHEN EXISTS (
-            SELECT 1 FROM product_variants pv
-            WHERE pv.product_id = p.id AND pv.deleted_at IS NULL
-              AND (pv.sku IS NULL OR trim(pv.sku) = '')
-          ) THEN 'SKU_REQUIRED'
-          ELSE NULL
-        END AS sku_flag,
-        CASE
-          WHEN EXISTS (
-            SELECT 1 FROM product_variants pv
-            WHERE pv.product_id = p.id AND pv.deleted_at IS NULL
-              AND lower(trim(pv.title)) = 'default title'
-              AND (pv.size_label IS NULL OR trim(pv.size_label) = '')
-              AND coalesce(nullif(trim(pv.options->>'Size'), ''), nullif(trim(pv.options->>'size'), '')) IS NULL
-          ) THEN 'SIZE_REQUIRED'
+          WHEN p.option_set_id IS NULL THEN 'OPTION_SET_REQUIRED'
           ELSE NULL
         END AS size_flag
       FROM products p
       WHERE p.deleted_at IS NULL AND p.status = 'published' AND p.shopify_id IS NOT NULL
         AND (
-          NOT EXISTS (
-            SELECT 1 FROM product_variants pv
-            WHERE pv.product_id = p.id AND pv.deleted_at IS NULL AND pv.sku IS NOT NULL AND trim(pv.sku) <> ''
-          )
-          OR EXISTS (
-            SELECT 1 FROM product_variants pv
-            WHERE pv.product_id = p.id AND pv.deleted_at IS NULL
-              AND lower(trim(pv.title)) = 'default title'
-              AND (pv.size_label IS NULL OR trim(pv.size_label) = '')
-              AND coalesce(nullif(trim(pv.options->>'Size'), ''), nullif(trim(pv.options->>'size'), '')) IS NULL
-          )
+          p.option_set_id IS NULL
           OR p.sport IS NULL AND p.league IS NULL AND p.team IS NULL
         )
       ORDER BY p.slug
@@ -661,9 +634,11 @@ function buildMarkdown(report: Record<string, unknown>): string {
 | **NEEDS_REVIEW** | ${r.readiness?.needs_review ?? 0} |
 | **BLOCKED** | ${r.readiness?.blocked ?? 0} |
 
-READY means: title, slug, price, variants, images, usable sizes — plus SKU, size chart, customisation, taxonomy, SEO meta, description.
+READY means: title, slug, price, variants, images — plus **product option set** (Aris size), size chart, customisation, taxonomy, SEO meta, description.
 
-**Honest assessment:** ${r.readiness?.ready ?? 0}/${r.publishedTotal} products are genuinely customer-ready. The primary blockers are **missing SKUs across all 500 products** (Shopify source has zero SKUs) and **50 single-variant NHL products with Default Title / no size**.
+**SKU is optional** (SJD Shopify variants often have null SKUs). **Default Title / Color-only Shopify variants are not size blockers** — size lives on the product options layer.
+
+**Honest assessment:** ${r.readiness?.ready ?? 0}/${r.publishedTotal} products are genuinely customer-ready under the options-layer model. Products without a linked option set (e.g. Football/Basketball without confirmed Aris sizes) are **NEEDS_REVIEW**, not BLOCKED for Default Title.
 
 ---
 
@@ -672,7 +647,7 @@ READY means: title, slug, price, variants, images, usable sizes — plus SKU, si
 | Category | Rows changed |
 | --- | ---: |
 | **AUTOFIXED (this run)** | ${autofixTotal} |
-| **FLAGGED (requires human/supplier)** | ${(r.readiness?.sku_required ?? 0) + (r.readiness?.size_required ?? 0) + (r.taxonomy?.missing_league ?? 0)}+ |
+| **FLAGGED (requires human/supplier)** | ${(r.readiness?.size_required ?? 0) + (r.taxonomy?.missing_league ?? 0)}+ |
 | **NOT SAFE TO AUTOMATE** | SKU invention, size invention, title rewrites, collection renames |
 
 ### Autofixes applied
@@ -683,28 +658,26 @@ ${Object.keys(r.autofixesApplied ?? {}).length === 0 ? "_None (audit-only run)_"
 
 ## Issue areas
 
-### SKU
+### SKU (optional — not a readiness blocker)
 | | Count |
 | --- | ---: |
-| Variants missing SKU | ${r.variantIssues?.sku_missing ?? 0} |
-| Products with any missing SKU (**SKU_REQUIRED**) | ${r.readiness?.sku_required ?? r.variantIssues?.products_sku_required ?? 0} |
+| Variants missing SKU (informational) | ${r.variantIssues?.sku_missing ?? 0} |
+| Products with any missing SKU | ${r.variantIssues?.products_sku_required ?? 0} |
 | Duplicate SKU groups | ${r.duplicateSkuGroups ?? 0} |
 | Shopify raw payload variants with SKU | ${r.shopifyRawSku?.variants_with_sku ?? 0} / ${r.shopifyRawSku?.total_variants_in_raw ?? 0} |
 
-**Root cause:** Shopify import stored variants without SKU in \`product_variants.sku\`. Raw payload (\`shopify_import_raw\`) also contains **zero SKUs** — no reliable source to populate from.
+**Root cause:** SJD Shopify source has **null SKUs**. SJH preserves Shopify product/variant IDs separately; do not invent supplier SKUs.
 
-**Action:** Supplier must assign SKUs in Shopify or provide a SKU mapping file. **Do not invent SKUs.**
-
-### DEFAULT TITLE / SIZE
+### PRODUCT OPTIONS / SIZE (Aris model)
 | | Count |
 | --- | ---: |
-| Variants titled "Default Title" | ${r.variantIssues?.default_title ?? 0} |
-| Variants **SIZE_REQUIRED** (no size in options) | ${r.variantIssues?.size_required ?? 0} |
-| Products failing size usability (**BLOCKED**) | ${r.readiness?.size_required ?? 0} |
+| Variants titled "Default Title" (colour axis N/A — OK) | ${r.variantIssues?.default_title ?? 0} |
+| Products **with** size option set | ${r.readiness?.with_option_set ?? r.variantIssues?.products_with_option_set ?? 0} |
+| Products **missing** option set (**NEEDS_REVIEW**) | ${r.readiness?.size_required ?? r.variantIssues?.products_missing_option_set ?? 0} |
 
-**Root cause:** 50 NHL (and similar) products have a single variant with \`Title: Default Title\` and no \`Size\` option in Shopify source.
+**Model:** Size is a product option (Aris), not a Shopify variant. Default Title / Color-only variants are expected.
 
-**Blocked products (${r.sizeBlockedProducts?.length ?? 0}):**
+**Products needing option-set review (${r.sizeBlockedProducts?.length ?? 0}):**
 
 ${mdList((r.sizeBlockedProducts ?? []).map((p) => p.slug))}
 
@@ -715,7 +688,7 @@ ${mdList((r.sizeBlockedProducts ?? []).map((p) => p.slug))}
 | Products with **Size-only** variants | ${r.colorVariants?.size_only_products ?? 0} |
 | Products with both Color and Size | ${r.colorVariants?.color_and_size_products ?? 0} |
 
-**Note:** 450 MLB/NHL/soccer products use **Color** as the variant axis (e.g. \`options: { "Color": "White" }\`). Variant title is the color name, not a size. This is valid Shopify structure but means **size selection happens elsewhere** (customisation / made-to-order). Do not map Color → \`size_label\`.
+**Note:** MLB/NHL/soccer products often use **Color** (or Default Title) as the Shopify variant axis. Apparel **Size** is provided by the product options layer (Aris optionsets), not Shopify variants. Do not map Color → \`size_label\`.
 
 ### SIZE CHART
 | | Count |
@@ -800,20 +773,19 @@ ${(r.duplicateTitlesMedium ?? []).length === 0 ? "_None — note: Alvaro Morata 
 
 ## Readiness breakdown
 
-| Blocker | Products affected |
+| Review reason | Products affected |
 | --- | ---: |
-| SKU_REQUIRED | ${r.readiness?.sku_required ?? 500} |
-| SIZE_REQUIRED (BLOCKED) | ${r.readiness?.size_required ?? 50} |
+| Missing option set (NEEDS_REVIEW) | ${r.readiness?.size_required ?? 0} |
 | Missing size chart | ${r.readiness?.missing_size_chart ?? 0} |
 | Taxonomy review | ${r.readiness?.taxonomy_review ?? 0} |
 
-Every product with usable PDP (images, price, description, customisation) still fails READY because **SKU is mandatory for fulfilment**.
+SKU nulls and Default Title / Color-only Shopify variants are **not** readiness blockers under the Aris options model.
 
 ---
 
 ## Sample flagged products (first 40)
 
-| Slug | SKU flag | Size flag |
+| Slug | SKU flag | Options flag |
 | --- | --- | --- |
 ${r.flaggedSamples?.map((s) => `| ${s.slug} | ${s.sku_flag ?? "—"} | ${s.size_flag ?? "—"} |`).join("\n") ?? "_None_"}
 
@@ -821,9 +793,9 @@ ${r.flaggedSamples?.map((s) => `| ${s.slug} | ${s.sku_flag ?? "—"} | ${s.size_
 
 ## NOT SAFE TO AUTOMATE
 
-- Inventing SKU when absent from Shopify variant + raw payload (**500 products**)
-- Inventing size when not in variant options/title (**50 products**)
-- Mapping Color variant → size_label (**450 products** — would invent size)
+- Inventing SKU when absent from Shopify (**informational only — SKUs optional**)
+- Inventing size lists for Football/Basketball without confirmed Aris optionsets
+- Mapping Color variant → size_label
 - Guessing sport/league/team/player without evidence
 - Renaming collections (including chatgpt slug)
 - Rewriting product titles or descriptions

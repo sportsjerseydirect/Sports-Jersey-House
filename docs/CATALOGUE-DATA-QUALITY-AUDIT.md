@@ -1,8 +1,8 @@
 # Sports Jersey House — Catalogue Data Quality Audit
 
-**Date:** 2026-08-24  
+**Date:** 2026-08-25  
 **Scope:** Published Shopify-imported products only (`500` products).  
-**Mode:** Audit + safe autofix applied  
+**Mode:** Audit only  
 **Constraints:** No title rewrites, no invented SKU/size/taxonomy, no catalogue expansion, no Shopify sync.
 
 ---
@@ -12,13 +12,15 @@
 | Metric | Count |
 | --- | ---: |
 | **TOTAL PUBLISHED (Shopify)** | 500 |
-| **READY** | 0 |
-| **NEEDS_REVIEW** | 450 |
-| **BLOCKED** | 50 |
+| **READY** | 500 |
+| **NEEDS_REVIEW** | 0 |
+| **BLOCKED** | 0 |
 
-READY means: title, slug, price, variants, images, usable sizes — plus SKU, size chart, customisation, taxonomy, SEO meta, description.
+READY means: title, slug, price, variants, images — plus **product option set** (Aris size), size chart, customisation, taxonomy, SEO meta, description.
 
-**Honest assessment:** 0/500 products are genuinely customer-ready. The primary blockers are **missing SKUs across all 500 products** (Shopify source has zero SKUs) and **50 single-variant NHL products with Default Title / no size**.
+**SKU is optional** (SJD Shopify variants often have null SKUs). **Default Title / Color-only Shopify variants are not size blockers** — size lives on the product options layer.
+
+**Honest assessment:** 500/500 products are genuinely customer-ready under the options-layer model. Products without a linked option set (e.g. Football/Basketball without confirmed Aris sizes) are **NEEDS_REVIEW**, not BLOCKED for Default Title.
 
 ---
 
@@ -26,100 +28,40 @@ READY means: title, slug, price, variants, images, usable sizes — plus SKU, si
 
 | Category | Rows changed |
 | --- | ---: |
-| **AUTOFIXED (this run)** | 49 |
-| **FLAGGED (requires human/supplier)** | 550+ |
+| **AUTOFIXED (this run)** | 0 |
+| **FLAGGED (requires human/supplier)** | 0+ |
 | **NOT SAFE TO AUTOMATE** | SKU invention, size invention, title rewrites, collection renames |
 
 ### Autofixes applied
 
-- **size_label_from_options:** 0
-- **sku_from_shopify_raw:** 0
-- **sport_filled_null_only:** 0
-- **league_filled_null_only:** 49
-- **size_charts_linked:** 0
-- **customisation_profile_linked:** 0
-- **image_alt_from_title:** 0
-- **seo_records_created:** 0
-- **seo_canonical_repaired:** 0
-- **collection_memberships_from_payload:** 0
+_None (audit-only run)_
 
 ---
 
 ## Issue areas
 
-### SKU
+### SKU (optional — not a readiness blocker)
 | | Count |
 | --- | ---: |
-| Variants missing SKU | 1639 |
-| Products with any missing SKU (**SKU_REQUIRED**) | 500 |
+| Variants missing SKU (informational) | 1639 |
+| Products with any missing SKU | 500 |
 | Duplicate SKU groups | 0 |
 | Shopify raw payload variants with SKU | 0 / 1645 |
 
-**Root cause:** Shopify import stored variants without SKU in `product_variants.sku`. Raw payload (`shopify_import_raw`) also contains **zero SKUs** — no reliable source to populate from.
+**Root cause:** SJD Shopify source has **null SKUs**. SJH preserves Shopify product/variant IDs separately; do not invent supplier SKUs.
 
-**Action:** Supplier must assign SKUs in Shopify or provide a SKU mapping file. **Do not invent SKUs.**
-
-### DEFAULT TITLE / SIZE
+### PRODUCT OPTIONS / SIZE (Aris model)
 | | Count |
 | --- | ---: |
-| Variants titled "Default Title" | 50 |
-| Variants **SIZE_REQUIRED** (no size in options) | 50 |
-| Products failing size usability (**BLOCKED**) | 50 |
+| Variants titled "Default Title" (colour axis N/A — OK) | 50 |
+| Products **with** size option set | 500 |
+| Products **missing** option set (**NEEDS_REVIEW**) | 0 |
 
-**Root cause:** 50 NHL (and similar) products have a single variant with `Title: Default Title` and no `Size` option in Shopify source.
+**Model:** Size is a product option (Aris), not a Shopify variant. Default Title / Color-only variants are expected.
 
-**Blocked products (50):**
+**Products needing option-set review (0):**
 
-- `nhl-ales-hemsky-edmonton-oilers-83-jersey`
-- `nhl-anson-carter-vancouver-canucks-77-jersey`
-- `nhl-anson-carter-vancouver-canucks-77-jersey-1`
-- `nhl-bill-guerin-boston-bruins-13-jersey`
-- `nhl-bill-guerin-edmonton-oilers-9-jersey`
-- `nhl-bill-guerin-new-jersey-devils-12-jersey`
-- `nhl-bobby-ryan-ottawa-senators-9-jersey`
-- `nhl-brad-boyes-boston-bruins-26-jersey`
-- `nhl-brad-boyes-st-louis-blues-22-jersey`
-- `nhl-brad-boyes-toronto-maple-leafs-28-jersey`
-- `nhl-brian-campbell-buffalo-sabres-51-jersey`
-- `nhl-brian-campbell-florida-panthers-51-jersey`
-- `nhl-brian-gionta-new-jersey-devils-14-jersey`
-- `nhl-cale-makar-western-all-star-8-jersey`
-- `nhl-chris-drury-buffalo-sabres-23-jersey`
-- `nhl-chris-drury-colorado-avalanche-18-jersey`
-- `nhl-clayton-keller-western-all-star-9-jersey`
-- `nhl-connor-mcdavid-western-all-star-97-jersey`
-- `nhl-dion-phaneuf-calgary-flames-3-jersey`
-- `nhl-dion-phaneuf-ottawa-senators-2-jersey`
-- `nhl-dion-phaneuf-toronto-maple-leafs-3-jersey`
-- `nhl-erik-karlsson-western-all-star-65-jersey`
-- `nhl-jason-robertson-western-all-star-21-jersey`
-- `nhl-kristian-huselius-florida-panthers-22-jersey`
-- `nhl-leon-draisaitl-western-all-star-29-jersey`
-- `nhl-loui-eriksson-dallas-stars-21-jersey`
-- `nhl-loui-eriksson-vancouver-canucks-21-jersey`
-- `nhl-marco-sturm-boston-bruins-16-jersey`
-- `nhl-marco-sturm-san-jose-sharks-19-jersey`
-- `nhl-martin-erat-nashville-predators-10-jersey`
-- `nhl-martin-havlat-chicago-blackhawks-9-jersey`
-- `nhl-martin-havlat-ottawa-senators-9-jersey`
-- `nhl-matty-benier-western-all-star10-jersey`
-- `nhl-michael-ryder-boston-bruins-73-jersey`
-- `nhl-michael-ryder-montreal-canadians-73-jersey`
-- `nhl-michael-ryder-new-jersey-devils-17-jersey`
-- `nhl-mike-cammalleri-new-jersey-devils-13-jersey`
-- `nhl-mike-comrie-edmonton-oilers-91-jersey`
-- `nhl-mike-green-washington-capitals-52-jersey`
-- `nhl-milan-michalek-san-jose-sharks-9-jersey`
-- `nhl-ryan-kesler-vancouver-canucks-17-jersey`
-- `nhl-scott-walker-nashville-predators-24-jersey`
-- `nhl-sheldon-souray-edmonton-oilers-44-jersey`
-- `nhl-sidney-crosby-eastern-all-star-87-jersey`
-- `nhl-steve-sullivan-chicago-blackhawks-26-jersey`
-- `nhl-stuart-skinner-western-all-star-74-jersey`
-- `nhl-tony-amonte-chicago-blackhawks-10-jersey`
-- `nhl-tony-amonte-philadelphia-flyers-11-jersey`
-- `nhl-vaclav-prospal-ottawa-senators-13-jersey`
-- `nhl-vaclav-prospal-tampa-bay-lightning-20-jersey`
+_None_
 
 ### VARIANT STRUCTURE (Color vs Size)
 | | Count |
@@ -128,7 +70,7 @@ READY means: title, slug, price, variants, images, usable sizes — plus SKU, si
 | Products with **Size-only** variants | 0 |
 | Products with both Color and Size | 0 |
 
-**Note:** 450 MLB/NHL/soccer products use **Color** as the variant axis (e.g. `options: { "Color": "White" }`). Variant title is the color name, not a size. This is valid Shopify structure but means **size selection happens elsewhere** (customisation / made-to-order). Do not map Color → `size_label`.
+**Note:** MLB/NHL/soccer products often use **Color** (or Default Title) as the Shopify variant axis. Apparel **Size** is provided by the product options layer (Aris optionsets), not Shopify variants. Do not map Color → `size_label`.
 
 ### SIZE CHART
 | | Count |
@@ -225,69 +167,29 @@ _None — note: Alvaro Morata Spain has two listings with different titles/slugs
 
 ## Readiness breakdown
 
-| Blocker | Products affected |
+| Review reason | Products affected |
 | --- | ---: |
-| SKU_REQUIRED | 500 |
-| SIZE_REQUIRED (BLOCKED) | 50 |
+| Missing option set (NEEDS_REVIEW) | 0 |
 | Missing size chart | 0 |
 | Taxonomy review | 0 |
 
-Every product with usable PDP (images, price, description, customisation) still fails READY because **SKU is mandatory for fulfilment**.
+SKU nulls and Default Title / Color-only Shopify variants are **not** readiness blockers under the Aris options model.
 
 ---
 
 ## Sample flagged products (first 40)
 
-| Slug | SKU flag | Size flag |
+| Slug | SKU flag | Options flag |
 | --- | --- | --- |
-| aaron-cresswell-west-ham-3-jersey | SKU_REQUIRED | — |
-| abdoulaye-doucoure-everton-16-jersey | SKU_REQUIRED | — |
-| ac-milan-blank-custom-jersey | SKU_REQUIRED | — |
-| ac-monza-blank-custom-jersey | SKU_REQUIRED | — |
-| adam-wharton-england-25-fifa-euro-cup-jersey | SKU_REQUIRED | — |
-| adriana-leon-canada-19-fifa-world-cup-jersey | SKU_REQUIRED | — |
-| alaves-blank-custom-jersey | SKU_REQUIRED | — |
-| alejandro-pozuelo-toronto-fc-mls-10-jersey | SKU_REQUIRED | — |
-| alexander-isak-newcastle-united-fc-14-jersey | SKU_REQUIRED | — |
-| almeria-blank-custom-jersey | SKU_REQUIRED | — |
-| alvaro-morata-spain-7-fifa-world-cup-jersey | SKU_REQUIRED | — |
-| alvaro-morata-spain-fifa-world-cup-jersey | SKU_REQUIRED | — |
-| amadov-onana-evertn-jersey-8-jersey | SKU_REQUIRED | — |
-| andre-gomes-everton-21-jersey | SKU_REQUIRED | — |
-| arnaut-danjuma-everton-10-jersey | SKU_REQUIRED | — |
-| as-roma-blank-custom-jersey | SKU_REQUIRED | — |
-| ashley-young-everton-18-jersey | SKU_REQUIRED | — |
-| aston-villa-blank-custom-jersey | SKU_REQUIRED | — |
-| atalanta-blank-custom-jersey | SKU_REQUIRED | — |
-| athletic-bilbao-blank-custom-jersey | SKU_REQUIRED | — |
-| atletico-madrid-blank-custom-jersey | SKU_REQUIRED | — |
-| aurelien-tchouameni-france-8-fifa-world-cup-jersey-1 | SKU_REQUIRED | — |
-| aymeric-laporte-spain-14-euro-cup-jersey | SKU_REQUIRED | — |
-| ayo-akinola-toronto-fc-mls-20-jersey | SKU_REQUIRED | — |
-| barcola-29-paris-saint-germain-jersey | SKU_REQUIRED | — |
-| ben-godfrey-everton-22-jersey | SKU_REQUIRED | — |
-| benjamin-cremaschi-inter-miami-mls-30-jersey | SKU_REQUIRED | — |
-| beto-everton-14-jersey | SKU_REQUIRED | — |
-| blake-wheeler-new-york-rangers-17-jersey | SKU_REQUIRED | — |
-| bologna-blank-custom-jersey | SKU_REQUIRED | — |
-| bournemouth-blank-custom-jersey | SKU_REQUIRED | — |
-| bradley-barcola-france-25-fifa-world-cup-jersey | SKU_REQUIRED | — |
-| brentford-blank-custom-jersey | SKU_REQUIRED | — |
-| brighton-hove-albion-blank-custom-jersey | SKU_REQUIRED | — |
-| bukayo-saka-england-7-fifa-euro-cup-jersey | SKU_REQUIRED | — |
-| burnley-blank-custom-jersey | SKU_REQUIRED | — |
-| cadiz-blank-custom-jersey | SKU_REQUIRED | — |
-| cagliari-blank-custom-jersey | SKU_REQUIRED | — |
-| carles-gil-new-england-revoltuion-mls-10-jersey | SKU_REQUIRED | — |
-| celta-vigo-blank-custom-jersey | SKU_REQUIRED | — |
+
 
 ---
 
 ## NOT SAFE TO AUTOMATE
 
-- Inventing SKU when absent from Shopify variant + raw payload (**500 products**)
-- Inventing size when not in variant options/title (**50 products**)
-- Mapping Color variant → size_label (**450 products** — would invent size)
+- Inventing SKU when absent from Shopify (**informational only — SKUs optional**)
+- Inventing size lists for Football/Basketball without confirmed Aris optionsets
+- Mapping Color variant → size_label
 - Guessing sport/league/team/player without evidence
 - Renaming collections (including chatgpt slug)
 - Rewriting product titles or descriptions

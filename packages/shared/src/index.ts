@@ -57,6 +57,9 @@ export const productVariantSummarySchema = z.object({
   title: z.string().min(1),
   sku: z.string().optional(),
   sizeLabel: z.string().optional(),
+  /** Colour / merchandising label from Shopify Color axis — not apparel size. */
+  colourLabel: z.string().optional(),
+  variantAxis: z.enum(["colour", "title", "size", "unknown"]).optional(),
   price: moneySchema,
   compareAtPrice: moneySchema.optional(),
   isAvailable: z.boolean()
@@ -77,6 +80,24 @@ export const productDetailSchema = productSummarySchema.extend({
   customisationEnabled: z.boolean().default(true),
   sizeChart: sizeChartSchema.optional(),
   customisationProfile: customisationProfileSchema.optional(),
+  /** Resolved product options layer (size optionset + SJD customisation). */
+  productOptions: z
+    .object({
+      optionSet: z
+        .object({
+          slug: z.string(),
+          title: z.string(),
+          sport: z.string(),
+          sizes: z.array(z.string())
+        })
+        .nullable(),
+      requiresSize: z.boolean(),
+      customisationEnabled: z.boolean(),
+      customisationPriceAmount: z.string(),
+      variantAxis: z.enum(["colour", "title", "size", "unknown"])
+    })
+    .optional(),
+  shopifyId: z.string().optional(),
   variants: z.array(productVariantSummarySchema).default([]),
   images: z.array(productImageSchema).default([])
 });
@@ -201,6 +222,33 @@ export {
   type SizeChart,
   type SizeChartRow
 } from "./commerce";
+
+export {
+  SIZE_OPTION_SETS,
+  SJD_CUSTOMISATION_PRICE_AMOUNT,
+  cartCustomisationToSelected,
+  colourFromVariantOptions,
+  customisationPriceForSelected,
+  fingerprintSelectedOptions,
+  formatSelectedOptionsSummary,
+  getSizeOptionSet,
+  normalizeProductionSelectedOptions,
+  resolveLineSelectedOptions,
+  selectedCustomisationSchema,
+  selectedOptionsToCartCustomisation,
+  selectedProductOptionsSchema,
+  sizeOptionSetSchema,
+  sizeOptionSetSlugForSport,
+  sizeOptionSetSlugSchema,
+  validateSizeAgainstOptionSet,
+  variantAxisFromOptions,
+  type ProductOptionsSummary,
+  type SelectedCustomisation,
+  type SelectedProductOptions,
+  type SizeOptionSet,
+  type SizeOptionSetSlug
+} from "./product-options";
+export { productOptionsSummarySchema } from "./product-options";
 
 export {
   LEAGUE_TO_SPORT,

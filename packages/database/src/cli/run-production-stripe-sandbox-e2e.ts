@@ -44,17 +44,21 @@ async function createCheckout(email: string, name: string) {
     body: JSON.stringify({
       variantId: VARIANT_ID,
       quantity: 1,
-      customisation: {
-        mode: "name_number",
-        name: "STRIPE TEST",
-        number: "07",
-        message: "PRODUCTION TEST"
+      selectedOptions: {
+        size: "M/Men's",
+        customisation: {
+          enabled: true,
+          name: "STRIPE TEST",
+          number: "07",
+          message: "PRODUCTION TEST"
+        }
       }
     })
   });
   const cookie = parseSetCookie(addRes.headers);
   if (!addRes.ok || !cookie) {
-    throw new Error(`cart add failed: ${addRes.status}`);
+    const errBody = await addRes.text().catch(() => "");
+    throw new Error(`cart add failed: ${addRes.status} ${errBody}`);
   }
 
   const checkoutRes = await fetch(`${BASE}/api/checkout`, {
@@ -173,18 +177,27 @@ async function main() {
     });
 
     const [line] = await sql`
-      SELECT customisation FROM order_items oi
+      SELECT customisation, size_label, colour_label, selected_options
+      FROM order_items oi
       JOIN orders o ON o.id = oi.order_id
       WHERE o.order_number = ${checkout.orderNumber}
       LIMIT 1`;
-    const custom = line?.customisation as { name?: string; number?: string; message?: string };
+    const custom = line?.customisation as { name?: string; number?: string; message?: string; mode?: string };
+    const selected = line?.selected_options as { size?: string; customisation?: { enabled?: boolean } } | null;
     results.push({
       step: "customisation_preserved",
       ok:
         custom?.name === "STRIPE TEST" &&
         custom?.number === "07" &&
-        custom?.message === "PRODUCTION TEST",
-      detail: custom
+        custom?.message === "PRODUCTION TEST" &&
+        line?.size_label === "M/Men's" &&
+        selected?.size === "M/Men's",
+      detail: {
+        custom,
+        sizeLabel: line?.size_label,
+        colourLabel: line?.colour_label,
+        selectedSize: selected?.size
+      }
     });
 
     // Duplicate delivery of the SAME real event id must be idempotent.
@@ -254,6 +267,7 @@ async function main() {
           l.customisation.number === "07" &&
           l.customisation.message === "PRODUCTION TEST"
       );
+      const hasSize = detail.lines.some((l) => l.sizeLabel === "M/Men's");
       // Catalogue SKUs are often null for migrated Shopify "Default Title" variants.
       // Require variant + size fields; surface sku/supplierSku when present.
       const hasVariant = detail.lines.some((l) => Boolean(l.variantTitle));
@@ -263,15 +277,17 @@ async function main() {
       );
       results.push({
         step: "supplier_portal",
-        ok: hasCustom && !leak && hasVariant && Boolean(detail.lines[0]?.imageUrl),
+        ok: hasCustom && hasSize && !leak && hasVariant && Boolean(detail.lines[0]?.imageUrl),
         detail: {
           hasCustom,
+          hasSize,
           hasVariant,
           leak,
           hasImage: Boolean(detail.lines[0]?.imageUrl),
           sku: detail.lines[0]?.sku ?? detail.lines[0]?.supplierSku ?? null,
           variantTitle: detail.lines[0]?.variantTitle ?? null,
-          sizeLabel: detail.lines[0]?.sizeLabel ?? null
+          sizeLabel: detail.lines[0]?.sizeLabel ?? null,
+          colourLabel: detail.lines[0]?.colourLabel ?? null
         }
       });
 

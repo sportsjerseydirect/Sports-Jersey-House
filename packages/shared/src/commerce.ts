@@ -1,6 +1,14 @@
 import { z } from "zod";
 
-export const customisationModeSchema = z.enum(["none", "name", "number", "name_number", "message"]);
+/** `custom` = SJD-style Customization: Yes (fields optional; flat surcharge). */
+export const customisationModeSchema = z.enum([
+  "none",
+  "name",
+  "number",
+  "name_number",
+  "message",
+  "custom"
+]);
 export type CustomisationMode = z.infer<typeof customisationModeSchema>;
 
 export const cartCustomisationSchema = z
@@ -169,6 +177,15 @@ export function formatCustomisationSummary(customisation: CartCustomisation): st
         .join(" · ") || "Name + number";
     case "message":
       return customisation.message ? `Message: ${customisation.message}` : "Custom message";
+    case "custom": {
+      const parts = [
+        "Customisation: Yes",
+        customisation.name ? `Name: ${customisation.name}` : null,
+        customisation.number ? `Number: ${customisation.number}` : null,
+        customisation.message ? `Message: ${customisation.message}` : null
+      ].filter(Boolean);
+      return parts.join(" · ");
+    }
     default:
       return null;
   }

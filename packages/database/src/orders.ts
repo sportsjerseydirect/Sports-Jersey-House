@@ -1,9 +1,14 @@
 import { and, desc, eq, inArray, isNull, sql } from "drizzle-orm";
-import type { AbandonedCheckoutDraft, CartCustomisation, GuestCheckoutInput } from "@sjh/shared";
-import { cartCustomisationSchema, normalizeProductionCustomisation } from "@sjh/shared";
+import type { AbandonedCheckoutDraft, CartCustomisation, GuestCheckoutInput, SelectedProductOptions } from "@sjh/shared";
+import {
+  cartCustomisationSchema,
+  formatSelectedOptionsSummary,
+  normalizeProductionCustomisation,
+  normalizeProductionSelectedOptions
+} from "@sjh/shared";
 import { createDatabaseClient } from "./client";
 import { getCartBySessionId } from "./cart";
-import { resolveCartCustomisationPricing } from "./cart-customisation";
+import { resolveCartCustomisationPricing, resolveCartLineOptions } from "./cart-customisation";
 import { applyOfferToAmounts, evaluateWelcome10Eligibility } from "./offers";
 import { cartItems, carts, customers } from "./schema-catalogue";
 import { abandonedCheckouts, orderItems, orders, productSupplierMappings } from "./schema-commerce";
@@ -22,8 +27,11 @@ export type OrderLineSnapshot = {
   variantTitle: string;
   sku?: string;
   sizeLabel?: string;
+  colourLabel?: string | null;
   quantity: number;
   customisation: CartCustomisation;
+  selectedOptions?: SelectedProductOptions | null;
+  optionsSummary?: string[];
   unitPriceAmount: string;
   customisationPriceAmount: string;
   lineTotalAmount: string;
@@ -119,20 +127,49 @@ export async function createOrderFromCart(
     throw new Error("Cart is empty.");
   }
 
-  // Re-validate customisation + pricing at checkout — never trust stale cart snapshots.
-  const validatedLines: Array<(typeof cart.items)[number]> = [];
+  // Re-validate options + pricing at checkout — never trust stale cart snapshots.
+  const validatedLines: Array<
+    (typeof cart.items)[number] & {
+      selectedOptions: SelectedProductOptions | null;
+      colourLabel: string | null;
+      shopifyProductId?: string | null;
+      shopifyVariantId?: string | null;
+    }
+  > = [];
   for (const item of cart.items) {
-    const resolved = await resolveCartCustomisationPricing(item.variantId, item.customisation, url);
-    const customisation = normalizeProductionCustomisation(resolved.customisation);
-    const unitTotal = (
-      Number.parseFloat(item.priceAmount) + Number.parseFloat(resolved.customisationPriceAmount)
-    ).toFixed(2);
-    validatedLines.push({
-      ...item,
-      customisation,
-      customisationPriceAmount: resolved.customisationPriceAmount,
-      lineTotalAmount: (Number.parseFloat(unitTotal) * item.quantity).toFixed(2)
-    });
+    if (item.selectedOptions) {
+      const resolved = await resolveCartLineOptions(item.variantId, item.selectedOptions, url);
+      const selected = normalizeProductionSelectedOptions(resolved.selectedOptions!);
+      const customisation = normalizeProductionCustomisation(resolved.customisation);
+      const unitTotal = (
+        Number.parseFloat(item.priceAmount) + Number.parseFloat(resolved.customisationPriceAmount)
+      ).toFixed(2);
+      validatedLines.push({
+        ...item,
+        customisation,
+        customisationPriceAmount: resolved.customisationPriceAmount,
+        selectedOptions: selected,
+        sizeLabel: selected.size,
+        colourLabel: selected.colour ?? null,
+        shopifyProductId: resolved.shopifyProductId ?? null,
+        shopifyVariantId: resolved.shopifyVariantId ?? null,
+        lineTotalAmount: (Number.parseFloat(unitTotal) * item.quantity).toFixed(2)
+      });
+    } else {
+      const resolved = await resolveCartCustomisationPricing(item.variantId, item.customisation, url);
+      const customisation = normalizeProductionCustomisation(resolved.customisation);
+      const unitTotal = (
+        Number.parseFloat(item.priceAmount) + Number.parseFloat(resolved.customisationPriceAmount)
+      ).toFixed(2);
+      validatedLines.push({
+        ...item,
+        customisation,
+        customisationPriceAmount: resolved.customisationPriceAmount,
+        selectedOptions: item.selectedOptions,
+        colourLabel: item.colourLabel,
+        lineTotalAmount: (Number.parseFloat(unitTotal) * item.quantity).toFixed(2)
+      });
+    }
   }
 
   const cartSubtotal = validatedLines
@@ -224,7 +261,12 @@ export async function createOrderFromCart(
       productTitle: item.productTitle,
       variantTitle: item.variantTitle,
       sku: item.sku,
-      sizeLabel: item.sizeLabel ?? item.variantTitle,
+      sizeLabel: item.selectedOptions?.size ?? item.sizeLabel ?? null,
+      colourLabel: item.selectedOptions?.colour ?? item.colourLabel ?? null,
+      selectedOptions: item.selectedOptions,
+      shopifyProductId: item.shopifyProductId ?? null,
+      shopifyVariantId: item.shopifyVariantId ?? null,
+      storefront: "sjh",
       quantity: item.quantity,
       customisation: item.customisation,
       unitPriceAmount: item.priceAmount,
@@ -284,9 +326,12 @@ export async function recordAbandonedCheckout(
     subtotalAmount: cart.subtotalAmount,
     lines: cart.items.map((item) => ({
       productTitle: item.productTitle,
-      sizeLabel: item.variantTitle,
+      sizeLabel: item.sizeLabel ?? item.variantTitle,
+      colourLabel: item.colourLabel,
       quantity: item.quantity,
-      customisation: item.customisation
+      customisation: item.customisation,
+      selectedOptions: item.selectedOptions,
+      optionsSummary: item.optionsSummary
     }))
   };
 
@@ -331,23 +376,34 @@ function mapOrderRow(
     shippingAddress: (order.shippingAddress as GuestCheckoutInput["shippingAddress"] | null) ?? null,
     customerNotes: order.customerNotes,
     placedAt: order.placedAt,
-    items: items.map((item) => ({
-      id: item.id,
-      productTitle: item.productTitle,
-      variantTitle: item.variantTitle,
-      ...(item.sku ? { sku: item.sku } : {}),
-      ...(item.sizeLabel ? { sizeLabel: item.sizeLabel } : {}),
-      quantity: item.quantity,
-      customisation: cartCustomisationSchema.parse(item.customisation ?? { mode: "none" }),
-      unitPriceAmount: item.unitPriceAmount,
-      customisationPriceAmount: item.customisationPriceAmount,
-      lineTotalAmount: item.lineTotalAmount,
-      currencyCode: item.currencyCode,
-      fulfilmentStatus: item.fulfilmentStatus,
-      trackingNumber: item.trackingNumber,
-      courier: item.courier,
-      shippedAt: item.shippedAt
-    }))
+    items: items.map((item) => {
+      const customisation = cartCustomisationSchema.parse(item.customisation ?? { mode: "none" });
+      const selectedOptions = item.selectedOptions
+        ? (item.selectedOptions as SelectedProductOptions)
+        : null;
+      return {
+        id: item.id,
+        productTitle: item.productTitle,
+        variantTitle: item.variantTitle,
+        ...(item.sku ? { sku: item.sku } : {}),
+        ...(item.sizeLabel ? { sizeLabel: item.sizeLabel } : {}),
+        colourLabel: item.colourLabel ?? selectedOptions?.colour ?? null,
+        quantity: item.quantity,
+        customisation,
+        selectedOptions,
+        ...(selectedOptions
+          ? { optionsSummary: formatSelectedOptionsSummary(selectedOptions) }
+          : {}),
+        unitPriceAmount: item.unitPriceAmount,
+        customisationPriceAmount: item.customisationPriceAmount,
+        lineTotalAmount: item.lineTotalAmount,
+        currencyCode: item.currencyCode,
+        fulfilmentStatus: item.fulfilmentStatus,
+        trackingNumber: item.trackingNumber,
+        courier: item.courier,
+        shippedAt: item.shippedAt
+      };
+    })
   };
 }
 

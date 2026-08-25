@@ -2,17 +2,12 @@
 
 import { useMemo, useState } from "react";
 import type {
-  CustomisationMode,
   CustomisationProfile,
   ProductDetail,
   ProductVariantSummary,
   SizeChart
 } from "@sjh/shared";
-import {
-  cartCustomisationSchema,
-  customisationPriceForMode,
-  formatCustomisationSummary
-} from "@sjh/shared";
+import { formatSelectedOptionsSummary, SJD_CUSTOMISATION_PRICE_AMOUNT } from "@sjh/shared";
 import { formatProductPrice } from "@/lib/products";
 
 type PdpPurchasePanelProps = {
@@ -21,14 +16,7 @@ type PdpPurchasePanelProps = {
   customisationEnabled: boolean;
   customisationProfile?: CustomisationProfile;
   sizeChart?: SizeChart;
-};
-
-const MODE_LABELS: Record<CustomisationMode, string> = {
-  none: "No customisation",
-  name: "Name only",
-  number: "Number only",
-  name_number: "Name + number",
-  message: "Additional message"
+  productOptions?: ProductDetail["productOptions"];
 };
 
 function addMoney(a: string, b: string): string {
@@ -40,13 +28,20 @@ export function PdpPurchasePanel({
   variants,
   customisationEnabled,
   customisationProfile,
-  sizeChart
+  sizeChart,
+  productOptions
 }: PdpPurchasePanelProps) {
   const availableVariants = variants.filter((variant) => variant.isAvailable);
+  const optionSet = productOptions?.optionSet ?? null;
+  const variantAxis = productOptions?.variantAxis ?? variants[0]?.variantAxis ?? "unknown";
+  const showColourPicker = variantAxis === "colour" && variants.length > 1;
+  const customisationPrice = productOptions?.customisationPriceAmount ?? SJD_CUSTOMISATION_PRICE_AMOUNT;
+
   const [selectedVariantId, setSelectedVariantId] = useState<string>(
     availableVariants[0]?.id ?? variants[0]?.id ?? ""
   );
-  const [mode, setMode] = useState<CustomisationMode>("none");
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [customisationEnabledChoice, setCustomisationEnabledChoice] = useState(false);
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [message, setMessage] = useState("");
@@ -57,61 +52,49 @@ export function PdpPurchasePanel({
   const [justAdded, setJustAdded] = useState(false);
 
   const selectedVariant = variants.find((variant) => variant.id === selectedVariantId);
-  const allowedModes = useMemo(() => {
-    if (!customisationEnabled || !customisationProfile) {
-      return ["none"] as CustomisationMode[];
-    }
-
-    return customisationProfile.allowedModes;
-  }, [customisationEnabled, customisationProfile]);
-
-  const customisationPrice = useMemo(() => {
-    if (!customisationProfile || mode === "none") {
-      return "0.00";
-    }
-
-    return customisationPriceForMode(customisationProfile, mode);
-  }, [customisationProfile, mode]);
-
-  const unitTotal = selectedVariant
-    ? addMoney(selectedVariant.price.amount, customisationPrice)
-    : "0.00";
   const currency = selectedVariant?.price.currencyCode ?? "USD";
+  const unitCustomisationPrice = customisationEnabledChoice ? customisationPrice : "0.00";
+  const unitTotal = selectedVariant
+    ? addMoney(selectedVariant.price.amount, unitCustomisationPrice)
+    : "0.00";
 
-  const preview = formatCustomisationSummary({
-    mode,
-    ...(name ? { name } : {}),
-    ...(number ? { number } : {}),
-    ...(message ? { message } : {})
-  });
+  const previewLines = useMemo(() => {
+    if (!selectedSize) return [];
+    return formatSelectedOptionsSummary({
+      colour: selectedVariant?.colourLabel ?? null,
+      size: selectedSize,
+      customisation: {
+        enabled: customisationEnabledChoice,
+        ...(name ? { name } : {}),
+        ...(number ? { number } : {}),
+        ...(message ? { message } : {})
+      }
+    });
+  }, [selectedSize, selectedVariant?.colourLabel, customisationEnabledChoice, name, number, message]);
 
   async function handleAddToCart() {
     setErrorMessage(null);
     setStatusMessage(null);
 
     if (!selectedVariant) {
-      setErrorMessage("Select a size to continue.");
+      setErrorMessage(showColourPicker ? "Select a colour to continue." : "Select a variant to continue.");
       return;
     }
 
     if (!selectedVariant.isAvailable) {
-      setErrorMessage("That size is currently unavailable.");
+      setErrorMessage("That option is currently unavailable.");
       return;
     }
 
-    const parsedCustomisation = cartCustomisationSchema.safeParse({
-      mode,
-      ...(name ? { name } : {}),
-      ...(number ? { number } : {}),
-      ...(message ? { message } : {})
-    });
-
-    if (!parsedCustomisation.success) {
-      setErrorMessage(parsedCustomisation.error.issues[0]?.message ?? "Complete your customisation.");
+    if (!optionSet) {
+      setErrorMessage("Size options are not configured for this product yet.");
       return;
     }
 
-    const customisationPayload = parsedCustomisation.data;
+    if (!selectedSize) {
+      setErrorMessage("Select a size to continue.");
+      return;
+    }
 
     setSubmitting(true);
 
@@ -122,7 +105,17 @@ export function PdpPurchasePanel({
         body: JSON.stringify({
           variantId: selectedVariant.id,
           quantity: 1,
-          customisation: customisationPayload
+          selectedOptions: {
+            colour: selectedVariant.colourLabel ?? null,
+            size: selectedSize,
+            optionSetSlug: optionSet.slug,
+            customisation: {
+              enabled: customisationEnabled && customisationEnabledChoice,
+              ...(name ? { name } : {}),
+              ...(number ? { number } : {}),
+              ...(message ? { message } : {})
+            }
+          }
         })
       });
 
@@ -145,6 +138,33 @@ export function PdpPurchasePanel({
 
   return (
     <div className="pdp-purchase-panel">
+      {showColourPicker ? (
+        <div className="pdp-size-block">
+          <div className="pdp-section-heading">
+            <h2>Colour</h2>
+          </div>
+          <div className="size-picker" role="radiogroup" aria-label="Select colour">
+            {variants.map((variant) => {
+              const label = variant.colourLabel ?? variant.title;
+              const selected = variant.id === selectedVariantId;
+              return (
+                <button
+                  key={variant.id}
+                  aria-checked={selected}
+                  className={`size-option${selected ? " is-selected" : ""}${variant.isAvailable ? "" : " is-unavailable"}`}
+                  disabled={!variant.isAvailable}
+                  onClick={() => setSelectedVariantId(variant.id)}
+                  role="radio"
+                  type="button"
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+
       <div className="pdp-size-block">
         <div className="pdp-section-heading">
           <h2>Size</h2>
@@ -154,109 +174,110 @@ export function PdpPurchasePanel({
             </button>
           ) : null}
         </div>
-        <div className="size-picker" role="radiogroup" aria-label="Select size">
-          {variants.map((variant) => {
-            const label = variant.sizeLabel ?? variant.title;
-            const selected = variant.id === selectedVariantId;
-
-            return (
-              <button
-                key={variant.id}
-                aria-checked={selected}
-                className={`size-option${selected ? " is-selected" : ""}${variant.isAvailable ? "" : " is-unavailable"}`}
-                disabled={!variant.isAvailable}
-                onClick={() => setSelectedVariantId(variant.id)}
-                role="radio"
-                type="button"
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
+        {optionSet ? (
+          <div className="size-picker" role="radiogroup" aria-label="Select size">
+            {optionSet.sizes.map((size) => {
+              const selected = size === selectedSize;
+              return (
+                <button
+                  key={size}
+                  aria-checked={selected}
+                  className={`size-option${selected ? " is-selected" : ""}`}
+                  onClick={() => setSelectedSize(size)}
+                  role="radio"
+                  type="button"
+                >
+                  {size}
+                </button>
+              );
+            })}
+          </div>
+        ) : (
+          <p className="pdp-help" role="status">
+            Size options for this product are pending review and cannot be selected yet.
+          </p>
+        )}
       </div>
 
-      {customisationEnabled && customisationProfile ? (
+      {customisationEnabled ? (
         <div className="pdp-customisation-block">
           <h2>Customisation</h2>
           <p className="pdp-help">
-            Made to order. Choose how you want this jersey personalised — or leave it blank.
+            Made to order. Choose whether to personalise this jersey — or leave it as standard.
           </p>
-          <div className="customisation-modes" role="radiogroup" aria-label="Customisation mode">
-            {allowedModes.map((allowedMode) => (
-              <button
-                key={allowedMode}
-                aria-checked={mode === allowedMode}
-                className={`customisation-mode${mode === allowedMode ? " is-selected" : ""}`}
-                onClick={() => setMode(allowedMode)}
-                role="radio"
-                type="button"
-              >
-                <span>{MODE_LABELS[allowedMode]}</span>
-                <span className="customisation-mode-price">
-                  {allowedMode === "none"
-                    ? "Included"
-                    : `+${formatProductPrice(customisationPriceForMode(customisationProfile, allowedMode), currency)}`}
-                </span>
-              </button>
-            ))}
+          <div className="customisation-modes" role="radiogroup" aria-label="Customisation">
+            <button
+              aria-checked={!customisationEnabledChoice}
+              className={`customisation-mode${!customisationEnabledChoice ? " is-selected" : ""}`}
+              onClick={() => setCustomisationEnabledChoice(false)}
+              role="radio"
+              type="button"
+            >
+              <span>No</span>
+              <span className="customisation-mode-price">Included</span>
+            </button>
+            <button
+              aria-checked={customisationEnabledChoice}
+              className={`customisation-mode${customisationEnabledChoice ? " is-selected" : ""}`}
+              onClick={() => setCustomisationEnabledChoice(true)}
+              role="radio"
+              type="button"
+            >
+              <span>Yes</span>
+              <span className="customisation-mode-price">
+                +{formatProductPrice(customisationPrice, currency)}
+              </span>
+            </button>
           </div>
 
-          {(mode === "name" || mode === "name_number") && (
-            <label className="field">
-              <span>Name on jersey</span>
-              <input
-                autoComplete="off"
-                maxLength={customisationProfile.nameMaxLength}
-                onChange={(event) => setName(event.target.value)}
-                placeholder="e.g. JORDAN"
-                type="text"
-                value={name}
-              />
-            </label>
-          )}
-
-          {(mode === "number" || mode === "name_number") && (
-            <label className="field">
-              <span>Number</span>
-              <input
-                autoComplete="off"
-                inputMode="numeric"
-                maxLength={customisationProfile.numberMaxLength}
-                onChange={(event) => setNumber(event.target.value.replace(/[^\d]/g, ""))}
-                placeholder="e.g. 23"
-                type="text"
-                value={number}
-              />
-            </label>
-          )}
-
-          {mode === "message" && (
-            <label className="field">
-              <span>Message</span>
-              <input
-                autoComplete="off"
-                maxLength={customisationProfile.messageMaxLength}
-                onChange={(event) => setMessage(event.target.value)}
-                placeholder="Short message"
-                type="text"
-                value={message}
-              />
-            </label>
-          )}
-
-          {preview ? <p className="customisation-preview">Preview: {preview}</p> : null}
+          {customisationEnabledChoice ? (
+            <>
+              <label className="field">
+                <span>Name</span>
+                <input
+                  autoComplete="off"
+                  maxLength={customisationProfile?.nameMaxLength ?? 12}
+                  onChange={(event) => setName(event.target.value)}
+                  placeholder="e.g. JORDAN"
+                  type="text"
+                  value={name}
+                />
+              </label>
+              <label className="field">
+                <span>Number</span>
+                <input
+                  autoComplete="off"
+                  inputMode="numeric"
+                  maxLength={customisationProfile?.numberMaxLength ?? 2}
+                  onChange={(event) => setNumber(event.target.value.replace(/[^\d]/g, ""))}
+                  placeholder="e.g. 23"
+                  type="text"
+                  value={number}
+                />
+              </label>
+              <label className="field">
+                <span>Any Message?</span>
+                <input
+                  autoComplete="off"
+                  maxLength={customisationProfile?.messageMaxLength ?? 20}
+                  onChange={(event) => setMessage(event.target.value)}
+                  placeholder="Optional short message"
+                  type="text"
+                  value={message}
+                />
+              </label>
+            </>
+          ) : null}
         </div>
       ) : null}
 
       <div className={`pdp-purchase${justAdded ? " is-added" : ""}`}>
         <div className="pdp-sticky-summary">
-          {selectedVariant ? (
-            <p className="pdp-sticky-size">
-              Size: {selectedVariant.sizeLabel ?? selectedVariant.title}
+          {previewLines.map((line) => (
+            <p className="pdp-sticky-custom" key={line}>
+              {line}
             </p>
-          ) : null}
-          {preview ? <p className="pdp-sticky-custom">{preview}</p> : null}
+          ))}
         </div>
         <div className="pdp-price-stack">
           <p className="product-detail-price">{formatProductPrice(unitTotal, currency)}</p>
@@ -265,16 +286,16 @@ export function PdpPurchasePanel({
               <s>{formatProductPrice(selectedVariant.compareAtPrice.amount, currency)}</s>
             </p>
           ) : null}
-          {Number.parseFloat(customisationPrice) > 0 ? (
+          {Number.parseFloat(unitCustomisationPrice) > 0 ? (
             <p className="pdp-price-note">
-              Includes {formatProductPrice(customisationPrice, currency)} customisation
+              Includes {formatProductPrice(unitCustomisationPrice, currency)} customisation
             </p>
           ) : null}
         </div>
         <div className="add-to-cart">
           <button
             className="button primary"
-            disabled={!selectedVariant?.isAvailable || submitting}
+            disabled={!selectedVariant?.isAvailable || !optionSet || submitting}
             onClick={handleAddToCart}
             type="button"
           >

@@ -72,12 +72,32 @@ export default async function SupplierOrderPage({ params }: Props) {
                   <dd>{line.variantTitle ?? "—"}</dd>
                 </div>
                 <div>
+                  <dt>Colour</dt>
+                  <dd>{line.colourLabel ?? "—"}</dd>
+                </div>
+                <div>
                   <dt>Size</dt>
                   <dd>{line.sizeLabel ?? "—"}</dd>
                 </div>
                 <div>
+                  <dt>Shopify product</dt>
+                  <dd>{line.shopifyProductId ?? "—"}</dd>
+                </div>
+                <div>
+                  <dt>Shopify variant</dt>
+                  <dd>{line.shopifyVariantId ?? "—"}</dd>
+                </div>
+                <div>
+                  <dt>Storefront</dt>
+                  <dd>{line.storefront ?? "sjh"}</dd>
+                </div>
+                <div>
                   <dt>Quantity</dt>
                   <dd>{line.quantity}</dd>
+                </div>
+                <div>
+                  <dt>Customisation</dt>
+                  <dd>{line.customisation.mode === "none" ? "No" : "Yes"}</dd>
                 </div>
                 <div>
                   <dt>Custom name</dt>

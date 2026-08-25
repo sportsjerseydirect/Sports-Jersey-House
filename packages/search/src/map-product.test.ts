@@ -21,6 +21,7 @@ describe("mapProductToSummary", () => {
       customisationEnabled: true,
       sizeChartId: null,
       customisationProfileId: null,
+      optionSetId: null,
       status: "published",
       sourcePayload: { seedTag: "dev-catalog-v1" },
       embedding: null,

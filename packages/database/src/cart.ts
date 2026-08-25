@@ -1,6 +1,11 @@
 import { and, eq } from "drizzle-orm";
-import type { CartCustomisation } from "@sjh/shared";
-import { cartCustomisationSchema } from "@sjh/shared";
+import type { CartCustomisation, SelectedProductOptions } from "@sjh/shared";
+import {
+  cartCustomisationSchema,
+  fingerprintSelectedOptions,
+  formatSelectedOptionsSummary,
+  resolveLineSelectedOptions
+} from "@sjh/shared";
 import { createDatabaseClient } from "./client";
 import { cartItems, carts, productImages, products, productVariants } from "./schema-catalogue";
 
@@ -16,12 +21,15 @@ export type CartLineItem = {
   variantTitle: string;
   sku: string | null;
   sizeLabel: string | null;
+  colourLabel: string | null;
   priceAmount: string;
   currencyCode: string;
   imageUrl?: string;
   lineTotalAmount: string;
   customisation: CartCustomisation;
   customisationPriceAmount: string;
+  selectedOptions: SelectedProductOptions | null;
+  optionsSummary: string[];
 };
 
 export type CartSnapshot = {
@@ -35,11 +43,9 @@ export type CartSnapshot = {
 
 function resolveDatabaseUrl(databaseUrl?: string): string {
   const url = databaseUrl ?? process.env.DATABASE_URL;
-
   if (!url) {
     throw new Error("DATABASE_URL is required for cart operations.");
   }
-
   return url;
 }
 
@@ -70,25 +76,31 @@ export function fingerprintCustomisation(customisation: CartCustomisation): stri
   return Buffer.from(JSON.stringify(payload)).toString("base64url");
 }
 
+function lineFingerprint(
+  selectedOptions: SelectedProductOptions | null | undefined,
+  customisation: CartCustomisation
+): string {
+  if (selectedOptions) {
+    return fingerprintSelectedOptions(selectedOptions);
+  }
+  return fingerprintCustomisation(customisation);
+}
+
 function normalizeCustomisation(input?: CartCustomisationInput): CartCustomisation {
   return cartCustomisationSchema.parse(input ?? { mode: "none" });
 }
 
 export async function getOrCreateCart(sessionId: string, databaseUrl?: string): Promise<CartSnapshot> {
   const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
-
   const existing = await db.select().from(carts).where(eq(carts.sessionId, sessionId)).limit(1);
-
   if (!existing[0]) {
     await db.insert(carts).values({ sessionId });
   }
-
   return getCartBySessionId(sessionId, databaseUrl);
 }
 
 export async function getCartBySessionId(sessionId: string, databaseUrl?: string): Promise<CartSnapshot> {
   const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
-
   const [cart] = await db.select().from(carts).where(eq(carts.sessionId, sessionId)).limit(1);
 
   if (!cart) {
@@ -111,6 +123,7 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
       productTitle: products.title,
       variantId: productVariants.id,
       variantTitle: productVariants.title,
+      variantOptions: productVariants.options,
       sku: productVariants.sku,
       sizeLabel: productVariants.sizeLabel,
       priceAmount: productVariants.priceAmount,
@@ -118,7 +131,8 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
       currencyCode: productVariants.currencyCode,
       imageUrl: productImages.url,
       customisation: cartItems.customisation,
-      customisationPriceAmount: cartItems.customisationPriceAmount
+      customisationPriceAmount: cartItems.customisationPriceAmount,
+      selectedOptions: cartItems.selectedOptions
     })
     .from(cartItems)
     .innerJoin(products, eq(cartItems.productId, products.id))
@@ -134,6 +148,14 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
     const unitPrice = row.unitPriceAmount ?? row.priceAmount;
     const customisationPrice = row.customisationPriceAmount ?? "0.00";
     const unitWithCustomisation = addMoney(unitPrice, customisationPrice);
+    const selectedOptions = resolveLineSelectedOptions({
+      selectedOptions: row.selectedOptions,
+      customisation,
+      sizeLabel: (row.selectedOptions as SelectedProductOptions | null)?.size ?? row.sizeLabel,
+      variantTitle: row.variantTitle
+    });
+    const colourLabel = selectedOptions?.colour ?? null;
+    const sizeLabel = selectedOptions?.size ?? row.sizeLabel ?? null;
 
     return {
       id: row.id,
@@ -144,13 +166,21 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
       variantId: row.variantId,
       variantTitle: row.variantTitle,
       sku: row.sku ?? null,
-      sizeLabel: row.sizeLabel ?? null,
+      sizeLabel,
+      colourLabel,
       priceAmount: unitPrice,
       currencyCode: row.currencyCode,
       ...(row.imageUrl ? { imageUrl: row.imageUrl } : {}),
       lineTotalAmount: multiplyMoney(unitWithCustomisation, row.quantity),
       customisation,
-      customisationPriceAmount: customisationPrice
+      customisationPriceAmount: customisationPrice,
+      selectedOptions,
+      optionsSummary: selectedOptions
+        ? formatSelectedOptionsSummary(selectedOptions)
+        : [
+            ...(colourLabel ? [`Colour: ${colourLabel}`] : []),
+            ...(sizeLabel ? [`Size: ${sizeLabel}`] : [`Variant: ${row.variantTitle}`])
+          ]
     };
   });
 
@@ -170,12 +200,13 @@ export async function addItemToCart(
   quantity = 1,
   databaseUrl?: string,
   customisationInput?: CartCustomisationInput,
-  customisationPriceAmount = "0.00"
+  customisationPriceAmount = "0.00",
+  selectedOptions?: SelectedProductOptions | null
 ): Promise<CartSnapshot> {
   const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
   const cart = await getOrCreateCart(sessionId, databaseUrl);
   const customisation = normalizeCustomisation(customisationInput);
-  const fingerprint = fingerprintCustomisation(customisation);
+  const fingerprint = lineFingerprint(selectedOptions, customisation);
 
   if (!cart.id) {
     throw new Error("Failed to resolve cart.");
@@ -231,6 +262,7 @@ export async function addItemToCart(
       customisation,
       customisationFingerprint: fingerprint,
       customisationPriceAmount,
+      selectedOptions: selectedOptions ?? null,
       unitPriceAmount: variant.priceAmount
     });
   }

@@ -37,6 +37,7 @@ export type PurchaseOrderLineSnapshot = {
   productTitle: string;
   variantTitle: string;
   sizeLabel: string | null;
+  colourLabel: string | null;
   customisation: unknown;
   orderNumber: string;
   shippingDestination: unknown;
@@ -224,6 +225,13 @@ function formatCustomisation(value: unknown): string {
         .join(" ") || "Name + number";
     case "message":
       return customisation.message ? `Message: ${customisation.message}` : "Message";
+    case "custom": {
+      const parts = ["Yes"];
+      if (customisation.name) parts.push(`Name: ${customisation.name}`);
+      if (customisation.number) parts.push(`Number: ${customisation.number}`);
+      if (customisation.message) parts.push(`Message: ${customisation.message}`);
+      return parts.join(" · ");
+    }
     default:
       return "None";
   }
@@ -238,6 +246,7 @@ function buildPackingSlipHtml(input: {
     productTitle: string;
     variantTitle: string;
     sizeLabel: string | null;
+    colourLabel?: string | null;
     quantity: number;
     supplierSku: string | null;
     customisation: unknown;
@@ -254,10 +263,17 @@ function buildPackingSlipHtml(input: {
         ? `${destination.fullName ?? ""} — ${destination.line1 ?? ""}, ${destination.city ?? ""} ${destination.region ?? ""} ${destination.postalCode ?? ""} ${destination.country ?? ""}`
         : "";
 
+      const optionBits = [
+        line.colourLabel ? `Colour: ${line.colourLabel}` : null,
+        line.sizeLabel ? `Size: ${line.sizeLabel}` : `Variant: ${line.variantTitle}`
+      ]
+        .filter(Boolean)
+        .join(" · ");
+
       return `<tr>
   <td>${escapeHtml(line.orderNumber)}</td>
   <td>${escapeHtml(line.supplierSku ?? "—")}</td>
-  <td>${escapeHtml(line.productTitle)}<br/><small>${escapeHtml(line.variantTitle)}${line.sizeLabel ? ` / ${escapeHtml(line.sizeLabel)}` : ""}</small></td>
+  <td>${escapeHtml(line.productTitle)}<br/><small>${escapeHtml(optionBits)}</small></td>
   <td>${escapeHtml(formatCustomisation(line.customisation))}</td>
   <td>${line.quantity}</td>
   <td>${escapeHtml(shipTo)}</td>
@@ -362,6 +378,7 @@ async function loadPurchaseOrderSnapshot(
       productTitle: orderItems.productTitle,
       variantTitle: orderItems.variantTitle,
       sizeLabel: orderItems.sizeLabel,
+      colourLabel: orderItems.colourLabel,
       customisation: orderItems.customisation,
       shippingDestination: orderItems.shippingDestination,
       orderNumber: orders.orderNumber
@@ -399,6 +416,7 @@ async function loadPurchaseOrderSnapshot(
       productTitle: line.productTitle,
       variantTitle: line.variantTitle,
       sizeLabel: line.sizeLabel,
+      colourLabel: line.colourLabel ?? null,
       customisation: line.customisation,
       orderNumber: line.orderNumber,
       shippingDestination: line.shippingDestination
@@ -483,6 +501,7 @@ export async function createPurchaseOrderBatch(
       productTitle: orderItems.productTitle,
       variantTitle: orderItems.variantTitle,
       sizeLabel: orderItems.sizeLabel,
+      colourLabel: orderItems.colourLabel,
       customisation: orderItems.customisation,
       shippingDestination: orderItems.shippingDestination,
       lineSupplierId: orderItems.supplierId,
@@ -552,6 +571,7 @@ export async function createPurchaseOrderBatch(
         productTitle: line.productTitle,
         variantTitle: line.variantTitle,
         sizeLabel: line.sizeLabel,
+        colourLabel: line.colourLabel ?? null,
         quantity: line.quantity,
         supplierSku: line.supplierSku,
         customisation: line.customisation,
@@ -591,6 +611,7 @@ export async function createPurchaseOrderBatch(
         productTitle: line.productTitle,
         variantTitle: line.variantTitle,
         sizeLabel: line.sizeLabel,
+        colourLabel: line.colourLabel ?? null,
         quantity: line.quantity,
         supplierSku: line.supplierSku,
         customisation: line.customisation,

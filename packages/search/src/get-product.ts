@@ -3,13 +3,21 @@ import {
   createDatabaseClient,
   customisationProfiles,
   productImages,
+  productOptionSets,
   products,
   productVariants,
   sizeCharts,
   type Product
 } from "@sjh/database";
 import type { ProductDetail, ProductSummary } from "@sjh/shared";
-import { productDetailSchema } from "@sjh/shared";
+import {
+  colourFromVariantOptions,
+  getSizeOptionSet,
+  productDetailSchema,
+  SJD_CUSTOMISATION_PRICE_AMOUNT,
+  sizeOptionSetSlugForSport,
+  variantAxisFromOptions
+} from "@sjh/shared";
 import { mapProductToSummary } from "./map-product";
 
 type DatabaseClient = ReturnType<typeof createDatabaseClient>;
@@ -32,12 +40,19 @@ function mapVariant(variant: {
   compareAtAmount: string | null;
   currencyCode: string;
   isAvailable: boolean;
+  options: unknown;
 }) {
+  const options = (variant.options ?? {}) as Record<string, string>;
+  const colourLabel = colourFromVariantOptions(options, variant.title) ?? undefined;
+  const axis = variantAxisFromOptions(options);
+
   return {
     id: variant.id,
     title: variant.title,
     sku: variant.sku ?? undefined,
     sizeLabel: variant.sizeLabel ?? undefined,
+    colourLabel,
+    variantAxis: axis,
     price: {
       amount: variant.priceAmount,
       currencyCode: variant.currencyCode as "USD" | "CAD" | "GBP"
@@ -76,7 +91,7 @@ export async function getProductBySlug(
     return null;
   }
 
-  const [variants, images, sizeChartRows, profileRows] = await Promise.all([
+  const [variants, images, sizeChartRows, profileRows, optionSetRows] = await Promise.all([
     db
       .select()
       .from(productVariants)
@@ -105,6 +120,13 @@ export async function getProductBySlug(
             )
           )
           .limit(1)
+      : Promise.resolve([]),
+    product.optionSetId
+      ? db
+          .select()
+          .from(productOptionSets)
+          .where(and(eq(productOptionSets.id, product.optionSetId), isNull(productOptionSets.deletedAt)))
+          .limit(1)
       : Promise.resolve([])
   ]);
 
@@ -118,14 +140,46 @@ export async function getProductBySlug(
 
   const sizeChart = sizeChartRows[0];
   const profile = profileRows[0];
+  const mappedVariants = variants.map(mapVariant);
+  const primaryAxis = mappedVariants[0]?.variantAxis ?? "unknown";
+
+  let optionSet =
+    optionSetRows[0] && Array.isArray(optionSetRows[0].sizes)
+      ? getSizeOptionSet(optionSetRows[0].slug) ?? {
+          slug: optionSetRows[0].slug,
+          title: optionSetRows[0].title,
+          sport: optionSetRows[0].sport ?? product.sport ?? "Unknown",
+          sizes: optionSetRows[0].sizes as string[]
+        }
+      : null;
+
+  if (!optionSet) {
+    const inferred = sizeOptionSetSlugForSport(product.sport);
+    optionSet = inferred ? getSizeOptionSet(inferred) : null;
+  }
 
   return productDetailSchema.parse({
     ...summary,
+    shopifyId: product.shopifyId ?? undefined,
     playerName: product.playerName ?? undefined,
     careInstructions: product.careInstructions ?? undefined,
     shippingExpectations: product.shippingExpectations ?? undefined,
     faqs: Array.isArray(product.faqs) ? product.faqs : [],
     customisationEnabled: product.customisationEnabled,
+    productOptions: {
+      optionSet: optionSet
+        ? {
+            slug: optionSet.slug,
+            title: optionSet.title,
+            sport: optionSet.sport,
+            sizes: [...optionSet.sizes]
+          }
+        : null,
+      requiresSize: Boolean(optionSet),
+      customisationEnabled: product.customisationEnabled,
+      customisationPriceAmount: SJD_CUSTOMISATION_PRICE_AMOUNT,
+      variantAxis: primaryAxis
+    },
     ...(sizeChart
       ? {
           sizeChart: {
@@ -159,7 +213,7 @@ export async function getProductBySlug(
           }
         }
       : {}),
-    variants: variants.map(mapVariant),
+    variants: mappedVariants,
     images: images
       .map((image) => {
         const url = resolveCatalogueImageUrl(image.url);

@@ -5,8 +5,13 @@ async function addFirstProduct(page: import("@playwright/test").Page) {
   const href = await page.locator('a[href^="/products/"]').first().getAttribute("href");
   if (!href) throw new Error("No product link");
   await page.goto(href, { waitUntil: "domcontentloaded" });
-  const size = page.locator(".size-option:not(.is-unavailable)").first();
-  if (await size.count()) await size.click();
+  const colourGroup = page.getByRole("radiogroup", { name: /select colour/i });
+  if (await colourGroup.count()) {
+    await colourGroup.locator(".size-option:not(.is-unavailable)").first().click();
+  }
+  const sizeGroup = page.getByRole("radiogroup", { name: /select size/i });
+  await expect(sizeGroup).toBeVisible({ timeout: 15000 });
+  await sizeGroup.locator(".size-option").first().click();
   await page.getByRole("button", { name: /add to cart/i }).click();
   await expect(page.getByText(/added to cart/i)).toBeVisible({ timeout: 15000 });
 }
