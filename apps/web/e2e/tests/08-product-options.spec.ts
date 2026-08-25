@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { addProductFromPdp, dismissWelcomeOffer } from "../helpers/storefront";
 
 /**
  * Permanent regression: SJD-compatible product options
@@ -8,21 +9,28 @@ const SAMPLES = [
   {
     name: "NHL Default Title",
     slug: "nhl-connor-mcdavid-western-all-star-97-jersey",
-    expectColourPicker: false
+    expectColourPicker: false,
+    size: "M/Men's"
   },
   {
     name: "MLB colour variants",
     slug: "mlb-edouard-julien-minnesota-twins-47-jersey",
-    expectColourPicker: true
+    expectColourPicker: true,
+    size: "M/Men's"
   },
   {
     name: "Soccer",
     slug: "alexander-isak-newcastle-united-fc-14-jersey",
-    expectColourPicker: true
+    expectColourPicker: true,
+    size: "M/Men's"
   }
 ] as const;
 
 test.describe("product options layer", () => {
+  test.beforeEach(async ({ page }) => {
+    await dismissWelcomeOffer(page);
+  });
+
   for (const sample of SAMPLES) {
     test(`${sample.name}: size is not colour / Default Title`, async ({ page }) => {
       const res = await page.goto(`/products/${sample.slug}`, { waitUntil: "domcontentloaded" });
@@ -48,18 +56,11 @@ test.describe("product options layer", () => {
         await expect(page.getByRole("radiogroup", { name: /select colour/i })).toBeVisible();
       }
 
-      const sizeChoice = sizeGroup.getByRole("radio", { name: "M/Men's" });
-      await sizeChoice.scrollIntoViewIfNeeded();
-      await expect(async () => {
-        await sizeChoice.click({ force: true });
-        await expect(sizeChoice).toHaveAttribute("aria-checked", "true");
-      }).toPass({ timeout: 15_000 });
-      await page.getByRole("radiogroup", { name: /^Customisation$/i }).getByRole("radio", { name: /^Yes/i }).click();
-      await page.getByLabel(/^Name$/i).fill("CHADHA");
-      await page.getByLabel(/^Number$/i).fill("07");
-      await page.getByLabel(/any message/i).fill("TEST");
-      await page.getByRole("button", { name: /add to cart/i }).click();
-      await expect(page.getByText(/added to cart/i)).toBeVisible({ timeout: 15000 });
+      await addProductFromPdp(page, `/products/${sample.slug}`, {
+        size: sample.size,
+        selectColour: sample.expectColourPicker,
+        customisation: { name: "CHADHA", number: "07", message: "TEST" }
+      });
 
       await page.goto("/cart", { waitUntil: "domcontentloaded" });
       await expect(page.getByText(/^Size:/i).first()).toBeVisible();

@@ -85,6 +85,10 @@ export default async function CartPage() {
                 <dt>Subtotal</dt>
                 <dd>{formatProductPrice(cart.subtotalAmount, cart.currencyCode)}</dd>
               </div>
+              <div>
+                <dt>Shipping</dt>
+                <dd>Calculated at checkout</dd>
+              </div>
             </dl>
             <p className="cart-note">
               Checkout saves your options, then redirects to Stripe (TEST MODE when enabled) to pay.

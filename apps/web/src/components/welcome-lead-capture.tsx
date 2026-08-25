@@ -15,8 +15,14 @@ export function WelcomeLeadCapture() {
   const isOpsSurface =
     pathname.startsWith("/admin") || pathname.startsWith("/supplier");
 
+  const isPurchaseFlow =
+    pathname.startsWith("/cart") ||
+    pathname.startsWith("/checkout") ||
+    pathname.startsWith("/orders") ||
+    pathname.startsWith("/products/");
+
   useEffect(() => {
-    if (isOpsSurface) {
+    if (isOpsSurface || isPurchaseFlow) {
       setOpen(false);
       return;
     }
@@ -31,7 +37,7 @@ export function WelcomeLeadCapture() {
 
     const timer = window.setTimeout(() => setOpen(true), 1800);
     return () => window.clearTimeout(timer);
-  }, [isOpsSurface]);
+  }, [isOpsSurface, isPurchaseFlow]);
 
   function dismiss() {
     setOpen(false);
@@ -66,7 +72,7 @@ export function WelcomeLeadCapture() {
     }
   }
 
-  if (isOpsSurface || !open) {
+  if (isOpsSurface || isPurchaseFlow || !open) {
     return null;
   }
 
