@@ -92,6 +92,7 @@ export default async function AdminProductPreviewPage({ params }: PreviewPagePro
             {...(product.customisationProfile ? { customisationProfile: product.customisationProfile } : {})}
             productTitle={product.title}
             {...(product.sizeChart ? { sizeChart: product.sizeChart } : {})}
+            {...(product.productOptions ? { productOptions: product.productOptions } : {})}
             variants={product.variants}
           />
         </div>
