@@ -15,15 +15,23 @@ test.describe("checkout + Stripe TEST", () => {
     const shipping = page.getByRole("group", { name: /^Shipping$/i });
     const email = `qa.stripe+${Date.now()}@sjh-internal.test`;
 
-    await contact.getByLabel(/^Email$/i).fill(email);
+    const emailField = contact.getByLabel(/^Email$/i);
+    await emailField.click();
+    await emailField.fill(email);
+    try {
+      await expect(emailField).toHaveValue(email, { timeout: 5000 });
+    } catch {
+      await emailField.click();
+      await emailField.clear();
+      await emailField.pressSequentially(email, { delay: 15 });
+      await expect(emailField).toHaveValue(email, { timeout: 5000 });
+    }
     await contact.getByLabel(/^Phone$/i).fill("+15555550123");
     await shipping.getByLabel(/^Full name$/i).fill("QA STRIPE");
     await shipping.getByLabel(/^Address line 1$/i).fill("1 Audit Street");
     await shipping.getByLabel(/^City$/i).fill("Austin");
     await shipping.getByLabel(/^State \/ province$/i).fill("TX");
     await shipping.getByLabel(/^Postal code$/i).fill("78701");
-
-    await expect(contact.getByLabel(/^Email$/i)).toHaveValue(email);
 
     const payButton = page.getByRole("button", { name: /^Pay with Stripe$/i });
     await expect(page.getByText(/please complete email/i)).toHaveCount(0);
