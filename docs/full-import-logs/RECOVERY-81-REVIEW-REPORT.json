@@ -1,0 +1,1673 @@
+{
+  "generatedAt": "2026-08-26T21:00:00.000Z",
+  "mission": "audit-81-recovery-published-products",
+  "identification": "81 products via ai_change_log recovery window + investigate-missing-sport SQL match",
+  "note": "Investigation only \u2014 no DB/git/deploy changes",
+  "rulesComparison": {
+    "recoveryScript": "generic 'baseball jersey' / 'hockey jersey' used as HIGH confidence",
+    "batchClassifySport": "requires \\bmlb\\b/\\bnhl\\b or slug \u2014 NOT generic jersey wording",
+    "leagueInDb": "all 81 have league=NULL"
+  },
+  "priorDraftState": "All were missing_sport drafts (4,757 pool) \u2014 held intentionally until classification",
+  "summary": {
+    "total": 81,
+    "SAFE": 52,
+    "REVIEW": 17,
+    "DRAFT": 12,
+    "generic_baseball_trigger": 64,
+    "generic_hockey_trigger": 17,
+    "batch_would_not_classify": 81,
+    "all_league_null": true,
+    "missing_images": 0
+  },
+  "products": [
+    {
+      "id": "4b87fc21-150a-42a9-8ac6-db629fa28940",
+      "shopify_id": "gid://shopify/Product/10559601377589",
+      "title": "Aaron Judge #99 New York Yankees USA 250 Fourth of July Home Baseball Jersey \u2013 White Pinstripe",
+      "slug": "aaron-judge-99-new-york-yankees-usa-250-fourth-of-july-home-baseball-jersey-white-pinstripe",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "0e20ab01-e86d-4c8f-b544-14c7982c13d8",
+      "shopify_id": "gid://shopify/Product/10564327637301",
+      "title": "Adley Rutschman Baltimore Orioles USA 250 Fourth of July Road Baseball Jersey \u2013 Gray",
+      "slug": "adley-rutschman-baltimore-orioles-usa-250-fourth-of-july-road-baseball-jersey-gray",
+      "sport": "Baseball",
+      "league": null,
+      "team": "Baltimore Orioles",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "b1cf16cf-f04a-43d6-b477-cc9535458360",
+      "shopify_id": "gid://shopify/Product/10559655772469",
+      "title": "Alex Bregman Chicago Cubs USA 250 Fourth of July Home Baseball Jersey \u2013 White",
+      "slug": "alex-bregman-chicago-cubs-usa-250-fourth-of-july-home-baseball-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "Atlanta Braves",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "d7b34b1c-a28f-4ebf-b147-00695efc05be",
+      "shopify_id": "gid://shopify/Product/10480309567797",
+      "title": "Atlanta Baseball Jersey Light Blue Acuna Jr 13 Fan Edition",
+      "slug": "atlanta-baseball-jersey-light-blue-acuna-jr-13-fan-edition",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "164fa086-d8a5-408f-b978-6f5838366dc2",
+      "shopify_id": "gid://shopify/Product/10708412367157",
+      "title": "Bobby Witt Jr. #7 Kansas City Royals Baseball Jersey",
+      "slug": "bobby-witt-jr-7-kansas-city-royals-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 9,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "e8a98b00-a5e8-44c4-8865-633ec455eca8",
+      "shopify_id": "gid://shopify/Product/10708384678197",
+      "title": "Boston Red Sox City Connect Limited Baseball Jersey - Green",
+      "slug": "boston-red-sox-city-connect-limited-baseball-jersey-green",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "f9353fbc-75a3-4bc5-a1ef-912c2facf0ee",
+      "shopify_id": "gid://shopify/Product/10564336288053",
+      "title": "Brice Turang Milwaukee Brewers USA 250 Fourth of July Road Baseball Jersey \u2013 Light Blue",
+      "slug": "brice-turang-milwaukee-brewers-usa-250-fourth-of-july-road-baseball-jersey-light-blue",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "b8065f88-a327-4601-a053-93d0019938fb",
+      "shopify_id": "gid://shopify/Product/10559603212597",
+      "title": "Bryce Harper #3 Philadelphia Phillies USA 250 Fourth of July Road Baseball Jersey \u2013 Gray",
+      "slug": "bryce-harper-3-philadelphia-phillies-usa-250-fourth-of-july-road-baseball-jersey-gray",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "e0b29ab0-30c6-4bcc-8773-b28640c58c56",
+      "shopify_id": "gid://shopify/Product/10559684968757",
+      "title": "Cal Raleigh Seattle Mariners USA 250 Fourth of July Home Baseball Jersey \u2013 White",
+      "slug": "cal-raleigh-seattle-mariners-usa-250-fourth-of-july-home-baseball-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "8f246d99-3b41-4943-8d62-80da216ffddf",
+      "shopify_id": "gid://shopify/Product/9854707695925",
+      "title": "Chico's Bail Bonds Bad News Bears Baseball Jersey",
+      "slug": "chicos-bail-bonds-bad-news-bears-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "Baseball J",
+      "option_set": "baseball-jerseys",
+      "image_count": 4,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "generic/non-professional",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "70e362c1-be82-410f-b7f8-bd3a22aa846d",
+      "shopify_id": "gid://shopify/Product/10708433469749",
+      "title": "Christian Yelich #22 Milwaukee Brewers Baseball Jersey",
+      "slug": "christian-yelich-22-milwaukee-brewers-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 7,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "4fc6c0fa-7605-48ca-93bf-f5de25b7e6b8",
+      "shopify_id": "gid://shopify/Product/10328774869301",
+      "title": "Cincinnati Reds City Connect Baseball Jersey",
+      "slug": "cincinnati-reds-city-connect-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "e50a3768-c4c2-431c-862e-386115dfad4e",
+      "shopify_id": "gid://shopify/Product/10480302588213",
+      "title": "Cincinnati Reds City Connect Baseball Jersey \u2013 Red Fan Edition",
+      "slug": "cincinnati-reds-city-connect-baseball-jersey-red-fan-edition",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "a7f80247-56e3-48b8-9c20-fd653c1f33f8",
+      "shopify_id": "gid://shopify/Product/10564324852021",
+      "title": "Corbin Carroll Arizona Diamondbacks USA 250 Fourth of July Home Baseball Jersey \u2013 Cream",
+      "slug": "corbin-carroll-arizona-diamondbacks-usa-250-fourth-of-july-home-baseball-jersey-cream-1",
+      "sport": "Baseball",
+      "league": null,
+      "team": "Arizona Diamondbacks",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "fd747119-e560-455f-bec3-ea0f5fc13bd0",
+      "shopify_id": "gid://shopify/Product/10559629820213",
+      "title": "Corbin Carroll Arizona Diamondbacks USA 250 Fourth of July Home Baseball Jersey \u2013 Cream",
+      "slug": "corbin-carroll-arizona-diamondbacks-usa-250-fourth-of-july-home-baseball-jersey-cream",
+      "sport": "Baseball",
+      "league": null,
+      "team": "Arizona Diamondbacks",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "b8e0fb21-3a59-4b08-8b21-c5a8748b4ee1",
+      "shopify_id": "gid://shopify/Product/10708419084597",
+      "title": "Corey Seager #5 Texas Rangers City Connect Stadium Baseball Jersey - Red",
+      "slug": "corey-seager-5-texas-rangers-city-connect-stadium-baseball-jersey-red",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 6,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "899ea383-19fa-4aa1-8d64-421f555b1e51",
+      "shopify_id": "gid://shopify/Product/10564326490421",
+      "title": "Corey Seager Texas Rangers USA 250 Fourth of July Home Baseball Jersey \u2013 White",
+      "slug": "corey-seager-texas-rangers-usa-250-fourth-of-july-home-baseball-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "e46e8f71-c3f0-479d-9d18-ae7fca4f0fda",
+      "shopify_id": "gid://shopify/Product/10559610650933",
+      "title": "Cristopher S\u00e1nchez Philadelphia Phillies USA 250 Fourth of July Road Baseball Jersey \u2013 Gray",
+      "slug": "cristopher-sanchez-philadelphia-phillies-usa-250-fourth-of-july-road-baseball-jersey-gray",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "1be3fb66-ca09-45de-900d-eda1fddfc296",
+      "shopify_id": "gid://shopify/Product/10559616123189",
+      "title": "Edwin D\u00edaz Los Angeles Dodgers USA 250 Fourth of July Home Baseball Jersey \u2013 White",
+      "slug": "edwin-diaz-dodgers-usa-250-home-baseball-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "1c71bf0e-9265-44c5-ac39-f0f4097d0f36",
+      "shopify_id": "gid://shopify/Product/10559628902709",
+      "title": "Elly De La Cruz Cincinnati Reds USA 250 Fourth of July Home Baseball Jersey \u2013 White",
+      "slug": "elly-de-la-cruz-cincinnati-reds-usa-250-fourth-of-july-home-baseball-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "226b11f6-a316-4784-b487-e46c584f5ce7",
+      "shopify_id": "gid://shopify/Product/10564325179701",
+      "title": "Elly De La Cruz Cincinnati Reds USA 250 Fourth of July Home Baseball Jersey \u2013 White",
+      "slug": "elly-de-la-cruz-cincinnati-reds-usa-250-fourth-of-july-home-baseball-jersey-white-1",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "d8fb2dde-8979-4ee9-b1c4-52f5c925225f",
+      "shopify_id": "gid://shopify/Product/10564333601077",
+      "title": "Ezequiel Tovar Colorado Rockies USA 250 Fourth of July Home Baseball Jersey \u2013 White",
+      "slug": "ezequiel-tovar-colorado-rockies-usa-250-fourth-of-july-home-baseball-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "abf6c1f6-7486-446b-90c9-93c7e2f3eab0",
+      "shopify_id": "gid://shopify/Product/10559611306293",
+      "title": "J.T. Realmuto Philadelphia Phillies USA 250 Fourth of July Road Baseball Jersey \u2013 Gray (Copy)",
+      "slug": "j-t-realmuto-philadelphia-phillies-usa-250-fourth-of-july-road-baseball-jersey-gray-copy",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "99a1bcbb-1461-43cc-83e9-73609fa62c45",
+      "shopify_id": "gid://shopify/Product/10564335173941",
+      "title": "Jac Caglianone Kansas City Royals USA 250 Fourth of July Home Baseball Jersey \u2013 White",
+      "slug": "jac-caglianone-kansas-city-royals-usa-250-fourth-of-july-home-baseball-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "1f3be5ba-9e6e-4922-98c5-12c5a08617f3",
+      "shopify_id": "gid://shopify/Product/9853839933749",
+      "title": "Jackie Robinson Montreal Royals Baseball Jersey",
+      "slug": "jackie-robinson-montreal-royals-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "minor-league/historical",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "bc1f0390-7503-49ff-8928-efc5aef45121",
+      "shopify_id": "gid://shopify/Product/10480291545397",
+      "title": "Jackson Chourio Milwaukee Brewers #11 Baseball Jersey - Mineral Blue",
+      "slug": "jackson-chourio-milwaukee-brewers-11-baseball-jersey-mineral-blue",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 7,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "21ccde93-7fcc-40ff-b132-1cf2c57beed6",
+      "shopify_id": "gid://shopify/Product/10564334027061",
+      "title": "Jackson Chourio Milwaukee Brewers USA 250 Fourth of July Road Baseball Jersey \u2013 Light Blue",
+      "slug": "jackson-chourio-milwaukee-brewers-usa-250-fourth-of-july-road-baseball-jersey-light-blue",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "3001be03-2ebe-45e7-8220-fa20b4f94c87",
+      "shopify_id": "gid://shopify/Product/10559607144757",
+      "title": "James Wood #29 Washington Nationals USA 250 Fourth of July Home Baseball Jersey \u2013 White",
+      "slug": "james-wood-29-washington-nationals-usa-250-fourth-of-july-home-baseball-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "0167dd2c-590a-47ea-94d9-4eb3f66eba3e",
+      "shopify_id": "gid://shopify/Product/10559612748085",
+      "title": "Jazz Chisholm Jr. New York Yankees USA 250 Fourth of July Home Baseball Jersey \u2013 White",
+      "slug": "jazz-chisholm-jr-yankees-usa-250-home-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "c64b0866-d173-4147-afd1-8581ef4d9af8",
+      "shopify_id": "gid://shopify/Product/10564336648501",
+      "title": "JJ Wetherholt St. Louis Cardinals USA 250 Fourth of July Road Baseball Jersey \u2013 Gray",
+      "slug": "jj-wetherholt-st-louis-cardinals-usa-250-fourth-of-july-road-baseball-jersey-gray",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "76e5763b-3e0c-41d7-9391-164eb944693a",
+      "shopify_id": "gid://shopify/Product/10564334321973",
+      "title": "Joe Ryan Minnesota Twins USA 250 Fourth of July Road Baseball Jersey \u2013 Gray",
+      "slug": "joe-ryan-minnesota-twins-usa-250-fourth-of-july-road-baseball-jersey-gray",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "508704e9-49e2-4490-a714-849f961f3d40",
+      "shopify_id": "gid://shopify/Product/10564326949173",
+      "title": "Jos\u00e9 Ram\u00edrez Cleveland Guardians USA 250 Fourth of July Home Baseball Jersey \u2013 White",
+      "slug": "jose-ramirez-cleveland-guardians-usa-250-fourth-of-july-home-baseball-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "1e4a2614-1c78-4d13-9b7e-b01db0cd2378",
+      "shopify_id": "gid://shopify/Product/10564329832757",
+      "title": "Juan Soto New York Mets USA 250 Fourth of July Road Baseball Jersey \u2013 Gray",
+      "slug": "juan-soto-new-york-mets-usa-250-fourth-of-july-road-baseball-jersey-gray",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "1fc442ee-2d10-400c-8daf-5e2fafa75f1e",
+      "shopify_id": "gid://shopify/Product/10564336025909",
+      "title": "Jung Hoo Lee San Francisco Giants USA 250 Fourth of July Road Baseball Jersey \u2013 Gray",
+      "slug": "jung-hoo-lee-san-francisco-giants-usa-250-fourth-of-july-road-baseball-jersey-gray",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "93a895c4-afea-4c1d-9f3e-a819674dba81",
+      "shopify_id": "gid://shopify/Product/10564327997749",
+      "title": "Junior Caminero Tampa Bay Rays USA 250 Fourth of July Road Baseball Jersey \u2013 Navy",
+      "slug": "junior-caminero-tampa-bay-rays-usa-250-fourth-of-july-road-baseball-jersey-navy",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "f46acf88-d148-4b49-8b3d-e76c40b97ad3",
+      "shopify_id": "gid://shopify/Product/10480327983413",
+      "title": "Kansas City Royals City Connect Jersey Perez 13 White Baseball Jersey",
+      "slug": "kansas-city-royals-city-connect-jersey-perez-13-white-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "ff575f06-bde3-4ed5-9054-bc732ba29254",
+      "shopify_id": "gid://shopify/Product/9853968613685",
+      "title": "Kenny Powers Charros Eastbound & Down Baseball Jersey",
+      "slug": "kenny-powers-charros-eastbound-down-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "Baseball J",
+      "option_set": "baseball-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "generic/non-professional",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "89f8f63e-f885-4e50-abb2-ebeca8a76569",
+      "shopify_id": "gid://shopify/Product/10564335567157",
+      "title": "Kyle Stowers Miami Marlins USA 250 Fourth of July Road Baseball Jersey \u2013 Gray",
+      "slug": "kyle-stowers-miami-marlins-usa-250-fourth-of-july-road-baseball-jersey-gray",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "a45c0f1a-415d-4ecb-b655-dcf5c6306321",
+      "shopify_id": "gid://shopify/Product/10564327080245",
+      "title": "Manny Machado San Diego Padres USA 250 Fourth of July Alternate Baseball Jersey \u2013 Sand",
+      "slug": "manny-machado-san-diego-padres-usa-250-fourth-of-july-alternate-baseball-jersey-sand",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "a2e933aa-804f-49e8-96fc-cedb8108dc63",
+      "shopify_id": "gid://shopify/Product/10250808787253",
+      "title": "Maryland Terrapins Custom Baseball Jersey \u2013 Red",
+      "slug": "maryland-terrapins-custom-baseball-jersey-red",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "NCAA/college",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "DRAFT"
+    },
+    {
+      "id": "ffa85418-dc89-4ae9-8971-758f5e08575c",
+      "shopify_id": "gid://shopify/Product/9854077763893",
+      "title": "Michael Jordan Birmingham Barons Baseball Jersey",
+      "slug": "michael-jordan-birmingham-barons-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 6,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "minor-league/historical",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "cdbbd0ef-2ccf-4c1a-9ba6-924e3d0001f4",
+      "shopify_id": "gid://shopify/Product/10409335685429",
+      "title": "Milwaukee Bucks  Pop Baseball Jersey - Black",
+      "slug": "oscar-robertson-milwaukee-bucks-mitchell-ness-hardwood-classics-swingman-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "wrong-sport-crossover",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "DRAFT"
+    },
+    {
+      "id": "227fe7f1-8f79-4035-823d-7156ef755e29",
+      "shopify_id": "gid://shopify/Product/10251897274677",
+      "title": "Navy Midshipmen Full-Button Baseball Jersey \u2013 White",
+      "slug": "navy-midshipmen-full-button-baseball-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "NCAA/college",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "DRAFT"
+    },
+    {
+      "id": "804664b1-f5ff-4bb4-aeb0-68190c2ff702",
+      "shopify_id": "gid://shopify/Product/10559623594293",
+      "title": "Nick Kurtz Athletics USA 250 Fourth of July Home Baseball Jersey \u2013 White",
+      "slug": "nick-kurtz-athletics-usa-250-fourth-of-july-home-baseball-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "Athletics",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "479f8d97-1078-4819-89ec-f6e6c41f6ccd",
+      "shopify_id": "gid://shopify/Product/9854707499317",
+      "title": "Ohtani Nippon Ham Hokkaido Baseball Jersey",
+      "slug": "ohtani-nippon-ham-hokkaido-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "Baseball J",
+      "option_set": "baseball-jerseys",
+      "image_count": 2,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "minor-league/historical",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "8b9c7d51-87a4-4216-b57e-ee01b88d79f1",
+      "shopify_id": "gid://shopify/Product/10708428128565",
+      "title": "Paul Skenes #30 Pittsburgh Pirates Baseball Jersey",
+      "slug": "paul-skenes-30-pittsburgh-pirates-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "adac83df-772d-48d2-bcd6-9b21d56784f0",
+      "shopify_id": "gid://shopify/Product/10480269754677",
+      "title": "Paul Skenes Pittsburgh Pirates #30 Baseball Jersey - Black",
+      "slug": "paul-skenes-pittsburgh-pirates-baseball-jersey-black",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 9,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "08cfa6f4-494f-4259-a257-4e8f72d3ae98",
+      "shopify_id": "gid://shopify/Product/10559630475573",
+      "title": "Paul Skenes Pittsburgh Pirates USA 250 Fourth of July Road Baseball Jersey \u2013 Gray",
+      "slug": "paul-skenes-pittsburgh-pirates-usa-250-fourth-of-july-road-baseball-jersey-gray",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "9aff507b-4594-47dc-ac02-b19bee167ed6",
+      "shopify_id": "gid://shopify/Product/9853968548149",
+      "title": "Peter Lafluer Average Joe's Baseball Jersey",
+      "slug": "peter-lafluer-average-joes-baseball-jersey-1",
+      "sport": "Baseball",
+      "league": null,
+      "team": "Baseball J",
+      "option_set": "baseball-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "generic/non-professional",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "996d93a9-acd5-4e21-a4ad-a68430c03965",
+      "shopify_id": "gid://shopify/Product/10632106311989",
+      "title": "Roberto Clemente #22 Toronto Blue Jays Light Blue Baseball Jersey",
+      "slug": "roberto-clemente-22-toronto-blue-jays-light-blue-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "ef740f23-3fd6-4d08-9a07-4c7c0834b6d1",
+      "shopify_id": "gid://shopify/Product/10564328587573",
+      "title": "Roman Anthony Boston Red Sox USA 250 Fourth of July Road Baseball Jersey \u2013 Gray",
+      "slug": "roman-anthony-boston-red-sox-usa-250-fourth-of-july-road-baseball-jersey-gray",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "f95bf780-8296-4246-a092-8b51e6a2809c",
+      "shopify_id": "gid://shopify/Product/10559655444789",
+      "title": "Ronald Acu\u00f1a Jr. Atlanta Braves USA 250 Fourth of July Home Baseball Jersey \u2013 White",
+      "slug": "ronald-acuna-jr-atlanta-braves-usa-250-fourth-of-july-home-baseball-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "Atlanta Braves",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "a7a7f289-d5d8-4ccc-8085-33940a260936",
+      "shopify_id": "gid://shopify/Product/10705188323637",
+      "title": "Royce Lewis #23 Minnesota Twins Baseball Jersey - Cream",
+      "slug": "royce-lewis-23-minnesota-twins-baseball-jersey-cream",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "020c63f6-d9ab-498a-8ab7-501c1dcaf1d8",
+      "shopify_id": "gid://shopify/Product/10480306127157",
+      "title": "San Diego Padres City Connect Jersey Dark Grey Baseball Jersey",
+      "slug": "san-diego-padres-city-connect-jersey-dark-grey-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 6,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "90956060-e94b-4310-9882-cad10a951cc2",
+      "shopify_id": "gid://shopify/Product/9854718116149",
+      "title": "Squints #5 Sandlot Baseball jersey",
+      "slug": "squints-5-sandlot-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 4,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "generic/non-professional",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "61dbfd39-0415-42d6-a700-4e6ec19496df",
+      "shopify_id": "gid://shopify/Product/10559620579637",
+      "title": "Tarik Skubal Detroit Tigers USA 250 Fourth of July Road Baseball Jersey \u2013 Gray",
+      "slug": "tarik-skubal-detroit-tigers-usa-250-fourth-of-july-road-baseball-jersey-gray",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "3cc56afe-1df9-4705-81f6-cf30b696c38f",
+      "shopify_id": "gid://shopify/Product/10480312222005",
+      "title": "Texas Rangers City Connect Jersey Nimmo 24 Red Baseball Jersey",
+      "slug": "texas-rangers-city-connect-jersey-nimmo-24-red-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 7,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "61a735b1-656d-49a4-8859-d019dc82b3e0",
+      "shopify_id": "gid://shopify/Product/9853839966517",
+      "title": "The Benchwarmers Clark Reedy, Richie Goodman, Gus Matthews, Howie Goodman Baseball Jerseys",
+      "slug": "the-benchwarmers-clark-reedy-richie-goodman-gus-matthews-howie-goodman-baseball-jerseys",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "generic/non-professional",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "9adf3dbb-84db-4f3f-91c5-95c4cd5116dc",
+      "shopify_id": "gid://shopify/Product/9854707564853",
+      "title": "The Benchwarmers Clark Reedy, Richie Goodman, Gus Matthews, Howie Goodman Baseball Jerseys",
+      "slug": "the-benchwarmers-clark-reedy-richie-goodman-gus-matthews-howie-goodman-baseball-jerseys-1",
+      "sport": "Baseball",
+      "league": null,
+      "team": "Baseball J",
+      "option_set": "baseball-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "generic/non-professional",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "f7f60d3a-d477-493b-8aa8-2050bae9e208",
+      "shopify_id": "gid://shopify/Product/10261342388533",
+      "title": "Washington State Cougars Colosseum Free Spirited Baseball Jersey - Gray",
+      "slug": "washington-state-cougars-colosseum-free-spirited-baseball-jersey-gray",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "NCAA/college",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "DRAFT"
+    },
+    {
+      "id": "4ac984fc-1761-4caf-a6d4-f233fe4d7154",
+      "shopify_id": "gid://shopify/Product/9853967958325",
+      "title": "Will Smith #14 Bel-Air Baseball Jersey",
+      "slug": "will-smith-14-bel-air-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "generic/non-professional",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "55d0a8d0-ea20-4d98-958b-0d11020387e0",
+      "shopify_id": "gid://shopify/Product/9853946102069",
+      "title": "Yeah-Yeah #11 Sandlot Baseball jersey",
+      "slug": "yeah-yeah-11-sandlot-baseball-jersey",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 2,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "generic/non-professional",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "c346a842-4a22-4271-a83e-ac01a754964b",
+      "shopify_id": "gid://shopify/Product/10559618351413",
+      "title": "Yoshinobu Yamamoto #18 Los Angeles Dodgers Baseball Jersey \u2013 White",
+      "slug": "yoshinobu-yamamoto-18-los-angeles-dodgers-cherry-blossom-baseball-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 8,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "4eff08cd-3782-4587-9176-4c3d53ea35f6",
+      "shopify_id": "gid://shopify/Product/10559688999221",
+      "title": "Zach Neto Los Angeles Angels USA 250 Fourth of July Home Baseball Jersey \u2013 White",
+      "slug": "zach-neto-los-angeles-angels-usa-250-fourth-of-july-home-baseball-jersey-white",
+      "sport": "Baseball",
+      "league": null,
+      "team": "BASEBALL J",
+      "option_set": "baseball-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'baseball jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "30a779ec-bf92-4d38-9730-d4cee07714ad",
+      "shopify_id": "gid://shopify/Product/10564358897973",
+      "title": "Anton Frondell Chicago Blackhawks Neon Pink Hockey Jersey",
+      "slug": "anton-frondell-chicago-blackhawks-neon-pink-hockey-jersey",
+      "sport": "Hockey",
+      "league": null,
+      "team": "Chicago Blackhawks",
+      "option_set": "hockey-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "8503fcc5-9eb0-4ecf-a1c1-16ae348a36ea",
+      "shopify_id": "gid://shopify/Product/10490295812405",
+      "title": "Blue Jays Ernie Clement Hockey Jersey (Giveaway Version) - 2026",
+      "slug": "blue-jays-ernie-clement-hockey-jersey-giveaway-version-2026",
+      "sport": "Hockey",
+      "league": null,
+      "team": "Ernie Clement",
+      "option_set": "hockey-jerseys",
+      "image_count": 7,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "ambiguous-crossover",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "61f33414-dd18-4bfb-b34b-789cb46dfcbb",
+      "shopify_id": "gid://shopify/Product/10573951303989",
+      "title": "Canada National Team Olympic Hockey Jersey \u2013 Red",
+      "slug": "canada-national-team-olympic-hockey-jersey-red",
+      "sport": "Hockey",
+      "league": null,
+      "team": "canada",
+      "option_set": "hockey-jerseys",
+      "image_count": 5,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "international",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "DRAFT"
+    },
+    {
+      "id": "93ce410e-8372-4725-81b3-daee7ef9c68a",
+      "shopify_id": "gid://shopify/Product/10369653047605",
+      "title": "Custom Men's #87 Crosby Black 2026 Replica Hockey Jersey",
+      "slug": "custom-mens-87-crosby-black-2026-replica-hockey-jersey",
+      "sport": "Hockey",
+      "league": null,
+      "team": "Hockey",
+      "option_set": "hockey-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "5bc98ba1-35cc-4e30-ba72-81c78ebb4aea",
+      "shopify_id": "gid://shopify/Product/9853946528053",
+      "title": "Dean Youngblood #10 Mustangs Hockey Jersey",
+      "slug": "dean-youngblood-10-mustangs-hockey-jersey",
+      "sport": "Hockey",
+      "league": null,
+      "team": "HOCKEY J",
+      "option_set": "hockey-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "generic/non-professional",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "cc528795-ca8d-455a-9f4a-fab029cd9017",
+      "shopify_id": "gid://shopify/Product/10248434385205",
+      "title": "Georgetown Hoyas GameDay Greats Spirit Hockey Jersey - Navy",
+      "slug": "georgetown-hoyas-gameday-greats-spirit-hockey-jersey-navy",
+      "sport": "Hockey",
+      "league": null,
+      "team": "Georgetown Hoyas",
+      "option_set": "hockey-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "NCAA/college",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "DRAFT"
+    },
+    {
+      "id": "6c215424-fd5f-4074-8bbd-38a66d11aa26",
+      "shopify_id": "gid://shopify/Product/10573941539125",
+      "title": "Germany National Team Olympic Hockey Jersey \u2013 Gold",
+      "slug": "germany-national-team-olympic-hockey-jersey-gold",
+      "sport": "Hockey",
+      "league": null,
+      "team": "German",
+      "option_set": "hockey-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "international",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "DRAFT"
+    },
+    {
+      "id": "69bab701-3901-4dd2-808e-5bd10f88639c",
+      "shopify_id": "gid://shopify/Product/10249236545845",
+      "title": "Indiana Hoosiers Colosseum Puck Proud Fashion Hockey Jersey - Cream",
+      "slug": "indiana-hoosiers-colosseum-puck-proud-fashion-hockey-jersey-cream",
+      "sport": "Hockey",
+      "league": null,
+      "team": "HOCKEY J",
+      "option_set": "hockey-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "NCAA/college",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "DRAFT"
+    },
+    {
+      "id": "d3833b4c-627f-4d3e-b46c-b3632ceeeec9",
+      "shopify_id": "gid://shopify/Product/10573670744373",
+      "title": "Macklin Celebrini San Jose Sharks Home White Hockey Jersey",
+      "slug": "macklin-celebrini-san-jose-sharks-home-white-hockey-jersey",
+      "sport": "Hockey",
+      "league": null,
+      "team": "HOCKEY J",
+      "option_set": "hockey-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "f92b455d-b53c-499e-ba2f-30cafec24768",
+      "shopify_id": "gid://shopify/Product/10564359913781",
+      "title": "Matthew Schaefer New York Islanders Home Hockey Jersey \u2013 Royal Blue",
+      "slug": "matthew-schaefer-new-york-islanders-home-hockey-jersey-royal-blue",
+      "sport": "Hockey",
+      "league": null,
+      "team": "Chicago Blackhawks",
+      "option_set": "hockey-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "SAFE"
+    },
+    {
+      "id": "6f55b1ec-8c79-444a-acdf-3fe226e7ff04",
+      "shopify_id": "gid://shopify/Product/10251927028021",
+      "title": "Notre Dame Fighting Irish Hockey Jersey - Navy",
+      "slug": "notre-dame-fighting-irish-hockey-jersey-navy",
+      "sport": "Hockey",
+      "league": null,
+      "team": "HOCKEY J",
+      "option_set": "hockey-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "NCAA/college",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "DRAFT"
+    },
+    {
+      "id": "7ad52b09-6e4b-48a6-8f81-005472f4214a",
+      "shopify_id": "gid://shopify/Product/10251927683381",
+      "title": "Notre Dame Fighting Irish Home Hockey Jersey \u2013 White",
+      "slug": "notre-dame-fighting-irish-home-hockey-jersey-white",
+      "sport": "Hockey",
+      "league": null,
+      "team": "HOCKEY J",
+      "option_set": "hockey-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "NCAA/college",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "DRAFT"
+    },
+    {
+      "id": "e3303b1e-6732-42bf-a9c2-a440425b64eb",
+      "shopify_id": "gid://shopify/Product/9853946429749",
+      "title": "Ogie Ogilthorpe #2 Syracuse Bulldogs Hockey Jersey",
+      "slug": "ogie-ogilthorpe-2-syracuse-bulldogs-hockey-jersey",
+      "sport": "Hockey",
+      "league": null,
+      "team": "HOCKEY J",
+      "option_set": "hockey-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "generic/non-professional",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "5a4eaf80-a276-4a34-bdf4-35ee6adaad3c",
+      "shopify_id": "gid://shopify/Product/9854727356725",
+      "title": "Ross The Boss Rhea ST John's Shamrocks 3 Hockey Jersey",
+      "slug": "ross-the-boss-rhea-st-johns-shamrocks-3-hockey-jersey",
+      "sport": "Hockey",
+      "league": null,
+      "team": "Euro 2021",
+      "option_set": "hockey-jerseys",
+      "image_count": 6,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "generic/non-professional",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "7b56eef7-e7e9-4b72-acce-7f97c44d41de",
+      "shopify_id": "gid://shopify/Product/9854077468981",
+      "title": "Ross The Boss Rhea ST John's Shamrocks Hockey Jersey",
+      "slug": "ross-the-boss-rhea-st-johns-shamrocks-hockey-jersey",
+      "sport": "Hockey",
+      "league": null,
+      "team": "Draft",
+      "option_set": "hockey-jerseys",
+      "image_count": 4,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "generic/non-professional",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "REVIEW"
+    },
+    {
+      "id": "e1449410-dd5d-431f-a57d-cc8400455e88",
+      "shopify_id": "gid://shopify/Product/10573939867957",
+      "title": "William Nylander #88 Sweden Olympic Hockey Jersey \u2013 Yellow",
+      "slug": "william-nylander-88-sweden-olympic-hockey-jersey-yellow",
+      "sport": "Hockey",
+      "league": null,
+      "team": "HOCKEY J",
+      "option_set": "hockey-jerseys",
+      "image_count": 3,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "international",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "DRAFT"
+    },
+    {
+      "id": "0ca8c5b4-4a02-4fe3-8525-14ae403c12ab",
+      "shopify_id": "gid://shopify/Product/10261343043893",
+      "title": "Wisconsin Badgers Personalized Hockey Jersey \u2013 Red",
+      "slug": "wisconsin-badgers-personalized-hockey-jersey-red",
+      "sport": "Hockey",
+      "league": null,
+      "team": "HOCKEY J",
+      "option_set": "hockey-jerseys",
+      "image_count": 1,
+      "has_image": true,
+      "why_classified": "recovery rule: generic 'hockey jersey' in title (batch-classify does NOT use this)",
+      "batch_classify_would_set": null,
+      "flags": [
+        "NCAA/college",
+        "batch-classify-would-not-classify",
+        "generic-wording-trigger"
+      ],
+      "prior_draft_state": "Draft with sport=NULL \u2014 primary blocker was missing_sport (4,757 pool); intentionally not bulk-classified before recovery",
+      "recommendation": "DRAFT"
+    }
+  ]
+}

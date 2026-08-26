@@ -4,6 +4,11 @@
  *
  * Buckets: HIGH | MEDIUM | UNKNOWN | CONFLICT
  * Never invents sizes or sports without clear evidence.
+ *
+ * HIGH rules align with batch-classify-sport.ts + missing-sport-signals.ts:
+ * - Generic "baseball jersey" / "hockey jersey" alone is NEVER HIGH.
+ * - Requires explicit MLB/NHL token, slug, or recognised franchise name.
+ * - NCAA/college and Olympic/international products are never auto-applied as MLB/NHL.
  */
 import { writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
@@ -87,16 +92,19 @@ async function main(): Promise<void> {
             OR (title_l ~ 'basketball jersey' AND title_l !~ '\\bncaa\\b' AND slug_l !~ 'ncaa'
                 AND title_l !~ '\\b(mountaineers|razorbacks|sun devils|bulldogs|wildcats|huskies|gators|tigers|bears|eagles|cougars|hoyas|buffaloes|knights)\\b')) AS sig_basketball,
           (title_l ~ '\\bnhl\\b' OR slug_l ~ '(^|-)nhl(-|$)' OR league_l = 'nhl'
-            OR title_l ~ 'hockey jersey') AS sig_hockey,
+            OR title_l ~ '\\b(maple leafs|canadiens|blackhawks|red wings|oilers|flames|canucks|jets|senators|sabres|devils|islanders|flyers|capitals|lightning|panthers|blue jackets|predators|stars|blues|wild|avalanche|ducks|kings|sharks|kraken|golden knights|coyotes)\\b') AS sig_hockey,
           (title_l ~ '\\bmlb\\b' OR slug_l ~ '(^|-)mlb(-|$)' OR league_l = 'mlb'
-            OR title_l ~ 'baseball jersey') AS sig_baseball,
+            OR title_l ~ '\\b(yankees|red sox|dodgers|mets|cubs|white sox|braves|phillies|astros|mariners|rangers|athletics|orioles|rays|blue jays|twins|guardians|tigers|royals|brewers|cardinals|reds|pirates|rockies|diamondbacks|padres|giants|angels|marlins|nationals|city connect|usa 250)\\b') AS sig_baseball,
+          (title_l ~ 'hockey jersey') AS sig_hockey_generic,
+          (title_l ~ 'baseball jersey') AS sig_baseball_generic,
           (league_l IN ('mls','premier league','la liga','serie a','bundesliga','ligue 1','fifa world cup','uefa euro','uefa champions league','uefa','international','saudi pro league')
             OR title_l ~ '\\b(premier league|la liga|serie a|bundesliga|mls|fifa|uefa|world cup|euro cup)\\b'
             OR title_l ~ '\\b(manchester (city|united)|liverpool|chelsea|arsenal|tottenham|real madrid|barcelona|bayern|juventus|ac milan|inter milan|psg|dortmund)\\b'
             OR (title_l ~ '\\b(fc|cf)\\b' AND title_l !~ '\\bncaa\\b' AND slug_l !~ 'ncaa')) AS sig_soccer,
           (title_l ~ '\\bncaa\\b' OR slug_l ~ 'ncaa' OR payload_l ~ '\\bncaa\\b'
-            OR title_l ~ '\\b(gameday greats|colosseum|nil |pick a player)\\b') AS sig_ncaa,
-          (title_l ~ '\\bolympic\\b' OR slug_l ~ 'olympic') AS sig_olympic
+            OR title_l ~ '\\b(gameday greats|colosseum|midshipmen|terrapins|hoosiers|hoyas|fighting irish|badgers|notre dame|georgetown|washington state cougars|navy midshipmen|nil |pick a player)\\b') AS sig_ncaa,
+          (title_l ~ '\\b(olympic|national team)\\b' OR slug_l ~ 'olympic'
+            OR title_l ~ '\\b(canada national|germany national|sweden olympic)\\b') AS sig_olympic
         FROM d
       ),
       classified AS (
@@ -114,13 +122,13 @@ async function main(): Promise<void> {
                  + CASE WHEN sig_hockey THEN 1 ELSE 0 END
                  + CASE WHEN sig_baseball THEN 1 ELSE 0 END
                  + CASE WHEN sig_soccer THEN 1 ELSE 0 END) > 1 THEN 'CONFLICT'
-            WHEN sig_football AND NOT sig_ncaa THEN 'HIGH'
-            WHEN sig_basketball AND NOT sig_ncaa THEN 'HIGH'
-            WHEN sig_hockey AND NOT sig_ncaa THEN 'HIGH'
-            WHEN sig_baseball AND NOT sig_ncaa THEN 'HIGH'
-            WHEN sig_soccer AND NOT sig_ncaa THEN 'HIGH'
-            WHEN sig_ncaa THEN 'MEDIUM'
-            WHEN sig_olympic THEN 'MEDIUM'
+            WHEN sig_football AND NOT sig_ncaa AND NOT sig_olympic THEN 'HIGH'
+            WHEN sig_basketball AND NOT sig_ncaa AND NOT sig_olympic THEN 'HIGH'
+            WHEN sig_hockey AND NOT sig_ncaa AND NOT sig_olympic THEN 'HIGH'
+            WHEN sig_baseball AND NOT sig_ncaa AND NOT sig_olympic THEN 'HIGH'
+            WHEN sig_soccer AND NOT sig_ncaa AND NOT sig_olympic THEN 'HIGH'
+            WHEN sig_ncaa OR sig_olympic THEN 'MEDIUM'
+            WHEN sig_hockey_generic OR sig_baseball_generic THEN 'MEDIUM'
             WHEN sig_football OR sig_basketball OR sig_hockey OR sig_baseball OR sig_soccer THEN 'MEDIUM'
             ELSE 'UNKNOWN'
           END AS confidence,
@@ -175,12 +183,14 @@ async function main(): Promise<void> {
               AND title_l !~ '\\bnfl\\b' AND title_l !~ '\\bncaa\\b' AND slug_l !~ 'ncaa'
               THEN 'Basketball'
             WHEN (title_l ~ '\\bnhl\\b' OR slug_l ~ '(^|-)nhl(-|$)' OR league_l = 'nhl'
-              OR title_l ~ 'hockey jersey')
+              OR title_l ~ '\\b(maple leafs|canadiens|blackhawks|red wings|oilers|flames|canucks|jets|senators|sabres|devils|islanders|flyers|capitals|lightning|panthers|blue jackets|predators|stars|blues|wild|avalanche|ducks|kings|sharks|kraken|golden knights|coyotes)\\b')
               AND title_l !~ '\\bncaa\\b' AND slug_l !~ 'ncaa'
+              AND title_l !~ '\\b(olympic|national team)\\b'
               THEN 'Hockey'
             WHEN (title_l ~ '\\bmlb\\b' OR slug_l ~ '(^|-)mlb(-|$)' OR league_l = 'mlb'
-              OR title_l ~ 'baseball jersey')
+              OR title_l ~ '\\b(yankees|red sox|dodgers|mets|cubs|white sox|braves|phillies|astros|mariners|rangers|athletics|orioles|rays|blue jays|twins|guardians|tigers|royals|brewers|cardinals|reds|pirates|rockies|diamondbacks|padres|giants|angels|marlins|nationals|city connect|usa 250)\\b')
               AND title_l !~ '\\bncaa\\b' AND slug_l !~ 'ncaa'
+              AND title_l !~ '\\b(olympic|national team)\\b'
               THEN 'Baseball'
             WHEN (league_l IN ('mls','premier league','la liga','serie a','bundesliga','ligue 1','fifa world cup','uefa euro','uefa champions league','uefa','international','saudi pro league')
               OR title_l ~ '\\b(premier league|la liga|serie a|bundesliga|mls|fifa|uefa|world cup)\\b'
@@ -194,8 +204,12 @@ async function main(): Promise<void> {
             WHEN title_l ~ '\\bnfl\\b' OR slug_l ~ '(^|-)nfl(-|$)' OR league_l = 'nfl' THEN 'title/slug/league NFL token'
             WHEN title_l ~ 'football jersey' THEN 'title contains football jersey (non-NCAA)'
             WHEN title_l ~ '\\bnba\\b' OR slug_l ~ '(^|-)nba(-|$)' THEN 'title/slug NBA token'
-            WHEN title_l ~ '\\bnhl\\b' OR slug_l ~ '(^|-)nhl(-|$)' OR title_l ~ 'hockey jersey' THEN 'title/slug NHL/hockey token'
-            WHEN title_l ~ '\\bmlb\\b' OR slug_l ~ '(^|-)mlb(-|$)' OR title_l ~ 'baseball jersey' THEN 'title/slug MLB/baseball token'
+            WHEN title_l ~ '\\bnhl\\b' OR slug_l ~ '(^|-)nhl(-|$)' OR league_l = 'nhl' THEN 'title/slug/league NHL token'
+            WHEN title_l ~ '\\b(blackhawks|sharks|islanders|maple leafs|canadiens)\\b' THEN 'recognised NHL franchise in title'
+            WHEN title_l ~ '\\bmlb\\b' OR slug_l ~ '(^|-)mlb(-|$)' OR league_l = 'mlb' THEN 'title/slug/league MLB token'
+            WHEN title_l ~ '\\b(yankees|red sox|dodgers|mets|cubs|braves|phillies)\\b' THEN 'recognised MLB franchise in title'
+            WHEN title_l ~ 'hockey jersey' THEN 'generic hockey jersey only (MEDIUM — not HIGH)'
+            WHEN title_l ~ 'baseball jersey' THEN 'generic baseball jersey only (MEDIUM — not HIGH)'
             WHEN title_l ~ '\\b(premier league|la liga|serie a|bundesliga|mls|fifa|uefa)\\b' THEN 'soccer league keyword'
             WHEN title_l ~ '\\b(manchester|liverpool|chelsea|arsenal|tottenham|real madrid|barcelona)\\b' THEN 'known soccer club'
             ELSE 'other'
@@ -246,18 +260,21 @@ async function main(): Promise<void> {
                AND title_l !~ '\\bncaa\\b' AND slug_l !~ 'ncaa')
               OR ((title_l ~ '\\bnba\\b' OR slug_l ~ '(^|-)nba(-|$)' OR league_l = 'nba')
                   AND title_l !~ '\\bnfl\\b' AND title_l !~ '\\bncaa\\b' AND slug_l !~ 'ncaa')
-              OR ((title_l ~ '\\bnhl\\b' OR slug_l ~ '(^|-)nhl(-|$)' OR league_l = 'nhl' OR title_l ~ 'hockey jersey')
-                  AND title_l !~ '\\bncaa\\b' AND slug_l !~ 'ncaa')
-              OR ((title_l ~ '\\bmlb\\b' OR slug_l ~ '(^|-)mlb(-|$)' OR league_l = 'mlb' OR title_l ~ 'baseball jersey')
-                  AND title_l !~ '\\bncaa\\b' AND slug_l !~ 'ncaa')
+              OR ((title_l ~ '\\bnhl\\b' OR slug_l ~ '(^|-)nhl(-|$)' OR league_l = 'nhl'
+                OR title_l ~ '\\b(maple leafs|canadiens|blackhawks|red wings|oilers|flames|canucks|jets|senators|sabres|devils|islanders|flyers|capitals|lightning|panthers|blue jackets|predators|stars|blues|wild|avalanche|ducks|kings|sharks|kraken|golden knights|coyotes)\\b')
+                  AND title_l !~ '\\bncaa\\b' AND slug_l !~ 'ncaa'
+                  AND title_l !~ '\\b(olympic|national team)\\b')
+              OR ((title_l ~ '\\bmlb\\b' OR slug_l ~ '(^|-)mlb(-|$)' OR league_l = 'mlb'
+                OR title_l ~ '\\b(yankees|red sox|dodgers|mets|cubs|white sox|braves|phillies|astros|mariners|rangers|athletics|orioles|rays|blue jays|twins|guardians|tigers|royals|brewers|cardinals|reds|pirates|rockies|diamondbacks|padres|giants|angels|marlins|nationals|city connect|usa 250)\\b')
+                  AND title_l !~ '\\bncaa\\b' AND slug_l !~ 'ncaa'
+                  AND title_l !~ '\\b(olympic|national team)\\b')
               OR ((league_l IN ('mls','premier league','la liga','serie a','bundesliga','ligue 1','fifa world cup','uefa euro','uefa champions league','uefa','international','saudi pro league')
                    OR title_l ~ '\\b(premier league|la liga|serie a|bundesliga|mls|fifa|uefa|world cup)\\b'
                    OR title_l ~ '\\b(manchester (city|united)|liverpool|chelsea|arsenal|tottenham|real madrid|barcelona|bayern|juventus|ac milan|inter milan|psg)\\b')
                   AND title_l !~ '\\bncaa\\b' AND slug_l !~ 'ncaa'
                   AND title_l !~ '\\bnfl\\b' AND title_l !~ '\\bnba\\b')
             ) THEN 'HIGH'
-            WHEN title_l ~ '\\bncaa\\b' OR slug_l ~ 'ncaa' OR title_l ~ '\\bolympic\\b'
-              OR title_l ~ '\\b(gameday greats|volleyball|lacrosse|cricket|rugby)\\b'
+            WHEN title_l ~ '\\bncaa\\b' OR slug_l ~ 'ncaa' OR title_l ~ '\\b(olympic|national team|gameday greats|colosseum|volleyball|lacrosse|cricket|rugby|hockey jersey|baseball jersey)\\b'
               THEN 'MEDIUM'
             ELSE 'UNKNOWN'
           END AS bucket
@@ -285,12 +302,14 @@ async function main(): Promise<void> {
                 AND lower(title) !~ '\\bnfl\\b' AND lower(title) !~ '\\bncaa\\b' AND lower(slug) !~ 'ncaa'
                 THEN 'Basketball'
               WHEN (lower(title) ~ '\\bnhl\\b' OR lower(slug) ~ '(^|-)nhl(-|$)' OR lower(coalesce(league,'')) = 'nhl'
-                OR lower(title) ~ 'hockey jersey')
+                OR lower(title) ~ '\\b(maple leafs|canadiens|blackhawks|red wings|oilers|flames|canucks|jets|senators|sabres|devils|islanders|flyers|capitals|lightning|panthers|blue jackets|predators|stars|blues|wild|avalanche|ducks|kings|sharks|kraken|golden knights|coyotes)\\b')
                 AND lower(title) !~ '\\bncaa\\b' AND lower(slug) !~ 'ncaa'
+                AND lower(title) !~ '\\b(olympic|national team)\\b'
                 THEN 'Hockey'
               WHEN (lower(title) ~ '\\bmlb\\b' OR lower(slug) ~ '(^|-)mlb(-|$)' OR lower(coalesce(league,'')) = 'mlb'
-                OR lower(title) ~ 'baseball jersey')
+                OR lower(title) ~ '\\b(yankees|red sox|dodgers|mets|cubs|white sox|braves|phillies|astros|mariners|rangers|athletics|orioles|rays|blue jays|twins|guardians|tigers|royals|brewers|cardinals|reds|pirates|rockies|diamondbacks|padres|giants|angels|marlins|nationals|city connect|usa 250)\\b')
                 AND lower(title) !~ '\\bncaa\\b' AND lower(slug) !~ 'ncaa'
+                AND lower(title) !~ '\\b(olympic|national team)\\b'
                 THEN 'Baseball'
               WHEN (lower(coalesce(league,'')) IN ('mls','premier league','la liga','serie a','bundesliga','ligue 1','fifa world cup','uefa euro','uefa champions league','uefa','international','saudi pro league')
                 OR lower(title) ~ '\\b(premier league|la liga|serie a|bundesliga|mls|fifa|uefa|world cup)\\b'
