@@ -1,4 +1,4 @@
-import { and, desc, eq, isNull, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import { createDatabaseClient } from "./client";
 import { products } from "./schema-catalogue";
 import {
@@ -19,6 +19,7 @@ export type ShopifyConnectionHealth = {
   credentialsPresent: boolean;
   syncEnabled: boolean;
   sampleImportEnabled: boolean;
+  fullImportEnabled: boolean;
   status: "ready" | "gated" | "missing_credentials";
   message: string;
 };
@@ -28,6 +29,7 @@ export type ShopifyImportRunSnapshot = {
   mode: string;
   status: string;
   sampleLimit: number | null;
+  cursor: string | null;
   productsFetched: number;
   productsStaged: number;
   errorsCount: number;
@@ -70,13 +72,15 @@ export function getShopifyConnectionHealth(): ShopifyConnectionHealth {
   const credentialsPresent = domain && clientId && clientSecret;
   const syncEnabled = process.env.ENABLE_SHOPIFY_SYNC === "true";
   const sampleImportEnabled = process.env.ENABLE_SHOPIFY_SAMPLE_IMPORT === "true";
-  const readAllowed = syncEnabled || sampleImportEnabled;
+  const fullImportEnabled = process.env.ENABLE_SHOPIFY_FULL_IMPORT === "true";
+  const readAllowed = syncEnabled || sampleImportEnabled || fullImportEnabled;
 
   if (!credentialsPresent) {
     return {
       credentialsPresent: false,
       syncEnabled,
       sampleImportEnabled,
+      fullImportEnabled,
       status: "missing_credentials",
       message:
         "Shopify credentials missing. Set SHOPIFY_STORE_DOMAIN, SHOPIFY_CLIENT_ID, and SHOPIFY_CLIENT_SECRET."
@@ -88,9 +92,10 @@ export function getShopifyConnectionHealth(): ShopifyConnectionHealth {
       credentialsPresent: true,
       syncEnabled: false,
       sampleImportEnabled: false,
+      fullImportEnabled: false,
       status: "gated",
       message:
-        "Shopify read gated. Set ENABLE_SHOPIFY_SAMPLE_IMPORT=true for controlled sample imports, or ENABLE_SHOPIFY_SYNC=true after full migration approval. Dry-run staging accepts manual sample payloads only — no live API fetch."
+        "Shopify read gated. Set ENABLE_SHOPIFY_SAMPLE_IMPORT=true for controlled sample imports, ENABLE_SHOPIFY_FULL_IMPORT=true for full catalogue import, or ENABLE_SHOPIFY_SYNC=true after full migration approval. Dry-run staging accepts manual sample payloads only — no live API fetch."
     };
   }
 
@@ -98,10 +103,13 @@ export function getShopifyConnectionHealth(): ShopifyConnectionHealth {
     credentialsPresent: true,
     syncEnabled,
     sampleImportEnabled,
+    fullImportEnabled,
     status: "ready",
-    message: sampleImportEnabled && !syncEnabled
-      ? "Shopify sample import enabled and credentials present. Read-only live sample fetch permitted (full sync remains off)."
-      : "Shopify sync/sample read enabled and credentials present. Live fetch permitted by gate."
+    message: fullImportEnabled && !syncEnabled
+      ? "Shopify full import enabled and credentials present. Read-only full catalogue fetch permitted."
+      : sampleImportEnabled && !syncEnabled
+        ? "Shopify sample import enabled and credentials present. Read-only live sample fetch permitted (full sync remains off)."
+        : "Shopify sync/sample read enabled and credentials present. Live fetch permitted by gate."
   };
 }
 
@@ -111,6 +119,7 @@ function mapImportRun(row: typeof shopifyImportRuns.$inferSelect): ShopifyImport
     mode: row.mode,
     status: row.status,
     sampleLimit: row.sampleLimit,
+    cursor: row.cursor,
     productsFetched: row.productsFetched,
     productsStaged: row.productsStaged,
     errorsCount: row.errorsCount,
@@ -125,16 +134,16 @@ function mapImportRun(row: typeof shopifyImportRuns.$inferSelect): ShopifyImport
 }
 
 export async function createImportRun(
-  input: { mode: "dry_run" | "sample"; sampleLimit?: number },
+  input: { mode: "dry_run" | "sample" | "full"; sampleLimit?: number },
   databaseUrl?: string
 ): Promise<ShopifyImportRunSnapshot> {
   const health = getShopifyConnectionHealth();
   const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
   const liveFetchAllowed = health.status === "ready";
-  // Sample mode is a live read-only import when either gate is on; otherwise dry-run staging only.
+  // Sample/full mode is a live read-only import when any read gate is on; otherwise dry-run staging only.
   const dryRun =
     input.mode === "dry_run" ||
-    !(health.sampleImportEnabled || health.syncEnabled);
+    !(health.sampleImportEnabled || health.syncEnabled || health.fullImportEnabled);
 
   const [created] = await db
     .insert(shopifyImportRuns)
@@ -151,9 +160,11 @@ export async function createImportRun(
         note:
           health.status === "gated"
             ? "Live fetch blocked; stageNormalizedProduct accepts manual payloads only."
-            : input.mode === "sample"
-              ? "Controlled sample import run started (read-only)."
-              : "Import run started."
+            : input.mode === "full"
+              ? "Controlled full catalogue import run started (read-only)."
+              : input.mode === "sample"
+                ? "Controlled sample import run started (read-only)."
+                : "Import run started."
       },
       ...(input.sampleLimit !== undefined ? { sampleLimit: input.sampleLimit } : {})
     })
@@ -222,6 +233,82 @@ export async function finishImportRun(
   }
 
   return mapImportRun(updated);
+}
+
+export async function updateImportRunProgress(
+  runId: string,
+  input: {
+    productsFetched?: number;
+    productsStaged?: number;
+    errorsCount?: number;
+    cursor?: string | null;
+    metadata?: Record<string, unknown>;
+  },
+  databaseUrl?: string
+): Promise<void> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  const existing = await getImportRun(runId, databaseUrl);
+  if (!existing) {
+    throw new Error("Import run not found.");
+  }
+
+  await db
+    .update(shopifyImportRuns)
+    .set({
+      status: "running",
+      updatedAt: new Date(),
+      ...(input.productsFetched !== undefined ? { productsFetched: input.productsFetched } : {}),
+      ...(input.productsStaged !== undefined ? { productsStaged: input.productsStaged } : {}),
+      ...(input.errorsCount !== undefined ? { errorsCount: input.errorsCount } : {}),
+      ...(input.cursor !== undefined ? { cursor: input.cursor } : {}),
+      metadata: {
+        ...existing.metadata,
+        ...(input.metadata ?? {})
+      }
+    })
+    .where(eq(shopifyImportRuns.id, runId));
+}
+
+export async function getResumableFullImportRun(
+  databaseUrl?: string,
+  explicitRunId?: string
+): Promise<{ run: ShopifyImportRunSnapshot; cursor: string | null } | null> {
+  const db = createDatabaseClient(resolveDatabaseUrl(databaseUrl));
+  if (explicitRunId) {
+    const [row] = await db
+      .select()
+      .from(shopifyImportRuns)
+      .where(eq(shopifyImportRuns.id, explicitRunId))
+      .limit(1);
+    if (row && row.mode === "full" && row.status !== "succeeded" && row.status !== "cancelled") {
+      const run = mapImportRun(row);
+      await db
+        .update(shopifyImportRuns)
+        .set({ status: "running", finishedAt: null, updatedAt: new Date() })
+        .where(eq(shopifyImportRuns.id, row.id));
+      return { run, cursor: row.cursor };
+    }
+    return null;
+  }
+
+  const [row] = await db
+    .select()
+    .from(shopifyImportRuns)
+    .where(
+      and(
+        eq(shopifyImportRuns.mode, "full"),
+        inArray(shopifyImportRuns.status, ["running", "failed"])
+      )
+    )
+    .orderBy(desc(shopifyImportRuns.startedAt))
+    .limit(1);
+
+  if (!row) return null;
+  await db
+    .update(shopifyImportRuns)
+    .set({ status: "running", finishedAt: null, updatedAt: new Date() })
+    .where(eq(shopifyImportRuns.id, row.id));
+  return { run: mapImportRun(row), cursor: row.cursor };
 }
 
 export function buildImportReport(

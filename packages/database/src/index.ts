@@ -156,9 +156,11 @@ export {
   createImportRun,
   finishImportRun,
   getImportRun,
+  getResumableFullImportRun,
   getShopifyConnectionHealth,
   listImportRuns,
-  stageNormalizedProduct
+  stageNormalizedProduct,
+  updateImportRunProgress
 } from "./shopify-import";
 export type {
   ShopifyConnectionHealth,

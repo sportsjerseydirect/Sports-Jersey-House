@@ -17,8 +17,14 @@ describe("product options model", () => {
     expect(sizeOptionSetSlugForSport("Baseball")).toBe("baseball-jerseys");
     expect(sizeOptionSetSlugForSport("Hockey")).toBe("hockey-jerseys");
     expect(sizeOptionSetSlugForSport("Soccer")).toBe("soccer-jerseys");
-    expect(sizeOptionSetSlugForSport("Football")).toBeNull();
-    expect(sizeOptionSetSlugForSport("Basketball")).toBeNull();
+    expect(sizeOptionSetSlugForSport("Football")).toBe("football-jerseys");
+    expect(sizeOptionSetSlugForSport("Basketball")).toBe("basketball-jerseys");
+    expect(sizeOptionSetSlugForSport("Unknown")).toBeNull();
+  });
+
+  it("exposes football and basketball sizes from live Aris snapshot", () => {
+    expect(getSizeOptionSet("football-jerseys")?.sizes).toContain("Youth S (6–8 yrs)");
+    expect(getSizeOptionSet("basketball-jerseys")?.sizes).toContain("7T (7–8 yrs)");
   });
 
   it("never treats Color or Default Title as size values", () => {

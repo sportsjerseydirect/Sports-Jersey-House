@@ -71,16 +71,28 @@ async function main(): Promise<void> {
         })
         .where(eq(seoRecords.id, row.seoId));
     } else {
-      await db.insert(seoRecords).values({
-        targetType: "product",
-        targetId: row.id,
-        title: row.title,
-        metaDescription,
-        canonicalPath: `/products/${row.slug}`,
-        approvalStatus: "approved",
-        createdBy: "ai-autonomous",
-        updatedBy: "ai-autonomous"
-      });
+      await db
+        .insert(seoRecords)
+        .values({
+          targetType: "product",
+          targetId: row.id,
+          title: row.title,
+          metaDescription,
+          canonicalPath: `/products/${row.slug}`,
+          approvalStatus: "approved",
+          createdBy: "ai-autonomous",
+          updatedBy: "ai-autonomous"
+        })
+        .onConflictDoUpdate({
+          target: [seoRecords.targetType, seoRecords.targetId],
+          set: {
+            title: row.title,
+            metaDescription,
+            canonicalPath: `/products/${row.slug}`,
+            updatedAt: new Date(),
+            updatedBy: "ai-autonomous"
+          }
+        });
     }
 
     await db

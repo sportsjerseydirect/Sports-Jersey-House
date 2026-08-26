@@ -31,10 +31,15 @@ async function main(): Promise<void> {
         SELECT
           id,
           CASE
-            WHEN league_l = 'nfl' OR title_l ~ '\\bnfl\\b' OR slug_l ~ '^nfl-' THEN 'Football'
-            WHEN league_l = 'nba' OR title_l ~ '\\bnba\\b' OR slug_l ~ '^nba-' THEN 'Basketball'
-            WHEN league_l = 'nhl' OR title_l ~ '\\bnhl\\b' OR slug_l ~ '^nhl-' THEN 'Hockey'
-            WHEN league_l = 'mlb' OR title_l ~ '\\bmlb\\b' OR slug_l ~ '^mlb-' THEN 'Baseball'
+            WHEN league_l = 'nfl' OR title_l ~ '\\bnfl\\b' OR slug_l ~ '(^|-)nfl(-|$)'
+              OR title_l ~ 'football jersey' OR slug_l ~ 'football-jersey'
+              THEN 'Football'
+            WHEN league_l = 'nba' OR title_l ~ '\\bnba\\b' OR slug_l ~ '(^|-)nba(-|$)'
+              OR title_l ~ 'basketball jersey' OR slug_l ~ 'basketball-jersey'
+              OR title_l ~ '\\b(lakers|celtics|bulls|warriors|nets|knicks|heat|bucks|suns|nuggets|mavericks|clippers|sixers|76ers|raptors|pistons|hawks|hornets|wizards|magic|pacers|cavaliers|grizzlies|pelicans|spurs|rockets|thunder|timberwolves|blazers|trail blazers)\\b'
+              THEN 'Basketball'
+            WHEN league_l = 'nhl' OR title_l ~ '\\bnhl\\b' OR slug_l ~ '(^|-)nhl(-|$)' THEN 'Hockey'
+            WHEN league_l = 'mlb' OR title_l ~ '\\bmlb\\b' OR slug_l ~ '(^|-)mlb(-|$)' THEN 'Baseball'
             WHEN title_l ~ '\\bolympic\\b'
               AND title_l ~ '\\b(rj barrett|shai gilgeous|melvin ejim|mfiondu kabengele|phil scrubb|thomas scrubb|trey lyles)\\b'
               THEN 'Basketball'
@@ -44,7 +49,7 @@ async function main(): Promise<void> {
             WHEN league_l IN ('mls', 'premier league', 'la liga', 'serie a', 'bundesliga', 'ligue 1',
               'fifa world cup', 'uefa euro', 'uefa champions league', 'uefa')
               OR title_l ~ '\\b(premier league|la liga|serie a|bundesliga|mls|fifa|uefa|world cup|euro cup)\\b'
-              OR slug_l ~ '^(soccer-|football-)'
+              OR slug_l ~ '^soccer-'
               OR payload_l ~ '\\b(premier league|la liga|fifa|uefa|world cup)\\b'
               OR team_l IN ('soccer', 'club teams', 'west ham', 'united fc')
               OR team_l ~ 'everton|evertn|spain|ittihad|hilal'

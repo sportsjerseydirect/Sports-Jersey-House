@@ -46,8 +46,10 @@ async function main(): Promise<void> {
           coalesce(s.has_meta, false) AS ok_seo,
           sp.size_chart_id IS NOT NULL AS ok_size_chart,
           sp.customisation_profile_id IS NOT NULL AS ok_customisation,
+          sp.option_set_id IS NOT NULL AS ok_option_set,
           (sp.sport IS NOT NULL OR sp.league IS NOT NULL OR sp.team IS NOT NULL) AS ok_taxonomy,
-          (sp.description IS NOT NULL AND trim(sp.description) <> '') AS ok_description,
+          (sp.description IS NOT NULL AND trim(sp.description) <> ''
+            AND sp.description !~* 'imported draft|content pending review') AS ok_description,
           coalesce(d.is_dup, false) AS is_duplicate_suspect
         FROM sp
         LEFT JOIN img i ON i.product_id = sp.id
@@ -58,7 +60,7 @@ async function main(): Promise<void> {
       SELECT id, slug, title
       FROM enriched
       WHERE ok_title AND ok_slug AND ok_price AND ok_variants AND ok_images
-        AND ok_seo AND ok_size_chart AND ok_customisation AND ok_taxonomy AND ok_description
+        AND ok_seo AND ok_size_chart AND ok_customisation AND ok_option_set AND ok_taxonomy AND ok_description
         AND NOT is_duplicate_suspect
     `;
 

@@ -80,6 +80,55 @@ export const SIZE_OPTION_SETS = {
       "Youth/L",
       "Youth/XL"
     ]
+  },
+  /** Live SJD Aris optionset `football-jerseys` (extracted Aug 2026 from sportsjerseydirect.com). */
+  "football-jerseys": {
+    slug: "football-jerseys",
+    title: "Football jerseys",
+    sport: "Football",
+    sizes: [
+      "S/Men's",
+      "M/Men's",
+      "L/Men's",
+      "XL/Men's",
+      "2XL/Men's",
+      "3XL/Men's",
+      "Youth S (6–8 yrs)",
+      "Youth M (8–10 yrs)",
+      "Youth L (10–12 yrs)",
+      "Youth XL (12–14 yrs)",
+      "1T (1–2 yrs)",
+      "2T (2–3 yrs)",
+      "3T (3–4 yrs)",
+      "4T (4–5 yrs)",
+      "5T (5–6 yrs)",
+      "6T (6–7 yrs)"
+    ]
+  },
+  /** Live SJD Aris optionset `basketball-jerseys` (extracted Aug 2026 from sportsjerseydirect.com). */
+  "basketball-jerseys": {
+    slug: "basketball-jerseys",
+    title: "Basketball jerseys",
+    sport: "Basketball",
+    sizes: [
+      "S/Men's",
+      "M/Men's",
+      "L/Men's",
+      "XL/Men's",
+      "2XL/Men's",
+      "Youth/XS",
+      "Youth/S",
+      "Youth/M",
+      "Youth/L",
+      "Youth/XL",
+      "1T (1–2 yrs)",
+      "2T (2–3 yrs)",
+      "3T (3–4 yrs)",
+      "4T (4–5 yrs)",
+      "5T (5–6 yrs)",
+      "6T (6–7 yrs)",
+      "7T (7–8 yrs)"
+    ]
   }
 } as const;
 
@@ -88,7 +137,9 @@ export type SizeOptionSetSlug = keyof typeof SIZE_OPTION_SETS;
 export const sizeOptionSetSlugSchema = z.enum([
   "baseball-jerseys",
   "hockey-jerseys",
-  "soccer-jerseys"
+  "soccer-jerseys",
+  "football-jerseys",
+  "basketball-jerseys"
 ]);
 
 export const sizeOptionSetSchema = z.object({
@@ -117,6 +168,8 @@ export function sizeOptionSetSlugForSport(sport: string | null | undefined): Siz
   if (key === "baseball") return "baseball-jerseys";
   if (key === "hockey") return "hockey-jerseys";
   if (key === "soccer") return "soccer-jerseys";
+  if (key === "football") return "football-jerseys";
+  if (key === "basketball") return "basketball-jerseys";
   return null;
 }
 

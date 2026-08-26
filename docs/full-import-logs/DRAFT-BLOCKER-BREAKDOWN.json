@@ -1,0 +1,152 @@
+{
+  "totals": {
+    "total": 8905,
+    "shopify": 8897,
+    "published": 4134,
+    "draft_shopify": 4770,
+    "seeds": 8
+  },
+  "draftReasons": [
+    {
+      "primary_reason": "missing_sport",
+      "n": 4757
+    },
+    {
+      "primary_reason": "missing_image",
+      "n": 13
+    }
+  ],
+  "draftBySportReason": [
+    {
+      "sport": "(null)",
+      "primary_reason": "missing_sport",
+      "n": 4757
+    },
+    {
+      "sport": "(null)",
+      "primary_reason": "missing_image",
+      "n": 13
+    }
+  ],
+  "bySport": [
+    {
+      "sport": "(null)",
+      "status": "draft",
+      "n": 4770
+    },
+    {
+      "sport": "Baseball",
+      "status": "published",
+      "n": 1865
+    },
+    {
+      "sport": "Basketball",
+      "status": "published",
+      "n": 88
+    },
+    {
+      "sport": "Football",
+      "status": "published",
+      "n": 477
+    },
+    {
+      "sport": "Hockey",
+      "status": "published",
+      "n": 1412
+    },
+    {
+      "sport": "Hockey",
+      "status": "archived",
+      "n": 1
+    },
+    {
+      "sport": "Soccer",
+      "status": "published",
+      "n": 284
+    }
+  ],
+  "optionCoverage": [
+    {
+      "sport": "(null)",
+      "total": 4770,
+      "with_option_set": 0,
+      "published": 0,
+      "draft": 4770
+    },
+    {
+      "sport": "Baseball",
+      "total": 1865,
+      "with_option_set": 1865,
+      "published": 1865,
+      "draft": 0
+    },
+    {
+      "sport": "Hockey",
+      "total": 1413,
+      "with_option_set": 1413,
+      "published": 1412,
+      "draft": 0
+    },
+    {
+      "sport": "Football",
+      "total": 477,
+      "with_option_set": 477,
+      "published": 477,
+      "draft": 0
+    },
+    {
+      "sport": "Soccer",
+      "total": 284,
+      "with_option_set": 284,
+      "published": 284,
+      "draft": 0
+    },
+    {
+      "sport": "Basketball",
+      "total": 88,
+      "with_option_set": 88,
+      "published": 88,
+      "draft": 0
+    }
+  ],
+  "optionSets": [
+    {
+      "slug": "baseball-jerseys",
+      "title": "Baseball jerseys",
+      "sport": "Baseball",
+      "size_count": 21
+    },
+    {
+      "slug": "basketball-jerseys",
+      "title": "Basketball jerseys",
+      "sport": "Basketball",
+      "size_count": 17
+    },
+    {
+      "slug": "football-jerseys",
+      "title": "Football jerseys",
+      "sport": "Football",
+      "size_count": 16
+    },
+    {
+      "slug": "hockey-jerseys",
+      "title": "Hockey jerseys",
+      "sport": "Hockey",
+      "size_count": 10
+    },
+    {
+      "slug": "soccer-jerseys",
+      "title": "Soccer jerseys",
+      "sport": "Soccer",
+      "size_count": 10
+    }
+  ],
+  "suspiciousCollections": [
+    {
+      "slug": "all-products-chatgpt-ai-product-description",
+      "title": "All Products (ChatGPT-AI Product Description)",
+      "status": "published",
+      "products": 3872
+    }
+  ]
+}

@@ -470,6 +470,8 @@ export type { UpsertCollectionsResult } from "./load/upsert-collections";
 export { syncProductCollectionMembershipsFromSourcePayload } from "./load/sync-product-collection-memberships";
 export type { SyncProductCollectionMembershipsResult } from "./load/sync-product-collection-memberships";
 export { runControlledSampleImport, selectRepresentativeSample } from "./migration/sample-import";
+export { runControlledFullImport } from "./migration/full-import";
+export type { FullImportReport } from "./migration/full-import";
 export type {
   ControlledSampleImportOptions,
   SampleImportReport

@@ -1,0 +1,49 @@
+{
+  "generatedAt": "2026-08-26T12:30:00.000Z",
+  "migration": "overnight-full-import",
+  "flags": {
+    "ENABLE_SHOPIFY_SYNC": false,
+    "ENABLE_SHOPIFY_FULL_IMPORT": true,
+    "ENABLE_SHOPIFY_SAMPLE_IMPORT": true,
+    "liveStripe": false,
+    "outboundEmail": false
+  },
+  "import": {
+    "runId": "c5a09f3b-8830-46c8-b1df-633dee9956ae",
+    "productsFetched": 8897,
+    "productsUpserted": 8897,
+    "productsFailed": 0,
+    "pagesProcessed": 178,
+    "durationMs": 6054965
+  },
+  "enrichment": {
+    "customisationLinked": 8897,
+    "sportClassified": 3873,
+    "optionSetsLinked": 1957,
+    "seoUpdated": 8897,
+    "memberships": 19917
+  },
+  "publish": {
+    "autonomousPublished": 1350,
+    "safetyUnpublishedMissingOptionSet": 312,
+    "finalPublishedShopify": 3560,
+    "finalDraftShopify": 5336,
+    "publishedSeeds": 8,
+    "archived": 1
+  },
+  "readinessPublishedAudit": {
+    "ready": 2260,
+    "needs_review": 262,
+    "blocked": 0,
+    "with_option_set": 2260
+  },
+  "playwright": {
+    "postSafety": "7 passed, 1 skipped, 0 failed (journey, checkout, product-options desktop)"
+  },
+  "ownerDecisions": [
+    "Import NFL/NBA Aris size option sets before publishing Football/Basketball products",
+    "Review all-products-chatgpt-ai-product-description collection naming",
+    "Expand CREATE_NEW_LISTING proposals policy (10 pending, not auto-created)",
+    "Supplier SKU strategy for null Shopify SKUs"
+  ]
+}

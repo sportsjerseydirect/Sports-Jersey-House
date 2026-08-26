@@ -1,0 +1,457 @@
+{
+  "generatedAt": "2026-08-26T16:39:14.532Z",
+  "mission": "post-import-football-basketball-option-sets-and-publish",
+  "flags": {
+    "ENABLE_SHOPIFY_SYNC": false,
+    "liveStripe": false,
+    "CREATE_NEW_LISTING": false,
+    "chatgptCollectionRenamed": false
+  },
+  "baselineBeforeThisRun": {
+    "shopifyProducts": 8897,
+    "publishedApprox": 3560,
+    "draftsApprox": 5336
+  },
+  "pipeline": {
+    "sharedUnitTests": {
+      "ok": true,
+      "passed": 26
+    },
+    "nullSportSample": {
+      "patterns": {
+        "nflish": 76,
+        "nbaish": 79,
+        "mlbish": 0,
+        "nhlish": 0,
+        "total_null_sport": 5024
+      },
+      "samples": [
+        {
+          "title": "#1 Appalachian State Mountaineers Basketball Jersey - Black",
+          "slug": "appalachian-state-mountaineers-gameday-greats-nil-football-fashion-jersey-white-ncaa"
+        },
+        {
+          "title": "#1 Appalachian State Mountaineers GameDay Greats Endzone Football Jersey - Black",
+          "slug": "appalachian-state-mountaineers-gameday-greats-hockey-jersey-black-ncaa"
+        },
+        {
+          "title": "#1 Arizona State Sun Devils Honoring Black Excellence Basketball Jersey - Khaki",
+          "slug": "arizona-state-sun-devils-colosseum-puck-proud-fashion-hockey-jersey-cream-ncaa"
+        },
+        {
+          "title": "#1 Arkansas Razorbacks GameDay Greats Unisex Lightweight Basketball Jersey - Pink",
+          "slug": "5-arkansas-razorbacks-untouchable-football-jersey-white-ncaa"
+        },
+        {
+          "title": "#1 Army Black Knights Team Basketball Jersey - Gold",
+          "slug": "army-black-knights-rivalry-collection-alternate-untouchable-football-jersey-black-ncaa"
+        },
+        {
+          "title": "#1 Baylor Bears  Untouchable Football Jersey – Green",
+          "slug": "34-auburn-tigers-under-armour-basketball-jersey-white-ncaa"
+        },
+        {
+          "title": "#1 Baylor Bears GameDay Greats Football Jersey - White",
+          "slug": "1-baylor-bears-gameday-greats-lightweight-basketball-jersey-white-ncaa"
+        },
+        {
+          "title": "#1 Baylor Bears GameDay Greats Lightweight Basketball Jersey - White",
+          "slug": "baylor-bears-colosseum-puck-proud-fashion-hockey-jersey-cream-ncaa"
+        },
+        {
+          "title": "#1 Boise State Broncos Untouchable Football Jersey - Royal",
+          "slug": "boise-state-broncos-gameday-greats-nil-pick-a-player-lightweight-collegiate-volleyball-fashion-jersey-royal-ncaa"
+        },
+        {
+          "title": "#1 Boston College Eagles GameDay Greats Lightweight Basketball Jersey - Cardinal",
+          "slug": "1-boston-college-eagles-gameday-greats-lightweight-basketball-jersey-cardinal"
+        },
+        {
+          "title": "#1 Boston College Eagles GameDay Greats Lightweight Collegiate Football Fashion Jersey - Maroon",
+          "slug": "doug-flutie-boston-college-eagles-gameday-greats-heisman-football-jersey-maroon-ncaa"
+        },
+        {
+          "title": "#1 BYU Cougars GameDay Greats Football Jersey - Cardinal",
+          "slug": "1-byu-cougars-gameday-greats-lightweight-volleyball-jersey-white-ncaa"
+        },
+        {
+          "title": "#1 Cal Bears Basketball Jersey - Navy",
+          "slug": "1-cal-bears-game-jersey-white-ncaa"
+        },
+        {
+          "title": "#1 Clemson Tigers GameDay Greats Lightweight Basketball Jersey - Black",
+          "slug": "clemson-tigers-nil-pick-a-player-game-jersey-orange-ncaa"
+        },
+        {
+          "title": "#1 Colorado Buffaloes GameDay Greats Lightweight Basketball Jersey - White",
+          "slug": "travis-hunter-colorado-buffaloes-alumni-game-jersey-white-ncaa"
+        },
+        {
+          "title": "#1 Georgetown Hoyas GameDay Greats Football Jersey - Cardinal",
+          "slug": "georgetown-hoyas-gameday-greats-football-jersey-cardinal"
+        },
+        {
+          "title": "#1 Georgetown Hoyas GameDay Greats Football Jersey - White",
+          "slug": "georgetown-hoyas-gameday-greats-football-jersey-white"
+        },
+        {
+          "title": "#1 Hawaii Rainbow Warriors GameDay Greats Football Jersey - Black",
+          "slug": "georgia-tech-yellow-jackets-gameday-greats-nil-lightweight-volleyball-jersey-white-ncaa"
+        },
+        {
+          "title": "#1 Hawaii Rainbow Warriors GameDay Greats Football Jersey - Green",
+          "slug": "1-hawaii-rainbow-warriors-gameday-greats-football-jersey-black-ncaa"
+        },
+        {
+          "title": "#1 Houston Cougars GameDay Greats Football Jersey - Black",
+          "slug": "50-hawaii-rainbow-warriors-gameday-greats-lightweight-basketball-jersey-white-ncaa"
+        }
+      ]
+    },
+    "migration0016": {
+      "ok": true,
+      "migration": "0016_football_basketball_option_sets.sql"
+    },
+    "batchClassifySport": {
+      "ok": true,
+      "sportRowsUpdated": 254,
+      "leagueRowsUpdated": 254,
+      "sizeChartsLinked": 254,
+      "coverage": {
+        "total": 8897,
+        "with_sport": 4127,
+        "with_league": 4125,
+        "with_size_chart": 4127,
+        "missing_sport": 4770
+      },
+      "readiness": {
+        "ready": 4127,
+        "needs_review": 4757,
+        "blocked": 13
+      }
+    },
+    "fillPlaceholderDescriptions": {
+      "ok": true,
+      "descriptionsUpdated": 8897
+    },
+    "enrichShopifyProducts": {
+      "ok": true,
+      "rowsTouched": 8897,
+      "stats": {
+        "total": 8897,
+        "with_customisation": 8897,
+        "with_size_chart": 4127,
+        "with_shipping_copy": 8897
+      }
+    },
+    "linkOptionSets": {
+      "ok": true,
+      "linked": 254,
+      "sets": [
+        {
+          "slug": "baseball-jerseys",
+          "sport": "Baseball",
+          "sizes": 21
+        },
+        {
+          "slug": "basketball-jerseys",
+          "sport": "Basketball",
+          "sizes": 17
+        },
+        {
+          "slug": "football-jerseys",
+          "sport": "Football",
+          "sizes": 16
+        },
+        {
+          "slug": "hockey-jerseys",
+          "sport": "Hockey",
+          "sizes": 10
+        },
+        {
+          "slug": "soccer-jerseys",
+          "sport": "Soccer",
+          "sizes": 10
+        }
+      ]
+    },
+    "refreshSeoMeta": {
+      "ok": true,
+      "updated": 8189
+    },
+    "batchPublishReadiness": {
+      "ok": true,
+      "readiness": {
+        "total": 8897,
+        "draft": 5336,
+        "published": 3560,
+        "blocked": 13,
+        "needs_review": 4757,
+        "ready": 4127,
+        "missing_size_chart": 4770,
+        "missing_customisation": 0,
+        "missing_taxonomy": 125,
+        "missing_seo": 0
+      }
+    },
+    "autonomousPublishDryRun": {
+      "ok": true,
+      "dryRun": true,
+      "wouldPublish": 566
+    },
+    "autonomousPublish": {
+      "ok": true,
+      "published": 566,
+      "collectionsPublished": 6,
+      "counts": {
+        "shopify_published": 4126,
+        "shopify_draft": 4770,
+        "total_published": 4134
+      }
+    }
+  },
+  "finalCounts": {
+    "shopifyImported": 8897,
+    "published": 4134,
+    "draft_shopify": 4770,
+    "total": 8905,
+    "taxonomy": {
+      "with_sport": 4127,
+      "with_league": 4125,
+      "with_team": 8640,
+      "with_player": 499,
+      "total": 8897
+    },
+    "seoWithMeta": 8897,
+    "memberships": 19917,
+    "statusCounts": [
+      {
+        "status": "draft",
+        "n": 4770
+      },
+      {
+        "status": "published",
+        "n": 4134
+      },
+      {
+        "status": "archived",
+        "n": 1
+      }
+    ],
+    "publishResultCounts": {
+      "shopify_published": 4126,
+      "shopify_draft": 4770,
+      "total_published": 4134
+    }
+  },
+  "draftsUnlockedThisRun": {
+    "previousDraftsApprox": 5336,
+    "safelyPublishedWithoutHumanReview": 566,
+    "remainingDrafts": 4770,
+    "percentOfPreviousDraftsUnlocked": 10.6,
+    "explanation": "566 drafts met autonomous gates (sport + option_set_id + non-placeholder description + SEO + image). Remaining 4770 blocked almost entirely by missing_sport (no invented sizes)."
+  },
+  "draftBlockers": {
+    "draftReasons": [
+      {
+        "primary_reason": "missing_sport",
+        "n": 4757
+      },
+      {
+        "primary_reason": "missing_image",
+        "n": 13
+      }
+    ],
+    "optionCoverage": [
+      {
+        "sport": "(null)",
+        "total": 4770,
+        "with_option_set": 0,
+        "published": 0,
+        "draft": 4770
+      },
+      {
+        "sport": "Baseball",
+        "total": 1865,
+        "with_option_set": 1865,
+        "published": 1865,
+        "draft": 0
+      },
+      {
+        "sport": "Hockey",
+        "total": 1413,
+        "with_option_set": 1413,
+        "published": 1412,
+        "draft": 0
+      },
+      {
+        "sport": "Football",
+        "total": 477,
+        "with_option_set": 477,
+        "published": 477,
+        "draft": 0
+      },
+      {
+        "sport": "Soccer",
+        "total": 284,
+        "with_option_set": 284,
+        "published": 284,
+        "draft": 0
+      },
+      {
+        "sport": "Basketball",
+        "total": 88,
+        "with_option_set": 88,
+        "published": 88,
+        "draft": 0
+      }
+    ],
+    "optionSets": [
+      {
+        "slug": "baseball-jerseys",
+        "title": "Baseball jerseys",
+        "sport": "Baseball",
+        "size_count": 21
+      },
+      {
+        "slug": "basketball-jerseys",
+        "title": "Basketball jerseys",
+        "sport": "Basketball",
+        "size_count": 17
+      },
+      {
+        "slug": "football-jerseys",
+        "title": "Football jerseys",
+        "sport": "Football",
+        "size_count": 16
+      },
+      {
+        "slug": "hockey-jerseys",
+        "title": "Hockey jerseys",
+        "sport": "Hockey",
+        "size_count": 10
+      },
+      {
+        "slug": "soccer-jerseys",
+        "title": "Soccer jerseys",
+        "sport": "Soccer",
+        "size_count": 10
+      }
+    ],
+    "bySport": [
+      {
+        "sport": "(null)",
+        "status": "draft",
+        "n": 4770
+      },
+      {
+        "sport": "Baseball",
+        "status": "published",
+        "n": 1865
+      },
+      {
+        "sport": "Basketball",
+        "status": "published",
+        "n": 88
+      },
+      {
+        "sport": "Football",
+        "status": "published",
+        "n": 477
+      },
+      {
+        "sport": "Hockey",
+        "status": "published",
+        "n": 1412
+      },
+      {
+        "sport": "Hockey",
+        "status": "archived",
+        "n": 1
+      },
+      {
+        "sport": "Soccer",
+        "status": "published",
+        "n": 284
+      }
+    ]
+  },
+  "chatgptCollection": {
+    "slug": "all-products-chatgpt-ai-product-description",
+    "title": "All Products (ChatGPT-AI Product Description)",
+    "status": "published",
+    "shopifyId": "gid://shopify/Collection/650101588277",
+    "productCount": 3872,
+    "publishedProductCount": 3560,
+    "inSiteHeaderNav": false,
+    "inSiteFooterNav": false,
+    "headerNavLinks": [
+      "/products",
+      "/collections",
+      "/search"
+    ],
+    "footerShopLinks": [
+      "/products",
+      "/collections",
+      "/search"
+    ],
+    "reachableVia": [
+      "/collections",
+      "/collections/all-products-chatgpt-ai-product-description",
+      "sitemap (published collections)"
+    ],
+    "robots": {
+      "disallowed": false,
+      "note": "robots.ts allows /; only /admin /supplier /cart /checkout /orders /api/ disallowed"
+    },
+    "actionTaken": "investigated only; not renamed or deleted"
+  },
+  "tests": {
+    "packagesDatabase": {
+      "ok": true,
+      "passed": 34,
+      "skipped": 3
+    },
+    "packagesShared": {
+      "ok": true,
+      "passed": 26
+    },
+    "appsWebTsc": {
+      "ok": true
+    },
+    "playwright": {
+      "baseUrl": "https://sports-jersey-house.vercel.app",
+      "PW_USE_SYSTEM_CHROME": "1",
+      "specs": [
+        "02-journey",
+        "05-checkout",
+        "08-product-options"
+      ],
+      "projects": [
+        "desktop-chromium",
+        "mobile-chromium"
+      ],
+      "passed": 11,
+      "failed": 3,
+      "skipped": 2,
+      "productOptionsAllPassed": true,
+      "failures": [
+        "desktop+mobile journey: locator('main') strict mode (loading-shell + page-shell) on /collections",
+        "desktop checkout: waitForURL checkout.stripe.com timed out (mobile checkout passed)"
+      ]
+    }
+  },
+  "deploy": {
+    "ran": true,
+    "reason": "packages/shared/src/product-options.ts changed",
+    "productionAlias": "https://sports-jersey-house.vercel.app",
+    "deploymentId": "dpl_7Mbyj4ciLtG7X2o7w87GXAsTHytT",
+    "readyState": "READY"
+  },
+  "remainingOwnerWork": [
+    "Classify/map remaining missing_sport drafts before further autonomous publish",
+    "Merchandising decision on all-products-chatgpt-ai-product-description",
+    "Investigate title/slug mismatches in null-sport sample",
+    "Fix Playwright /collections main strictness and intermittent desktop Stripe redirect"
+  ]
+}
