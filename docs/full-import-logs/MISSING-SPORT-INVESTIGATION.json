@@ -14,16 +14,16 @@
       "n": 144
     },
     {
-      "pattern": "MLB / baseball signal",
-      "n": 64
-    },
-    {
       "pattern": "Olympic",
       "n": 23
     },
     {
       "pattern": "NHL / hockey signal",
-      "n": 17
+      "n": 8
+    },
+    {
+      "pattern": "MLB / baseball signal",
+      "n": 4
     }
   ],
   "bucketCounts": [
@@ -33,33 +33,14 @@
     },
     {
       "bucket": "UNKNOWN",
-      "n": 2140
-    },
-    {
-      "bucket": "HIGH",
-      "n": 81
+      "n": 2152
     }
   ],
   "scoredByConfidenceSport": [
     {
-      "confidence": "CONFLICT",
-      "inferred_sport": null,
-      "n": 21
-    },
-    {
-      "confidence": "HIGH",
-      "inferred_sport": "Baseball",
-      "n": 64
-    },
-    {
-      "confidence": "HIGH",
-      "inferred_sport": "Hockey",
-      "n": 17
-    },
-    {
       "confidence": "MEDIUM",
       "inferred_sport": null,
-      "n": 2551
+      "n": 2584
     },
     {
       "confidence": "UNKNOWN",
@@ -67,23 +48,10 @@
       "n": 2117
     }
   ],
-  "highConfidenceDetail": [
-    {
-      "sport": "Baseball",
-      "league": null,
-      "evidence": "title/slug MLB/baseball token",
-      "n": 64
-    },
-    {
-      "sport": "Hockey",
-      "league": null,
-      "evidence": "title/slug NHL/hockey token",
-      "n": 17
-    }
-  ],
+  "highConfidenceDetail": [],
   "applied": {
-    "sportUpdated": 81,
-    "leagueUpdated": 81,
-    "optionSetsLinked": 81
+    "sportUpdated": 0,
+    "leagueUpdated": 0,
+    "optionSetsLinked": 0
   }
 }

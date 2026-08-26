@@ -2,14 +2,14 @@
   "totals": {
     "total": 8905,
     "shopify": 8897,
-    "published": 4134,
-    "draft_shopify": 4770,
+    "published": 4214,
+    "draft_shopify": 4690,
     "seeds": 8
   },
   "draftReasons": [
     {
       "primary_reason": "missing_sport",
-      "n": 4757
+      "n": 4677
     },
     {
       "primary_reason": "missing_image",
@@ -20,7 +20,7 @@
     {
       "sport": "(null)",
       "primary_reason": "missing_sport",
-      "n": 4757
+      "n": 4677
     },
     {
       "sport": "(null)",
@@ -32,12 +32,17 @@
     {
       "sport": "(null)",
       "status": "draft",
-      "n": 4770
+      "n": 4690
+    },
+    {
+      "sport": "(null)",
+      "status": "published",
+      "n": 11
     },
     {
       "sport": "Baseball",
       "status": "published",
-      "n": 1865
+      "n": 1925
     },
     {
       "sport": "Basketball",
@@ -52,7 +57,7 @@
     {
       "sport": "Hockey",
       "status": "published",
-      "n": 1412
+      "n": 1421
     },
     {
       "sport": "Hockey",
@@ -68,23 +73,23 @@
   "optionCoverage": [
     {
       "sport": "(null)",
-      "total": 4770,
-      "with_option_set": 0,
-      "published": 0,
-      "draft": 4770
+      "total": 4701,
+      "with_option_set": 12,
+      "published": 11,
+      "draft": 4690
     },
     {
       "sport": "Baseball",
-      "total": 1865,
-      "with_option_set": 1865,
-      "published": 1865,
+      "total": 1925,
+      "with_option_set": 1925,
+      "published": 1925,
       "draft": 0
     },
     {
       "sport": "Hockey",
-      "total": 1413,
-      "with_option_set": 1413,
-      "published": 1412,
+      "total": 1422,
+      "with_option_set": 1422,
+      "published": 1421,
       "draft": 0
     },
     {

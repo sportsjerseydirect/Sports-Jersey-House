@@ -1,0 +1,57 @@
+{
+  "startedAt": "2026-08-26T21:24:57.030Z",
+  "completedAt": "2026-08-26T21:25:04.594Z",
+  "dryRun": false,
+  "reportOnly": true,
+  "starting": {
+    "shopifyPublished": 4206,
+    "shopifyDraft": 4690
+  },
+  "ending": {
+    "shopifyPublished": 4206,
+    "shopifyDraft": 4690
+  },
+  "newlyPublished": 0,
+  "classification": {
+    "bucketCounts": {
+      "MEDIUM": 2573,
+      "UNKNOWN": 2117
+    },
+    "college": 2549,
+    "olympicIntl": 23,
+    "novelty": 0,
+    "highConfidencePublished": 0,
+    "highConfidenceStillDraft": 0,
+    "mediumConfidence": 2573,
+    "unknown": 2117,
+    "conflicting": 0
+  },
+  "applied": {
+    "sportUpdated": 0,
+    "leagueUpdated": 0,
+    "optionSetsLinked": 0,
+    "sizeChartsLinked": 0,
+    "enriched": 0
+  },
+  "publish": {
+    "candidates": 0,
+    "blocklisted": 1,
+    "blocklistedSlugs": [
+      "oscar-robertson-milwaukee-bucks-mitchell-ness-hardwood-classics-swingman-jersey-white"
+    ],
+    "batches": [],
+    "publishedSlugs": []
+  },
+  "remainingDraftReasons": [
+    {
+      "primary_reason": "missing_sport",
+      "n": 4677
+    },
+    {
+      "primary_reason": "missing_image",
+      "n": 13
+    }
+  ],
+  "newOptionSetsCreated": 0,
+  "duplicateSuspects": 0
+}
