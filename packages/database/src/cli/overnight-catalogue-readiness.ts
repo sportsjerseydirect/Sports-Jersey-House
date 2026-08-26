@@ -26,12 +26,13 @@ async function main(): Promise<void> {
   const startedAt = new Date().toISOString();
 
   try {
-    const [starting] = await sql`
+    const [startingRow] = await sql`
       SELECT
         count(*) FILTER (WHERE shopify_id IS NOT NULL AND status = 'published')::int AS shopify_published,
         count(*) FILTER (WHERE shopify_id IS NOT NULL AND status = 'draft')::int AS shopify_draft,
         count(*) FILTER (WHERE status = 'published')::int AS total_published
       FROM products WHERE deleted_at IS NULL`;
+    const starting = startingRow ?? { shopify_published: 0, shopify_draft: 0, total_published: 0 };
 
     // ── 1. Classify all Shopify drafts ─────────────────────────────────────
     const classified = await sql<
@@ -362,11 +363,12 @@ async function main(): Promise<void> {
           )`;
     }
 
-    const [ending] = await sql`
+    const [endingRow] = await sql`
       SELECT
         count(*) FILTER (WHERE shopify_id IS NOT NULL AND status = 'published')::int AS shopify_published,
         count(*) FILTER (WHERE shopify_id IS NOT NULL AND status = 'draft')::int AS shopify_draft
       FROM products WHERE deleted_at IS NULL`;
+    const ending = endingRow ?? { shopify_published: 0, shopify_draft: 0 };
 
     // ── 5. Remaining draft breakdown ───────────────────────────────────────
     const draftReasons = await sql`
