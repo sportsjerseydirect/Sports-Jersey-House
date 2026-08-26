@@ -1,0 +1,67 @@
+{
+  "runId": "college-international-2026-08-26",
+  "startedAt": "2026-08-26T21:55:45.417Z",
+  "completedAt": "2026-08-26T22:25:00.000Z",
+  "starting": {
+    "shopifyPublished": 4206,
+    "shopifyDraft": 4690
+  },
+  "ending": {
+    "shopifyPublished": 6916,
+    "shopifyDraft": 1980
+  },
+  "classified": {
+    "totalApplied": 2724,
+    "byCategory": {
+      "college_slug_prefix": 2358,
+      "college_explicit_sport": 65,
+      "international_explicit": 290,
+      "other_sport_no_options": 11
+    },
+    "bySport": {
+      "Basketball": 2101,
+      "Football": 281,
+      "Baseball": 179,
+      "Soccer": 128,
+      "Hockey": 24,
+      "Volleyball": 10,
+      "Softball": 1
+    },
+    "leaguesSet": {
+      "NCAA": 2432,
+      "FIFA World Cup": 190,
+      "International": 180
+    }
+  },
+  "enrichment": {
+    "sizeChartsAndCustomisation": 2713,
+    "optionSetsLinked": 2713
+  },
+  "published": {
+    "newlyPublished": 2710,
+    "revertedConflicts": 2,
+    "revertedSlugs": [
+      "1-army-black-knights-gameday-greats-unisex-lightweight-soccer-fashion-jersey-black-ncaa",
+      "1-kentucky-wildcats-alternate-game-jersey-black-ncaa"
+    ]
+  },
+  "intentionallyKeptDraft": {
+    "total": 1980,
+    "reasons": {
+      "missing_sport_unknown": 1968,
+      "missing_image": 13,
+      "other_sport_no_option_set": 11,
+      "conflicts_human_review": 295
+    }
+  },
+  "humanReview": {
+    "conflicts": 295,
+    "unknown": 1673,
+    "otherSportNoOptions": 11,
+    "notes": "Conflicts include title/slug sport mismatches, mascot/school mismatches, FIFA player/slug mismatches in GameDay Greats imports"
+  },
+  "tests": {
+    "database": "52 passed, 3 skipped",
+    "shared": "26 passed"
+  }
+}
