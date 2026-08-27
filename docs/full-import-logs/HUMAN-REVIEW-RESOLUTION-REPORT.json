@@ -19,7 +19,10 @@
       "noShopifySync": true,
       "noSeoOnlyCountryUpgrades": true,
       "volleyballSoftballClassifiedNotPublished": true
-    }
+    },
+    "commitSha": "1b8b22a1e50fc637451ae206bba00868d09777f8",
+    "deploymentId": "dpl_DNgXSpYjUxvfHTUuLvoyfNVeUfS8",
+    "deploymentUrl": "https://sports-jersey-house.vercel.app"
   },
   "startedAt": "2026-08-27T11:03:08.719Z",
   "completedAt": "2026-08-27T11:03:21.487Z",
@@ -2302,5 +2305,17 @@
       },
       "action": "left_draft"
     }
-  ]
+  ],
+  "tests": {
+    "database": "74 passed / 3 skipped",
+    "shared": "26 passed",
+    "typecheck": "passed (database + web)",
+    "productionBuild": "passed",
+    "qaProd": "83 passed / 3 skipped"
+  },
+  "deployment": {
+    "id": "dpl_DNgXSpYjUxvfHTUuLvoyfNVeUfS8",
+    "url": "https://sports-jersey-house.vercel.app",
+    "inspectorUrl": "https://vercel.com/sports-jersey-direct-s-projects/sports-jersey-house/DNgXSpYjUxvfHTUuLvoyfNVeUfS8"
+  }
 }
