@@ -4326,7 +4326,9 @@
     "remainingConflicts": 91,
     "startingPublished": 6916,
     "endingPublished": 7119,
-    "newlyPublishedNet": 203
+    "newlyPublishedNet": 203,
+    "commitSha": "17eb8fd",
+    "deploymentId": "dpl_JAi7Ei9gS5kDAf98kojhAYEnB3K6"
   },
   "tests": {
     "database": "63 passed, 3 skipped",
@@ -4335,5 +4337,13 @@
     "webTypecheck": "passed",
     "webBuild": "passed",
     "qaProd": "82 passed, 1 flaky mobile checkout timeout on first run; checkout suite 4/4 passed on rerun"
+  },
+  "git": {
+    "commitSha": "17eb8fd"
+  },
+  "deploy": {
+    "id": "dpl_JAi7Ei9gS5kDAf98kojhAYEnB3K6",
+    "url": "https://sports-jersey-house.vercel.app",
+    "readyState": "READY"
   }
 }
