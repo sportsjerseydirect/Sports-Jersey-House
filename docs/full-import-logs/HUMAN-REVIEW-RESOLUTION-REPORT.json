@@ -1,0 +1,2306 @@
+{
+  "summary": {
+    "task": "HUMAN_REVIEW + INVALID_PRODUCT second-pass resolution",
+    "humanReviewReviewed": 82,
+    "invalidReviewed": 9,
+    "totalReviewed": 91,
+    "safelyResolved": 36,
+    "published": 23,
+    "classifiedKeptDraftNoOptionSet": 13,
+    "remainingHumanReview": 46,
+    "remainingInvalid": 9,
+    "unknownUnchanged": true,
+    "unknownCount": 1671,
+    "finalPublished": 7142,
+    "finalDraft": 1754,
+    "safety": {
+      "noUnknownTouched": true,
+      "noDeletes": true,
+      "noShopifySync": true,
+      "noSeoOnlyCountryUpgrades": true,
+      "volleyballSoftballClassifiedNotPublished": true
+    }
+  },
+  "startedAt": "2026-08-27T11:03:08.719Z",
+  "completedAt": "2026-08-27T11:03:21.487Z",
+  "dryRun": false,
+  "starting": {
+    "shopify_published": 7119,
+    "shopify_draft": 1777,
+    "draft_null_sport": 1765
+  },
+  "ending": {
+    "shopify_published": 7142,
+    "shopify_draft": 1754,
+    "draft_null_sport": 1729
+  },
+  "reviewed": 91,
+  "counts": {
+    "SAFE_TO_FIX": 36,
+    "HUMAN_REVIEW": 46,
+    "INVALID_PRODUCT": 9
+  },
+  "unknownApproxUntouched": 1671,
+  "unknownEnd": 1671,
+  "safelyResolved": 36,
+  "classified": 36,
+  "leaguesSet": 36,
+  "enriched": 23,
+  "optionSetsLinked": 23,
+  "published": 23,
+  "publishedSlugs": [
+    "james-rodriguez-colombia-10-fifa-world-cup-jersey",
+    "belgium-national-team-womens-2026-jersey-black",
+    "scotland-2026-home-jersey",
+    "argentina-2026-home-jersey-with-world-champions-patch",
+    "0-ohio-state-buckeyes-gameday-greats-hockey-jersey-white-ncaa",
+    "clemson-tigers-gameday-greats-spirit-hockey-jersey-orange-ncaa",
+    "scotland-national-team-fifa-x-world-cup-2026-home-jersey-navy",
+    "uconn-huskies-gameday-greats-nil-pick-a-player-lightweight-collegiate-volleyball-fashion-jersey-navy-ncaa",
+    "washington-state-cougars-gameday-greats-spirit-hockey-jersey-crimson-ncaa",
+    "saudi-arabia-2026-home-jersey",
+    "brazil-womens-national-team-womens-2025-26-away-jersey-blue",
+    "italy-2026-home-kit",
+    "germany-national-team-fifa-x-world-cup-2026-tiro-away-training-jersey-white",
+    "south-florida-bulls-gameday-greats-volleyball-lightweight-fashion-jersey-green-ncaa",
+    "senegal-fifa-world-cup-jersey",
+    "northern-ireland-national-team-fifa-x-world-cup-2026-home-jersey-green",
+    "japan-2026-home-jersey",
+    "mexico-2026-home-kit",
+    "argentina-2026-home-kit",
+    "1-florida-gators-gameday-greats-lightweight-volleyball-jersey-white-ncaa",
+    "minnesota-golden-gophers-ccm-third-hockey-jersey-gold-ncaa",
+    "germany-2026-home-jersey",
+    "ucf-knights-gameday-greats-hockey-jersey-gold-ncaa"
+  ],
+  "remainingHumanReview": 46,
+  "remainingInvalid": 9,
+  "classifyOnlyNoPublish": [
+    {
+      "id": "1d804fe9-2ff1-442b-a027-6975dc73fd80",
+      "slug": "0-virginia-tech-hokies-gameday-greats-lightweight-baseball-fashion-jersey-white-ncaa",
+      "title": "#00 Virginia Tech Hokies GameDay Greats Lightweight Volleyball Fashion Jersey - Maroon",
+      "sport": "Volleyball",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set"
+    },
+    {
+      "id": "deda3851-b99d-4dc7-886a-425e54f47ea1",
+      "slug": "1-utah-utes-gameday-greats-lightweight-baseball-fashion-jersey-white-ncaa",
+      "title": "Utah Utes GameDay Greats  #1 Lightweight Volleyball Fashion Jersey - Red",
+      "sport": "Volleyball",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set"
+    },
+    {
+      "id": "abb8d9a3-47ba-4acf-a44e-9fb4fa149864",
+      "slug": "georgia-tech-yellow-jackets-gameday-greats-nil-pick-a-player-lightweight-basketball-fashion-jersey-navy-ncaa",
+      "title": "Georgia Tech Yellow Jackets GameDay Greats NIL Lightweight Volleyball Jersey - White",
+      "sport": "Volleyball",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set"
+    },
+    {
+      "id": "a6ebf00c-6b0c-49ed-9f51-dfa836b75e95",
+      "slug": "gunner-stockton-georgia-bulldogs-home-nil-football-game-jersey-red-ncaa",
+      "title": "Georgia Bulldogs GameDay Greats NIL Lightweight Volleyball Jersey - White",
+      "sport": "Volleyball",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set"
+    },
+    {
+      "id": "bfc343b4-088b-4647-916b-65dc67d0c10f",
+      "slug": "illinois-fighting-illini-custom-football-game-jersey-navy-ncaa",
+      "title": "Illinois Fighting Illini GameDay Greats NIL Pick-A-Player Lightweight Collegiate Volleyball Fashion Jersey - Orange",
+      "sport": "Volleyball",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set"
+    },
+    {
+      "id": "07559871-ef65-4f9c-bfb6-f41dd1626197",
+      "slug": "kansas-jayhawks-reverse-retro-baseball-jersey-royal-ncaa",
+      "title": "Kansas Jayhawks GameDay Greats NIL Pick-A-Player Lightweight Volleyball Jersey - White",
+      "sport": "Volleyball",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set"
+    },
+    {
+      "id": "f1e58cb7-4764-477e-b1df-98f9743fec7d",
+      "slug": "navy-midshipmen-under-armour-full-button-baseball-jersey-white-ncaa",
+      "title": "Navy Midshipmen GameDay Greats #1 Lightweight Volleyball Fashion Jersey - Navy",
+      "sport": "Volleyball",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set"
+    },
+    {
+      "id": "652a482d-8b5b-4bd2-a7c0-942a5236f86b",
+      "slug": "nebraska-huskers-colosseum-puck-proud-fashion-hockey-jersey-cream-ncaa",
+      "title": "#1 Nebraska Huskers GameDay Greats Lightweight Softball Jersey - White",
+      "sport": "Softball",
+      "reason": "Title explicit Softball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set"
+    },
+    {
+      "id": "f6da67ae-4beb-4024-b8cf-10ad48cd05ed",
+      "slug": "stanford-cardinal-full-button-baseball-jersey-gray-ncaa",
+      "title": "Stanford Cardinal GameDay Greats #1 Lightweight Volleyball Fashion Jersey - Cardinal",
+      "sport": "Volleyball",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set"
+    },
+    {
+      "id": "78be1b7a-3ab4-4bff-9249-591c1940b3c9",
+      "slug": "tennessee-volunteers-college-limited-baseball-jersey-white-ncaa",
+      "title": "Tennessee Volunteers GameDay Greats Lightweight Volleyball Fashion Jersey - Blue",
+      "sport": "Volleyball",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set"
+    },
+    {
+      "id": "0c8e0b04-73f3-4c85-8336-30add8f66478",
+      "slug": "texas-longhorns-college-limited-baseball-jersey-texas-orange-ncaa",
+      "title": "#1 Texas Longhorns GameDay Greats Volleyball National Champions Fashion Jersey - Texas Orange",
+      "sport": "Volleyball",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set"
+    },
+    {
+      "id": "0c9a4099-6844-4655-90a1-0ed8c51b8296",
+      "slug": "texas-tech-red-raiders-under-armour-baseball-jersey-white-ncaa",
+      "title": "#1 Texas Tech Red Raiders GameDay Greats Lightweight Volleyball Fashion Jersey - Red",
+      "sport": "Volleyball",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set"
+    },
+    {
+      "id": "7dcd179c-2815-4f0a-beba-8618c7db124f",
+      "slug": "vanderbilt-commodores-full-button-baseball-jersey-natural-ncaa",
+      "title": "Vanderbilt Commodores GameDay Greats Volleyball Lightweight Fashion Jersey - Gold",
+      "sport": "Volleyball",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set"
+    }
+  ],
+  "products": [
+    {
+      "id": "615a83ff-5d87-42dc-beae-fe941991d8e7",
+      "slug": "0-ohio-state-buckeyes-gameday-greats-hockey-jersey-white-ncaa",
+      "title": "Baker Mayfield Oklahoma Sooners Alumni Player Game Jersey - Crimson",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Football",
+      "league": "NCAA",
+      "reason": "Known football alumni (Baker Mayfield) in title; school tags corroborate identity",
+      "evidence": {
+        "tags": [
+          "HOCKEY J",
+          "Jerseys",
+          "NCAA",
+          "Oklahoma Sooners"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "firstPassReason": "Tags corroborate title identity (oklahoma,sooners) but sport is not explicit in title"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "1d804fe9-2ff1-442b-a027-6975dc73fd80",
+      "slug": "0-virginia-tech-hokies-gameday-greats-lightweight-baseball-fashion-jersey-white-ncaa",
+      "title": "#00 Virginia Tech Hokies GameDay Greats Lightweight Volleyball Fashion Jersey - Maroon",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Volleyball",
+      "league": "NCAA",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Virginia Tech Hokies"
+        ],
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "firstPassReason": "Tags corroborate tokens from both title and slug — genuinely ambiguous"
+      },
+      "action": "classified_no_option_set_kept_draft"
+    },
+    {
+      "id": "6f2da035-7280-4189-9e7c-dbdd4cea3dee",
+      "slug": "00-virginia-tech-hokies-gameday-greats-lightweight-volleyball-fashion-jersey-maroon-ncaa",
+      "title": "#1 Washington Huskies Premier Jersey - Purple",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (washington,huskies) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Washington Huskies"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Volleyball"
+        ],
+        "firstPassReason": "Tags corroborate title identity (washington,huskies) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "8db14df3-505c-4e04-80fb-b6979e4cd84c",
+      "slug": "1-florida-gators-gameday-greats-lightweight-volleyball-jersey-white-ncaa",
+      "title": "Florida State Seminoles Game Jersey - Turquoise",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Football",
+      "league": "NCAA",
+      "reason": "Title school corroborated by tags; Football J tag + Football Jerseys collection (no conflicting sport)",
+      "evidence": {
+        "tags": [
+          "Florida State Seminoles",
+          "Football J",
+          "Jerseys",
+          "NCAA"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Volleyball"
+        ],
+        "firstPassReason": "Tags corroborate tokens from both title and slug — genuinely ambiguous"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "ef29734e-c3c3-47f6-adae-8248bbd5121e",
+      "slug": "1-oregon-state-beavers-gameday-greats-lightweight-hockey-fashion-jersey-white-ncaa",
+      "title": "#1 Penn State Nittany Lions Alternate Game Jersey - Navy",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug — genuinely ambiguous | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Penn State Nittany Lions",
+          "soccer"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "firstPassReason": "Tags corroborate tokens from both title and slug — genuinely ambiguous"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "deda3851-b99d-4dc7-886a-425e54f47ea1",
+      "slug": "1-utah-utes-gameday-greats-lightweight-baseball-fashion-jersey-white-ncaa",
+      "title": "Utah Utes GameDay Greats  #1 Lightweight Volleyball Fashion Jersey - Red",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Volleyball",
+      "league": "NCAA",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Utah Utes"
+        ],
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "firstPassReason": "Tags corroborate tokens from both title and slug — genuinely ambiguous"
+      },
+      "action": "classified_no_option_set_kept_draft"
+    },
+    {
+      "id": "dded11e0-9fae-42af-8fd1-0af1b51b48d3",
+      "slug": "argentina-2026-home-jersey-with-world-champions-patch",
+      "title": "Belgium 2026 Home Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "reason": "Title country corroborated via collections:belgium; soccer signals present",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e6a1035c-db1a-458d-b6ec-abcd95a3508d",
+      "slug": "argentina-2026-home-kit",
+      "title": "Italy 2026 Home Kit",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "reason": "Title country corroborated via collections:italy; soccer signals present",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e1d34390-7456-4cc4-8e4c-13214445023c",
+      "slug": "argentina-2026-messi-home-jersey-with-world-champions-patch",
+      "title": "Germany 2026 Home Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "ac86fe93-273c-4eee-8e3b-f0023340b7fc",
+      "slug": "belgium-2026-home-jersey",
+      "title": "Saudi Arabia 2026 Home Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "5dd29218-651f-4242-8a3d-3914037c83bb",
+      "slug": "belgium-national-team-womens-2026-jersey-black",
+      "title": "Brazil National Team 2026 Home Match Authentic Jersey – Yellow",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "International",
+      "reason": "Title country corroborated via tags:brazil; collections:brazil; soccer signals present",
+      "evidence": {
+        "tags": [
+          "Brazil National Team",
+          "Federation Team",
+          "soccer"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate title identity (brazil) but sport is not explicit in title"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "09016742-3e89-4298-95de-49ce4adc0e8e",
+      "slug": "brazil-womens-national-team-womens-2025-26-away-jersey-blue",
+      "title": "Canada Soccer 2026 Pre-Match Top - Red",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "International",
+      "reason": "Title country corroborated via tags:canada; soccer signals present",
+      "evidence": {
+        "tags": [
+          "Canada Soccer",
+          "Federation Team"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate title identity (canada) but sport is not explicit in title"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6ff3d314-37b6-410f-b3ea-a08de91c9a9c",
+      "slug": "chile-2026-home-jersey",
+      "title": "Japan 2026 Home Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "e26a4b66-aab0-4020-ac9a-ddfc3105f7ea",
+      "slug": "clemson-tigers-gameday-greats-spirit-hockey-jersey-orange-ncaa",
+      "title": "Travis Hunter Colorado Buffaloes Alternate Alumni Game Jersey - Black",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Football",
+      "league": "NCAA",
+      "reason": "Known football alumni (Travis Hunter) in title; school tags corroborate identity",
+      "evidence": {
+        "tags": [
+          "Colorado Buffaloes",
+          "HOCKEY J",
+          "Jerseys",
+          "NCAA"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "firstPassReason": "Tags corroborate title identity (colorado,buffaloes) but sport is not explicit in title"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6f11acde-364b-462e-bac7-efdce462c988",
+      "slug": "colombia-2026-home-jersey",
+      "title": "Wales 2026 Home Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "9eff913f-7db6-41c0-be48-9b9115e212fd",
+      "slug": "corey-seager-texas-rangers-profile-big-tall-name-number-birdeye-v-neck-t-shirt-white",
+      "title": "American League  2025-26 All-Star Edition Elite Jersey - Navy",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate slug (texas,rangers) but not title — title rewrite not allowed | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "BASEBALL J",
+          "Baseball Jersey",
+          "Major League Baseball",
+          "Texas Rangers"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate slug (texas,rangers) but not title — title rewrite not allowed"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "89a712a3-8b75-4739-a30f-d4405e2327d5",
+      "slug": "dansby-swanson-chicago-cubs-player-jersey-light-blue",
+      "title": "Colson Montgomery Chicago White Sox Jersey - White",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug — genuinely ambiguous | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "BASEBALL J",
+          "Baseball Jersey",
+          "Chicago White Sox",
+          "Major League Baseball"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate tokens from both title and slug — genuinely ambiguous"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "83d3622f-85d3-45a0-97cf-52d7a45ee8f0",
+      "slug": "denmark-fifa-world-cup-jersey",
+      "title": "Costa Rica FIFA World Cup Jersey",
+      "firstPassDisposition": "INVALID_PRODUCT",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import | re-review: soccer clear but country only in title/SEO without tags/collections — leave draft",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "International custom",
+          "SOCCER"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "666d6734-0a0e-4943-86d0-df592f6c0155",
+      "slug": "denmark-fifa-world-cup-jersey-1",
+      "title": "Switzerland FIFA World Cup Jersey",
+      "firstPassDisposition": "INVALID_PRODUCT",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import | re-review: soccer clear but country only in title/SEO without tags/collections — leave draft",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "International custom",
+          "SOCCER"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "e3e242ab-d1e5-43ea-8d48-930a02f6c06f",
+      "slug": "denmark-fifa-world-cup-jersey-2",
+      "title": "South Korea FIFA World Cup Jersey",
+      "firstPassDisposition": "INVALID_PRODUCT",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import | re-review: soccer clear but country only in title/SEO without tags/collections — leave draft",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "International custom",
+          "SOCCER"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "b6b64c83-7790-4e29-86c3-ead527ef80b3",
+      "slug": "devin-booker-phoenix-suns-fanatics-fast-break-jersey-statement-edition-black",
+      "title": "Deni Avdija Portland Trail Blazers Swingman Jersey - Icon Edition - Black",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate slug (phoenix,suns) but not title — title rewrite not allowed | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Basketball",
+          "Basketball J",
+          "DMCA",
+          "Jerseys",
+          "Phoenix Suns"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate slug (phoenix,suns) but not title — title rewrite not allowed"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "c56b296f-cc89-49c4-ba28-78c8dab1fe43",
+      "slug": "dikembe-mutombo-indiana-pacers-55-retro-jersey",
+      "title": "Dikembe Mutombo Denver Nuggets 55 Retro Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug — genuinely ambiguous | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "55",
+          "basketball",
+          "Basketball J",
+          "Denver Nuggets",
+          "Denver Nuggets 55",
+          "Dikembe",
+          "Dikembe Mutombo",
+          "DMCA",
+          "Jerseys",
+          "Mutombo",
+          "Retro Jersey"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate tokens from both title and slug — genuinely ambiguous"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "01b7f2d8-8d16-45e3-bc39-e45899e63717",
+      "slug": "england-national-team-womens-2026-pre-match-top-blue",
+      "title": "FIFA World Cup 2026 Fashion Jersey - Royal",
+      "firstPassDisposition": "INVALID_PRODUCT",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import | re-review: soccer clear but country only in title/SEO without tags/collections — leave draft",
+      "evidence": {
+        "tags": [
+          "Federation Team",
+          "FIFA 2026",
+          "FIFA World Cup Gear",
+          "soccer"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "abb8d9a3-47ba-4acf-a44e-9fb4fa149864",
+      "slug": "georgia-tech-yellow-jackets-gameday-greats-nil-pick-a-player-lightweight-basketball-fashion-jersey-navy-ncaa",
+      "title": "Georgia Tech Yellow Jackets GameDay Greats NIL Lightweight Volleyball Jersey - White",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Volleyball",
+      "league": "NCAA",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set",
+      "evidence": {
+        "tags": [
+          "Georgia Tech Yellow Jackets",
+          "Jerseys",
+          "NCAA"
+        ],
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Basketball"
+        ],
+        "firstPassReason": "Title sport Volleyball vs slug sport Basketball without decisive tag corroboration"
+      },
+      "action": "classified_no_option_set_kept_draft"
+    },
+    {
+      "id": "67d11352-5c66-4044-8dbf-592380d1ab1e",
+      "slug": "germany-2026-home-jersey",
+      "title": "Italy 2026 Home Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "reason": "Title country corroborated via collections:italy; soccer signals present",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e81bebbb-00e1-4d47-b78a-0ea7352330c7",
+      "slug": "germany-2026-home-kit",
+      "title": "Argentina 2026 Home Kit",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "077339f6-e4bb-4dda-92e2-814c9d5f6983",
+      "slug": "germany-fifa-world-cup-jersey",
+      "title": "Sweden FIFA World Cup Jersey",
+      "firstPassDisposition": "INVALID_PRODUCT",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import | re-review: soccer clear but country only in title/SEO without tags/collections — leave draft",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "International custom",
+          "SOCCER"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "bde98a69-62fe-44a4-a236-4e904e45b7e5",
+      "slug": "germany-national-team-fifa-x-world-cup-2026-tiro-away-training-jersey-white",
+      "title": "Ghana National Team 2026 Home Jersey - White",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "reason": "Title country corroborated via tags:ghana; soccer signals present",
+      "evidence": {
+        "tags": [
+          "Federation Team",
+          "FIFA 2026",
+          "Ghana National Team",
+          "soccer"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate title identity (ghana) but sport is not explicit in title"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "a6ebf00c-6b0c-49ed-9f51-dfa836b75e95",
+      "slug": "gunner-stockton-georgia-bulldogs-home-nil-football-game-jersey-red-ncaa",
+      "title": "Georgia Bulldogs GameDay Greats NIL Lightweight Volleyball Jersey - White",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Volleyball",
+      "league": "NCAA",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set",
+      "evidence": {
+        "tags": [
+          "Georgia Bulldogs",
+          "Jerseys",
+          "NCAA"
+        ],
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Football"
+        ],
+        "firstPassReason": "Title sport Volleyball vs slug sport Football without decisive tag corroboration"
+      },
+      "action": "classified_no_option_set_kept_draft"
+    },
+    {
+      "id": "a4860063-302a-4324-ad05-e82c93a36476",
+      "slug": "haydn-fleury-tampa-bay-lightning-home-premier-breakaway-player-jersey-blue",
+      "title": "Tucker Poolman Vancouver Canucks Home Premier Breakaway Player Jersey - Blue",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "HOCKEY J",
+          "Jerseys",
+          "Winnipeg Jets"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "bfc343b4-088b-4647-916b-65dc67d0c10f",
+      "slug": "illinois-fighting-illini-custom-football-game-jersey-navy-ncaa",
+      "title": "Illinois Fighting Illini GameDay Greats NIL Pick-A-Player Lightweight Collegiate Volleyball Fashion Jersey - Orange",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Volleyball",
+      "league": "NCAA",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set",
+      "evidence": {
+        "tags": [
+          "Illinois Fighting Illini",
+          "Jerseys",
+          "NCAA"
+        ],
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Football"
+        ],
+        "firstPassReason": "Title sport Volleyball vs slug sport Football without decisive tag corroboration"
+      },
+      "action": "classified_no_option_set_kept_draft"
+    },
+    {
+      "id": "af8204df-59e4-4f7b-83b0-ed84f0cd27e8",
+      "slug": "indiana-hoosiers-baseball-jersey-cream-ncaa",
+      "title": "#1 Iowa Hawkeyes Game Jersey - Black",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (iowa,hawkeyes) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Iowa Hawkeyes",
+          "Jerseys",
+          "NCAA"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Baseball"
+        ],
+        "firstPassReason": "Tags corroborate title identity (iowa,hawkeyes) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "fa09623b-4180-4c2a-ae5c-a2cc7abfcc33",
+      "slug": "indiana-hoosiers-colosseum-puck-proud-fashion-hockey-jersey-cream-ncaa",
+      "title": "Indiana Hoosiers Baseball Jersey - Cream",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Baseball vs slug sport Hockey without decisive tag corroboration | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "BASEBALL J",
+          "HOCKEY J",
+          "Indiana Hoosiers",
+          "Jerseys",
+          "NCAA"
+        ],
+        "titleSports": [
+          "Baseball"
+        ],
+        "slugSports": [
+          "Hockey"
+        ],
+        "firstPassReason": "Title sport Baseball vs slug sport Hockey without decisive tag corroboration"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "872ca33b-4a6a-479c-8480-0e2dee0854c9",
+      "slug": "iowa-state-cyclones-gameday-greats-hockey-jersey-cardinal-ncaa",
+      "title": "#00 Kansas Jayhawks Premier Strategy Jersey - White",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (kansas,jayhawks) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "Kansas Jayhawks",
+          "NCAA"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "firstPassReason": "Tags corroborate title identity (kansas,jayhawks) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "f5d96bb5-676a-4fc0-ae74-58faf49f2a3d",
+      "slug": "italy-2026-home-jersey",
+      "title": "Mexico 2026 Home Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "4ad3dd50-7184-4138-8e2c-ee5318d222c4",
+      "slug": "italy-2026-home-kit",
+      "title": "Spain 2026 Home Kit",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "reason": "Title country corroborated via collections:spain; soccer signals present",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6bdd7276-eb93-4c9b-b71b-4a79832dcd9d",
+      "slug": "james-rodriguez-colombia-10-fifa-world-cup-jersey",
+      "title": "Rafael Borré Colombia 19 FIFA World Cup Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "reason": "Title/slug share country; soccer/FIFA signals present (colombia)",
+      "evidence": {
+        "tags": [
+          "colombia",
+          "FIFA 2026",
+          "international team",
+          "Rafael Borré",
+          "soccer"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "FIFA tags mention tokens from both title and slug identities"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "2edc5c26-ab44-4b29-8b3e-25e134e9e918",
+      "slug": "japan-2026-home-jersey",
+      "title": "Spain 2026 Home Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "reason": "Title country corroborated via collections:spain; soccer signals present",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6547d8ad-6b4f-4302-8d3c-c840367e9866",
+      "slug": "japan-2026-home-kit",
+      "title": "Germany 2026 Home Kit",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "07559871-ef65-4f9c-bfb6-f41dd1626197",
+      "slug": "kansas-jayhawks-reverse-retro-baseball-jersey-royal-ncaa",
+      "title": "Kansas Jayhawks GameDay Greats NIL Pick-A-Player Lightweight Volleyball Jersey - White",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Volleyball",
+      "league": "NCAA",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "Kansas Jayhawks",
+          "NCAA"
+        ],
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "firstPassReason": "Title sport Volleyball vs slug sport Baseball without decisive tag corroboration"
+      },
+      "action": "classified_no_option_set_kept_draft"
+    },
+    {
+      "id": "56c8e7e7-2ded-4fb0-9fb9-510d5856efbf",
+      "slug": "kansas-state-wildcats-colosseum-puck-proud-fashion-hockey-jersey-cream-ncaa",
+      "title": "Kansas State Wildcats GameDay Greats #1 Lightweight Volleyball Fashion Jersey - Purple",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Volleyball vs slug sport Hockey without decisive tag corroboration | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "HOCKEY J",
+          "Jerseys",
+          "Kansas State Wildcats",
+          "NCAA"
+        ],
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Hockey"
+        ],
+        "firstPassReason": "Title sport Volleyball vs slug sport Hockey without decisive tag corroboration"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "fbb9e3c5-403f-49d2-adb3-66e8c2a94b80",
+      "slug": "los-angeles-angels-custom-jersey-white",
+      "title": "Mookie Betts Los Angeles Dodgers City Connect Limited Player Jersey - Cream",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug — genuinely ambiguous | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "BASEBALL J",
+          "Baseball Jersey",
+          "Los Angeles Dodgers",
+          "Major League Baseball"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate tokens from both title and slug — genuinely ambiguous"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "506e4809-fb41-4f4f-9096-9d66e61749ce",
+      "slug": "maryland-terrapins-under-armour-baseball-jersey-red-ncaa",
+      "title": "#1 Miami Hurricanes Premier Jersey - Black",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (miami,hurricanes) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "Miami Hurricanes",
+          "NCAA"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Baseball"
+        ],
+        "firstPassReason": "Tags corroborate title identity (miami,hurricanes) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "0ed488b5-07ff-49bc-aabc-90ae65e901e2",
+      "slug": "mexico-2026-home-jersey",
+      "title": "Colombia 2026 Home Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "ee7c3332-e59a-4e10-a475-67de8a868afe",
+      "slug": "mexico-2026-home-kit",
+      "title": "Belgium 2026 Home Kit",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "reason": "Title country corroborated via collections:belgium; soccer signals present",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "d7b40703-98e8-4342-99fb-7907370ea294",
+      "slug": "minnesota-golden-gophers-ccm-third-hockey-jersey-gold-ncaa",
+      "title": "#25 Mississippi State Bulldogs Premier Strategy Jersey - Black",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Football",
+      "league": "NCAA",
+      "reason": "Title school corroborated by tags; Football J tag + Football Jerseys collection (no conflicting sport)",
+      "evidence": {
+        "tags": [
+          "Football J",
+          "Jerseys",
+          "Mississippi State Bulldogs",
+          "NCAA"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "firstPassReason": "Tags corroborate title identity (mississippi,state,bulldogs) but sport is not explicit in title"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "79b163ec-d251-4dc7-b979-d2a1447e052b",
+      "slug": "morocco-fifa-world-cup-jersey-1",
+      "title": "Senegal FIFA World Cup Jersey",
+      "firstPassDisposition": "INVALID_PRODUCT",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import | re-review: soccer clear but country only in title/SEO without tags/collections — leave draft",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "International custom",
+          "SOCCER"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "91b7b510-f309-4cd2-bda1-233bf5e2f514",
+      "slug": "morocco-national-team-2026-away-jersey-white",
+      "title": "Mexico National Team FIFA x World Cup 2026 Home On Field Authentic Jersey - Green",
+      "firstPassDisposition": "INVALID_PRODUCT",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import | re-review: soccer clear but country only in title/SEO without tags/collections — leave draft",
+      "evidence": {
+        "tags": [
+          "Federation Team",
+          "FIFA 2026",
+          "Jerseys",
+          "Morocco National Team",
+          "New Arrival",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "f1e58cb7-4764-477e-b1df-98f9743fec7d",
+      "slug": "navy-midshipmen-under-armour-full-button-baseball-jersey-white-ncaa",
+      "title": "Navy Midshipmen GameDay Greats #1 Lightweight Volleyball Fashion Jersey - Navy",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Volleyball",
+      "league": "NCAA",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "Navy Midshipmen",
+          "NCAA"
+        ],
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "firstPassReason": "Title sport Volleyball vs slug sport Baseball without decisive tag corroboration"
+      },
+      "action": "classified_no_option_set_kept_draft"
+    },
+    {
+      "id": "7f0bbdb7-cede-45ef-8ffa-fad7904f46d8",
+      "slug": "navy-midshipmen-under-armour-rivalry-jersey-white-ncaa",
+      "title": "#25 NC State Wolfpack  Premier Strategy Jersey - Red",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (state,wolfpack) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NC State Wolfpack",
+          "NCAA"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate title identity (state,wolfpack) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "652a482d-8b5b-4bd2-a7c0-942a5236f86b",
+      "slug": "nebraska-huskers-colosseum-puck-proud-fashion-hockey-jersey-cream-ncaa",
+      "title": "#1 Nebraska Huskers GameDay Greats Lightweight Softball Jersey - White",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Softball",
+      "league": "NCAA",
+      "reason": "Title explicit Softball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Nebraska Huskers"
+        ],
+        "titleSports": [
+          "Softball"
+        ],
+        "slugSports": [
+          "Hockey"
+        ],
+        "firstPassReason": "Title sport Softball vs slug sport Hockey without decisive tag corroboration"
+      },
+      "action": "classified_no_option_set_kept_draft"
+    },
+    {
+      "id": "71e5c3f7-fce9-4a11-9024-2f7f1ce5854e",
+      "slug": "new-york-islanders-home-breakaway-custom-jersey-blue",
+      "title": "New York Rangers 2026 Winter Classic Premium Custom Jersey - Beige",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug — genuinely ambiguous | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "HOCKEY J",
+          "Jerseys",
+          "New Arrival",
+          "New York Rangers"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate tokens from both title and slug — genuinely ambiguous"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "52a5471f-96c4-4b14-ac96-f2f501c258f1",
+      "slug": "nigeria-national-team-2026-academy-pro-pre-match-top-gray",
+      "title": "Northern Ireland National Team 2026 Home Jersey - Green",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (northern,ireland) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Federation Team",
+          "Jerseys",
+          "New Arrival",
+          "Northern Ireland National Team"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate title identity (northern,ireland) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "ee256688-8a16-4413-a1d5-6d4bb76711aa",
+      "slug": "northern-ireland-national-team-fifa-x-world-cup-2026-home-jersey-green",
+      "title": "Norway National Team 2026 Away Blank Jersey - White",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "reason": "Title country corroborated via tags:norway; soccer signals present",
+      "evidence": {
+        "tags": [
+          "Federation Team",
+          "FIFA 2026",
+          "Jerseys",
+          "New Arrival",
+          "Norway National Team",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate title identity (norway) but sport is not explicit in title"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "175283f3-91b3-4c49-976d-7417aa8cb82a",
+      "slug": "notre-dame-fighting-irish-under-armour-home-hockey-jersey-white-ncaa",
+      "title": "#1 Ohio State Buckeyes Game Jersey - Scarlet",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (ohio,state,buckeyes) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Ohio State Buckeyes",
+          "soccer"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "firstPassReason": "Tags corroborate title identity (ohio,state,buckeyes) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "2f7dbb4c-1597-4ae6-8fa9-1a5dc16d6973",
+      "slug": "ole-miss-rebels-gameday-greats-nil-pick-a-player-lightweight-volleyball-jersey-powder-blue-ncaa",
+      "title": "Oregon Ducks NIL Pick-A-Player Game Jersey - Black",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (oregon,ducks) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Oregon Ducks"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Volleyball"
+        ],
+        "firstPassReason": "Tags corroborate title identity (oregon,ducks) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "ebdbaeb5-8914-4c95-a183-72c9c7e233b0",
+      "slug": "pitt-panthers-baseball-jersey-royal-ncaa",
+      "title": "#25 Purdue Boilermakers Game Jersey - Black",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (purdue,boilermakers) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Purdue Boilermakers"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Baseball"
+        ],
+        "firstPassReason": "Tags corroborate title identity (purdue,boilermakers) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "cda72c5f-3a76-4aec-9a9a-d282ab7931f2",
+      "slug": "portugal-2026-special-edition-kit",
+      "title": "Scotland 2026 Home Kit",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "063fb40c-9752-4aab-93f1-7406c74c5cec",
+      "slug": "portugal-national-team-2026-home-long-sleeve-jersey-red",
+      "title": "Qatar National Team 2025/26 Home Jersey - Maroon",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (qatar) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Federation Team",
+          "Jerseys",
+          "New Arrival",
+          "Qatar National Team"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate title identity (qatar) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "cfd849cc-5a44-412d-9df0-9e9e269d800b",
+      "slug": "purdue-boilermakers-colosseum-free-spirited-baseball-jersey-gray-ncaa",
+      "title": "#25 Rutgers Scarlet Knights Game Jersey - Black",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (rutgers,scarlet,knights) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Rutgers Scarlet Knights"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Baseball"
+        ],
+        "firstPassReason": "Tags corroborate title identity (rutgers,scarlet,knights) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "d370fd70-ea33-4c64-a0b7-2802bb2d5630",
+      "slug": "reggie-jackson-los-angeles-clippers-1-jersey",
+      "title": "Reggie Jackson Denver Nuggets 7 Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Basketball J",
+          "DMCA"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "d2bba523-b15e-4453-91bf-f86230bf6b6f",
+      "slug": "san-diego-padres-city-connect-team-jersey-white",
+      "title": "San Francisco Giants Home Limited Jersey - Cream",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug — genuinely ambiguous | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "BASEBALL J",
+          "Baseball Jersey",
+          "Major League Baseball",
+          "San Francisco Giants"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate tokens from both title and slug — genuinely ambiguous"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "81cdc0c1-19a8-4f62-94e1-3b3cb9b0e56e",
+      "slug": "saudi-arabia-2026-home-jersey",
+      "title": "Portugal 2026 Home Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "reason": "Title country corroborated via collections:portugal; soccer signals present",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "afb26006-40da-4ebe-bad1-960a89e67d10",
+      "slug": "scotland-2026-home-jersey",
+      "title": "Portugal 2026 Special Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "reason": "Title country corroborated via collections:portugal; soccer signals present",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "268827d5-efc8-49a8-a88d-5b32d9d2295a",
+      "slug": "scotland-2026-home-kit",
+      "title": "Argentina 2026 Messi Home Jersey with World Champions Patch",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "d9e7f6c9-55ef-4168-bebf-383e3747c7a1",
+      "slug": "scotland-national-team-fifa-x-world-cup-2026-home-jersey-navy",
+      "title": "Senegal National Team 2026 Away Jersey - Green",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "reason": "Title country corroborated via tags:senegal; soccer signals present",
+      "evidence": {
+        "tags": [
+          "Federation Team",
+          "FIFA 2026",
+          "Jerseys",
+          "New Arrival",
+          "Senegal National Team",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate title identity (senegal) but sport is not explicit in title"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "1c99370b-b82e-4ef3-be2b-9cea43c73ced",
+      "slug": "senegal-fifa-world-cup-jersey",
+      "title": "Sadio Mane Senegal 10 FIFA World Cup Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "reason": "Title/slug share country; soccer/FIFA signals present (senegal)",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "international team",
+          "Sadio Mane",
+          "Senegal",
+          "soccer"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "FIFA tags mention tokens from both title and slug identities"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6cce65ee-6589-4c19-874d-88036cc22a3f",
+      "slug": "senegal-national-team-2026-pre-match-jersey-green",
+      "title": "Serbia National Team 2026 Away Jersey - White",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (serbia) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Federation Team",
+          "Jerseys",
+          "New Arrival",
+          "Serbia National Team"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate title identity (serbia) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "0f5a155d-968e-4ea2-9b46-f245d687ab59",
+      "slug": "south-florida-bulls-gameday-greats-volleyball-lightweight-fashion-jersey-green-ncaa",
+      "title": "Christian McCaffrey #5 Stanford Cardinal Alumni Player Game Jersey - Cardinal",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Football",
+      "league": "NCAA",
+      "reason": "Known football alumni (Christian McCaffrey) in title; school tags corroborate identity",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Stanford Cardinal"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Volleyball"
+        ],
+        "firstPassReason": "Tags corroborate title identity (stanford,cardinal,cardinal) but sport is not explicit in title"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "848ce8e9-82df-4419-8ab9-f8abdd7ff54b",
+      "slug": "south-korea-fifa-world-cup-jersey",
+      "title": "Saudi Arabia FIFA World Cup Jersey",
+      "firstPassDisposition": "INVALID_PRODUCT",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import | re-review: soccer clear but country only in title/SEO without tags/collections — leave draft",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "International custom",
+          "soccer",
+          "soccer jersey",
+          "soccer jerseys"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "a702daa7-b897-4921-b532-5864cc7e66ba",
+      "slug": "spain-2026-home-kit",
+      "title": "Wales 2026 Home Kit",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "f6da67ae-4beb-4024-b8cf-10ad48cd05ed",
+      "slug": "stanford-cardinal-full-button-baseball-jersey-gray-ncaa",
+      "title": "Stanford Cardinal GameDay Greats #1 Lightweight Volleyball Fashion Jersey - Cardinal",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Volleyball",
+      "league": "NCAA",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Stanford Cardinal"
+        ],
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "firstPassReason": "Title sport Volleyball vs slug sport Baseball without decisive tag corroboration"
+      },
+      "action": "classified_no_option_set_kept_draft"
+    },
+    {
+      "id": "6fd48d9c-657e-46d6-a8bc-dd40e4e8ae9b",
+      "slug": "sweden-2026-home-jersey",
+      "title": "Venezuela 2026 Home Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "5b67e26f-292d-4e1b-8e66-9994632fa697",
+      "slug": "sweden-national-team-2026-home-jersey-yellow",
+      "title": "Switzerland National Team 2025/26 Away Jersey - White",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (switzerland) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Federation Team",
+          "Jerseys",
+          "New Arrival",
+          "Switzerland National Team"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate title identity (switzerland) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "59771ac0-14b6-4342-bf68-1629d261f779",
+      "slug": "switzerland-fifa-world-cup-jersey",
+      "title": "Ghana FIFA World Cup Jersey",
+      "firstPassDisposition": "INVALID_PRODUCT",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import | re-review: soccer clear but country only in title/SEO without tags/collections — leave draft",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "International custom",
+          "SOCCER"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "FIFA World Cup title/slug mismatch without player/country tag corroboration — likely cross-linked import"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "78be1b7a-3ab4-4bff-9249-591c1940b3c9",
+      "slug": "tennessee-volunteers-college-limited-baseball-jersey-white-ncaa",
+      "title": "Tennessee Volunteers GameDay Greats Lightweight Volleyball Fashion Jersey - Blue",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Volleyball",
+      "league": "NCAA",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Tennessee Volunteers"
+        ],
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "firstPassReason": "Title sport Volleyball vs slug sport Baseball without decisive tag corroboration"
+      },
+      "action": "classified_no_option_set_kept_draft"
+    },
+    {
+      "id": "f35ec7d8-7439-40bb-b56d-847d7b181b59",
+      "slug": "tennessee-volunteers-gameday-greats-lightweight-volleyball-fashion-jersey-blue-ncaa",
+      "title": "#12 Texas A&M Aggies Premier Strategy Jersey - Maroon",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (texas,aggies) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Texas A&M Aggies"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Volleyball"
+        ],
+        "firstPassReason": "Tags corroborate title identity (texas,aggies) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "0c8e0b04-73f3-4c85-8336-30add8f66478",
+      "slug": "texas-longhorns-college-limited-baseball-jersey-texas-orange-ncaa",
+      "title": "#1 Texas Longhorns GameDay Greats Volleyball National Champions Fashion Jersey - Texas Orange",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Volleyball",
+      "league": "NCAA",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Texas Longhorns"
+        ],
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "firstPassReason": "Title sport Volleyball vs slug sport Baseball without decisive tag corroboration"
+      },
+      "action": "classified_no_option_set_kept_draft"
+    },
+    {
+      "id": "0c9a4099-6844-4655-90a1-0ed8c51b8296",
+      "slug": "texas-tech-red-raiders-under-armour-baseball-jersey-white-ncaa",
+      "title": "#1 Texas Tech Red Raiders GameDay Greats Lightweight Volleyball Fashion Jersey - Red",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Volleyball",
+      "league": "NCAA",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Texas Tech Red Raiders"
+        ],
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "firstPassReason": "Title sport Volleyball vs slug sport Baseball without decisive tag corroboration"
+      },
+      "action": "classified_no_option_set_kept_draft"
+    },
+    {
+      "id": "5ad45ab4-3d38-4975-9e3b-cffadd7ead10",
+      "slug": "ucf-knights-gameday-greats-hockey-jersey-gold-ncaa",
+      "title": "#1 UCLA Bruins Game Jersey - Blue",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Football",
+      "league": "NCAA",
+      "reason": "Title school corroborated by tags; Football J tag + Football Jerseys collection (no conflicting sport)",
+      "evidence": {
+        "tags": [
+          "Football J",
+          "Jerseys",
+          "NCAA",
+          "UCLA Bruins"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "firstPassReason": "Tags corroborate title identity (ucla,bruins) but sport is not explicit in title"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6a1e6ed6-ec6b-47dd-bed9-44f839280ce3",
+      "slug": "ucla-bruins-colosseum-free-spirited-baseball-jersey-gray-ncaa",
+      "title": "#1 UConn Huskies Game Jersey - Navy",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (uconn,huskies) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Uconn Huskies"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Baseball"
+        ],
+        "firstPassReason": "Tags corroborate title identity (uconn,huskies) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "b47f1a9c-f82e-4cc5-bb5e-7f6efca1af71",
+      "slug": "uconn-huskies-gameday-greats-lightweight-mens-hockey-team-fashion-jersey-navy-ncaa",
+      "title": "UConn Huskies GameDay Greats NIL Pick-A-Player Lightweight Collegiate Volleyball Fashion Jersey - Navy",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Volleyball vs slug sport Hockey without decisive tag corroboration | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "HOCKEY J",
+          "Jerseys",
+          "NCAA",
+          "Uconn Huskies"
+        ],
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Hockey"
+        ],
+        "firstPassReason": "Title sport Volleyball vs slug sport Hockey without decisive tag corroboration"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "227e4f5f-669f-4662-8017-7e22633f35c2",
+      "slug": "uconn-huskies-gameday-greats-nil-pick-a-player-lightweight-collegiate-volleyball-fashion-jersey-navy-ncaa",
+      "title": "Marcus Allen USC Trojans Alumni Game Jersey - Cardinal",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Football",
+      "league": "NCAA",
+      "reason": "Known football alumni (Marcus Allen) in title; school tags corroborate identity",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "USC Trojans"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Volleyball"
+        ],
+        "firstPassReason": "Tags corroborate title identity (usc,trojans) but sport is not explicit in title"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "b1b9c8dd-bf70-4b13-a659-f02e42240a82",
+      "slug": "usc-trojans-gameday-greats-nil-pick-a-player-baseball-lightweight-jersey-white-ncaa",
+      "title": "Central Alabama Community College Trojans GameDay Greats Hockey Jersey - Navy",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug — genuinely ambiguous | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "HOCKEY J",
+          "Jerseys",
+          "NCAA",
+          "USC Trojans"
+        ],
+        "titleSports": [
+          "Hockey"
+        ],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate tokens from both title and slug — genuinely ambiguous"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "7dcd179c-2815-4f0a-beba-8618c7db124f",
+      "slug": "vanderbilt-commodores-full-button-baseball-jersey-natural-ncaa",
+      "title": "Vanderbilt Commodores GameDay Greats Volleyball Lightweight Fashion Jersey - Gold",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Volleyball",
+      "league": "NCAA",
+      "reason": "Title explicit Volleyball; school/NCAA tags corroborate; no conflicting sport tags/collections — no Aris option set",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Vanderbilt Commodores"
+        ],
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "firstPassReason": "Title sport Volleyball vs slug sport Baseball without decisive tag corroboration"
+      },
+      "action": "classified_no_option_set_kept_draft"
+    },
+    {
+      "id": "a3ee631f-a4bd-4449-a72e-f4dfc9017745",
+      "slug": "vanderbilt-commodores-gameday-greats-volleyball-lightweight-fashion-jersey-gold-ncaa",
+      "title": "#1 Villanova Wildcats Jersey - Navy",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (villanova,wildcats) but sport is not explicit in title | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Villanova Wildcats"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Volleyball"
+        ],
+        "firstPassReason": "Tags corroborate title identity (villanova,wildcats) but sport is not explicit in title"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "7d79af87-eaa1-44f3-a39b-af0af3145026",
+      "slug": "venezuela-2026-home-jersey",
+      "title": "Argentina 2026 Home Jersey with World Champions Patch",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "soccer",
+          "soccer jersey",
+          "soccer jerseys"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "b0db44c5-fc0f-4d47-a7bc-310dbc969b7f",
+      "slug": "wales-2026-home-jersey",
+      "title": "Chile 2026 Home Jersey",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "4a371601-7111-49ba-b6d5-73bf44bc6297",
+      "slug": "wales-2026-home-kit",
+      "title": "Mexico 2026 Home Kit",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [
+          "Soccer"
+        ],
+        "firstPassReason": "Insufficient corroborating evidence to resolve conflict safely"
+      },
+      "action": "left_draft"
+    },
+    {
+      "id": "47c700c3-2809-4f4f-9560-9f96d12d6bc9",
+      "slug": "washington-state-cougars-gameday-greats-spirit-hockey-jersey-crimson-ncaa",
+      "title": "#25 West Virginia Mountaineers Alternate Game Jersey - Black",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "SAFE_TO_FIX",
+      "sport": "Football",
+      "league": "NCAA",
+      "reason": "Title school corroborated by tags; Football J tag + Football Jerseys collection (no conflicting sport)",
+      "evidence": {
+        "tags": [
+          "Football J",
+          "Jerseys",
+          "NCAA",
+          "West Virginia Mountaineers"
+        ],
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "firstPassReason": "Tags corroborate title identity (west,virginia,mountaineers) but sport is not explicit in title"
+      },
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "ddf24d82-c0f1-4fbd-b5ed-8b3e7cff0f0a",
+      "slug": "winnipeg-jets-alternate-breakaway-jersey-light-blue",
+      "title": "Haydn Fleury Tampa Bay Lightning Home Premier Breakaway Player Jersey - Blue",
+      "firstPassDisposition": "HUMAN_REVIEW",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate slug (winnipeg,jets) but not title — title rewrite not allowed | second-pass: no strong multi-source sport corroboration",
+      "evidence": {
+        "tags": [
+          "Jerseys",
+          "Winnipeg Jets"
+        ],
+        "titleSports": [],
+        "slugSports": [],
+        "firstPassReason": "Tags corroborate slug (winnipeg,jets) but not title — title rewrite not allowed"
+      },
+      "action": "left_draft"
+    }
+  ]
+}
