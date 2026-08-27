@@ -7509,7 +7509,10 @@
         "group": "nhl",
         "count": 1
       }
-    ]
+    ],
+    "commitSha": "adf9fe5916cc3d2d7f0a6bd48bfcb0dba7460225",
+    "deploymentId": "dpl_5oXB2NL53hSVDFJi8oyqBAYxJC3T",
+    "deploymentUrl": "https://sports-jersey-house.vercel.app"
   },
   "tests": {
     "database": "87 passed / 3 skipped",
@@ -7517,5 +7520,9 @@
     "typecheck": "passed (database + shared + web)",
     "productionBuild": "passed",
     "qaProd": "83 passed / 3 skipped"
+  },
+  "deployment": {
+    "id": "dpl_5oXB2NL53hSVDFJi8oyqBAYxJC3T",
+    "url": "https://sports-jersey-house.vercel.app"
   }
 }
