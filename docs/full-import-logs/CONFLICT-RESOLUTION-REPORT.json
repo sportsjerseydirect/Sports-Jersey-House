@@ -1,0 +1,4339 @@
+{
+  "startedAt": "2026-08-27T09:45:00.000Z",
+  "completedAt": "2026-08-27T09:56:04.178Z",
+  "starting": {
+    "shopifyPublished": 6916,
+    "shopifyDraft": 1980
+  },
+  "ending": {
+    "shopifyPublished": 7119,
+    "shopifyDraft": 1777
+  },
+  "conflictsReviewed": 294,
+  "remainingConflicts": 91,
+  "dispositionRemaining": {
+    "SAFE_TO_FIX": 0,
+    "HUMAN_REVIEW": 82,
+    "INVALID_PRODUCT": 9
+  },
+  "safelyResolvedAndPublished": 203,
+  "revertedAfterSafetyPass": 11,
+  "humanReview": 82,
+  "invalid": 9,
+  "publishedProducts": [
+    {
+      "id": "5f7eec8f-17f1-4c1b-95c1-8a53420aebb7",
+      "slug": "1-army-black-knights-gameday-greats-unisex-lightweight-soccer-fashion-jersey-black-ncaa",
+      "title": "Auburn Tigers Home Football Game Jersey - Navy",
+      "sport": "Football",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "5b49ed1c-08cc-46d3-a731-00f4d802f4b3",
+      "slug": "1-boston-college-eagles-gameday-greats-lightweight-collegiate-football-fashion-jersey-maroon-ncaa",
+      "title": "Boston College Eagles GameDay Greats Lightweight Hockey Team Fashion Jersey - Maroon",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "eab312ec-10bd-4a20-8a16-aed5037bd24f",
+      "slug": "1-kentucky-wildcats-alternate-game-jersey-black-ncaa",
+      "title": "Lamar Jackson Louisville Cardinals Football Alumni Jersey - Red",
+      "sport": "Football",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "29fac91e-0c99-45a4-8cf0-21dec527f31b",
+      "slug": "1-michigan-wolverines-gameday-greats-hockey-jersey-white-ncaa",
+      "title": "Minnesota Golden Gophers NIL Pick-A-Player Football Game Jersey - Maroon",
+      "sport": "Football",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "685bb94a-f318-48da-9d9d-644e130ea67d",
+      "slug": "1-texas-tech-red-raiders-gameday-greats-lightweight-volleyball-fashion-jersey-red-ncaa",
+      "title": "UCF Knights Baseball Jersey - Light Blue",
+      "sport": "Baseball",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "d37e2ae0-c407-4977-9590-6cadb5ff2ff3",
+      "slug": "1-uconn-huskies-gameday-greats-lightweight-collegiate-football-fashion-jersey-navy-ncaa",
+      "title": "UConn Huskies GameDay Greats Lightweight Men's Hockey Team Fashion Jersey - Navy",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e5eb28ef-6186-4b72-a237-85d59ef1df8a",
+      "slug": "12-texas-a-m-aggies-gameday-greats-hockey-fashion-jersey-maroon-ncaa",
+      "title": "Texas Longhorns Custom Football Game Jersey - Texas Orange",
+      "sport": "Football",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "7ad90f06-a111-428d-8605-00b56c54c6aa",
+      "slug": "25-air-force-falcons-apls-fighting-falcon-collection-football-game-jersey-gray-ncaa",
+      "title": "Air Force Falcons Colosseum Free Spirited Baseball Jersey - Gray",
+      "sport": "Baseball",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "79c87b10-2665-4407-9243-07bcd0aa417c",
+      "slug": "abdelhamid-sabiri-morocco-11-fifa-world-cup-jersey",
+      "title": "Selim Amallah Morocco 15 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "5c0759e3-4e97-4d30-8e3a-aa7a178c7dc4",
+      "slug": "abdelhamid-sabiri-morocco-11-fifa-world-cup-jersey-1",
+      "title": "Sofiane Boufal Morocco 17 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "7e546faf-63dd-4b39-a32a-ce3b72367293",
+      "slug": "adrien-rabiot-france-14-fifa-world-cup-jersey",
+      "title": "Jordan Veretout France 15 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "cb3dc7f7-f29e-43af-9650-c9082c8156d5",
+      "slug": "agustin-canobbio-uruguay-14-fifa-world-cup-jersey",
+      "title": "Agust\u00edn Canobbio Uruguay 14 Fifa World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6c68eb83-fc4b-4820-b28e-d6e1f54ea8e9",
+      "slug": "air-force-falcons-colosseum-free-spirited-baseball-jersey-gray-ncaa",
+      "title": "Air Force Falcons Hockey Jersey - White",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "1525ed90-a097-4a4b-a791-87e0ecef48ce",
+      "slug": "alabama-crimson-tide-college-limited-baseball-jersey-white-ncaa",
+      "title": "Appalachian State Mountaineers GameDay Greats NIL Football Fashion Jersey - Black",
+      "sport": "Football",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "61df4114-8701-45d9-91a8-274abcbc4e79",
+      "slug": "alejandro-gomez-argentina-17-fifa-world-cup-jersey-3",
+      "title": "Alexis Mac Allister Argentina 20 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "5a701244-9b26-43ae-ae25-0ed8cd7d88a0",
+      "slug": "allen-iverson-philadelphia-76ers-mitchell-ness-chainstitch-swingman-jersey-cream",
+      "title": "Phoenix Suns Swingman Custom Jersey - Purple - Icon Edition",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "852f9db6-7720-45b6-88c9-0132f3079986",
+      "slug": "alonzo-mourning-miami-heat-mitchell-ness-2025-26-hardwood-classics-marble-swingman-jersey-black",
+      "title": "Giannis Antetokounmpo Milwaukee Bucks Select Series Swingman Jersey - Brown",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "eb765d0b-09e8-4f0f-afa4-436208b3424d",
+      "slug": "alphonso-davies-canada-19-fifa-world-cup-jersey-1",
+      "title": "Steven Vitoria Canada 5 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "9da417c7-4428-4546-9644-4aa871e63bcb",
+      "slug": "alphonso-davies-canada-19-fifa-world-cup-jersey-2",
+      "title": "Stephen Eustaquio Canada 7 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "1993fb60-cd93-4032-9d2f-1263e9e65950",
+      "slug": "andre-dawson-florida-marlins-mitchell-ness-cooperstown-collection-mesh-batting-practice-button-up-jersey-teal",
+      "title": "Jackson Chourio Milwaukee Brewers Jersey - Navy",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6d286a51-0591-40b2-bf16-5d1c7ce8dcab",
+      "slug": "andrej-kramaric-croatia-9-fifa-world-cup-jersey",
+      "title": "Marko Livaja Croatia 14 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "d5786e84-f7ce-4669-9019-3c191d4d7c43",
+      "slug": "andres-guardado-mexico-18-fifa-world-cup-jersey",
+      "title": "Guillermo Ochoa Mexico 13 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "218bb903-679a-4f6f-a7da-98723d167246",
+      "slug": "antoine-griezmann-france-7-fifa-world-cup-jersey-1",
+      "title": "Axel Disasi France 3 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6ccf7e9b-bd90-40b4-83d0-dac20ae1029d",
+      "slug": "antoine-griezmann-france-7-fifa-world-cup-jersey-2",
+      "title": "Theo Hernandez France 22 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "670ec9f7-12ff-4c67-850a-5bd63831118e",
+      "slug": "antoine-griezmann-france-7-fifa-world-cup-jersey-3",
+      "title": "Adrien Rabiot France 14 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6b27ac64-7f72-4b3f-8781-1d4a068e3bcb",
+      "slug": "antonio-rudiger-germany-2-fifa-world-cup-jersey-2",
+      "title": "Mario Gotze Germany 11 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "8fec5a29-70e3-4152-97ed-8dfdd9b2fc07",
+      "slug": "arizona-state-sun-devils-baseball-jersey-gold-ncaa",
+      "title": "Arizona State Sun Devils Colosseum Puck Proud Fashion Hockey Jersey - Cream",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "c0421201-1b7e-4f68-8d07-32c151c9f1b1",
+      "slug": "arizona-wildcats-limited-home-wordmark-jersey-light-blue-ncaa",
+      "title": "Arkansas Razorbacks Custom Football Game Jersey - Cardinal",
+      "sport": "Football",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6928c3ab-b8d8-41f2-9441-1eb741115f18",
+      "slug": "arkadiusz-milik-poland-7-fifa-world-cup-jersey",
+      "title": "Karol \u015awiderski Poland 16 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "60206ba7-25bd-479a-80f2-fe535d8c81e0",
+      "slug": "auburn-tigers-away-football-game-jersey-white-ncaa",
+      "title": "Auburn Tigers Colosseum Puck Proud Fashion Hockey Jersey - Cream",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "40e80f5a-c367-4b91-bce6-8abffb0edbda",
+      "slug": "axel-disasi-france-3-fifa-world-cup-jersey",
+      "title": "Jules Kounde France 5 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "9a8a479a-62a4-483a-a3d3-5db7e173a858",
+      "slug": "azzedine-ounahi-morocco-8-fifa-world-cup-jersey",
+      "title": "Noussair Mazraoui Morocco 3 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "236fb9b0-fdcf-42a4-958c-199e7eee0fc3",
+      "slug": "azzedine-ounahi-morocco-8-fifa-world-cup-jersey-1",
+      "title": "Nayef Aguerd Morocco 5 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "9ba017d2-1900-4214-996d-8a67ed71a1d4",
+      "slug": "azzedine-ounahi-morocco-8-fifa-world-cup-jersey-2",
+      "title": "Abdelhamid Sabiri Morocco 11 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "3e9bec4c-afd8-4fe2-b3f7-07c142cf41a5",
+      "slug": "baltimore-orioles-home-limited-custom-jersey-white",
+      "title": "Roman Anthony Boston Red Sox Alternate Limited Player Jersey - Red",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "54847cce-06e7-49a1-8779-9cd72f5224bd",
+      "slug": "bartosz-bereszynski-poland-18-fifa-world-cup-jersey",
+      "title": "Grzegorz Krychowiak Poland 10 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "341dd654-5be3-4803-a940-4a2acc0f905c",
+      "slug": "borna-barisic-croatia-3-fifa-world-cup-jersey",
+      "title": "Dejan Lovren Croatia 6 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "5298d16c-690e-4597-b2cd-f01a847ab568",
+      "slug": "borna-barisic-croatia-3-fifa-world-cup-jersey-1",
+      "title": "Mateo Kovacic Croatia 8 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "c7b5674b-5c9d-4634-8625-c329ebf71144",
+      "slug": "borna-sosa-croatia-19-fifa-world-cup-jersey",
+      "title": "Josko Gvardiol Croatia 20 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "9476be03-33a0-4e87-bebd-3f30c72da839",
+      "slug": "bruno-petkovic-croatia-16-fifa-world-cup-jersey",
+      "title": "Ante Budimir Croatia 17 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "61c14916-ac8f-4fd2-a799-bd5ad3a1a8ba",
+      "slug": "buffalo-sabres-fanatics-2026-hockey-fights-cancer-custom-practice-jersey-white",
+      "title": "Calgary Flames Alternate Premium Custom Jersey - Black",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "80b79ac8-a05a-4b20-90ab-297f06ced78d",
+      "slug": "cal-bears-gameday-greats-nil-pick-a-player-lightweight-collegiate-volleyball-fashion-jersey-navy-ncaa",
+      "title": "Clemson Tigers Custom Football Game Jersey - Orange",
+      "sport": "Football",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "19f1f99b-7f08-44c1-a4d6-5dbc3743ca5a",
+      "slug": "casemiro-brazil-5-fifa-world-cup",
+      "title": "Eder Militao Brazil 14 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "28e4ed94-80ec-4b03-9a4c-d046e731e5fa",
+      "slug": "casemiro-brazil-5-fifa-world-cup-1",
+      "title": "Dani Alves Brazil 13 FIFA World Cup",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "3638ec8a-541b-46e3-bb63-90dd9b2994c4",
+      "slug": "chicago-blackhawks-hockey-fights-cancer-practice-jersey-white",
+      "title": "Martin Necas Colorado Avalanche Breakaway Player Jersey - Burgundy",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "5fb73b14-459a-4e6d-a5e7-e0df61ad49ad",
+      "slug": "chile-national-team-2026-away-jersey-white",
+      "title": "Colombia National Team FIFA x World Cup 2026 Home On Field Authentic Jersey - Yellow",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "ceca6782-da62-4deb-bc6d-6b6cffd4a89d",
+      "slug": "cleveland-guardians-city-connect-elite-jersey-navy",
+      "title": "Colorado Rockies 2025-26 City Connect Limited Jersey - Purple/Light Blue",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "f23b1cf1-7c59-493c-813a-fe4ec285e84d",
+      "slug": "colombia-national-team-fifa-x-world-cup-2026-home-long-sleeve-jersey-yellow",
+      "title": "Costa Rica National Team  FIFA x World Cup 2026 Home Jersey - Red",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "a360d311-3486-42e0-b1e2-eb3b65545c7d",
+      "slug": "cyle-larin-canada-17-fifa-world-cup-jersey",
+      "title": "Junior Hoilett Canada 10 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "47afd57c-932c-4eca-8d24-7f3d98b8d3ed",
+      "slug": "dallas-stars-alternate-premium-jersey-black",
+      "title": "Detroit Red Wings Away Premium Custom Jersey - White",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "144bb4ff-995f-45e8-ae4a-bda48527a4ac",
+      "slug": "dani-carvajal-spain-20-fifa-world-cup-jersey",
+      "title": "Marcos Llorente Spain 6 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "c65fdf8e-658d-4ffe-88db-c68ff1485c13",
+      "slug": "danilo-brazil-2-fifa-world-cup-jersey",
+      "title": "Alex Sandro Brazil 6 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "0461ea65-8bf7-4fc7-a0db-4bee1ac546d2",
+      "slug": "darius-garland-cleveland-cavaliers-2025-26-swingman-jersey-orange-city-edition",
+      "title": "Steve Nash Dallas Mavericks  2025/26 Hardwood Classics Swingman Jersey - Blue",
+      "sport": "Basketball",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "a547427c-3bc9-4245-8b8b-9ef5afbd4320",
+      "slug": "darwin-nunez-uruguay-11-fifa-world-cup-jersey",
+      "title": "Edinson Cavani Uruguay 21 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "c3348490-9068-468c-8938-3aeee8ebbee0",
+      "slug": "dayron-sharpe-brooklyn-nets-fanatics-fast-break-jersey-icon-edition-black",
+      "title": "Charlotte Hornets Swingman Custom Jersey White - Association Edition",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "0155aac3-6934-4817-8a71-d092c239ed66",
+      "slug": "dejan-lovren-croatia-6-fifa-world-cup-jersey",
+      "title": "Borna Sosa Croatia 19 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "75d711ef-9ee0-40e7-9f83-5aefeca8ad92",
+      "slug": "domagoj-vida-croatia-21-fifa-world-cup-jersey",
+      "title": "Josip Juranovic Croatia 22 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "a8d5307b-7017-4073-b47a-6c5c1584d2b3",
+      "slug": "edmonton-oilers-2026-hockey-fights-cancer-custom-practice-jersey-white",
+      "title": "Florida Panthers 2026 Winter Classic Premium Custom Jersey - Red",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "619f58ac-8dd7-48c0-b0fd-38f1c1a671fd",
+      "slug": "eric-dier-england-15-fifa-world-cup-jersey",
+      "title": "Conor Coady England 16 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "8b6a590f-4d69-4338-94ee-0d48f68b840b",
+      "slug": "france-womens-national-team-womens-2026-away-stadium-jersey-white",
+      "title": "Germany National Team FIFA x World Cup 2026 Home Jersey - White",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e0c72987-b188-49b3-ad01-7d114d2e4348",
+      "slug": "frenkie-de-jong-21-netherlands-fifa-world-cup-jersey",
+      "title": "Matthijs de Ligt Netherlands 3 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "79fb63f9-6849-45b4-94f2-3de09588ef28",
+      "slug": "grzegorz-krychowiak-poland-10-fifa-world-cup-jersey",
+      "title": "Sebastian Szyma\u0144ski Poland 19 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "0336f25b-4672-44f2-b091-a3f76f0f01c5",
+      "slug": "guillermo-ochoa-mexico-13-fifa-world-cup-jersey",
+      "title": "Hector Moreno Mexico 15 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "68d709be-1dd3-4441-8135-ded6d2227e75",
+      "slug": "hakim-ziyech-morocco-7-fifa-world-cup-jersey",
+      "title": "Azzedine Ounahi Morocco 8 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "cd4aa722-1f71-416a-81dc-f771878831dd",
+      "slug": "hector-moreno-mexico-15-fifa-world-cup-jersey",
+      "title": "N\u00e9stor Araujo Mexico 2 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "cb0a4c38-503b-471b-88b3-af52133dcc5f",
+      "slug": "houston-rockets-swingman-custom-jersey-white-association-edition",
+      "title": "Tyrese Haliburton Indiana Pacers Swingman Jersey - Icon Edition - Navy",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "91b408a7-cccb-435d-bee5-8e3f32bd7128",
+      "slug": "ilkay-gundogan-germany-21-fifa-world-cup-jersey",
+      "title": "Leroy San\u00e9 Germany 19 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "a54d558e-6a24-43de-b5db-96b9d64288a2",
+      "slug": "ilkay-gundogan-germany-21-fifa-world-cup-jersey-1",
+      "title": "Kai Havertz Germany 7 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "f95343c8-54cd-42b6-832c-a110f345f876",
+      "slug": "indiana-pacers-2025-26-swingman-custom-jersey-icon-edition-navy",
+      "title": "Kawhi Leonard LA Clippers 2025/26 Swingman Jersey - Orange - City Edition",
+      "sport": "Basketball",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "5ad424aa-fadd-492f-9b28-5b5d3d83131c",
+      "slug": "ivan-perisic-croatia-4-fifa-world-cup-jersey",
+      "title": "Mislav Orsic Croatia 18 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "93ac430e-58bd-4ae4-80bd-5b8499cfc374",
+      "slug": "jackie-robinson-los-angeles-dodgers-city-connect-player-jersey-royal",
+      "title": "Miami Marlins Custom Jersey - Black",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "97b0acf4-4611-4b92-8ff1-d00583733ca2",
+      "slug": "jake-guentzel-tampa-bay-lightning-2026-stadium-series-premium-jersey-blue",
+      "title": "Toronto Maple Leafs Home Breakaway Custom Jersey - Blue",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "7ac99579-7b96-4a00-8408-d506d37b2bf0",
+      "slug": "jalen-brunson-new-york-knicks-swingman-jersey-statement-edition-black",
+      "title": "Oklahoma City Thunder 2025/26 City Edition Swingman Custom Jersey - Blue",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "764cca04-324a-49c5-9316-e4ddb7edf13c",
+      "slug": "jamaica-national-team-2026-home-jersey-yellow",
+      "title": "Mexico National Team FIFA x World Cup 2026 Home Jersey - Green",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "9875e44e-e6fe-4443-9f1a-8226888481ce",
+      "slug": "jamal-musiala-14-germany-fifa-world-cup-jersey",
+      "title": "Marco Reus Germany 11 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "4b6dccfe-7dd5-45e2-b434-7662cf3d55b0",
+      "slug": "jan-bednarek-poland-5-fifa-world-cup-jersey",
+      "title": "Bartosz Bereszynski Poland 18 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "dc79282b-50b7-4c27-9384-41ed88fda030",
+      "slug": "jaren-jackson-jr-memphis-grizzlies-swingman-jersey-light-blue-statement-edition",
+      "title": "Dwyane Wade Miami Heat  2025/26 Hardwood Classics Authentic Jersey - Black",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "efe53fa9-1e43-4347-84ac-839e46beba06",
+      "slug": "jaylen-brown-boston-celtics-fanatics-fast-break-player-jersey-statement-edition-black",
+      "title": "Brooklyn Nets 2025/26 City Edition Swingman Custom Jersey - Black",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e26c8c9d-4734-48ba-9702-36b1a8e5e92b",
+      "slug": "jesus-gallardo-mexico-23-fifa-world-cup-jersey",
+      "title": "Edson Alvarez Mexico 4 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "7b993649-61b8-42ee-9cb4-f34e7693dd98",
+      "slug": "joao-felix-portugal-23-fifa-world-cup-jersey",
+      "title": "Jo\u00e3o F\u00e9lix Portugal 23 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "3046f851-bfad-48f5-94ed-9f1f3137a2da",
+      "slug": "jonas-hofmann-germany-18-fifa-world-cup-jersey",
+      "title": "Nico Schlotterbeck Germany 23 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "9fff3108-9315-478b-9f66-4638c3a10a3a",
+      "slug": "jordan-veretout-france-15-fifa-world-cup-jersey",
+      "title": "Eduardo Camavinga France 25 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "0afe3bda-ef51-4361-a334-efed93f66178",
+      "slug": "jose-altuve-houston-astros-alternate-limited-player-jersey-navy",
+      "title": "Bo Jackson Kansas City Royals Cooperstown Collection Limited Jersey - Light Blue",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "4c1c942d-f585-4497-9028-1d4c5478ff6e",
+      "slug": "josip-stanisic-croatia-2-fifa-world-cup-jersey",
+      "title": "Borna Barisic Croatia 3 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "7904f9f8-8222-405e-a3da-f940fb4cee23",
+      "slug": "josip-sutalo-croatia-24-fifa-world-cup-jersey",
+      "title": "Lovro Majer Croatia 7 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e3845c55-62ec-4bbc-afb3-f1dd339dd8a7",
+      "slug": "josko-gvardiol-croatia-20-fifa-world-cup-jersey",
+      "title": "Domagoj Vida Croatia 21 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "1d4b4153-ee26-494a-a1a6-6391fd9a0d75",
+      "slug": "jules-kounde-france-5-fifa-world-cup-jersey",
+      "title": "William Saliba France 17 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "78438f66-a9e1-4fa4-82a2-291fd505cd8e",
+      "slug": "julian-alvarez-9-argentina-fifa-world-cup-jersey",
+      "title": "Alejandro Gomez Argentina 17 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "91190401-2b36-42ef-b615-6b98b0501c40",
+      "slug": "kalvin-phillips-england-14-white-fifa-world-cup-jersey",
+      "title": "Conor Gallagher England 26  FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "ffd309c9-8da2-410a-ac89-f9714b95ee86",
+      "slug": "kansas-city-royals-city-connect-limited-jersey-navy",
+      "title": "Zach Neto Los Angeles Angels Jersey - White",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "f2744aac-0d5f-4d53-9019-13542474bea6",
+      "slug": "kansas-state-wildcats-gameday-greats-1-lightweight-volleyball-fashion-jersey-purple-ncaa",
+      "title": "Kentucky Wildcats Custom Football Game Jersey - Royal",
+      "sport": "Football",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "97d9b7c5-5769-4c33-b583-03da41a276ca",
+      "slug": "karol-swiderski-poland-16-fifa-world-cup-jersey",
+      "title": "Krzysztof Pi\u0105tek Poland 23 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "b479956c-0799-4648-b868-00a1632bb0ce",
+      "slug": "ketel-marte-arizona-diamondbacks-jersey-cream",
+      "title": "Athletics Team Jersey - White",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e9f64ce6-26a2-47b7-b304-9f648d87eb36",
+      "slug": "kingsley-coman-france-20-fifa-world-cup-jersey",
+      "title": "Marcus Thuram France 26 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "0e7e98e3-27b1-420f-ba19-aeceb3574bd9",
+      "slug": "kirill-kaprizov-minnesota-wild-away-premium-jersey-white",
+      "title": "Ivan Demidov Montreal Canadiens Home Breakaway Jersey - Red",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "a8e47d57-cf39-4afd-9741-5af91de94e93",
+      "slug": "kris-bryant-colorado-rockies-youth-2025-26-city-connect-limited-player-jersey-purple-light-blue",
+      "title": "Spencer Torkelson Detroit Tigers Jersey - White",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "115d5b58-0d38-402b-bfef-201838b94b33",
+      "slug": "kyrie-irving-dallas-mavericks-fanatics-fast-break-player-jersey-statement-edition-navy",
+      "title": "Nikola Jokic Denver Nuggets Swingman Jersey - Statement Edition - Blue",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6bdb737c-7157-40d1-be4a-fb34e620cd7f",
+      "slug": "la-clippers-2025-26-custom-swingman-jersey-statement-edition-red",
+      "title": "Luka Don\u010di\u0107 Los Angeles Lakers Swingman Jersey - Icon Edition - Gold",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "922075c1-a8b7-4a14-8cdb-4b180cbd594c",
+      "slug": "lamelo-ball-charlotte-hornets-swingman-jersey-statement-edition-purple",
+      "title": "Matas Buzelis Chicago Bulls Swingman Player Jersey - Icon Edition - Red",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "de81cf98-462a-4a0e-82b8-80c80722cfd5",
+      "slug": "leroy-sane-germany-19-fifa-world-cup-jersey",
+      "title": "Jamal Musiala Germany 14 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "147ff84a-47e0-408b-b6d1-4b7b46bbd3d7",
+      "slug": "los-angeles-kings-2026-hockey-fights-cancer-custom-practice-jersey-white",
+      "title": "Quinn Hughes Minnesota Wild  Home Breakaway Jersey - Green",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "f506728d-4514-48a0-afbf-ba4f7630cfe0",
+      "slug": "lovro-majer-croatia-7-fifa-world-cup-jersey",
+      "title": "Ivan Perisic Croatia 4 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "52a14e2d-9ebc-44dd-b8b1-e38151464fd5",
+      "slug": "luka-doncic-los-angeles-lakers-2025-26-swingman-jersey-black-city-edition",
+      "title": "Ja Morant Memphis Grizzlies 2025/26 Swingman Jersey - White - City Edition",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "f9cf44b3-1575-42de-a49a-5613457c0b32",
+      "slug": "luka-modric-croatia-10-fifa-world-cup-jersey",
+      "title": "Josip Stanisic Croatia 2 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "ca7ce027-356c-43c1-9dc5-fe64d01d235c",
+      "slug": "luka-sucic-croatia-25-fifa-world-cup-jersey",
+      "title": "Kristijan Jakic Croatia 26 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "9b8e864c-3a13-4434-a19c-6192006ded80",
+      "slug": "marcelo-brozovic-croatia-11-fifa-world-cup-jersey",
+      "title": "Nikola Vlasic Croatia 13 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "7a943ab2-3821-4c3b-9efd-950ca35274c3",
+      "slug": "marco-asensio-spain-10-fifa-world-cup-jersey",
+      "title": "Joshua Kimmich Germany 6 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "bc5ce435-822a-42de-b0c5-035ae5e5f468",
+      "slug": "marco-reus-germany-11-fifa-world-cup-jersey",
+      "title": "Jonas Hofmann Germany 18 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "f2fef929-3464-4ac1-8df8-bd361ff27028",
+      "slug": "marcos-llorente-spain-6-fifa-world-cup-jersey",
+      "title": "Koke Spain 8 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "901d7cd2-ba2b-4f19-b4fd-fa11955a7c75",
+      "slug": "mario-gotze-germany-11-fifa-world-cup-jersey",
+      "title": "Niclas F\u00fcllkrug Germany 9 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "00cb511a-5d83-4264-9c80-bbaba7e32b13",
+      "slug": "mario-pasalic-croatia-15-fifa-world-cup-jersey",
+      "title": "Luka Sucic Croatia 25 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "18c2e33a-e4eb-46c7-b9fb-46b7334190fc",
+      "slug": "marko-livaja-croatia-14-fifa-world-cup-jersey",
+      "title": "Bruno Petkovic Croatia 16 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e6054261-1c38-40f8-a3f2-5ca9436eaac0",
+      "slug": "marquinhos-brazil-4-fifa-world-cup-jersey",
+      "title": "Thiago Silva Brazil 3 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "c00e1cff-343e-41d7-af8a-7caab66627c7",
+      "slug": "marquinhos-brazil-4-fifa-world-cup-jersey-1",
+      "title": "Danilo Brazil 2 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "32f3d2a4-b634-451d-a722-26bf7ca050e1",
+      "slug": "mason-marchment-seattle-kraken-home-breakaway-jersey-deep-sea-blue",
+      "title": "St. Louis Blues  Home Premium Custom Jersey - Blue",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "0f6fcdd6-8f20-4289-845b-4d5b00f31b25",
+      "slug": "mateo-kovacic-croatia-8-fifa-world-cup-jersey",
+      "title": "Marcelo Brozovic Croatia 11 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "450769f3-5e02-4769-8753-3154cecf8822",
+      "slug": "matias-vina-uruguay-17-fifa-world-cup-jersey",
+      "title": "Mat\u00edas Vi\u00f1a Uruguay 17 Fifa World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "5fa8fba1-93f7-481a-9578-5fc34e56d9bd",
+      "slug": "matthias-ginter-germany-4-fifa-world-cup-jersey",
+      "title": "Leon Goretzka Germany 8 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "051100e7-bb37-4d7c-9e69-a848f7dc85b3",
+      "slug": "memphis-depay-10-netherlands-fifa-world-cup-jersey",
+      "title": "Frenkie de Jong Netherlands 21 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "0a932ca9-0e2a-484e-b3ee-b507250420c4",
+      "slug": "messi-argentina-10-fifa-world-cup-jersey-1",
+      "title": "Achraf Hakimi Morocco 2 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "7cc3bdc0-788c-4b38-a206-04a08e64f9a7",
+      "slug": "milwaukee-brewers-city-connect-team-jersey-powder-blue",
+      "title": "Joe Mauer Minnesota Twins Throwback Cooperstown Collection Limited Jersey - Light Blue",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "ec0b4c21-98db-4cee-ae92-86eb11341cc6",
+      "slug": "milwaukee-bucks-fanatics-pop-baseball-jersey-black",
+      "title": "Anthony Edwards Minnesota Timberwolves Swingman Jersey - Statement Edition - Charcoal",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "8b061159-26db-429a-a5f0-454ca7f86991",
+      "slug": "minnesota-golden-gophers-nil-pick-a-player-football-game-jersey-maroon-ncaa",
+      "title": "Minnesota Golden Gophers CCM Home Hockey Jersey \u2013 Maroon",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "52b80632-9592-4d13-b1e3-26697b4e5a02",
+      "slug": "minnesota-timberwolves-fanatics-fastbreak-custom-jersey-association-edition-white",
+      "title": "Jeremiah Fears New Orleans Pelicans  2025 Draft First Round Pick Fast Break Jersey - Icon Edition - Navy",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "315b819b-d025-4704-b971-5d9dc3e7c3eb",
+      "slug": "mississippi-state-bulldogs-baseball-jersey-gray-ncaa",
+      "title": "Missouri Tigers Custom Football Game Jersey - Black",
+      "sport": "Football",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e4f1d56d-6784-49d8-b6da-621d0e77d261",
+      "slug": "mississippi-state-bulldogs-gameday-greats-nil-pick-a-player-lightweight-collegiate-volleyball-fashion-jersey-maroon-ncaa",
+      "title": "Mississippi State Bulldogs Baseball Jersey - Gray",
+      "sport": "Baseball",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "94e321aa-17dc-46e9-8e07-80f19d7da022",
+      "slug": "montreal-canadiens-home-authentic-pro-custom-jersey-red",
+      "title": "Juuse Saros Nashville Predators Breakaway Player Jersey - Gold",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "fa39460c-4b6d-4bf5-81fa-0fc2b0d7478f",
+      "slug": "nashville-predators-2026-hockey-fights-cancer-practice-jersey-white",
+      "title": "New Jersey Devils Alternate Premium Jersey - Black",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "b354409c-dde0-4358-8908-ac816ee97d63",
+      "slug": "nayef-aguerd-morocco-5-fifa-world-cup-jersey",
+      "title": "Romain Saiss Morocco 6 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "353da43c-8c88-47c0-83a2-e9e1ecff5325",
+      "slug": "nestor-araujo-mexico-2-fifa-world-cup-jersey",
+      "title": "Jes\u00fas Gallardo Mexico 23 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "1dc6126f-f2ba-4e76-9eb9-3e267dd266a9",
+      "slug": "new-jersey-devils-2026-hockey-fights-cancer-custom-practice-jersey-white",
+      "title": "New York Islanders 2026 Hockey Fights Cancer Custom Practice Jersey - White",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "99b79945-13ea-470f-a6d9-f0f5f63f8704",
+      "slug": "new-orleans-pelicans-2025-26-swingman-custom-jersey-association-edition-white",
+      "title": "Jalen Brunson New York Knicks Swingman Jersey - Icon Edition - Blue",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "216e380e-58c2-4e16-ac3f-0ee3920266a0",
+      "slug": "new-york-rangers-centennial-premium-custom-jersey-blue",
+      "title": "Ottawa Senators Home Premium Custom Jersey - Black",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "43630f52-a1f4-466d-af74-a7f60eb06a70",
+      "slug": "new-york-yankees-team-jersey-white",
+      "title": "Bryce Harper Philadelphia Phillies Player Jersey - Light Blue",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "5e78cb14-c68c-4a54-a02d-65eefa7d7e97",
+      "slug": "neymar-jr-brazil-10-fifa-world-cup-jersey",
+      "title": "Lucas Paqueta Brazil 7 FIFA World Cup",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "f8b0f6d7-d1fa-4229-9fab-91397aaa771f",
+      "slug": "ngolo-kante-france-13-fifa-world-cup-jersey",
+      "title": "N'Golo Kante France 13 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "8a42b4eb-415d-493f-96dc-415e1cd6d5cd",
+      "slug": "niclas-fullkrug-germany-9-fifa-world-cup-jersey",
+      "title": "Matthias Ginter Germany 4 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "0e34ab0b-df3c-44f0-8bc3-757b92480115",
+      "slug": "nico-schlotterbeck-germany-23-fifa-world-cup-jersey",
+      "title": "Antonio R\u00fcdiger Germany 2 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e3e41698-d34b-4658-90c1-9d0fadeae243",
+      "slug": "nicolas-de-la-cruz-uruguay-7-fifa-world-cup-jersey",
+      "title": "Nicol\u00e1s De La Cruz Uruguay 7 Fifa World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "7e60d730-90b3-4250-b610-ceb1863f9e2e",
+      "slug": "nikola-vlasic-croatia-13-fifa-world-cup-jersey",
+      "title": "Mario Pasalic Croatia 15 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "729fa07c-311d-47fa-ae46-ee74f01471d7",
+      "slug": "nikola-vlasic-croatia-13-fifa-world-cup-jersey-1",
+      "title": "Andrej Kramaric Croatia 9 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "f2c27039-6284-4532-b201-140ab2f0e12c",
+      "slug": "north-carolina-tar-heels-gameday-greats-1-lightweight-volleyball-fashion-jersey-light-blue-ncaa",
+      "title": "#1 North Carolina Tar Heels GameDay Greats Lightweight Baseball Fashion Jersey - White",
+      "sport": "Baseball",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "ef5df763-e44e-4e95-bcfe-8243630b5bef",
+      "slug": "norway-national-team-2025-26-home-jersey-red",
+      "title": "Peru National Team FIFA x World Cup 2026 Home Jersey - White",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "919efa0a-9527-4e25-8975-1fefd84717a7",
+      "slug": "oklahoma-sooners-gameday-greats-nil-lightweight-volleyball-jersey-white-ncaa",
+      "title": "Oklahoma State Cowboys Custom Football Game Jersey - Black",
+      "sport": "Football",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "0984cc8e-53ab-458d-bb83-511a888ed0f4",
+      "slug": "oregon-ducks-gameday-greats-nil-lightweight-volleyball-jersey-white-ncaa",
+      "title": "Oregon State Beavers Custom Football Game Jersey - Orange",
+      "sport": "Football",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "d62783a8-72d0-4499-83c2-609a11b43d6b",
+      "slug": "ottawa-senators-2026-military-appreciation-custom-practice-jersey-black",
+      "title": "Trevor Zegras Philadelphia Flyers Home Breakaway Jersey - Orange",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "efd7b272-72f6-4b8a-9b12-dc5412ce1af7",
+      "slug": "ousmane-dembele-france-11-fifa-world-cup-jersey",
+      "title": "Randal Kolo Muani France 12 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "66ecfb8d-9bb8-407a-a80e-df3ad8f6d4f2",
+      "slug": "paul-pogba-france-6-fifa-world-cup-jersey-1",
+      "title": "Olivier Giroud France 9 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "5db4d037-1b72-4ed4-b457-9e536562ab56",
+      "slug": "pele-brazil-10-fifa-world-cup-jersey",
+      "title": "Pel\u00e9 Brazil 10 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "51a5b8c3-0a22-4e10-9c4b-384ca86346b2",
+      "slug": "philadelphia-flyers-home-breakaway-jersey-burnt-orange",
+      "title": "Pittsburgh Penguins Alternate Premium Custom Jersey - Gold",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "a59cc765-7638-4aa7-984f-cd804ca5dbe4",
+      "slug": "philadelphia-phillies-home-limited-pick-a-player-retired-roster-jersey-white",
+      "title": "Roberto Clemente Pittsburgh Pirates Alternate Limited Jersey \u2013 Black",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "d329e349-b394-47ec-b727-b06cc35b8f2b",
+      "slug": "piotr-zielinski-poland-20-fifa-world-cup-jersey",
+      "title": "Arkadiusz Milik Poland 7 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e4d8a46f-d777-4e9f-ae25-241a4044070e",
+      "slug": "pitt-panthers-gameday-greats-1-lightweight-volleyball-fashion-jersey-royal-ncaa",
+      "title": "Pitt Panthers Baseball Jersey - Royal",
+      "sport": "Baseball",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6ffa9d31-b78a-4b40-a28a-2bd019eba032",
+      "slug": "pittsburgh-penguins-practice-jersey-blue",
+      "title": "Macklin Celebrini San Jose Sharks Home Breakaway Jersey \u2013 Teal",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "3318be69-527b-4069-9123-84d5c58044bb",
+      "slug": "pittsburgh-pirates-custom-jersey-black",
+      "title": "Jackson Merrill San Diego Padres Home Limited Player Jersey - White",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "be025d69-6e84-4815-998c-4a01ef153121",
+      "slug": "portland-trail-blazers-2025-26-city-edition-swingman-custom-jersey-black",
+      "title": "Sacramento Kings Swingman Custom Jersey - Statement Edition - Purple",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "b31b6565-54cd-4c98-bb09-872db0cc3361",
+      "slug": "purdue-boilermakers-gameday-greats-hockey-jersey-gold-ncaa",
+      "title": "Purdue Boilermakers Colosseum Free Spirited Baseball Jersey - Gray",
+      "sport": "Baseball",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "0d6b7273-5e96-4c7c-b8a2-50cfbaccefd6",
+      "slug": "purdue-boilermakers-pro-standard-mesh-full-button-baseball-jersey-black-ncaa",
+      "title": "Purdue Boilermakers GameDay Greats Hockey Jersey - Gold",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "8385936c-e735-4e4a-b723-41b9aff0a999",
+      "slug": "qatar-national-team-2025-26-home-jersey-maroon",
+      "title": "Saudi Arabia National Team FIFA x World Cup 2026 Home Jersey - Green",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "1453544e-367c-48c3-a5cf-87b2fab98b5c",
+      "slug": "randal-kolo-muani-france-12-fifa-world-cup-jersey",
+      "title": "Kingsley Coman France 20 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "3fee5e28-b5d6-438e-8ed7-a11bc4c4b855",
+      "slug": "raul-jimenez-mexico-9-fifa-world-cup-jersey",
+      "title": "Ra\u00fal Jim\u00e9nez Mexico 9 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "4bfc785f-0638-4274-86fe-1d2597e8dc8a",
+      "slug": "robert-hagg-anaheim-ducks-home-breakaway-jersey-black",
+      "title": "Boston Bruins 2026 Stadium Series Premium Custom Jersey - Gold",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "592c3d6d-81c7-44ab-8ea5-7b10baaa6ff9",
+      "slug": "robert-lewandowski-poland-9-fifa-world-cup-jersey",
+      "title": "Kamil Glik Poland 15 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "0ddfb156-e2ab-4023-9c92-a03387b955d5",
+      "slug": "robert-lewandowski-poland-9-jersey-1",
+      "title": "Jan Bednarek Poland 5 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6dc357bd-dd91-43bb-a067-030d36e391d8",
+      "slug": "ronald-acuna-jr-atlanta-braves-connect-limited-jersey-white",
+      "title": "Baltimore Orioles Team Jersey - Gray",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e6607f59-d4ee-4a17-9dd6-145f544f4187",
+      "slug": "rutgers-scarlet-knights-gameday-greats-hockey-jersey-scarlet-ncaa",
+      "title": "Rutgers Scarlet Knights Baseball Jersey - Cream",
+      "sport": "Baseball",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "52c6ac14-615e-417a-bc9d-03d508c96c61",
+      "slug": "sacramento-kings-swingman-custom-jersey-black-statement-edition",
+      "title": "Victor Wembanyama San Antonio Spurs Youth 2025/26 City Edition Swingman Jersey - Black",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "52cd262e-4456-4340-8f8f-3111256027a7",
+      "slug": "san-francisco-giants-2025-26-city-connect-limited-jersey-anthracite",
+      "title": "Ken Griffey Jr. Seattle Mariners Jersey - White",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "c37ee1e7-0d2e-4964-aaca-14636fe4e904",
+      "slug": "san-jose-sharks-hockey-fights-cancer-practice-jersey-white",
+      "title": "Philipp Grubauer Seattle Kraken Alternate Premium Player Jersey - Black",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "9c43c04a-a0db-42e8-9530-864da4bda3c6",
+      "slug": "saudi-arabia-national-team-fifa-x-world-cup-2026-home-jersey-green",
+      "title": "Scotland National Team FIFA x World Cup 2026 Home Jersey - Navy",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "b9587765-d08b-46ab-a56e-a9ab2bf4604b",
+      "slug": "seattle-mariners-home-limited-pick-a-player-retired-roster-jersey-white",
+      "title": "Yadier Molina St. Louis Cardinals Retired Player Jersey - White",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6315d298-4767-473f-80c2-9d204c0df0c1",
+      "slug": "sebastian-coates-uruguay-4-fifa-world-cup-jersey",
+      "title": "Sebasti\u00e1n Coates Uruguay 4 Fifa World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "570d0ca5-2f03-4c28-81bf-33d413d23e2c",
+      "slug": "sebastian-szymanski-poland-19-fifa-world-cup-jersey",
+      "title": "Piotr Zieli\u0144ski Poland 20 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "9874be69-fbda-47f1-bebd-ff2f11f1562a",
+      "slug": "serbia-national-team-2026-pre-match-jersey-red",
+      "title": "Spain National Team FIFA x World Cup 2026 Home Jersey - Red",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "2da0e286-2d5e-45f4-9d76-24bd0ef54015",
+      "slug": "serge-gnabry-germany-10-fifa-world-cup-jersey",
+      "title": "\u0130lkay G\u00fcndo\u011fan Germany 21 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "7eca3e09-0c41-465a-804c-23bf555421a8",
+      "slug": "seth-jones-florida-panthers-2026-winter-classic-premium-jersey-red",
+      "title": "Los Angeles Kings Alternate Premium Custom Jersey - Black",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "d7055b1d-a7ae-4ab9-bf61-04d32348e394",
+      "slug": "sofiane-boufal-morocco-17-jersey-fifa-world-cup-jersey",
+      "title": "Youssef En-Nesyri Morocco 19 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "a34118cb-3f7d-41b3-87fc-be78abe951de",
+      "slug": "st-louis-blues-hockey-fights-cancer-practice-jersey-white",
+      "title": "Tampa Bay Lightning 2026 Stadium Series Premium Custom Jersey - Blue",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "cd4de1d6-9773-41bd-bff8-b5be421b480c",
+      "slug": "stephen-curry-golden-state-warriors-2025-select-series-swingman-player-jersey-royal",
+      "title": "Amen Thompson Houston Rockets  Fast Break Player Jersey - Statement Edition - Black",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "40f5d8dc-15bc-459d-81d9-bac7368de13c",
+      "slug": "stephen-eustaquio-canada-7-fifa-world-cup-jersey",
+      "title": "Jonathan Osorio Canada 21 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "556761df-bf39-4f1c-8cc3-432a0d5e9929",
+      "slug": "tajon-buchanan-canada-12-fifa-world-cup-jersey",
+      "title": "Sam Adekugbe Canada 3 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "eddf5163-abe4-4dc3-9332-8d969459bb0d",
+      "slug": "tampa-bay-rays-jersey-white",
+      "title": "Texas Rangers Home Limited Custom Jersey - White",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "fd2a8862-0d5c-4176-9fbe-82d3d9e5fd87",
+      "slug": "texas-a-m-aggies-baseball-jersey-white-ncaa",
+      "title": "#12 Texas A&M Aggies GameDay Greats Hockey Fashion Jersey \u2013 Maroon",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6eed0051-e530-4849-ab88-92c0b63d4f3d",
+      "slug": "texas-tech-red-raiders-gameday-greats-personalized-football-fashion-jersey-black-ncaa",
+      "title": "Texas Tech Red Raiders Custom Baseball Jersey \u2013 White",
+      "sport": "Baseball",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "42555cbd-e6a2-4667-8507-c169d06bb4c2",
+      "slug": "theo-hernandez-france-22-fifa-world-cup-jersey",
+      "title": "Ibrahima Konate France 24 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "a52cf03c-91bb-4dc1-96dc-db5c13bde560",
+      "slug": "timothy-castagne-belgium-21-fifa-world-cup-jersey",
+      "title": "Axel Witsel Belgium 6 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "9e9ce968-eb7c-4182-8f4d-ae6658eb9821",
+      "slug": "trent-alexander-arnold-england-18-fifa-world-cup-jersey",
+      "title": "Ben White England 21 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "31d0fad2-712f-4b3b-8001-cabee8c7f1fe",
+      "slug": "ucf-knights-baseball-jersey-light-blue-ncaa",
+      "title": "UCF Knights GameDay Greats Hockey Jersey - Gold",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e11eac5c-f22d-47bc-9a19-3a8a562747fa",
+      "slug": "usa-football-retro-shorts",
+      "title": "Team USA Basketball Shorts",
+      "sport": "Basketball",
+      "league": null,
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6ff12fd2-ca40-403d-84db-b21cecedc201",
+      "slug": "utah-jazz-2025-26-city-edition-swingman-custom-jersey-gray",
+      "title": "Washington Wizards 2025/26 Custom Swingman Jersey - Statement Edition - Navy",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "8f3b1faf-5317-484a-9b0e-ca7b2d8b034f",
+      "slug": "vancouver-canucks-hockey-fights-cancer-custom-practice-jersey-white",
+      "title": "Mitch Marner Vegas Golden Knights Home Breakaway Jersey - Gold",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "a3fc41ac-6d21-4de3-979e-b54a2350a0d0",
+      "slug": "venezuela-national-team-fifa-x-world-cup-2026-home-jersey-red",
+      "title": "Wales National Team FIFA x World Cup 2026 Home Jersey - Red",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "bc0cfbbf-c40c-4c21-8c9b-a3e8067f7487",
+      "slug": "victor-wembanyama-san-antonio-spurs-youth-2025-26-city-edition-swingman-jersey-black",
+      "title": "Toronto Raptors 2025/26 City Edition Swingman Custom Jersey - Black",
+      "sport": "Basketball",
+      "league": "NBA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "6664f97d-6c89-4087-9a2d-b57b1e306339",
+      "slug": "virgil-van-dijk-4-netherlands-fifa-world-cup-jersey",
+      "title": "Memphis Depay Netherlands 10 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "2ef28eb3-e1de-4996-a516-0d190de1196f",
+      "slug": "virginia-cavaliers-pro-standard-mesh-full-button-baseball-jersey-navy-ncaa",
+      "title": "Virginia Tech Hokies Custom Football Game Jersey - Maroon",
+      "sport": "Football",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "202192d9-f846-43dc-9843-4a5fe9dc95b6",
+      "slug": "virginia-tech-hokies-custom-football-game-jersey-maroon-ncaa",
+      "title": "#0 Virginia Tech Hokies GameDay Greats Lightweight Baseball Fashion Jersey - White",
+      "sport": "Baseball",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "f400f64a-7810-4808-8d72-92a09cdc93b5",
+      "slug": "washington-capitals-alternate-breakaway-jersey-black",
+      "title": "Mark Scheifele Winnipeg Jets Breakaway Jersey - Navy",
+      "sport": "Hockey",
+      "league": "NHL",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "e5899f6d-19d6-496c-92ef-21c5ad314590",
+      "slug": "washington-state-cougars-colosseum-free-spirited-baseball-jersey-gray-ncaa",
+      "title": "Washington State Cougars GameDay Greats Spirit Hockey Jersey - Crimson",
+      "sport": "Hockey",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "a702474b-7c13-48e4-8880-3cb6d760c3b3",
+      "slug": "west-virginia-mountaineers-gameday-greats-spirit-hockey-jersey-gold-ncaa",
+      "title": "West Virginia Mountaineers College Limited Baseball Jersey - White",
+      "sport": "Baseball",
+      "league": "NCAA",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "9ef1144d-e0fa-45c9-9f23-ad37ab502946",
+      "slug": "william-saliba-france-17-fifa-world-cup-jersey",
+      "title": "Dayot Upamecano France 18 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "01e1866a-4248-4a0a-bb78-2b9370555423",
+      "slug": "william-saliba-france-17-fifa-world-cup-jersey-1",
+      "title": "Matteo Guendouzi France 6 FIFA World Cup Jersey",
+      "sport": "Soccer",
+      "league": "FIFA World Cup",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "59c3f70a-495f-4b65-a9d7-735623f71463",
+      "slug": "zach-mckinstry-detroit-tigers-jersey-white",
+      "title": "Craig Biggio Houston Astros  Cooperstown Collection Mesh Batting Practice Jersey - Black",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    },
+    {
+      "id": "ed3b4391-c076-48af-bd57-4ef8e1e35ce6",
+      "slug": "zack-gelof-athletics-limited-player-jersey-white",
+      "title": "Ronald Acuna Jr. Atlanta Braves Player Name Jersey - Gray",
+      "sport": "Baseball",
+      "league": "MLB",
+      "disposition": "SAFE_TO_FIX",
+      "action": "classified_enriched_published"
+    }
+  ],
+  "remainingProducts": [
+    {
+      "id": "d7b40703-98e8-4342-99fb-7907370ea294",
+      "slug": "minnesota-golden-gophers-ccm-third-hockey-jersey-gold-ncaa",
+      "title": "#25 Mississippi State Bulldogs Premier Strategy Jersey - Black",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (mississippi,state,bulldogs) but sport is not explicit in title",
+      "evidence": {
+        "title": "#25 Mississippi State Bulldogs Premier Strategy Jersey - Black",
+        "slug": "minnesota-golden-gophers-ccm-third-hockey-jersey-gold-ncaa",
+        "tags": [
+          "Football J",
+          "Jerseys",
+          "Mississippi State Bulldogs",
+          "NCAA"
+        ],
+        "team": "Football J",
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "175283f3-91b3-4c49-976d-7417aa8cb82a",
+      "slug": "notre-dame-fighting-irish-under-armour-home-hockey-jersey-white-ncaa",
+      "title": "#1 Ohio State Buckeyes Game Jersey - Scarlet",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (ohio,state,buckeyes) but sport is not explicit in title",
+      "evidence": {
+        "title": "#1 Ohio State Buckeyes Game Jersey - Scarlet",
+        "slug": "notre-dame-fighting-irish-under-armour-home-hockey-jersey-white-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Ohio State Buckeyes",
+          "soccer"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "47c700c3-2809-4f4f-9560-9f96d12d6bc9",
+      "slug": "washington-state-cougars-gameday-greats-spirit-hockey-jersey-crimson-ncaa",
+      "title": "#25 West Virginia Mountaineers Alternate Game Jersey - Black",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (west,virginia,mountaineers) but sport is not explicit in title",
+      "evidence": {
+        "title": "#25 West Virginia Mountaineers Alternate Game Jersey - Black",
+        "slug": "washington-state-cougars-gameday-greats-spirit-hockey-jersey-crimson-ncaa",
+        "tags": [
+          "Football J",
+          "Jerseys",
+          "NCAA",
+          "West Virginia Mountaineers"
+        ],
+        "team": "Football J",
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "5dd29218-651f-4242-8a3d-3914037c83bb",
+      "slug": "belgium-national-team-womens-2026-jersey-black",
+      "title": "Brazil National Team 2026 Home Match Authentic Jersey \u2013 Yellow",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (brazil) but sport is not explicit in title",
+      "evidence": {
+        "title": "Brazil National Team 2026 Home Match Authentic Jersey \u2013 Yellow",
+        "slug": "belgium-national-team-womens-2026-jersey-black",
+        "tags": [
+          "Brazil National Team",
+          "Federation Team",
+          "soccer"
+        ],
+        "team": "Brazil National Team",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "bde98a69-62fe-44a4-a236-4e904e45b7e5",
+      "slug": "germany-national-team-fifa-x-world-cup-2026-tiro-away-training-jersey-white",
+      "title": "Ghana National Team 2026 Home Jersey - White",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (ghana) but sport is not explicit in title",
+      "evidence": {
+        "title": "Ghana National Team 2026 Home Jersey - White",
+        "slug": "germany-national-team-fifa-x-world-cup-2026-tiro-away-training-jersey-white",
+        "tags": [
+          "Federation Team",
+          "FIFA 2026",
+          "Ghana National Team",
+          "soccer"
+        ],
+        "team": "Federation Team",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "d9e7f6c9-55ef-4168-bebf-383e3747c7a1",
+      "slug": "scotland-national-team-fifa-x-world-cup-2026-home-jersey-navy",
+      "title": "Senegal National Team 2026 Away Jersey - Green",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (senegal) but sport is not explicit in title",
+      "evidence": {
+        "title": "Senegal National Team 2026 Away Jersey - Green",
+        "slug": "scotland-national-team-fifa-x-world-cup-2026-home-jersey-navy",
+        "tags": [
+          "Federation Team",
+          "FIFA 2026",
+          "Jerseys",
+          "New Arrival",
+          "Senegal National Team",
+          "SOCCER"
+        ],
+        "team": "Federation Team",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "ee256688-8a16-4413-a1d5-6d4bb76711aa",
+      "slug": "northern-ireland-national-team-fifa-x-world-cup-2026-home-jersey-green",
+      "title": "Norway National Team 2026 Away Blank Jersey - White",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (norway) but sport is not explicit in title",
+      "evidence": {
+        "title": "Norway National Team 2026 Away Blank Jersey - White",
+        "slug": "northern-ireland-national-team-fifa-x-world-cup-2026-home-jersey-green",
+        "tags": [
+          "Federation Team",
+          "FIFA 2026",
+          "Jerseys",
+          "New Arrival",
+          "Norway National Team",
+          "SOCCER"
+        ],
+        "team": "Federation Team",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "2f7dbb4c-1597-4ae6-8fa9-1a5dc16d6973",
+      "slug": "ole-miss-rebels-gameday-greats-nil-pick-a-player-lightweight-volleyball-jersey-powder-blue-ncaa",
+      "title": "Oregon Ducks NIL Pick-A-Player Game Jersey - Black",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (oregon,ducks) but sport is not explicit in title",
+      "evidence": {
+        "title": "Oregon Ducks NIL Pick-A-Player Game Jersey - Black",
+        "slug": "ole-miss-rebels-gameday-greats-nil-pick-a-player-lightweight-volleyball-jersey-powder-blue-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Oregon Ducks"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [
+          "Volleyball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "fa09623b-4180-4c2a-ae5c-a2cc7abfcc33",
+      "slug": "indiana-hoosiers-colosseum-puck-proud-fashion-hockey-jersey-cream-ncaa",
+      "title": "Indiana Hoosiers Baseball Jersey - Cream",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Baseball vs slug sport Hockey without decisive tag corroboration",
+      "evidence": {
+        "title": "Indiana Hoosiers Baseball Jersey - Cream",
+        "slug": "indiana-hoosiers-colosseum-puck-proud-fashion-hockey-jersey-cream-ncaa",
+        "tags": [
+          "BASEBALL J",
+          "HOCKEY J",
+          "Indiana Hoosiers",
+          "Jerseys",
+          "NCAA"
+        ],
+        "team": "BASEBALL J",
+        "titleSports": [
+          "Baseball"
+        ],
+        "slugSports": [
+          "Hockey"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "268827d5-efc8-49a8-a88d-5b32d9d2295a",
+      "slug": "scotland-2026-home-kit",
+      "title": "Argentina 2026 Messi Home Jersey with World Champions Patch",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Argentina 2026 Messi Home Jersey with World Champions Patch",
+        "slug": "scotland-2026-home-kit",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "afb26006-40da-4ebe-bad1-960a89e67d10",
+      "slug": "scotland-2026-home-jersey",
+      "title": "Portugal 2026 Special Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Portugal 2026 Special Jersey",
+        "slug": "scotland-2026-home-jersey",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "872ca33b-4a6a-479c-8480-0e2dee0854c9",
+      "slug": "iowa-state-cyclones-gameday-greats-hockey-jersey-cardinal-ncaa",
+      "title": "#00 Kansas Jayhawks Premier Strategy Jersey - White",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (kansas,jayhawks) but sport is not explicit in title",
+      "evidence": {
+        "title": "#00 Kansas Jayhawks Premier Strategy Jersey - White",
+        "slug": "iowa-state-cyclones-gameday-greats-hockey-jersey-cardinal-ncaa",
+        "tags": [
+          "Jerseys",
+          "Kansas Jayhawks",
+          "NCAA"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "b1b9c8dd-bf70-4b13-a659-f02e42240a82",
+      "slug": "usc-trojans-gameday-greats-nil-pick-a-player-baseball-lightweight-jersey-white-ncaa",
+      "title": "Central Alabama Community College Trojans GameDay Greats Hockey Jersey - Navy",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug \u2014 genuinely ambiguous",
+      "evidence": {
+        "title": "Central Alabama Community College Trojans GameDay Greats Hockey Jersey - Navy",
+        "slug": "usc-trojans-gameday-greats-nil-pick-a-player-baseball-lightweight-jersey-white-ncaa",
+        "tags": [
+          "HOCKEY J",
+          "Jerseys",
+          "NCAA",
+          "USC Trojans"
+        ],
+        "team": "HOCKEY J",
+        "titleSports": [
+          "Hockey"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "a3ee631f-a4bd-4449-a72e-f4dfc9017745",
+      "slug": "vanderbilt-commodores-gameday-greats-volleyball-lightweight-fashion-jersey-gold-ncaa",
+      "title": "#1 Villanova Wildcats Jersey - Navy",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (villanova,wildcats) but sport is not explicit in title",
+      "evidence": {
+        "title": "#1 Villanova Wildcats Jersey - Navy",
+        "slug": "vanderbilt-commodores-gameday-greats-volleyball-lightweight-fashion-jersey-gold-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Villanova Wildcats"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [
+          "Volleyball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "d2bba523-b15e-4453-91bf-f86230bf6b6f",
+      "slug": "san-diego-padres-city-connect-team-jersey-white",
+      "title": "San Francisco Giants Home Limited Jersey - Cream",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug \u2014 genuinely ambiguous",
+      "evidence": {
+        "title": "San Francisco Giants Home Limited Jersey - Cream",
+        "slug": "san-diego-padres-city-connect-team-jersey-white",
+        "tags": [
+          "BASEBALL J",
+          "Baseball Jersey",
+          "Major League Baseball",
+          "San Francisco Giants"
+        ],
+        "team": "BASEBALL J",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "71e5c3f7-fce9-4a11-9024-2f7f1ce5854e",
+      "slug": "new-york-islanders-home-breakaway-custom-jersey-blue",
+      "title": "New York Rangers 2026 Winter Classic Premium Custom Jersey - Beige",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug \u2014 genuinely ambiguous",
+      "evidence": {
+        "title": "New York Rangers 2026 Winter Classic Premium Custom Jersey - Beige",
+        "slug": "new-york-islanders-home-breakaway-custom-jersey-blue",
+        "tags": [
+          "HOCKEY J",
+          "Jerseys",
+          "New Arrival",
+          "New York Rangers"
+        ],
+        "team": "HOCKEY J",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "6ff3d314-37b6-410f-b3ea-a08de91c9a9c",
+      "slug": "chile-2026-home-jersey",
+      "title": "Japan 2026 Home Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Japan 2026 Home Jersey",
+        "slug": "chile-2026-home-jersey",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "7d79af87-eaa1-44f3-a39b-af0af3145026",
+      "slug": "venezuela-2026-home-jersey",
+      "title": "Argentina 2026 Home Jersey with World Champions Patch",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Argentina 2026 Home Jersey with World Champions Patch",
+        "slug": "venezuela-2026-home-jersey",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "soccer",
+          "soccer jersey",
+          "soccer jerseys"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "7f0bbdb7-cede-45ef-8ffa-fad7904f46d8",
+      "slug": "navy-midshipmen-under-armour-rivalry-jersey-white-ncaa",
+      "title": "#25 NC State Wolfpack  Premier Strategy Jersey - Red",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (state,wolfpack) but sport is not explicit in title",
+      "evidence": {
+        "title": "#25 NC State Wolfpack  Premier Strategy Jersey - Red",
+        "slug": "navy-midshipmen-under-armour-rivalry-jersey-white-ncaa",
+        "tags": [
+          "Jerseys",
+          "NC State Wolfpack",
+          "NCAA"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "5ad45ab4-3d38-4975-9e3b-cffadd7ead10",
+      "slug": "ucf-knights-gameday-greats-hockey-jersey-gold-ncaa",
+      "title": "#1 UCLA Bruins Game Jersey - Blue",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (ucla,bruins) but sport is not explicit in title",
+      "evidence": {
+        "title": "#1 UCLA Bruins Game Jersey - Blue",
+        "slug": "ucf-knights-gameday-greats-hockey-jersey-gold-ncaa",
+        "tags": [
+          "Football J",
+          "Jerseys",
+          "NCAA",
+          "UCLA Bruins"
+        ],
+        "team": "Football J",
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "6cce65ee-6589-4c19-874d-88036cc22a3f",
+      "slug": "senegal-national-team-2026-pre-match-jersey-green",
+      "title": "Serbia National Team 2026 Away Jersey - White",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (serbia) but sport is not explicit in title",
+      "evidence": {
+        "title": "Serbia National Team 2026 Away Jersey - White",
+        "slug": "senegal-national-team-2026-pre-match-jersey-green",
+        "tags": [
+          "Federation Team",
+          "Jerseys",
+          "New Arrival",
+          "Serbia National Team"
+        ],
+        "team": "Federation Team",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "cda72c5f-3a76-4aec-9a9a-d282ab7931f2",
+      "slug": "portugal-2026-special-edition-kit",
+      "title": "Scotland 2026 Home Kit",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Scotland 2026 Home Kit",
+        "slug": "portugal-2026-special-edition-kit",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "6547d8ad-6b4f-4302-8d3c-c840367e9866",
+      "slug": "japan-2026-home-kit",
+      "title": "Germany 2026 Home Kit",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Germany 2026 Home Kit",
+        "slug": "japan-2026-home-kit",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "09016742-3e89-4298-95de-49ce4adc0e8e",
+      "slug": "brazil-womens-national-team-womens-2025-26-away-jersey-blue",
+      "title": "Canada Soccer 2026 Pre-Match Top - Red",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (canada) but sport is not explicit in title",
+      "evidence": {
+        "title": "Canada Soccer 2026 Pre-Match Top - Red",
+        "slug": "brazil-womens-national-team-womens-2025-26-away-jersey-blue",
+        "tags": [
+          "Canada Soccer",
+          "Federation Team"
+        ],
+        "team": "Canada Soccer",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "f35ec7d8-7439-40bb-b56d-847d7b181b59",
+      "slug": "tennessee-volunteers-gameday-greats-lightweight-volleyball-fashion-jersey-blue-ncaa",
+      "title": "#12 Texas A&M Aggies Premier Strategy Jersey - Maroon",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (texas,aggies) but sport is not explicit in title",
+      "evidence": {
+        "title": "#12 Texas A&M Aggies Premier Strategy Jersey - Maroon",
+        "slug": "tennessee-volunteers-gameday-greats-lightweight-volleyball-fashion-jersey-blue-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Texas A&M Aggies"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [
+          "Volleyball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "9eff913f-7db6-41c0-be48-9b9115e212fd",
+      "slug": "corey-seager-texas-rangers-profile-big-tall-name-number-birdeye-v-neck-t-shirt-white",
+      "title": "American League  2025-26 All-Star Edition Elite Jersey - Navy",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate slug (texas,rangers) but not title \u2014 title rewrite not allowed",
+      "evidence": {
+        "title": "American League  2025-26 All-Star Edition Elite Jersey - Navy",
+        "slug": "corey-seager-texas-rangers-profile-big-tall-name-number-birdeye-v-neck-t-shirt-white",
+        "tags": [
+          "BASEBALL J",
+          "Baseball Jersey",
+          "Major League Baseball",
+          "Texas Rangers"
+        ],
+        "team": "BASEBALL J",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "52a5471f-96c4-4b14-ac96-f2f501c258f1",
+      "slug": "nigeria-national-team-2026-academy-pro-pre-match-top-gray",
+      "title": "Northern Ireland National Team 2026 Home Jersey - Green",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (northern,ireland) but sport is not explicit in title",
+      "evidence": {
+        "title": "Northern Ireland National Team 2026 Home Jersey - Green",
+        "slug": "nigeria-national-team-2026-academy-pro-pre-match-top-gray",
+        "tags": [
+          "Federation Team",
+          "Jerseys",
+          "New Arrival",
+          "Northern Ireland National Team"
+        ],
+        "team": "Federation Team",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "6f11acde-364b-462e-bac7-efdce462c988",
+      "slug": "colombia-2026-home-jersey",
+      "title": "Wales 2026 Home Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Wales 2026 Home Jersey",
+        "slug": "colombia-2026-home-jersey",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "ac86fe93-273c-4eee-8e3b-f0023340b7fc",
+      "slug": "belgium-2026-home-jersey",
+      "title": "Saudi Arabia 2026 Home Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Saudi Arabia 2026 Home Jersey",
+        "slug": "belgium-2026-home-jersey",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "c56b296f-cc89-49c4-ba28-78c8dab1fe43",
+      "slug": "dikembe-mutombo-indiana-pacers-55-retro-jersey",
+      "title": "Dikembe Mutombo Denver Nuggets 55 Retro Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug \u2014 genuinely ambiguous",
+      "evidence": {
+        "title": "Dikembe Mutombo Denver Nuggets 55 Retro Jersey",
+        "slug": "dikembe-mutombo-indiana-pacers-55-retro-jersey",
+        "tags": [
+          "55",
+          "basketball",
+          "Basketball J",
+          "Denver Nuggets",
+          "Denver Nuggets 55",
+          "Dikembe",
+          "Dikembe Mutombo",
+          "DMCA",
+          "Jerseys",
+          "Mutombo",
+          "Retro Jersey"
+        ],
+        "team": "55",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "ebdbaeb5-8914-4c95-a183-72c9c7e233b0",
+      "slug": "pitt-panthers-baseball-jersey-royal-ncaa",
+      "title": "#25 Purdue Boilermakers Game Jersey - Black",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (purdue,boilermakers) but sport is not explicit in title",
+      "evidence": {
+        "title": "#25 Purdue Boilermakers Game Jersey - Black",
+        "slug": "pitt-panthers-baseball-jersey-royal-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Purdue Boilermakers"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [
+          "Baseball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "78be1b7a-3ab4-4bff-9249-591c1940b3c9",
+      "slug": "tennessee-volunteers-college-limited-baseball-jersey-white-ncaa",
+      "title": "Tennessee Volunteers GameDay Greats Lightweight Volleyball Fashion Jersey - Blue",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Volleyball vs slug sport Baseball without decisive tag corroboration",
+      "evidence": {
+        "title": "Tennessee Volunteers GameDay Greats Lightweight Volleyball Fashion Jersey - Blue",
+        "slug": "tennessee-volunteers-college-limited-baseball-jersey-white-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Tennessee Volunteers"
+        ],
+        "team": "Jerseys",
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "6a1e6ed6-ec6b-47dd-bed9-44f839280ce3",
+      "slug": "ucla-bruins-colosseum-free-spirited-baseball-jersey-gray-ncaa",
+      "title": "#1 UConn Huskies Game Jersey - Navy",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (uconn,huskies) but sport is not explicit in title",
+      "evidence": {
+        "title": "#1 UConn Huskies Game Jersey - Navy",
+        "slug": "ucla-bruins-colosseum-free-spirited-baseball-jersey-gray-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Uconn Huskies"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [
+          "Baseball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "ddf24d82-c0f1-4fbd-b5ed-8b3e7cff0f0a",
+      "slug": "winnipeg-jets-alternate-breakaway-jersey-light-blue",
+      "title": "Haydn Fleury Tampa Bay Lightning Home Premier Breakaway Player Jersey - Blue",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate slug (winnipeg,jets) but not title \u2014 title rewrite not allowed",
+      "evidence": {
+        "title": "Haydn Fleury Tampa Bay Lightning Home Premier Breakaway Player Jersey - Blue",
+        "slug": "winnipeg-jets-alternate-breakaway-jersey-light-blue",
+        "tags": [
+          "Jerseys",
+          "Winnipeg Jets"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "227e4f5f-669f-4662-8017-7e22633f35c2",
+      "slug": "uconn-huskies-gameday-greats-nil-pick-a-player-lightweight-collegiate-volleyball-fashion-jersey-navy-ncaa",
+      "title": "Marcus Allen USC Trojans Alumni Game Jersey - Cardinal",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (usc,trojans) but sport is not explicit in title",
+      "evidence": {
+        "title": "Marcus Allen USC Trojans Alumni Game Jersey - Cardinal",
+        "slug": "uconn-huskies-gameday-greats-nil-pick-a-player-lightweight-collegiate-volleyball-fashion-jersey-navy-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "USC Trojans"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [
+          "Volleyball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "fbb9e3c5-403f-49d2-adb3-66e8c2a94b80",
+      "slug": "los-angeles-angels-custom-jersey-white",
+      "title": "Mookie Betts Los Angeles Dodgers City Connect Limited Player Jersey - Cream",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug \u2014 genuinely ambiguous",
+      "evidence": {
+        "title": "Mookie Betts Los Angeles Dodgers City Connect Limited Player Jersey - Cream",
+        "slug": "los-angeles-angels-custom-jersey-white",
+        "tags": [
+          "BASEBALL J",
+          "Baseball Jersey",
+          "Los Angeles Dodgers",
+          "Major League Baseball"
+        ],
+        "team": "BASEBALL J",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "b47f1a9c-f82e-4cc5-bb5e-7f6efca1af71",
+      "slug": "uconn-huskies-gameday-greats-lightweight-mens-hockey-team-fashion-jersey-navy-ncaa",
+      "title": "UConn Huskies GameDay Greats NIL Pick-A-Player Lightweight Collegiate Volleyball Fashion Jersey - Navy",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Volleyball vs slug sport Hockey without decisive tag corroboration",
+      "evidence": {
+        "title": "UConn Huskies GameDay Greats NIL Pick-A-Player Lightweight Collegiate Volleyball Fashion Jersey - Navy",
+        "slug": "uconn-huskies-gameday-greats-lightweight-mens-hockey-team-fashion-jersey-navy-ncaa",
+        "tags": [
+          "HOCKEY J",
+          "Jerseys",
+          "NCAA",
+          "Uconn Huskies"
+        ],
+        "team": "HOCKEY J",
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Hockey"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "506e4809-fb41-4f4f-9096-9d66e61749ce",
+      "slug": "maryland-terrapins-under-armour-baseball-jersey-red-ncaa",
+      "title": "#1 Miami Hurricanes Premier Jersey - Black",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (miami,hurricanes) but sport is not explicit in title",
+      "evidence": {
+        "title": "#1 Miami Hurricanes Premier Jersey - Black",
+        "slug": "maryland-terrapins-under-armour-baseball-jersey-red-ncaa",
+        "tags": [
+          "Jerseys",
+          "Miami Hurricanes",
+          "NCAA"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [
+          "Baseball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "5b67e26f-292d-4e1b-8e66-9994632fa697",
+      "slug": "sweden-national-team-2026-home-jersey-yellow",
+      "title": "Switzerland National Team 2025/26 Away Jersey - White",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (switzerland) but sport is not explicit in title",
+      "evidence": {
+        "title": "Switzerland National Team 2025/26 Away Jersey - White",
+        "slug": "sweden-national-team-2026-home-jersey-yellow",
+        "tags": [
+          "Federation Team",
+          "Jerseys",
+          "New Arrival",
+          "Switzerland National Team"
+        ],
+        "team": "Federation Team",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "abb8d9a3-47ba-4acf-a44e-9fb4fa149864",
+      "slug": "georgia-tech-yellow-jackets-gameday-greats-nil-pick-a-player-lightweight-basketball-fashion-jersey-navy-ncaa",
+      "title": "Georgia Tech Yellow Jackets GameDay Greats NIL Lightweight Volleyball Jersey - White",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Volleyball vs slug sport Basketball without decisive tag corroboration",
+      "evidence": {
+        "title": "Georgia Tech Yellow Jackets GameDay Greats NIL Lightweight Volleyball Jersey - White",
+        "slug": "georgia-tech-yellow-jackets-gameday-greats-nil-pick-a-player-lightweight-basketball-fashion-jersey-navy-ncaa",
+        "tags": [
+          "Georgia Tech Yellow Jackets",
+          "Jerseys",
+          "NCAA"
+        ],
+        "team": "Georgia Tech Yellow Jackets",
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Basketball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "cfd849cc-5a44-412d-9df0-9e9e269d800b",
+      "slug": "purdue-boilermakers-colosseum-free-spirited-baseball-jersey-gray-ncaa",
+      "title": "#25 Rutgers Scarlet Knights Game Jersey - Black",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (rutgers,scarlet,knights) but sport is not explicit in title",
+      "evidence": {
+        "title": "#25 Rutgers Scarlet Knights Game Jersey - Black",
+        "slug": "purdue-boilermakers-colosseum-free-spirited-baseball-jersey-gray-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Rutgers Scarlet Knights"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [
+          "Baseball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "7dcd179c-2815-4f0a-beba-8618c7db124f",
+      "slug": "vanderbilt-commodores-full-button-baseball-jersey-natural-ncaa",
+      "title": "Vanderbilt Commodores GameDay Greats Volleyball Lightweight Fashion Jersey - Gold",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Volleyball vs slug sport Baseball without decisive tag corroboration",
+      "evidence": {
+        "title": "Vanderbilt Commodores GameDay Greats Volleyball Lightweight Fashion Jersey - Gold",
+        "slug": "vanderbilt-commodores-full-button-baseball-jersey-natural-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Vanderbilt Commodores"
+        ],
+        "team": "Jerseys",
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "81cdc0c1-19a8-4f62-94e1-3b3cb9b0e56e",
+      "slug": "saudi-arabia-2026-home-jersey",
+      "title": "Portugal 2026 Home Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Portugal 2026 Home Jersey",
+        "slug": "saudi-arabia-2026-home-jersey",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "dded11e0-9fae-42af-8fd1-0af1b51b48d3",
+      "slug": "argentina-2026-home-jersey-with-world-champions-patch",
+      "title": "Belgium 2026 Home Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Belgium 2026 Home Jersey",
+        "slug": "argentina-2026-home-jersey-with-world-champions-patch",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "0ed488b5-07ff-49bc-aabc-90ae65e901e2",
+      "slug": "mexico-2026-home-jersey",
+      "title": "Colombia 2026 Home Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Colombia 2026 Home Jersey",
+        "slug": "mexico-2026-home-jersey",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "4a371601-7111-49ba-b6d5-73bf44bc6297",
+      "slug": "wales-2026-home-kit",
+      "title": "Mexico 2026 Home Kit",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Mexico 2026 Home Kit",
+        "slug": "wales-2026-home-kit",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "1c99370b-b82e-4ef3-be2b-9cea43c73ced",
+      "slug": "senegal-fifa-world-cup-jersey",
+      "title": "Sadio Mane Senegal 10 FIFA World Cup Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA tags mention tokens from both title and slug identities",
+      "evidence": {
+        "title": "Sadio Mane Senegal 10 FIFA World Cup Jersey",
+        "slug": "senegal-fifa-world-cup-jersey",
+        "tags": [
+          "FIFA 2026",
+          "international team",
+          "Sadio Mane",
+          "Senegal",
+          "soccer"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "83d3622f-85d3-45a0-97cf-52d7a45ee8f0",
+      "slug": "denmark-fifa-world-cup-jersey",
+      "title": "Costa Rica FIFA World Cup Jersey",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration \u2014 likely cross-linked import",
+      "evidence": {
+        "title": "Costa Rica FIFA World Cup Jersey",
+        "slug": "denmark-fifa-world-cup-jersey",
+        "tags": [
+          "FIFA 2026",
+          "International custom",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "e6a1035c-db1a-458d-b6ec-abcd95a3508d",
+      "slug": "argentina-2026-home-kit",
+      "title": "Italy 2026 Home Kit",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Italy 2026 Home Kit",
+        "slug": "argentina-2026-home-kit",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "4ad3dd50-7184-4138-8e2c-ee5318d222c4",
+      "slug": "italy-2026-home-kit",
+      "title": "Spain 2026 Home Kit",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Spain 2026 Home Kit",
+        "slug": "italy-2026-home-kit",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "848ce8e9-82df-4419-8ab9-f8abdd7ff54b",
+      "slug": "south-korea-fifa-world-cup-jersey",
+      "title": "Saudi Arabia FIFA World Cup Jersey",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration \u2014 likely cross-linked import",
+      "evidence": {
+        "title": "Saudi Arabia FIFA World Cup Jersey",
+        "slug": "south-korea-fifa-world-cup-jersey",
+        "tags": [
+          "FIFA 2026",
+          "International custom",
+          "soccer",
+          "soccer jersey",
+          "soccer jerseys"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "0f5a155d-968e-4ea2-9b46-f245d687ab59",
+      "slug": "south-florida-bulls-gameday-greats-volleyball-lightweight-fashion-jersey-green-ncaa",
+      "title": "Christian McCaffrey #5 Stanford Cardinal Alumni Player Game Jersey - Cardinal",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (stanford,cardinal,cardinal) but sport is not explicit in title",
+      "evidence": {
+        "title": "Christian McCaffrey #5 Stanford Cardinal Alumni Player Game Jersey - Cardinal",
+        "slug": "south-florida-bulls-gameday-greats-volleyball-lightweight-fashion-jersey-green-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Stanford Cardinal"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [
+          "Volleyball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "79b163ec-d251-4dc7-b979-d2a1447e052b",
+      "slug": "morocco-fifa-world-cup-jersey-1",
+      "title": "Senegal FIFA World Cup Jersey",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration \u2014 likely cross-linked import",
+      "evidence": {
+        "title": "Senegal FIFA World Cup Jersey",
+        "slug": "morocco-fifa-world-cup-jersey-1",
+        "tags": [
+          "FIFA 2026",
+          "International custom",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "59771ac0-14b6-4342-bf68-1629d261f779",
+      "slug": "switzerland-fifa-world-cup-jersey",
+      "title": "Ghana FIFA World Cup Jersey",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration \u2014 likely cross-linked import",
+      "evidence": {
+        "title": "Ghana FIFA World Cup Jersey",
+        "slug": "switzerland-fifa-world-cup-jersey",
+        "tags": [
+          "FIFA 2026",
+          "International custom",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "077339f6-e4bb-4dda-92e2-814c9d5f6983",
+      "slug": "germany-fifa-world-cup-jersey",
+      "title": "Sweden FIFA World Cup Jersey",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration \u2014 likely cross-linked import",
+      "evidence": {
+        "title": "Sweden FIFA World Cup Jersey",
+        "slug": "germany-fifa-world-cup-jersey",
+        "tags": [
+          "FIFA 2026",
+          "International custom",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "e26a4b66-aab0-4020-ac9a-ddfc3105f7ea",
+      "slug": "clemson-tigers-gameday-greats-spirit-hockey-jersey-orange-ncaa",
+      "title": "Travis Hunter Colorado Buffaloes Alternate Alumni Game Jersey - Black",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (colorado,buffaloes) but sport is not explicit in title",
+      "evidence": {
+        "title": "Travis Hunter Colorado Buffaloes Alternate Alumni Game Jersey - Black",
+        "slug": "clemson-tigers-gameday-greats-spirit-hockey-jersey-orange-ncaa",
+        "tags": [
+          "Colorado Buffaloes",
+          "HOCKEY J",
+          "Jerseys",
+          "NCAA"
+        ],
+        "team": "Colorado Buffaloes",
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "07559871-ef65-4f9c-bfb6-f41dd1626197",
+      "slug": "kansas-jayhawks-reverse-retro-baseball-jersey-royal-ncaa",
+      "title": "Kansas Jayhawks GameDay Greats NIL Pick-A-Player Lightweight Volleyball Jersey - White",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Volleyball vs slug sport Baseball without decisive tag corroboration",
+      "evidence": {
+        "title": "Kansas Jayhawks GameDay Greats NIL Pick-A-Player Lightweight Volleyball Jersey - White",
+        "slug": "kansas-jayhawks-reverse-retro-baseball-jersey-royal-ncaa",
+        "tags": [
+          "Jerseys",
+          "Kansas Jayhawks",
+          "NCAA"
+        ],
+        "team": "Jerseys",
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "0c8e0b04-73f3-4c85-8336-30add8f66478",
+      "slug": "texas-longhorns-college-limited-baseball-jersey-texas-orange-ncaa",
+      "title": "#1 Texas Longhorns GameDay Greats Volleyball National Champions Fashion Jersey - Texas Orange",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Volleyball vs slug sport Baseball without decisive tag corroboration",
+      "evidence": {
+        "title": "#1 Texas Longhorns GameDay Greats Volleyball National Champions Fashion Jersey - Texas Orange",
+        "slug": "texas-longhorns-college-limited-baseball-jersey-texas-orange-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Texas Longhorns"
+        ],
+        "team": "Jerseys",
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "deda3851-b99d-4dc7-886a-425e54f47ea1",
+      "slug": "1-utah-utes-gameday-greats-lightweight-baseball-fashion-jersey-white-ncaa",
+      "title": "Utah Utes GameDay Greats  #1 Lightweight Volleyball Fashion Jersey - Red",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug \u2014 genuinely ambiguous",
+      "evidence": {
+        "title": "Utah Utes GameDay Greats  #1 Lightweight Volleyball Fashion Jersey - Red",
+        "slug": "1-utah-utes-gameday-greats-lightweight-baseball-fashion-jersey-white-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Utah Utes"
+        ],
+        "team": "Jerseys",
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "1d804fe9-2ff1-442b-a027-6975dc73fd80",
+      "slug": "0-virginia-tech-hokies-gameday-greats-lightweight-baseball-fashion-jersey-white-ncaa",
+      "title": "#00 Virginia Tech Hokies GameDay Greats Lightweight Volleyball Fashion Jersey - Maroon",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug \u2014 genuinely ambiguous",
+      "evidence": {
+        "title": "#00 Virginia Tech Hokies GameDay Greats Lightweight Volleyball Fashion Jersey - Maroon",
+        "slug": "0-virginia-tech-hokies-gameday-greats-lightweight-baseball-fashion-jersey-white-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Virginia Tech Hokies"
+        ],
+        "team": "Jerseys",
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "67d11352-5c66-4044-8dbf-592380d1ab1e",
+      "slug": "germany-2026-home-jersey",
+      "title": "Italy 2026 Home Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Italy 2026 Home Jersey",
+        "slug": "germany-2026-home-jersey",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "f5d96bb5-676a-4fc0-ae74-58faf49f2a3d",
+      "slug": "italy-2026-home-jersey",
+      "title": "Mexico 2026 Home Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Mexico 2026 Home Jersey",
+        "slug": "italy-2026-home-jersey",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "91b7b510-f309-4cd2-bda1-233bf5e2f514",
+      "slug": "morocco-national-team-2026-away-jersey-white",
+      "title": "Mexico National Team FIFA x World Cup 2026 Home On Field Authentic Jersey - Green",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration \u2014 likely cross-linked import",
+      "evidence": {
+        "title": "Mexico National Team FIFA x World Cup 2026 Home On Field Authentic Jersey - Green",
+        "slug": "morocco-national-team-2026-away-jersey-white",
+        "tags": [
+          "Federation Team",
+          "FIFA 2026",
+          "Jerseys",
+          "Morocco National Team",
+          "New Arrival",
+          "SOCCER"
+        ],
+        "team": "Federation Team",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "b0db44c5-fc0f-4d47-a7bc-310dbc969b7f",
+      "slug": "wales-2026-home-jersey",
+      "title": "Chile 2026 Home Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Chile 2026 Home Jersey",
+        "slug": "wales-2026-home-jersey",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "063fb40c-9752-4aab-93f1-7406c74c5cec",
+      "slug": "portugal-national-team-2026-home-long-sleeve-jersey-red",
+      "title": "Qatar National Team 2025/26 Home Jersey - Maroon",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (qatar) but sport is not explicit in title",
+      "evidence": {
+        "title": "Qatar National Team 2025/26 Home Jersey - Maroon",
+        "slug": "portugal-national-team-2026-home-long-sleeve-jersey-red",
+        "tags": [
+          "Federation Team",
+          "Jerseys",
+          "New Arrival",
+          "Qatar National Team"
+        ],
+        "team": "Federation Team",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "b6b64c83-7790-4e29-86c3-ead527ef80b3",
+      "slug": "devin-booker-phoenix-suns-fanatics-fast-break-jersey-statement-edition-black",
+      "title": "Deni Avdija Portland Trail Blazers Swingman Jersey - Icon Edition - Black",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate slug (phoenix,suns) but not title \u2014 title rewrite not allowed",
+      "evidence": {
+        "title": "Deni Avdija Portland Trail Blazers Swingman Jersey - Icon Edition - Black",
+        "slug": "devin-booker-phoenix-suns-fanatics-fast-break-jersey-statement-edition-black",
+        "tags": [
+          "Basketball",
+          "Basketball J",
+          "DMCA",
+          "Jerseys",
+          "Phoenix Suns"
+        ],
+        "team": "Basketball",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "d370fd70-ea33-4c64-a0b7-2802bb2d5630",
+      "slug": "reggie-jackson-los-angeles-clippers-1-jersey",
+      "title": "Reggie Jackson Denver Nuggets 7 Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Reggie Jackson Denver Nuggets 7 Jersey",
+        "slug": "reggie-jackson-los-angeles-clippers-1-jersey",
+        "tags": [
+          "Basketball J",
+          "DMCA"
+        ],
+        "team": "Basketball J",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "a4860063-302a-4324-ad05-e82c93a36476",
+      "slug": "haydn-fleury-tampa-bay-lightning-home-premier-breakaway-player-jersey-blue",
+      "title": "Tucker Poolman Vancouver Canucks Home Premier Breakaway Player Jersey - Blue",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Tucker Poolman Vancouver Canucks Home Premier Breakaway Player Jersey - Blue",
+        "slug": "haydn-fleury-tampa-bay-lightning-home-premier-breakaway-player-jersey-blue",
+        "tags": [
+          "HOCKEY J",
+          "Jerseys",
+          "Winnipeg Jets"
+        ],
+        "team": "HOCKEY J",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "a6ebf00c-6b0c-49ed-9f51-dfa836b75e95",
+      "slug": "gunner-stockton-georgia-bulldogs-home-nil-football-game-jersey-red-ncaa",
+      "title": "Georgia Bulldogs GameDay Greats NIL Lightweight Volleyball Jersey - White",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Volleyball vs slug sport Football without decisive tag corroboration",
+      "evidence": {
+        "title": "Georgia Bulldogs GameDay Greats NIL Lightweight Volleyball Jersey - White",
+        "slug": "gunner-stockton-georgia-bulldogs-home-nil-football-game-jersey-red-ncaa",
+        "tags": [
+          "Georgia Bulldogs",
+          "Jerseys",
+          "NCAA"
+        ],
+        "team": "Georgia Bulldogs",
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Football"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "bfc343b4-088b-4647-916b-65dc67d0c10f",
+      "slug": "illinois-fighting-illini-custom-football-game-jersey-navy-ncaa",
+      "title": "Illinois Fighting Illini GameDay Greats NIL Pick-A-Player Lightweight Collegiate Volleyball Fashion Jersey - Orange",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Volleyball vs slug sport Football without decisive tag corroboration",
+      "evidence": {
+        "title": "Illinois Fighting Illini GameDay Greats NIL Pick-A-Player Lightweight Collegiate Volleyball Fashion Jersey - Orange",
+        "slug": "illinois-fighting-illini-custom-football-game-jersey-navy-ncaa",
+        "tags": [
+          "Illinois Fighting Illini",
+          "Jerseys",
+          "NCAA"
+        ],
+        "team": "Illinois Fighting Illini",
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Football"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "f1e58cb7-4764-477e-b1df-98f9743fec7d",
+      "slug": "navy-midshipmen-under-armour-full-button-baseball-jersey-white-ncaa",
+      "title": "Navy Midshipmen GameDay Greats #1 Lightweight Volleyball Fashion Jersey - Navy",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Volleyball vs slug sport Baseball without decisive tag corroboration",
+      "evidence": {
+        "title": "Navy Midshipmen GameDay Greats #1 Lightweight Volleyball Fashion Jersey - Navy",
+        "slug": "navy-midshipmen-under-armour-full-button-baseball-jersey-white-ncaa",
+        "tags": [
+          "Jerseys",
+          "Navy Midshipmen",
+          "NCAA"
+        ],
+        "team": "Jerseys",
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "f6da67ae-4beb-4024-b8cf-10ad48cd05ed",
+      "slug": "stanford-cardinal-full-button-baseball-jersey-gray-ncaa",
+      "title": "Stanford Cardinal GameDay Greats #1 Lightweight Volleyball Fashion Jersey - Cardinal",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Volleyball vs slug sport Baseball without decisive tag corroboration",
+      "evidence": {
+        "title": "Stanford Cardinal GameDay Greats #1 Lightweight Volleyball Fashion Jersey - Cardinal",
+        "slug": "stanford-cardinal-full-button-baseball-jersey-gray-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Stanford Cardinal"
+        ],
+        "team": "Jerseys",
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "89a712a3-8b75-4739-a30f-d4405e2327d5",
+      "slug": "dansby-swanson-chicago-cubs-player-jersey-light-blue",
+      "title": "Colson Montgomery Chicago White Sox Jersey - White",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug \u2014 genuinely ambiguous",
+      "evidence": {
+        "title": "Colson Montgomery Chicago White Sox Jersey - White",
+        "slug": "dansby-swanson-chicago-cubs-player-jersey-light-blue",
+        "tags": [
+          "BASEBALL J",
+          "Baseball Jersey",
+          "Chicago White Sox",
+          "Major League Baseball"
+        ],
+        "team": "BASEBALL J",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "6f2da035-7280-4189-9e7c-dbdd4cea3dee",
+      "slug": "00-virginia-tech-hokies-gameday-greats-lightweight-volleyball-fashion-jersey-maroon-ncaa",
+      "title": "#1 Washington Huskies Premier Jersey - Purple",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (washington,huskies) but sport is not explicit in title",
+      "evidence": {
+        "title": "#1 Washington Huskies Premier Jersey - Purple",
+        "slug": "00-virginia-tech-hokies-gameday-greats-lightweight-volleyball-fashion-jersey-maroon-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Washington Huskies"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [
+          "Volleyball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "6bdd7276-eb93-4c9b-b71b-4a79832dcd9d",
+      "slug": "james-rodriguez-colombia-10-fifa-world-cup-jersey",
+      "title": "Rafael Borr\u00e9 Colombia 19 FIFA World Cup Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA tags mention tokens from both title and slug identities",
+      "evidence": {
+        "title": "Rafael Borr\u00e9 Colombia 19 FIFA World Cup Jersey",
+        "slug": "james-rodriguez-colombia-10-fifa-world-cup-jersey",
+        "tags": [
+          "colombia",
+          "FIFA 2026",
+          "international team",
+          "Rafael Borr\u00e9",
+          "soccer"
+        ],
+        "team": "colombia",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "2edc5c26-ab44-4b29-8b3e-25e134e9e918",
+      "slug": "japan-2026-home-jersey",
+      "title": "Spain 2026 Home Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Spain 2026 Home Jersey",
+        "slug": "japan-2026-home-jersey",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "af8204df-59e4-4f7b-83b0-ed84f0cd27e8",
+      "slug": "indiana-hoosiers-baseball-jersey-cream-ncaa",
+      "title": "#1 Iowa Hawkeyes Game Jersey - Black",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (iowa,hawkeyes) but sport is not explicit in title",
+      "evidence": {
+        "title": "#1 Iowa Hawkeyes Game Jersey - Black",
+        "slug": "indiana-hoosiers-baseball-jersey-cream-ncaa",
+        "tags": [
+          "Iowa Hawkeyes",
+          "Jerseys",
+          "NCAA"
+        ],
+        "team": "Iowa Hawkeyes",
+        "titleSports": [],
+        "slugSports": [
+          "Baseball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "e3e242ab-d1e5-43ea-8d48-930a02f6c06f",
+      "slug": "denmark-fifa-world-cup-jersey-2",
+      "title": "South Korea FIFA World Cup Jersey",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration \u2014 likely cross-linked import",
+      "evidence": {
+        "title": "South Korea FIFA World Cup Jersey",
+        "slug": "denmark-fifa-world-cup-jersey-2",
+        "tags": [
+          "FIFA 2026",
+          "International custom",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "666d6734-0a0e-4943-86d0-df592f6c0155",
+      "slug": "denmark-fifa-world-cup-jersey-1",
+      "title": "Switzerland FIFA World Cup Jersey",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration \u2014 likely cross-linked import",
+      "evidence": {
+        "title": "Switzerland FIFA World Cup Jersey",
+        "slug": "denmark-fifa-world-cup-jersey-1",
+        "tags": [
+          "FIFA 2026",
+          "International custom",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "6fd48d9c-657e-46d6-a8bc-dd40e4e8ae9b",
+      "slug": "sweden-2026-home-jersey",
+      "title": "Venezuela 2026 Home Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Venezuela 2026 Home Jersey",
+        "slug": "sweden-2026-home-jersey",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "56c8e7e7-2ded-4fb0-9fb9-510d5856efbf",
+      "slug": "kansas-state-wildcats-colosseum-puck-proud-fashion-hockey-jersey-cream-ncaa",
+      "title": "Kansas State Wildcats GameDay Greats #1 Lightweight Volleyball Fashion Jersey - Purple",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Volleyball vs slug sport Hockey without decisive tag corroboration",
+      "evidence": {
+        "title": "Kansas State Wildcats GameDay Greats #1 Lightweight Volleyball Fashion Jersey - Purple",
+        "slug": "kansas-state-wildcats-colosseum-puck-proud-fashion-hockey-jersey-cream-ncaa",
+        "tags": [
+          "HOCKEY J",
+          "Jerseys",
+          "Kansas State Wildcats",
+          "NCAA"
+        ],
+        "team": "HOCKEY J",
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Hockey"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "652a482d-8b5b-4bd2-a7c0-942a5236f86b",
+      "slug": "nebraska-huskers-colosseum-puck-proud-fashion-hockey-jersey-cream-ncaa",
+      "title": "#1 Nebraska Huskers GameDay Greats Lightweight Softball Jersey - White",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Softball vs slug sport Hockey without decisive tag corroboration",
+      "evidence": {
+        "title": "#1 Nebraska Huskers GameDay Greats Lightweight Softball Jersey - White",
+        "slug": "nebraska-huskers-colosseum-puck-proud-fashion-hockey-jersey-cream-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Nebraska Huskers"
+        ],
+        "team": "Jerseys",
+        "titleSports": [
+          "Softball"
+        ],
+        "slugSports": [
+          "Hockey"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "615a83ff-5d87-42dc-beae-fe941991d8e7",
+      "slug": "0-ohio-state-buckeyes-gameday-greats-hockey-jersey-white-ncaa",
+      "title": "Baker Mayfield Oklahoma Sooners Alumni Player Game Jersey - Crimson",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate title identity (oklahoma,sooners) but sport is not explicit in title",
+      "evidence": {
+        "title": "Baker Mayfield Oklahoma Sooners Alumni Player Game Jersey - Crimson",
+        "slug": "0-ohio-state-buckeyes-gameday-greats-hockey-jersey-white-ncaa",
+        "tags": [
+          "HOCKEY J",
+          "Jerseys",
+          "NCAA",
+          "Oklahoma Sooners"
+        ],
+        "team": "HOCKEY J",
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "ef29734e-c3c3-47f6-adae-8248bbd5121e",
+      "slug": "1-oregon-state-beavers-gameday-greats-lightweight-hockey-fashion-jersey-white-ncaa",
+      "title": "#1 Penn State Nittany Lions Alternate Game Jersey - Navy",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug \u2014 genuinely ambiguous",
+      "evidence": {
+        "title": "#1 Penn State Nittany Lions Alternate Game Jersey - Navy",
+        "slug": "1-oregon-state-beavers-gameday-greats-lightweight-hockey-fashion-jersey-white-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Penn State Nittany Lions",
+          "soccer"
+        ],
+        "team": "Jerseys",
+        "titleSports": [],
+        "slugSports": [
+          "Hockey"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "0c9a4099-6844-4655-90a1-0ed8c51b8296",
+      "slug": "texas-tech-red-raiders-under-armour-baseball-jersey-white-ncaa",
+      "title": "#1 Texas Tech Red Raiders GameDay Greats Lightweight Volleyball Fashion Jersey - Red",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Title sport Volleyball vs slug sport Baseball without decisive tag corroboration",
+      "evidence": {
+        "title": "#1 Texas Tech Red Raiders GameDay Greats Lightweight Volleyball Fashion Jersey - Red",
+        "slug": "texas-tech-red-raiders-under-armour-baseball-jersey-white-ncaa",
+        "tags": [
+          "Jerseys",
+          "NCAA",
+          "Texas Tech Red Raiders"
+        ],
+        "team": "Jerseys",
+        "titleSports": [
+          "Volleyball"
+        ],
+        "slugSports": [
+          "Baseball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "01b7f2d8-8d16-45e3-bc39-e45899e63717",
+      "slug": "england-national-team-womens-2026-pre-match-top-blue",
+      "title": "FIFA World Cup 2026 Fashion Jersey - Royal",
+      "disposition": "INVALID_PRODUCT",
+      "sport": null,
+      "league": null,
+      "reason": "FIFA World Cup title/slug mismatch without player/country tag corroboration \u2014 likely cross-linked import",
+      "evidence": {
+        "title": "FIFA World Cup 2026 Fashion Jersey - Royal",
+        "slug": "england-national-team-womens-2026-pre-match-top-blue",
+        "tags": [
+          "Federation Team",
+          "FIFA 2026",
+          "FIFA World Cup Gear",
+          "soccer"
+        ],
+        "team": "Federation Team",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "e1d34390-7456-4cc4-8e4c-13214445023c",
+      "slug": "argentina-2026-messi-home-jersey-with-world-champions-patch",
+      "title": "Germany 2026 Home Jersey",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Germany 2026 Home Jersey",
+        "slug": "argentina-2026-messi-home-jersey-with-world-champions-patch",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "e81bebbb-00e1-4d47-b78a-0ea7352330c7",
+      "slug": "germany-2026-home-kit",
+      "title": "Argentina 2026 Home Kit",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Argentina 2026 Home Kit",
+        "slug": "germany-2026-home-kit",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "a702daa7-b897-4921-b532-5864cc7e66ba",
+      "slug": "spain-2026-home-kit",
+      "title": "Wales 2026 Home Kit",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Wales 2026 Home Kit",
+        "slug": "spain-2026-home-kit",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "ee7c3332-e59a-4e10-a475-67de8a868afe",
+      "slug": "mexico-2026-home-kit",
+      "title": "Belgium 2026 Home Kit",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Insufficient corroborating evidence to resolve conflict safely",
+      "evidence": {
+        "title": "Belgium 2026 Home Kit",
+        "slug": "mexico-2026-home-kit",
+        "tags": [
+          "FIFA 2026",
+          "Jerseys",
+          "SOCCER"
+        ],
+        "team": "FIFA 2026",
+        "titleSports": [
+          "Soccer"
+        ],
+        "slugSports": [],
+        "tagsCorroborateTitle": false,
+        "tagsCorroborateSlug": false,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    },
+    {
+      "id": "8db14df3-505c-4e04-80fb-b6979e4cd84c",
+      "slug": "1-florida-gators-gameday-greats-lightweight-volleyball-jersey-white-ncaa",
+      "title": "Florida State Seminoles Game Jersey - Turquoise",
+      "disposition": "HUMAN_REVIEW",
+      "sport": null,
+      "league": null,
+      "reason": "Tags corroborate tokens from both title and slug \u2014 genuinely ambiguous",
+      "evidence": {
+        "title": "Florida State Seminoles Game Jersey - Turquoise",
+        "slug": "1-florida-gators-gameday-greats-lightweight-volleyball-jersey-white-ncaa",
+        "tags": [
+          "Florida State Seminoles",
+          "Football J",
+          "Jerseys",
+          "NCAA"
+        ],
+        "team": "Florida State Seminoles",
+        "titleSports": [],
+        "slugSports": [
+          "Volleyball"
+        ],
+        "tagsCorroborateTitle": true,
+        "tagsCorroborateSlug": true,
+        "diacriticOnlyMismatch": false
+      },
+      "action": "kept_draft"
+    }
+  ],
+  "notes": [
+    "UNKNOWN drafts were not processed.",
+    "SAFE_TO_FIX required tag corroboration of title identity; title/slug alone never trusted.",
+    "Post-publish safety pass reverted products that failed tightened title-sport/franchise rules.",
+    "College products never assigned NHL/NFL/NBA/MLB."
+  ],
+  "summary": {
+    "conflictsReviewed": 294,
+    "safelyResolved": 203,
+    "published": 203,
+    "humanReview": 82,
+    "invalid": 9,
+    "remainingDraftsTotal": 1777,
+    "remainingConflicts": 91,
+    "startingPublished": 6916,
+    "endingPublished": 7119,
+    "newlyPublishedNet": 203
+  },
+  "tests": {
+    "database": "63 passed, 3 skipped",
+    "shared": "26 passed",
+    "databaseTypecheck": "passed",
+    "webTypecheck": "passed",
+    "webBuild": "passed",
+    "qaProd": "82 passed, 1 flaky mobile checkout timeout on first run; checkout suite 4/4 passed on rerun"
+  }
+}
