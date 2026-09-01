@@ -6,11 +6,27 @@ import type { ProductImage } from "@sjh/shared";
 type ProductGalleryProps = {
   title: string;
   images: ProductImage[];
+  activeIndex?: number;
+  onActiveIndexChange?: (index: number) => void;
 };
 
-export function ProductGallery({ title, images }: ProductGalleryProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
+export function ProductGallery({
+  title,
+  images,
+  activeIndex: controlledIndex,
+  onActiveIndexChange
+}: ProductGalleryProps) {
+  const [uncontrolledIndex, setUncontrolledIndex] = useState(0);
+  const isControlled = typeof controlledIndex === "number";
+  const activeIndex = isControlled ? controlledIndex : uncontrolledIndex;
   const active = images[activeIndex] ?? images[0];
+
+  function setIndex(index: number) {
+    if (!isControlled) {
+      setUncontrolledIndex(index);
+    }
+    onActiveIndexChange?.(index);
+  }
 
   if (!active) {
     return (
@@ -36,7 +52,7 @@ export function ProductGallery({ title, images }: ProductGalleryProps) {
               aria-label={`View image ${index + 1}`}
               aria-pressed={index === activeIndex}
               className={`product-gallery-thumb${index === activeIndex ? " is-active" : ""}`}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => setIndex(index)}
               type="button"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}

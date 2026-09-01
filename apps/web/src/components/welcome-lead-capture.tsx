@@ -35,7 +35,7 @@ export function WelcomeLeadCapture() {
       // ignore storage failures
     }
 
-    const timer = window.setTimeout(() => setOpen(true), 1800);
+    const timer = window.setTimeout(() => setOpen(true), 4500);
     return () => window.clearTimeout(timer);
   }, [isOpsSurface, isPurchaseFlow]);
 

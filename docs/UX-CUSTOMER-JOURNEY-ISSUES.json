@@ -1,0 +1,248 @@
+{
+  "auditDate": "2026-09-01",
+  "target": "https://sports-jersey-house.vercel.app",
+  "mode": "Stripe TEST only — no catalogue/payment/supplier architecture changes",
+  "overallScore": 72,
+  "counts": { "P0": 0, "P1": 6, "P2": 14, "P3": 5 },
+  "status": {
+    "payment": "PASS — TEST checkout, webhook, paid status, customisation preserved (SJH-10052)",
+    "mobile": "FUNCTIONAL — same discovery/catalogue gaps as desktop; checkout usable",
+    "desktop": "FUNCTIONAL — purchase path works; league collection discovery broken"
+  },
+  "issues": [
+    {
+      "id": "CJA-001",
+      "severity": "P1",
+      "journey": "Collections / discovery",
+      "url": "/collections/nfl, /collections/nba, /collections/nhl, /collections/mlb, /collections/ncaa",
+      "problem": "Major league collection pages show empty state with zero products",
+      "evidence": "Playwright audit: nfl/nba/nhl/mlb/ncaa emptyVisible=true, productCount=0. Soccer collection has 276 products. Individual NHL PDPs (e.g. Jason Robertson) are published and reachable.",
+      "screenshot": "docs/ux-audit-screenshots/audit-03-collections.png",
+      "recommendedFix": "Assign published products to league collections or fix collection query filters — do not change publish rules; map existing published SKUs to correct collection handles"
+    },
+    {
+      "id": "CJA-002",
+      "severity": "P1",
+      "journey": "Colour selection → cart/checkout",
+      "url": "/products/alexander-isak-newcastle-united-fc-14-jersey → /cart → /checkout",
+      "problem": "Selected colour label does not match product imagery (Green label vs black/white striped jersey photos)",
+      "evidence": "Cart and checkout show Colour: Green while thumbnails display black/white striped kit. Screenshot audit-10-cart-desktop.png, audit-11-checkout-desktop.png",
+      "screenshot": "docs/ux-audit-screenshots/audit-10-cart-desktop.png",
+      "recommendedFix": "When colour option changes, swap PDP/cart/checkout images to matching variant media; ensure default colour matches hero image"
+    },
+    {
+      "id": "CJA-003",
+      "severity": "P1",
+      "journey": "Homepage / collections merchandising",
+      "url": "/, /collections",
+      "problem": "Customer-visible internal collection title 'All Products (ChatGPT-AI Product Description)'",
+      "evidence": "Homepage 'Shop by league' card and collections grid. Screenshot 01-homepage-desktop.png, audit-03-collections.png",
+      "screenshot": "docs/ux-audit-screenshots/01-homepage-desktop.png",
+      "recommendedFix": "Rename collection display title in merchandising (human review) — not auto-publish; hide from homepage featured set until renamed"
+    },
+    {
+      "id": "CJA-004",
+      "severity": "P1",
+      "journey": "Homepage / product cards",
+      "url": "/",
+      "problem": "Broken/missing product images in Fan favourites row",
+      "evidence": "4 of 8 homepage fan favourite cards show grey placeholder blocks (Arizona State, Arkansas, Army Black Knights, Appalachian Endzone). Screenshot 01-homepage-desktop.png, 02-homepage-mobile-390.png",
+      "screenshot": "docs/ux-audit-screenshots/02-homepage-mobile-390.png",
+      "recommendedFix": "Fix image URLs or fallback image for products missing primary media; exclude broken cards from curated homepage set"
+    },
+    {
+      "id": "CJA-005",
+      "severity": "P1",
+      "journey": "Collections merchandising",
+      "url": "/collections",
+      "problem": "Development/internal collection descriptions visible on league cards (e.g. MLB/NBA/NFL/NHL 'Development collection for…')",
+      "evidence": "Collections page card copy visible in audit-03-collections.png",
+      "screenshot": "docs/ux-audit-screenshots/audit-03-collections.png",
+      "recommendedFix": "Strip internal collection descriptions from customer collection index; use short fan-facing blurbs only"
+    },
+    {
+      "id": "CJA-006",
+      "severity": "P1",
+      "journey": "Browse by league CTA",
+      "url": "/collections/nfl (and nba, nhl, mlb)",
+      "problem": "'Browse by league' funnels customers to empty collection dead-ends for US major leagues",
+      "evidence": "Hero CTA 'Browse by league' → collections index → NFL/NBA/NHL/MLB tiles → 0 products. Conversion funnel broken for primary leagues.",
+      "recommendedFix": "Link league tiles only to non-empty collections or /search?q=NFL until assignments fixed"
+    },
+    {
+      "id": "CJA-007",
+      "severity": "P2",
+      "journey": "Cart",
+      "url": "/cart",
+      "problem": "Continue shopping control overlaps / misaligns with Proceed to checkout button",
+      "evidence": "audit-10-cart-desktop.png — secondary button clipped under primary CTA in order summary",
+      "screenshot": "docs/ux-audit-screenshots/audit-10-cart-desktop.png",
+      "recommendedFix": "Fix order-summary button stack spacing (flex gap / full-width secondary below primary)"
+    },
+    {
+      "id": "CJA-008",
+      "severity": "P2",
+      "journey": "PDP related products",
+      "url": "/products/mlb-edouard-julien-minnesota-twins-47-jersey",
+      "problem": "Related product cards show broken image placeholders",
+      "evidence": "audit-06-mlb-colour-pdp.png — first related card grey block",
+      "screenshot": "docs/ux-audit-screenshots/audit-06-mlb-colour-pdp.png",
+      "recommendedFix": "Same as CJA-004 — image fallback and catalogue media QA"
+    },
+    {
+      "id": "CJA-009",
+      "severity": "P2",
+      "journey": "PDP colour selection",
+      "url": "/products/mlb-edouard-julien-minnesota-twins-47-jersey",
+      "problem": "Colour chip selection state may not match hero image (Blue highlighted while white jersey shown)",
+      "evidence": "audit-06-mlb-colour-pdp.png",
+      "recommendedFix": "Sync selected colour state with gallery; default selection should match first hero image"
+    },
+    {
+      "id": "CJA-010",
+      "severity": "P2",
+      "journey": "Order confirmation",
+      "url": "/orders/SJH-10052",
+      "problem": "Fulfilment status shown as lowercase internal term 'unfulfilled'",
+      "evidence": "audit-13-order-success.png — Summary shows 'Fulfilment: unfulfilled'",
+      "screenshot": "docs/ux-audit-screenshots/audit-13-order-success.png",
+      "recommendedFix": "Map fulfilment enums to customer language (e.g. 'In production' / 'Preparing your order')"
+    },
+    {
+      "id": "CJA-011",
+      "severity": "P2",
+      "journey": "Checkout / cart trust",
+      "url": "/checkout, /cart",
+      "problem": "Stripe TEST MODE messaging visible to all customers",
+      "evidence": "Cart: 'Stripe (TEST MODE when enabled)'. Checkout: 'Stripe Checkout (TEST MODE when enabled)'. Expected for current deploy but reduces trust if unintended for public marketing.",
+      "recommendedFix": "Hide TEST MODE banner in production customer UI when using test keys intentionally pre-launch; show only in staging"
+    },
+    {
+      "id": "CJA-012",
+      "severity": "P2",
+      "journey": "Technical / console",
+      "url": "Multiple storefront routes",
+      "problem": "React hydration error #418 and 404 resource loads during navigation",
+      "evidence": "customer-journey-audit.json consoleErrors: Minified React error #418; 404 failed resources when hitting 404 PDP slugs",
+      "recommendedFix": "Investigate hydration mismatch (likely invalid HTML nesting); fix broken asset URLs"
+    },
+    {
+      "id": "CJA-013",
+      "severity": "P2",
+      "journey": "Collections index",
+      "url": "/collections",
+      "problem": "Typos in customer-facing collection titles ('Jersery', 'INTERNATIOAL TEAMS')",
+      "evidence": "audit-03-collections.png",
+      "recommendedFix": "Correct collection display titles via merchandising review"
+    },
+    {
+      "id": "CJA-014",
+      "severity": "P2",
+      "journey": "Collections index UX",
+      "url": "/collections",
+      "problem": "Inconsistent collection cards — some show long SEO paragraphs, most blank; hurts scanability",
+      "evidence": "audit-03-collections.png — Bruins/Capitals cards vs empty MLB/NBA/NFL/NHL cards",
+      "recommendedFix": "Standardise collection card template: title + optional 1-line description + league icon/image"
+    },
+    {
+      "id": "CJA-015",
+      "severity": "P2",
+      "journey": "Homepage first visit",
+      "url": "/",
+      "problem": "Welcome offer modal appears after ~1.8s on homepage (not on PDP/cart/checkout)",
+      "evidence": "welcome-lead-capture.tsx setTimeout 1800ms; suppressed on purchase flows",
+      "recommendedFix": "Consider delaying until scroll intent or post-PLP visit; ensure easy dismiss and no scroll trap on mobile"
+    },
+    {
+      "id": "CJA-016",
+      "severity": "P2",
+      "journey": "Shipping expectations",
+      "url": "/cart, /checkout",
+      "problem": "No numeric delivery estimate at checkout; shipping line is policy link only",
+      "evidence": "Cart: 'Calculated at checkout'. Checkout: 'See shipping policy'. Total equals subtotal (no separate shipping line). Aligns with policy but weak pre-purchase expectation.",
+      "recommendedFix": "Surface PDP production window on checkout summary; optional delivery estimate range by country when data exists"
+    },
+    {
+      "id": "CJA-017",
+      "severity": "P2",
+      "journey": "AI shopping assistant",
+      "url": "POST /api/shopping-assistant",
+      "problem": "On-site AI discovery assistant disabled in production",
+      "evidence": "/api/health aiShoppingAssistantEnabled: false; endpoint returns 503 when disabled",
+      "recommendedFix": "Enable when approved and credentialed; until then remove footer claim 'AI-assisted discovery' or clarify coming soon"
+    },
+    {
+      "id": "CJA-018",
+      "severity": "P2",
+      "journey": "Size guide",
+      "url": "Various PDPs",
+      "problem": "Size guide only appears when sizeChart attached — many listings lack chart",
+      "evidence": "PdpPurchasePanel hides guide without data; not a regression but ongoing catalogue gap",
+      "recommendedFix": "Catalogue enrichment for size charts (human/admin) — not UI invention"
+    },
+    {
+      "id": "CJA-019",
+      "severity": "P2",
+      "journey": "Catalogue data / fulfilment",
+      "url": "Order lines",
+      "problem": "Many Shopify imports still have null SKU / Default Title variant metadata",
+      "evidence": "Cart API: variantTitle 'Default Title', sku null for Jason Robertson variant; Aris size M/Men's applied correctly at order layer",
+      "recommendedFix": "Continue catalogue enrichment — order layer already prefers size_label over variant title"
+    },
+    {
+      "id": "CJA-020",
+      "severity": "P3",
+      "journey": "Cart copy",
+      "url": "/cart",
+      "problem": "Grammar: '1 items ready for checkout'",
+      "evidence": "audit-10-cart-desktop.png",
+      "recommendedFix": "Pluralise: '1 item' vs 'N items'"
+    },
+    {
+      "id": "CJA-021",
+      "severity": "P3",
+      "journey": "Footer",
+      "url": "Sitewide",
+      "problem": "Inconsistent copyright year across templates (2024 homepage mobile, 2025 PDP, 2026 checkout)",
+      "evidence": "Screenshots across audit session",
+      "recommendedFix": "Single dynamic copyright year in layout footer"
+    },
+    {
+      "id": "CJA-022",
+      "severity": "P3",
+      "journey": "Cart quantity UX",
+      "url": "/cart",
+      "problem": "Quantity '-' button styling resembles 'Remove' bordered button — potential mis-tap",
+      "evidence": "audit-10-cart-desktop.png",
+      "recommendedFix": "Differentiate decrement vs remove visually"
+    },
+    {
+      "id": "CJA-023",
+      "severity": "P3",
+      "journey": "Homepage PLP truncation",
+      "url": "/",
+      "problem": "Product card category labels truncated ('NCAA - HOCKEY J...') on mobile fan favourites",
+      "evidence": "02-homepage-mobile-390.png",
+      "recommendedFix": "Shorter taxonomy labels or two-line clamp with tooltip"
+    },
+    {
+      "id": "CJA-024",
+      "severity": "P3",
+      "journey": "Checkout form defaults",
+      "url": "/checkout",
+      "problem": "Country defaults to United States while prices are GBP — minor localisation friction for UK customers",
+      "evidence": "audit-11-checkout-desktop.png, audit-12-checkout-mobile.png",
+      "recommendedFix": "Default country from storefront locale or most common shipping destination"
+    },
+    {
+      "id": "CJA-PAY-OK",
+      "severity": "PASS",
+      "journey": "Payment success",
+      "url": "/orders/SJH-10052",
+      "problem": "None — TEST payment path verified",
+      "evidence": "Playwright 11-payment-audit: cart GBP 50.98, session created, Stripe hosted checkout, success URL with session_id, refresh stable, customisation PAY-AUDIT/07/AUDIT on confirmation page",
+      "screenshot": "docs/ux-audit-screenshots/audit-13-order-success.png",
+      "recommendedFix": "N/A"
+    }
+  ]
+}

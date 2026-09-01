@@ -311,8 +311,8 @@ export function CheckoutForm({ currencyCode, subtotalLabel }: CheckoutFormProps)
           </div>
         </dl>
         <p className="cart-note">
-          You will be redirected to Stripe Checkout (TEST MODE when enabled) to pay. Your order stays
-          awaiting payment until Stripe confirms — customisation is already saved on the SJH order.
+          You will be redirected to Stripe Checkout to pay. Your order stays awaiting payment until
+          Stripe confirms — customisation is already saved on the SJH order.
         </p>
         {error ? (
           <p className="add-to-cart-message is-error" role="alert">

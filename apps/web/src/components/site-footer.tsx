@@ -20,7 +20,7 @@ export function SiteFooter() {
       <div className="site-footer-inner">
         <div className="site-footer-brand">
           <p className="eyebrow">Sports Jersey House</p>
-          <p>Premium jersey shopping built on real catalogue data, search, and AI-assisted discovery.</p>
+          <p>Premium jersey shopping built on real catalogue data, search, and a polished mobile experience.</p>
         </div>
 
         <div className="site-footer-columns">

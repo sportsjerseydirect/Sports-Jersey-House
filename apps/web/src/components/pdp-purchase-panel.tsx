@@ -17,6 +17,8 @@ type PdpPurchasePanelProps = {
   customisationProfile?: CustomisationProfile;
   sizeChart?: SizeChart;
   productOptions?: ProductDetail["productOptions"];
+  selectedVariantId?: string;
+  onVariantChange?: (variantId: string) => void;
 };
 
 function addMoney(a: string, b: string): string {
@@ -29,7 +31,9 @@ export function PdpPurchasePanel({
   customisationEnabled,
   customisationProfile,
   sizeChart,
-  productOptions
+  productOptions,
+  selectedVariantId: controlledVariantId,
+  onVariantChange
 }: PdpPurchasePanelProps) {
   const availableVariants = variants.filter((variant) => variant.isAvailable);
   const optionSet = productOptions?.optionSet ?? null;
@@ -37,9 +41,17 @@ export function PdpPurchasePanel({
   const showColourPicker = variantAxis === "colour" && variants.length > 1;
   const customisationPrice = productOptions?.customisationPriceAmount ?? SJD_CUSTOMISATION_PRICE_AMOUNT;
 
-  const [selectedVariantId, setSelectedVariantId] = useState<string>(
+  const [internalVariantId, setInternalVariantId] = useState<string>(
     availableVariants[0]?.id ?? variants[0]?.id ?? ""
   );
+  const selectedVariantId = controlledVariantId ?? internalVariantId;
+
+  function selectVariant(variantId: string) {
+    if (!controlledVariantId) {
+      setInternalVariantId(variantId);
+    }
+    onVariantChange?.(variantId);
+  }
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [customisationEnabledChoice, setCustomisationEnabledChoice] = useState(false);
   const [name, setName] = useState("");
@@ -153,7 +165,7 @@ export function PdpPurchasePanel({
                   aria-checked={selected}
                   className={`size-option${selected ? " is-selected" : ""}${variant.isAvailable ? "" : " is-unavailable"}`}
                   disabled={!variant.isAvailable}
-                  onClick={() => setSelectedVariantId(variant.id)}
+                  onClick={() => selectVariant(variant.id)}
                   role="radio"
                   type="button"
                 >

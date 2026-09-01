@@ -1,10 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
-import { PdpMadeToOrderNotice } from "@/components/pdp-made-to-order-notice";
-import { ProductGallery } from "@/components/product-gallery";
+import { ProductDetailInteractive } from "@/components/product-detail-interactive";
 import { ProductGrid } from "@/components/product-grid";
-import { PdpPurchasePanel } from "@/components/pdp-purchase-panel";
 import { RecentlyViewedTracker } from "@/components/recently-viewed";
 import { getSearchProvider } from "@/lib/search";
 import { breadcrumbJsonLd, createMetadata, productJsonLd } from "@/lib/seo";
@@ -67,14 +65,13 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           league: product.league ?? null,
           sport: product.sport ?? null
         },
-        4
+        8
       );
+      related = related.filter((entry) => Boolean(entry.primaryImageUrl)).slice(0, 4);
     } catch {
       related = [];
     }
   }
-
-  const metaBits = [product.league, product.team, product.playerName].filter(Boolean);
 
   return (
     <main className="page-shell">
@@ -97,23 +94,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
       </nav>
 
       <article className="product-detail">
-        <ProductGallery images={product.images} title={product.title} />
-
-        <div className="product-detail-copy">
-          {metaBits.length > 0 ? <p className="eyebrow">{metaBits.join(" · ")}</p> : null}
-          <h1>{product.title}</h1>
-          <PdpMadeToOrderNotice />
-          {product.description ? <p className="product-detail-description">{product.description}</p> : null}
-
-          <PdpPurchasePanel
-            customisationEnabled={product.customisationEnabled}
-            {...(product.customisationProfile ? { customisationProfile: product.customisationProfile } : {})}
-            {...(product.productOptions ? { productOptions: product.productOptions } : {})}
-            productTitle={product.title}
-            {...(product.sizeChart ? { sizeChart: product.sizeChart } : {})}
-            variants={product.variants}
-          />
-        </div>
+        <ProductDetailInteractive product={product} />
       </article>
 
       <section className="pdp-info-sections" aria-label="Product information">

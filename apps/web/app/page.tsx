@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ProductGrid } from "@/components/product-grid";
 import { collectionDetailPath } from "@/lib/products";
 import { getSearchProvider } from "@/lib/search";
+import { getLeagueBrowseCards } from "@sjh/shared";
 
 export const revalidate = 300;
 
@@ -15,8 +16,14 @@ export default async function HomePage() {
   const search = getSearchProvider();
   const [collections, featured] = await Promise.all([
     search.listPublishedCollections(),
-    search.search({ query: "", limit: 8 })
+    search.search({ query: "", limit: 16 })
   ]);
+
+  const leagueCards = getLeagueBrowseCards(collections);
+  const featuredWithImages = featured.results
+    .map((result) => result.product)
+    .filter((product) => Boolean(product.primaryImageUrl))
+    .slice(0, 8);
 
   return (
     <main>
@@ -51,16 +58,20 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {collections.length > 0 ? (
+      {leagueCards.length > 0 ? (
         <section className="home-collections" aria-label="Featured collections">
           <div className="section-heading">
             <p className="eyebrow">Leagues</p>
             <h2>Shop by league</h2>
           </div>
           <div className="collection-grid">
-            {collections.slice(0, 6).map((collection) => (
-              <Link className="collection-card" href={collectionDetailPath(collection.slug)} key={collection.id}>
-                <p className="eyebrow">Collection</p>
+            {leagueCards.map((collection) => (
+              <Link
+                className="collection-card"
+                href={collectionDetailPath(collection.slug)}
+                key={collection.slug}
+              >
+                <p className="eyebrow">League</p>
                 <h3>{collection.title}</h3>
                 {collection.description ? <p>{collection.description}</p> : null}
               </Link>
@@ -69,13 +80,13 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      {featured.results.length > 0 ? (
+      {featuredWithImages.length > 0 ? (
         <section className="home-featured" aria-label="Featured products">
           <div className="section-heading">
             <p className="eyebrow">Trending</p>
             <h2>Fan favourites</h2>
           </div>
-          <ProductGrid ariaLabel="Featured products" products={featured.results.map((result) => result.product)} />
+          <ProductGrid ariaLabel="Featured products" products={featuredWithImages} />
           <div className="section-actions">
             <Link className="button secondary" href="/products">
               View full catalogue

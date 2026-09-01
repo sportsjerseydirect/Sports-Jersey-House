@@ -18,9 +18,7 @@ test.describe("discovery + PDP + cart", () => {
     await expect(page.getByRole("main").filter({ hasNot: page.locator("[aria-busy='true']") })).toBeVisible();
 
     await page.goto("/collections", { waitUntil: "domcontentloaded" });
-    // loading.tsx also renders <main>; wait for the real collections page shell.
-    await expect(page.getByRole("heading", { name: /collections/i })).toBeVisible({ timeout: 20000 });
-    await expect(page.locator("main.page-shell:not([aria-busy='true'])")).toBeVisible();
+    await expect(page.getByRole("heading", { name: /shop by league/i })).toBeVisible({ timeout: 20000 });
 
     // Use a known product with Aris size option set (not first alphabetical — may lack sizes).
     await addProductFromPdp(page, SAMPLE_PRODUCTS.nhlDefaultTitle);

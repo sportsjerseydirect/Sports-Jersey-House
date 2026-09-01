@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { formatCustomisationSummary } from "@sjh/shared";
+import { formatCustomisationSummary, formatCustomerFulfilmentStatus } from "@sjh/shared";
 import { getOrderByNumber } from "@sjh/database";
 import { formatProductPrice } from "@/lib/products";
 import { createMetadata } from "@/lib/seo";
@@ -74,7 +74,7 @@ export default async function OrderConfirmationPage({
             </div>
             <div>
               <dt>Fulfilment</dt>
-              <dd>{order.fulfilmentStatus.replaceAll("_", " ")}</dd>
+              <dd>{formatCustomerFulfilmentStatus(order.fulfilmentStatus)}</dd>
             </div>
           </dl>
         </article>

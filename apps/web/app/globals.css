@@ -1629,6 +1629,22 @@ h2 {
   line-height: 1.5;
 }
 
+.cart-summary-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.cart-summary-actions .button {
+  width: 100%;
+  justify-content: center;
+}
+
+.collections-more {
+  margin-top: 48px;
+}
+
 .add-to-cart {
   margin-top: 24px;
 }

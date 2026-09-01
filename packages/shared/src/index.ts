@@ -271,3 +271,18 @@ export type {
   ProductHealthIssue,
   ProductHealthReport
 } from "./catalogue-rules";
+
+export {
+  LEAGUE_BROWSE_SLUGS,
+  LEAGUE_COLLECTION_SLUGS,
+  filterCustomerCollections,
+  formatCartItemCount,
+  formatCustomerFulfilmentStatus,
+  getLeagueBrowseCards,
+  isInternalCollectionSlug,
+  isInternalCollectionTitle,
+  resolveImageIndexForColour,
+  resolveImageUrlForColour,
+  sanitizeCollectionDescription
+} from "./storefront";
+export type { StorefrontImageRef } from "./storefront";

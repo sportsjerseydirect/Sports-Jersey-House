@@ -11,6 +11,7 @@ type CollectionPageProps = {
 };
 
 export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
@@ -82,7 +83,14 @@ export default async function CollectionDetailPage({ params }: CollectionPagePro
       ) : (
         <section className="empty-state">
           <h2>No products in this collection</h2>
-          <p>Seed development catalogue data to populate league collections locally.</p>
+          <p>
+            Try search or browse the full catalogue — jerseys for this league may be listed under a
+            different collection name.
+          </p>
+          <div className="actions">
+            <Link className="button secondary" href="/products">Browse all products</Link>
+            <Link className="button secondary" href="/search">Search</Link>
+          </div>
         </section>
       )}
     </main>

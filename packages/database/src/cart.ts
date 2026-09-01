@@ -1,9 +1,10 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import type { CartCustomisation, SelectedProductOptions } from "@sjh/shared";
 import {
   cartCustomisationSchema,
   fingerprintSelectedOptions,
   formatSelectedOptionsSummary,
+  resolveImageUrlForColour,
   resolveLineSelectedOptions
 } from "@sjh/shared";
 import { createDatabaseClient } from "./client";
@@ -129,7 +130,6 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
       priceAmount: productVariants.priceAmount,
       unitPriceAmount: cartItems.unitPriceAmount,
       currencyCode: productVariants.currencyCode,
-      imageUrl: productImages.url,
       customisation: cartItems.customisation,
       customisationPriceAmount: cartItems.customisationPriceAmount,
       selectedOptions: cartItems.selectedOptions
@@ -137,11 +137,32 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
     .from(cartItems)
     .innerJoin(products, eq(cartItems.productId, products.id))
     .innerJoin(productVariants, eq(cartItems.variantId, productVariants.id))
-    .leftJoin(
-      productImages,
-      and(eq(productImages.productId, products.id), eq(productImages.sortOrder, 0))
-    )
     .where(eq(cartItems.cartId, cart.id));
+
+  const productIds = [...new Set(rows.map((row) => row.productId))];
+  const imageRows =
+    productIds.length > 0
+      ? await db
+          .select({
+            productId: productImages.productId,
+            url: productImages.url,
+            altText: productImages.altText,
+            sortOrder: productImages.sortOrder
+          })
+          .from(productImages)
+          .where(inArray(productImages.productId, productIds))
+          .orderBy(productImages.sortOrder)
+      : [];
+
+  const imagesByProduct = new Map<
+    string,
+    Array<{ url: string; altText: string | null; sortOrder: number }>
+  >();
+  for (const image of imageRows) {
+    const list = imagesByProduct.get(image.productId) ?? [];
+    list.push(image);
+    imagesByProduct.set(image.productId, list);
+  }
 
   const items: CartLineItem[] = rows.map((row) => {
     const customisation = cartCustomisationSchema.parse(row.customisation ?? { mode: "none" });
@@ -156,6 +177,8 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
     });
     const colourLabel = selectedOptions?.colour ?? null;
     const sizeLabel = selectedOptions?.size ?? row.sizeLabel ?? null;
+    const productImagesForLine = imagesByProduct.get(row.productId) ?? [];
+    const resolvedImageUrl = resolveImageUrlForColour(productImagesForLine, colourLabel);
 
     return {
       id: row.id,
@@ -170,7 +193,7 @@ export async function getCartBySessionId(sessionId: string, databaseUrl?: string
       colourLabel,
       priceAmount: unitPrice,
       currencyCode: row.currencyCode,
-      ...(row.imageUrl ? { imageUrl: row.imageUrl } : {}),
+      ...(resolvedImageUrl ? { imageUrl: resolvedImageUrl } : {}),
       lineTotalAmount: multiplyMoney(unitWithCustomisation, row.quantity),
       customisation,
       customisationPriceAmount: customisationPrice,

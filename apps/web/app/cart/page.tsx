@@ -5,6 +5,7 @@ import { CartLineControls } from "@/components/cart-line-controls";
 import { formatProductPrice, productDetailPath } from "@/lib/products";
 import { loadCart } from "@/lib/cart";
 import { createMetadata } from "@/lib/seo";
+import { formatCartItemCount } from "@sjh/shared";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,7 @@ export default async function CartPage() {
       <div className="page-heading">
         <p className="eyebrow">Cart</p>
         <h1>Your cart</h1>
-        <p>{cart.itemCount > 0 ? `${cart.itemCount} items ready for checkout.` : "Your cart is empty."}</p>
+        <p>{cart.itemCount > 0 ? formatCartItemCount(cart.itemCount) : "Your cart is empty."}</p>
       </div>
 
       {cart.items.length > 0 ? (
@@ -91,14 +92,16 @@ export default async function CartPage() {
               </div>
             </dl>
             <p className="cart-note">
-              Checkout saves your options, then redirects to Stripe (TEST MODE when enabled) to pay.
+              Checkout saves your options, then redirects to Stripe to complete payment.
             </p>
-            <Link className="button primary" href={"/checkout" as Route}>
-              Proceed to checkout
-            </Link>
-            <Link className="button secondary" href="/products">
-              Continue shopping
-            </Link>
+            <div className="cart-summary-actions">
+              <Link className="button primary" href={"/checkout" as Route}>
+                Proceed to checkout
+              </Link>
+              <Link className="button secondary" href="/products">
+                Continue shopping
+              </Link>
+            </div>
           </aside>
         </section>
       ) : (
