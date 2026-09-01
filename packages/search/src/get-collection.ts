@@ -6,7 +6,8 @@ import {
   products
 } from "@sjh/database";
 import type { CollectionDetail, CollectionSummary } from "@sjh/shared";
-import { collectionDetailSchema, collectionSummarySchema, LEAGUE_COLLECTION_SLUGS } from "@sjh/shared";
+import { collectionDetailSchema, collectionSummarySchema } from "@sjh/shared";
+import { LEAGUE_COLLECTION_SLUGS } from "@sjh/shared/src/league-collections";
 import { loadProductSummaries } from "./get-product";
 import type { SearchFacet } from "./index";
 

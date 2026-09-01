@@ -4,7 +4,8 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   transpilePackages: ["@sjh/shared", "@sjh/search", "@sjh/database", "@sjh/ai"],
   experimental: {
-    optimizePackageImports: ["@sjh/shared", "@sjh/search", "@sjh/ai"]
+    // Keep @sjh/search un-optimized so league collection constants bundle into server code.
+    optimizePackageImports: ["@sjh/shared", "@sjh/ai"]
   },
   async redirects() {
     return [
