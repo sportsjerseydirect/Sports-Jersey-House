@@ -75,6 +75,12 @@
     "build": "pass",
     "qaProd": "81 passed, 2 failed (pre-existing: search duplicate main, Stripe checkout redirect flake)"
   },
+  "commit": "7887a4d",
+  "deploy": {
+    "id": "dpl_6Ye5Dy5oWqDNWkP7DaiNd9PsNxdD",
+    "url": "https://sports-jersey-house.vercel.app",
+    "inspectorUrl": "https://vercel.com/sports-jersey-direct-s-projects/sports-jersey-house/6Ye5Dy5oWqDNWkP7DaiNd9PsNxdD"
+  },
   "products": [
     {
       "id": "b7d1e4c5-199f-4570-8b05-de818f9ade2d",
