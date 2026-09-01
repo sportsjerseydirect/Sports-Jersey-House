@@ -85,8 +85,8 @@
 | `apps/web` `tsc --noEmit` | Pass |
 | `apps/web` `next build` | Pass |
 | Playwright (local :3102) | Collection audit 6/6 leagues with products; product-options 3/3; journey heading updated |
-| Playwright production | Run after deploy (`pnpm qa:prod`) |
-| Post-deploy smoke (1 Sep) | `/collections/nfl` returned 404 on production despite local pass — `optimizePackageImports` stripped `LEAGUE_COLLECTION_SLUGS` from `@sjh/search` server bundle; fixed via direct import + bundle config |
+| Playwright production | Collection audit 6/6 + journey pass (desktop) after manual `vercel deploy --prod` (`dpl_BzpntCGYZ1nWPXF6qZJaZ1qfBvS2`) |
+| Post-deploy smoke (1 Sep) | `/collections/nfl` returned 404 on auto-push — Vercel **Ignored Build Step** skipped CI deploy; manual prod deploy fixed. Root cause: `optimizePackageImports` stripped `LEAGUE_COLLECTION_SLUGS` from `@sjh/search` server bundle. |
 
 ---
 
