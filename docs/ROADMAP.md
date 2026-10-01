@@ -105,6 +105,7 @@ Legacy catalogue/migration work continues in parallel under Phase 1–2 above (S
 
 ## Explicitly Deferred
 
+- Collection related-links block. Paused until the map in [`docs/related-links-map-brief.md`](./related-links-map-brief.md) is approved to go live. Each anchor must be a high search-volume keyword that matches that collection, and each URL must be a published SJH collection.
 - Payment processing (Stripe) — Phase 3 after customisation UX
 - Order migration from Shopify — business decision required
 - Dedicated search engine (Meilisearch/Algolia) — only if PostgreSQL limits hit
